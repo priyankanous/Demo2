@@ -6,7 +6,7 @@ package com.nous.rollingrevenue.common.rest;
  */
 public class RestMessage {
 
-	public static final String SUCCESS = "Sucess";
+	public static final String SUCCESS = "Success";
 
 	public static final String FAIL = "Fail";
 }

@@ -34,14 +34,6 @@ public class WSResponse<T> implements Serializable {
 
 	}
 
-	public void setResponeCode(int code) {
-		this.responseCode = code;
-	}
-
-	public int getResposeCode() {
-		return this.responseCode;
-	}
-
 	public void setMessage(String message) {
 		this.message = message;
 	}
@@ -104,13 +96,20 @@ public class WSResponse<T> implements Serializable {
 		return response;
 	}
 
-	public static <T> WSResponse<T> buildWSResponse(String message, T data) {
+	public static <T> WSResponse<T> buildWSResponse(HttpStatus httpStatus, String message, T data) {
 
 		WSResponse<T> response = new WSResponse<>();
 		response.data = data;
 		response.message = message;
-		response.responseCode = 200;
+		response.responseCode = httpStatus.value();
 
+		return response;
+	}
+
+	public static <T> WSResponse<T> buildWSResponse(HttpStatus httpStatus, String message) {
+		WSResponse<T> response = new WSResponse<>();
+		response.message = message;
+		response.responseCode = httpStatus.value();
 		return response;
 	}
 
