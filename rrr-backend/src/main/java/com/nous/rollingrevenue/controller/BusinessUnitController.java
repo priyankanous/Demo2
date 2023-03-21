@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -23,13 +24,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
+@RequestMapping("/api/v1/businessunits")
 public class BusinessUnitController {
 
 	@Autowired
 	BusinessUnitService businessUnitService;
 
 	@Operation(summary = "save business unit")
-	@PostMapping(value = "/businessunits")
+	@PostMapping
 	public WSResponse<BusinessUnitVO> saveBusinessUnit(@RequestBody @Valid BusinessUnitVO businessUnitVO) {
 		BusinessUnit businessUnit = BusinessUnitVOToBusinessUnit.convertBusinessUnitVOToBusinessUnit(businessUnitVO);
 		businessUnit = businessUnitService.addBusinessUnit(businessUnit);
@@ -38,7 +40,7 @@ public class BusinessUnitController {
 	}
 
 	@Operation(summary = "Update business unit")
-	@PutMapping(value = "/businessunits/{id}")
+	@PutMapping(path = "{id}")
 	public WSResponse<BusinessUnitVO> updateBusinessUnit(@PathVariable @Valid Long id,
 			@RequestBody @Valid BusinessUnitVO businessUnitVO) {
 		BusinessUnit businessUnit = businessUnitService.updateBusinessUnit(id, businessUnitVO);
@@ -48,25 +50,25 @@ public class BusinessUnitController {
 	}
 
 	@Operation(summary = "Get business unit by Id")
-	@GetMapping(value = "/businessunits/{id}")
-	public WSResponse<BusinessUnitVO> getBusinessUnit(@PathVariable @Valid Long id) {
+	@GetMapping(path = "{id}")
+	public WSResponse<BusinessUnitVO> getBusinessUnitById(@PathVariable @Valid Long id) {
 		BusinessUnit businessUnit = null;
-		businessUnit = businessUnitService.getBusinessUnit(id);
+		businessUnit = businessUnitService.getBusinessUnitById(id);
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
 				BusinessUnitVOToBusinessUnit.convertBusinessUnitToBusinessUnitVO(businessUnit));
 	}
 
 	@Operation(summary = "Remove business unit")
-	@DeleteMapping(value = "/businessunits/{id}")
-	public WSResponse<String> removeEmployee(@PathVariable @Valid Long id) {
+	@DeleteMapping(path = "{id}")
+	public WSResponse<String> removeBusinessUnit(@PathVariable @Valid Long id) {
 		businessUnitService.deleteBusinessUnit(id);
 		String data = "Business Unit id  " + id + " removed successfully";
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, data);
 	}
 
 	@Operation(summary = "Get Business Units")
-	@GetMapping(value = "/businessunits")
-	public WSResponse<List<BusinessUnitVO>> getEmployees() {
+	@GetMapping
+	public WSResponse<List<BusinessUnitVO>> getBusinessUnits() {
 		List<BusinessUnitVO> businessUnits = new ArrayList<>();
 		businessUnitService.getBusinessUnits().stream().forEach(e -> {
 			businessUnits.add(BusinessUnitVOToBusinessUnit.convertBusinessUnitToBusinessUnitVO(e));
