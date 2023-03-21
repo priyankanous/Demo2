@@ -38,5 +38,30 @@
 		<key-type>java.lang.Long</key-type>
 		<value-type>com.nous.rollingrevenue.vo.StrategicBusinessUnitHeadVO</value-type>
 	</cache>
+	
+	<cache alias="probabilitytype" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.ProbabilityTypeVO</value-type>
+	</cache>
+	
+	<cache alias="businesstype" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.BusinessTypeVO</value-type>
+	</cache>
+	
+	<cache alias="pricingtype" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.PricingTypeVO</value-type>
+	</cache>
+	
+	<cache alias="status" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.StatusVO</value-type>
+	</cache>
+	
+	<cache alias="wostatus" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.WorkOrderStatusVO</value-type>
+	</cache>
     
 </config>
