@@ -9,11 +9,11 @@
 		<version>3.0.2</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.nous.springboot</groupId>
-	<artifactId>spring-boot-starterkit</artifactId>
+	<groupId>com.nous.rollingrevenue</groupId>
+	<artifactId>rollingrevenuereport</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-boot-starterkit</name>
-	<description>Spring Boot Starter Project</description>
+	<name>rollingrevenuereport</name>
+	<description>RollingRevenueReport</description>
 	<properties>
 		<java.version>17</java.version>
 		<springdoc-openapi-starter-webmvc-ui.version>2.0.2</springdoc-openapi-starter-webmvc-ui.version>

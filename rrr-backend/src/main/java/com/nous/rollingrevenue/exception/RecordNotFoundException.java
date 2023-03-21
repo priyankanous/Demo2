@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.nous.rollingrevenue.exception;
 
 import org.springframework.http.HttpStatus;

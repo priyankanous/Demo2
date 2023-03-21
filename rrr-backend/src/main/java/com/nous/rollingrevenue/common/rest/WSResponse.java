@@ -75,6 +75,8 @@ public class WSResponse<T> implements Serializable {
 	public void setTimestamp(LocalDateTime timestamp) {
 		this.timestamp = timestamp;
 	}
+	
+	
 
 	public static <T> WSResponse<T> buildWSResponse(HttpStatus httpStatus, String message, List<Exception> errors) {
 		WSResponse<T> response = new WSResponse<>();
@@ -85,6 +87,8 @@ public class WSResponse<T> implements Serializable {
 		}
 		return response;
 	}
+	
+	
 
 	public static <T> WSResponse<T> buildWSResponse(String message, List<Exception> errors) {
 
@@ -110,6 +114,14 @@ public class WSResponse<T> implements Serializable {
 		WSResponse<T> response = new WSResponse<>();
 		response.message = message;
 		response.responseCode = httpStatus.value();
+		return response;
+	}
+	
+	public static <T> WSResponse<T> buildWSResponse(String message, T data) {
+		WSResponse<T> response = new WSResponse<>();
+		response.data = data;
+		response.message = message;
+		response.responseCode = 200;
 		return response;
 	}
 
