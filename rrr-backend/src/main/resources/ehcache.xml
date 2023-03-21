@@ -63,5 +63,15 @@
 		<key-type>java.lang.Long</key-type>
 		<value-type>com.nous.rollingrevenue.vo.WorkOrderStatusVO</value-type>
 	</cache>
+	
+	<cache alias="businessUnitCache" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.BusinessUnit</value-type>
+	</cache>
+	
+	<cache alias="bdm" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.BusinessDevelopmentManager</value-type>
+	</cache>
     
 </config>
