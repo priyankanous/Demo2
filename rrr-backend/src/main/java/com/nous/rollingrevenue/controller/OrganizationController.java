@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -30,6 +31,7 @@ import jakarta.validation.Valid;
 
 @Validated
 @RestController
+@RequestMapping("/api/v1/organization")
 public class OrganizationController {
 
 	@Autowired
@@ -37,7 +39,7 @@ public class OrganizationController {
 
 	@Operation(summary = "save organization")
 	@Validated
-	@PostMapping(value = "/organization")
+	@PostMapping
 	public WSResponse<OrganizationVO> saveOrganization(@RequestBody @Valid OrganizationVO organizationVO) {
 		Organization organization = OrganizationVOToOrganization.convertOrganizationVOToOrganization(organizationVO);
 		organization = organizationService.addOrganization(organization);
@@ -46,7 +48,7 @@ public class OrganizationController {
 	}
 
 	@Operation(summary = "Update organization")
-	@PutMapping(value = "/organization/{id}")
+	@PutMapping(value = "{id}")
 	public WSResponse<OrganizationVO> updateOrganization(@PathVariable @Valid Long id, @RequestBody @Valid OrganizationVO organizationVO) {
 		Organization organization = organizationService.updateOrganization(id,organizationVO);
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
@@ -55,7 +57,7 @@ public class OrganizationController {
 	}
 
 	@Operation(summary = "Get ogranization by Id")
-	@GetMapping(value = "/organization/{id}")
+	@GetMapping(value = "/{id}")
 	public WSResponse<OrganizationVO> getOrganization(@PathVariable @Valid Long id) {
 		Organization organization = null;
 		organization = organizationService.getOrganization(id);
@@ -64,7 +66,7 @@ public class OrganizationController {
 	}
 
 	@Operation(summary = "Delete organization")
-	@DeleteMapping(value = "/organization/{id}")
+	@DeleteMapping(value = "/{id}")
 	public WSResponse<String> removeOrganization(@PathVariable @Valid Long id) {
 		organizationService.deleteOrganization(id);
 		String data = "Organization id  " + id + " removed successfully";
@@ -72,7 +74,7 @@ public class OrganizationController {
 	}
 
 	@Operation(summary = "Get All organization")
-	@GetMapping(value = "/organization")
+	@GetMapping
 	public WSResponse<List<OrganizationVO>> getOrganization() {
 		List<OrganizationVO> organization = new ArrayList<>();
 		organizationService.getAllOrganization().stream().forEach(e -> {

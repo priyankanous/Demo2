@@ -38,6 +38,7 @@
 		<key-type>java.lang.Long</key-type>
 		<value-type>com.nous.rollingrevenue.vo.StrategicBusinessUnitHeadVO</value-type>
 	</cache>
+<<<<<<< Updated upstream
 	
 	<cache alias="probabilitytype" uses-template="default">
 		<key-type>java.lang.Long</key-type>
@@ -73,5 +74,18 @@
 		<key-type>java.lang.Long</key-type>
 		<value-type>com.nous.rollingrevenue.model.BusinessDevelopmentManager</value-type>
 	</cache>
+=======
+
+    <cache alias="organizations" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.Organization</value-type>
+	</cache>
+
+    <cache alias="cocpractice" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.CocPractice</value-type>
+	</cache>
+    
+>>>>>>> Stashed changes
     
 </config>

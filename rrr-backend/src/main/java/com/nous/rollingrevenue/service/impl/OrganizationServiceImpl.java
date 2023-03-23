@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,9 +20,8 @@ import com.nous.rollingrevenue.vo.OrganizationVO;
 
 
 @Service
+@Transactional(readOnly = true)
 public class OrganizationServiceImpl implements OrganizationService {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(OrganizationServiceImpl.class);
 
 	@Autowired
 	OrganizationRepository organizationRepository;
@@ -32,7 +32,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	//@Cacheable(value = "organizationCache", key = "#id") 
+	@Cacheable(value = "organizations", key = "#id") 
 	public Organization getOrganization(Long id) {
 		Optional<Organization> orgOptional = organizationRepository.findById(id);
 
@@ -45,7 +45,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	@Transactional
-	//@CacheEvict(value = "organizationCache", key = "#id") 
+	@CacheEvict(value = "organizations", key = "#id") 
 	public void deleteOrganization(Long id) {
 		Optional<Organization> orgOptional = organizationRepository.findById(id);
 
@@ -63,6 +63,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	@Transactional
+	@CachePut(value = "organizations", key = "id") 
 	public Organization updateOrganization(Long id, OrganizationVO organizationVO) {
 		Organization organization = organizationRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Organization not found for id:" + id));
 		organization.setorgDisplayName(organizationVO.getorgDisplayName());
