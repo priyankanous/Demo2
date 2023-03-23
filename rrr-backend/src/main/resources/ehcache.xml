@@ -73,6 +73,7 @@
 		<key-type>java.lang.Long</key-type>
 		<value-type>com.nous.rollingrevenue.model.BusinessDevelopmentManager</value-type>
 	</cache>
+<<<<<<< Updated upstream
 
     <cache alias="organizations" uses-template="default">
 		<key-type>java.lang.Long</key-type>
@@ -87,6 +88,17 @@
 	<cache alias="lossfactor" uses-template="default">
 		<key-type>java.lang.Long</key-type>
 		<value-type>com.nous.rollingrevenue.model.GlobalMonthlyLeaveLossFactor</value-type>
+=======
+	
+	<cache alias="financialyear" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.FinancialYearVO</value-type>
+	</cache>
+	
+	<cache alias="currency" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.CurrencyVO</value-type>
+>>>>>>> Stashed changes
 	</cache>
     
 </config>

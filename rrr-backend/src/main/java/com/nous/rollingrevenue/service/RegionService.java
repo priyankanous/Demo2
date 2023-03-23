@@ -16,7 +16,7 @@ public interface RegionService {
 	
 	
 	/**
-	 * Add an business unit to the database
+	 * Add an Region to the database
 	 * 
 	 * @param RegionVO
 	 * @return The newly added Region details

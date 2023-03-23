@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.vo;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
@@ -26,8 +27,10 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 	@NotBlank(message = "SBUName cannot be null or empty")
 	private String sbuName;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
 	private LocalDate activeFrom;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
 	private LocalDate activeUntil;
 
 	public StrategicBusinessUnitHeadVO() {
