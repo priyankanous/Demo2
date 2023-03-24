@@ -38,6 +38,66 @@
 		<key-type>java.lang.Long</key-type>
 		<value-type>com.nous.rollingrevenue.vo.StrategicBusinessUnitHeadVO</value-type>
 	</cache>
+	
+	<cache alias="probabilitytype" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.ProbabilityTypeVO</value-type>
+	</cache>
+	
+	<cache alias="businesstype" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.BusinessTypeVO</value-type>
+	</cache>
+	
+	<cache alias="pricingtype" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.PricingTypeVO</value-type>
+	</cache>
+	
+	<cache alias="status" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.StatusVO</value-type>
+	</cache>
+	
+	<cache alias="wostatus" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.WorkOrderStatusVO</value-type>
+	</cache>
+	
+	<cache alias="businessUnitCache" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.BusinessUnit</value-type>
+	</cache>
+	
+	<cache alias="bdm" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.BusinessDevelopmentManager</value-type>
+	</cache>
+
+    <cache alias="organizations" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.Organization</value-type>
+	</cache>
+
+    <cache alias="cocpractice" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.CocPractice</value-type>
+	</cache>
+    
+	<cache alias="lossfactor" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.GlobalMonthlyLeaveLossFactor</value-type>
+	</cache>
+	
+	<cache alias="financialyear" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.FinancialYearVO</value-type>
+	</cache>
+	
+	<cache alias="currency" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.CurrencyVO</value-type>
+	</cache>
     
     <cache alias="location" uses-template="default">
 		<key-type>java.lang.Long</key-type>

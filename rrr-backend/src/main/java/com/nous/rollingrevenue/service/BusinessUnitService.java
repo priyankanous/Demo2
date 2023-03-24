@@ -23,7 +23,7 @@ public interface BusinessUnitService {
 	 * @return The BusinessUnit details matching the Business Unit id. Throws
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
-	public BusinessUnit getBusinessUnit(Long id);
+	public BusinessUnit getBusinessUnitById(Long id);
 
 	/**
 	 * Delete an BusinessUnit record
@@ -43,7 +43,7 @@ public interface BusinessUnitService {
 	 * Update an business unit to the database
 	 * 
 	 * @param businessUnit
-	 * @return The newly added businessUnit details
+	 * @return updated businessUnit details
 	 */
 	public BusinessUnit updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO);
 

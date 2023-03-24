@@ -1,10 +1,17 @@
 package com.nous.rollingrevenue.vo;
 
+import java.io.Serializable;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotEmpty;
 
-public class BusinessUnitVO {
+public class BusinessUnitVO implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@JsonProperty(value = "bui", access = JsonProperty.Access.READ_ONLY)
 	private Long businessUnitId;

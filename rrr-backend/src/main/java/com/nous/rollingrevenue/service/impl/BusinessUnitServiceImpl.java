@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,19 +19,18 @@ import com.nous.rollingrevenue.vo.BusinessUnitVO;
 @Service
 public class BusinessUnitServiceImpl implements BusinessUnitService {
 
-//	private static final Logger LOGGER = LoggerFactory.getLogger(BusinessUnitServiceImpl.class);
-
 	@Autowired
 	BusinessUnitRepository businessUnitRepository;
 
 	@Override
+	@Transactional
 	public BusinessUnit addBusinessUnit(BusinessUnit businessUnit) {
 		return businessUnitRepository.save(businessUnit);
 	}
 
 	@Override
-//	@Cacheable(value = "businessUnitCache", key = "#id")
-	public BusinessUnit getBusinessUnit(Long id) {
+	@Cacheable(value = "businessUnitCache", key = "#id")
+	public BusinessUnit getBusinessUnitById(Long id) {
 		Optional<BusinessUnit> businessUnitOptional = businessUnitRepository.findById(id);
 
 		if (businessUnitOptional.isPresent()) {
@@ -39,7 +41,7 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 
 	@Override
 	@Transactional
-//	@CacheEvict(value = "businessUnitCache", key = "#id") // remove cache entry
+	@CacheEvict(value = "businessUnitCache", key = "#id") // remove cache entry
 	public void deleteBusinessUnit(Long id) {
 		Optional<BusinessUnit> businessUnitOptional = businessUnitRepository.findById(id);
 
@@ -51,12 +53,13 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 	}
 
 	@Override
-	@Transactional
 	public List<BusinessUnit> getBusinessUnits() {
 		return businessUnitRepository.findAll();
 	}
 
 	@Override
+	@Transactional
+	@CachePut(value = "businessUnitCache", key = "#id")
 	public BusinessUnit updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO) {
 		BusinessUnit businessUnit = businessUnitRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException("Business Unit not found for id:" + id));
