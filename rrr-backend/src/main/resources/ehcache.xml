@@ -114,4 +114,8 @@
 		<value-type>com.nous.rollingrevenue.vo.AccountVO</value-type>
 	</cache>
     
+    <cache alias="location" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.Location</value-type>
+	</cache>
 </config>
