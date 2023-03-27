@@ -98,5 +98,20 @@
 		<key-type>java.lang.Long</key-type>
 		<value-type>com.nous.rollingrevenue.vo.CurrencyVO</value-type>
 	</cache>
+	
+	<cache alias="annualtargetentry" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.AnnualTargetEntryVO</value-type>
+	</cache>
+	
+	<cache alias="opportunity" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.OpportunityVO</value-type>
+	</cache>
+	
+	<cache alias="accounts" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.AccountVO</value-type>
+	</cache>
     
 </config>

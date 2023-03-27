@@ -2,10 +2,9 @@ package com.nous.rollingrevenue.service;
 
 import java.util.List;
 
+import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Organization;
 import com.nous.rollingrevenue.vo.OrganizationVO;
-
-import jakarta.validation.Valid;
 
 /**
  * 

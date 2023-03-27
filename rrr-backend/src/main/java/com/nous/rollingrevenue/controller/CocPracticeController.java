@@ -17,13 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
 import com.nous.rollingrevenue.convertor.CocPracticeVOToCocPractice;
-import com.nous.rollingrevenue.convertor.OrganizationVOToOrganization;
 import com.nous.rollingrevenue.model.CocPractice;
-import com.nous.rollingrevenue.model.Organization;
 import com.nous.rollingrevenue.service.CocPracticeService;
-import com.nous.rollingrevenue.service.OrganizationService;
 import com.nous.rollingrevenue.vo.CocPracticeVO;
-import com.nous.rollingrevenue.vo.OrganizationVO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;

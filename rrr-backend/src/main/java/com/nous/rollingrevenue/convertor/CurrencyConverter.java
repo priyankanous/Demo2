@@ -1,8 +1,11 @@
 package com.nous.rollingrevenue.convertor;
 
+import org.springframework.stereotype.Component;
+
 import com.nous.rollingrevenue.model.Currency;
 import com.nous.rollingrevenue.vo.CurrencyVO;
 
+@Component
 public class CurrencyConverter {
 	
 	/**
