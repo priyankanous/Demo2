@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.FinancialYearConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.FinancialYear;
@@ -45,7 +46,7 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	@CacheEvict(value = "financialyear", key = "#financialYearId")
 	public void deleteFinancialYearById(Long financialYearId) {
 		financialYearRepository.findById(financialYearId)
-				.orElseThrow(() -> new RecordNotFoundException("FinancialYear not exist with id:" + financialYearId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
 		financialYearRepository.deleteById(financialYearId);
 	}
 
@@ -53,7 +54,7 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	@Cacheable(value = "financialyear", key = "#financialYearId")
 	public FinancialYearVO getFinancialYearById(Long financialYearId) {
 		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
-                .orElseThrow(() -> new RecordNotFoundException("FinancialYear not exist with id:" + financialYearId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
 		return FinancialYearConverter.convertFinancialYearToFinancialYearVO(financialYear);
 	}
 
@@ -62,7 +63,7 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	@CachePut(value = "financialyear", key = "#financialYearId")
 	public FinancialYearVO updateFinancialYear(Long financialYearId, FinancialYearVO financialYearVO) {
 		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
-				.orElseThrow(() -> new RecordNotFoundException("FinancialYear not exist with id:" + financialYearId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
 		financialYear.setFinancialYearName(financialYearVO.getFinancialYearName());
 		financialYear.setFinancialYearCustomName(financialYearVO.getFinancialYearCustomName());
 		financialYear.setStartingFrom(financialYearVO.getStartingFrom());

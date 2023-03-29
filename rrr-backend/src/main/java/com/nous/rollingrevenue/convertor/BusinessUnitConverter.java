@@ -6,7 +6,7 @@ import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.vo.BusinessUnitVO;
 
 @Component
-public class BusinessUnitVOToBusinessUnit {
+public class BusinessUnitConverter {
 
 	/**
 	 * Convert BusinessUnitVO to BusinessUnit

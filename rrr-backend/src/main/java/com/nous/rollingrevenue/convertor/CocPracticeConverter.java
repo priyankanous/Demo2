@@ -10,7 +10,7 @@ import com.nous.rollingrevenue.vo.CocPracticeVO;
  *
  */
 @Component
-public class CocPracticeVOToCocPractice {
+public class CocPracticeConverter {
 	/**
 	 * Convert CocPracticeVO to CocPractice
 	 * 

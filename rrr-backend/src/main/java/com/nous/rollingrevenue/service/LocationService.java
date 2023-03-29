@@ -3,7 +3,6 @@ package com.nous.rollingrevenue.service;
 import java.util.List;
 
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
-import com.nous.rollingrevenue.model.Location;
 import com.nous.rollingrevenue.vo.LocationVO;
 
 public interface LocationService {
@@ -11,10 +10,10 @@ public interface LocationService {
 	/**
 	 * Add an location to the database
 	 * 
-	 * @param Location
+	 * @param LocationVO
 	 * @return The newly added Location details
 	 */
-	Location addLocation(Location location);
+	public LocationVO addLocation(LocationVO locationVO);
 
 	/**
 	 * Update an location to the database
@@ -22,7 +21,7 @@ public interface LocationService {
 	 * @param id, locationVO
 	 * @return The newly added location details
 	 */
-	public Location updateLocation(Long id, LocationVO locationVO);
+	public LocationVO updateLocation(Long id, LocationVO locationVO);
 
 	/**
 	 * Get the location details
@@ -31,7 +30,7 @@ public interface LocationService {
 	 * @return The Location details matching the Location id. Throws
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
-	public Location getLocation(Long locationId);
+	public LocationVO getLocation(Long locationId);
 
 	/**
 	 * Delete an Location record
@@ -45,6 +44,6 @@ public interface LocationService {
 	 * 
 	 * @return List of all Locations in the database
 	 */
-	public List<Location> getLocations();
+	public List<LocationVO> getLocations();
 
 }

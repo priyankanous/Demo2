@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -38,9 +37,8 @@ public class StrategicBusinessUnitController {
 	
 	@Operation(summary = "Save SBU")
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
 	public WSResponse<StrategicBusinessUnitVO> saveSBU(@RequestBody @Valid StrategicBusinessUnitVO sbuVO) {
-		return WSResponse.buildWSResponse(HttpStatus.CREATED, RestMessage.SUCCESS, sbuService.saveSBU(sbuVO));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuService.saveSBU(sbuVO));
 	}
 	
 	@Operation(summary = "Get SBU by Id")

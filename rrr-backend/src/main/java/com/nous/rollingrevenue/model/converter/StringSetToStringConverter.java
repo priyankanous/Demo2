@@ -8,26 +8,25 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
 @Converter
-public class StringArrayToStringConverter implements AttributeConverter<Set<String>, String> {
-	
+public class StringSetToStringConverter implements AttributeConverter<Set<String>, String> {
+
 	public static final String DELIMITER = ", ";
 
 	@Override
 	public String convertToDatabaseColumn(Set<String> attribute) {
-		if(attribute == null) {
+		if (attribute == null) {
 			return null;
 		}
 		return attribute.stream().collect(Collectors.joining(", "));
-		
+
 	}
 
 	@Override
 	public Set<String> convertToEntityAttribute(String dbData) {
-		if(dbData == null) {
+		if (dbData == null) {
 			return null;
 		}
 		return Stream.of(dbData.split(DELIMITER)).collect(Collectors.toSet());
 	}
-	
 
 }

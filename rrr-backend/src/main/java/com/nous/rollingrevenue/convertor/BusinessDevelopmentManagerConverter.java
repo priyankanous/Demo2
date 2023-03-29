@@ -6,7 +6,7 @@ import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
 import com.nous.rollingrevenue.vo.BDMVO;
 
 @Component
-public class BDMVOToBDM {
+public class BusinessDevelopmentManagerConverter {
 
 	/**
 	 * Convert BDM VO to BDM

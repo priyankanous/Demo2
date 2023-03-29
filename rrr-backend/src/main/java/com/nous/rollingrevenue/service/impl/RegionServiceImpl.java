@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.RegionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Region;
@@ -48,7 +49,7 @@ public class RegionServiceImpl implements RegionService {
 	@CacheEvict(value = "regions", key= "#regionId")
 	public void deleteRegionById(Long regionId) {
 		regionRepository.findById(regionId)
-                .orElseThrow(() -> new RecordNotFoundException("Region not exist with id:" + regionId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
 		regionRepository.deleteById(regionId);	
 	}
 
@@ -57,7 +58,7 @@ public class RegionServiceImpl implements RegionService {
 	@Cacheable(value = "regions", key = "#regionId")
 	public RegionVO getRegionById(Long regionId) {
 		Region region = regionRepository.findById(regionId)
-                .orElseThrow(() -> new RecordNotFoundException("Region not exist with id:" + regionId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
 		return RegionConverter.convertRegionToRegionVO(region);
 	}
 
@@ -67,7 +68,7 @@ public class RegionServiceImpl implements RegionService {
 	@CachePut(value = "regions", key = "#regionId")
 	public RegionVO updateRegion(Long regionId, RegionVO regionVO) {
 		Region region = regionRepository.findById(regionId)
-				.orElseThrow(() -> new RecordNotFoundException("Region not exist with id:" + regionId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
 		region.setRegionName(regionVO.getRegionName());
 		region.setRegionDisplayName(regionVO.getRegionDisplayName());
 		return RegionConverter.convertRegionToRegionVO(regionRepository.save(region));

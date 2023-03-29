@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.StatusConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Status;
@@ -44,7 +45,7 @@ public class StatusServiceImpl implements StatusService {
 	@CacheEvict(value = "status", key = "#statusId")
 	public void deleteStatusById(Long statusId) {
 		statusRepository.findById(statusId)
-				.orElseThrow(() -> new RecordNotFoundException("Status not exist with id:" + statusId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
 		statusRepository.deleteById(statusId);
 	}
 
@@ -52,7 +53,7 @@ public class StatusServiceImpl implements StatusService {
 	@Cacheable(value = "status", key = "#statusId")
 	public StatusVO getStatusById(Long statusId) {
 		Status status = statusRepository.findById(statusId)
-                .orElseThrow(() -> new RecordNotFoundException("Status not exist with id:" + statusId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
 		return StatusConverter.convertStatusToStatusVO(status);
 	}
 
@@ -61,7 +62,7 @@ public class StatusServiceImpl implements StatusService {
 	@CachePut(value = "status", key = "#statusId")
 	public StatusVO updateStatus(Long statusId, StatusVO statusVO) {
 		Status status = statusRepository.findById(statusId)
-				.orElseThrow(() -> new RecordNotFoundException("Status not exist with id:" + statusId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
 		status.setStatusName(statusVO.getStatusName());
 		status.setStatusDisplayName(statusVO.getStatusDisplayName());
 		return StatusConverter.convertStatusToStatusVO(statusRepository.save(status));

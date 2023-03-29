@@ -1,6 +1,5 @@
 package com.nous.rollingrevenue.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
-import com.nous.rollingrevenue.convertor.LocationVOToLocation;
-import com.nous.rollingrevenue.model.Location;
 import com.nous.rollingrevenue.service.LocationService;
 import com.nous.rollingrevenue.vo.LocationVO;
 
@@ -33,29 +30,20 @@ public class LocationController {
 	@Operation(summary = "save location")
 	@PostMapping
 	public WSResponse<LocationVO> saveLocation(@RequestBody @Valid LocationVO locationVO) {
-		Location location = LocationVOToLocation.convertLocationVOToLocation(locationVO);
-		location = locationService.addLocation(location);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				LocationVOToLocation.convertLocationToLocationVO(location));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, locationService.addLocation(locationVO));
 	}
 
 	@Operation(summary = "Update Location by Id")
 	@PutMapping(path = "{locationId}")
 	public WSResponse<LocationVO> updateLocation(@PathVariable @Valid Long locationId,
 			@RequestBody @Valid LocationVO locationVO) {
-		Location location = locationService.updateLocation(locationId, locationVO);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				LocationVOToLocation.convertLocationToLocationVO(location));
-
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, locationService.updateLocation(locationId, locationVO));
 	}
 
 	@Operation(summary = "Get Location by Id")
 	@GetMapping(path = "{locationId}")
 	public WSResponse<LocationVO> getLocation(@PathVariable @Valid Long locationId) {
-		Location location = null;
-		location = locationService.getLocation(locationId);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				LocationVOToLocation.convertLocationToLocationVO(location));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, locationService.getLocation(locationId));
 	}
 
 	@Operation(summary = "Delete location by Id")
@@ -69,11 +57,7 @@ public class LocationController {
 	@Operation(summary = "Get All Locations")
 	@GetMapping
 	public WSResponse<List<LocationVO>> getLocations() {
-		List<LocationVO> location = new ArrayList<>();
-		locationService.getLocations().stream().forEach(e -> {
-			location.add(LocationVOToLocation.convertLocationToLocationVO(e));
-		});
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, location);
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, locationService.getLocations());
 	}
 
 }

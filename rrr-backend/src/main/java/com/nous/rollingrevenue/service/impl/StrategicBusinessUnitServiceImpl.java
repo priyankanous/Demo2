@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.StrategicBusinessUnit;
@@ -44,7 +45,7 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 	@CacheEvict(value = "sbu", key= "#sbuId")
 	public void deleteSBUById(Long sbuId) {
 		sbuRepository.findById(sbuId)
-                .orElseThrow(() -> new RecordNotFoundException("SBU not exist with id:" + sbuId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
 		sbuRepository.deleteById(sbuId);		
 	}
 
@@ -52,7 +53,7 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 	@Cacheable(value = "sbu", key = "#sbuId")
 	public StrategicBusinessUnitVO getSBUById(Long sbuId) {
 		StrategicBusinessUnit sbu = sbuRepository.findById(sbuId)
-                .orElseThrow(() -> new RecordNotFoundException("SBU not exist with id:" + sbuId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
 		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbu);
 	}
 
@@ -61,7 +62,7 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 	@CachePut(value = "sbu", key = "#sbuId")
 	public StrategicBusinessUnitVO updateSBU(Long sbuId, StrategicBusinessUnitVO sbuVO) {
 		StrategicBusinessUnit sbu = sbuRepository.findById(sbuId)
-				.orElseThrow(() -> new RecordNotFoundException("SBU not exist with id:" + sbuId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
 		sbu.setSbuName(sbuVO.getSbuName());
 		sbu.setSbuDisplayName(sbuVO.getSbuDisplayName());
 		sbu.setBuDisplayName(sbuVO.getBuDisplayName());

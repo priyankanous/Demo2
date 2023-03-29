@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitHeadConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.StrategicBusinessUnitHead;
@@ -45,7 +46,7 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 	@CacheEvict(value = "sbuhead", key= "#sbuHeadId")
 	public void deleteSBUHeadById(Long sbuHeadId) {
 		sbuHeadRepository.findById(sbuHeadId)
-				.orElseThrow(() -> new RecordNotFoundException("SBUHead not exist with id:" + sbuHeadId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
 		sbuHeadRepository.deleteById(sbuHeadId);
 
 	}
@@ -54,7 +55,7 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 	@Cacheable(value = "sbuhead", key = "#sbuHeadId")
 	public StrategicBusinessUnitHeadVO getSBUHeadById(Long sbuHeadId) {
 		StrategicBusinessUnitHead sbuHead = sbuHeadRepository.findById(sbuHeadId)
-				.orElseThrow(() -> new RecordNotFoundException("SBUHead not exist with id:" + sbuHeadId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
 		return StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(sbuHead);
 	}
 
@@ -63,7 +64,7 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 	@CachePut(value = "sbuhead", key = "#sbuHeadId")
 	public StrategicBusinessUnitHeadVO updateSBUHead(Long sbuHeadId, StrategicBusinessUnitHeadVO sbuHeadVO) {
 		StrategicBusinessUnitHead sbuHead = sbuHeadRepository.findById(sbuHeadId)
-				.orElseThrow(() -> new RecordNotFoundException("SBUHead not exist with id:" + sbuHeadId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
 		sbuHead.setSbuHeadName(sbuHeadVO.getSbuHeadName());
 		sbuHead.setSbuHeadDisplayName(sbuHeadVO.getSbuHeadDisplayName());
 		sbuHead.setSbuName(sbuHeadVO.getSbuName());

@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.BusinessTypeConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.BusinessType;
@@ -45,7 +46,7 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 	@CacheEvict(value = "businesstype", key= "#businessTypeId")
 	public void deleteBusinessTypeById(Long businessTypeId) {
 		businessTypeRepository.findById(businessTypeId)
-				.orElseThrow(() -> new RecordNotFoundException("BusinessType not exist with id:" + businessTypeId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
 		businessTypeRepository.deleteById(businessTypeId);
 	}
 
@@ -53,7 +54,7 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 	@Cacheable(value = "businesstype", key = "#businessTypeId")
 	public BusinessTypeVO getBusinessTypeById(Long businessTypeId) {
 		BusinessType businessType = businessTypeRepository.findById(businessTypeId)
-                .orElseThrow(() -> new RecordNotFoundException("BusinessType not exist with id:" + businessTypeId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
 		return BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(businessType);
 	}
 
@@ -62,7 +63,7 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 	@CachePut(value = "businesstype", key = "#businessTypeId")
 	public BusinessTypeVO updateBusinessType(Long businessTypeId, BusinessTypeVO businessTypeVO) {
 		BusinessType businessType = businessTypeRepository.findById(businessTypeId)
-				.orElseThrow(() -> new RecordNotFoundException("BusinessType not exist with id:" + businessTypeId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
 		businessType.setBusinessTypeName(businessTypeVO.getBusinessTypeName());
 		businessType.setBusinessTypeDisplayName(businessTypeVO.getBusinessTypeDisplayName());
 		return BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(businessTypeRepository.save(businessType));

@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.ProbabilityTypeConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.ProbabilityType;
@@ -45,7 +46,7 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 	@CacheEvict(value = "probabilitytype", key = "#probabilityTypeId")
 	public void deleteProbabilityTypeById(Long probabilityTypeId) {
 		probabilityTypeRepository.findById(probabilityTypeId)
-				.orElseThrow(() -> new RecordNotFoundException("ProbabilityType not exist with id:" + probabilityTypeId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
 		probabilityTypeRepository.deleteById(probabilityTypeId);
 	}
 
@@ -53,7 +54,7 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 	@Cacheable(value = "probabilitytype", key = "#probabilityTypeId")
 	public ProbabilityTypeVO getProbabilityTypeById(Long probabilityTypeId) {
 		ProbabilityType probabilityType = probabilityTypeRepository.findById(probabilityTypeId)
-                .orElseThrow(() -> new RecordNotFoundException("ProbabilityType not exist with id:" + probabilityTypeId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
 		return ProbabilityTypeConverter.convertProbabilityTypeToProbabilityTypeVO(probabilityType);
 	}
 
@@ -62,7 +63,7 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 	@CachePut(value = "probabilitytype", key = "#probabilityTypeId")
 	public ProbabilityTypeVO updateProbabilityType(Long probabilityTypeId, ProbabilityTypeVO probabilityTypeVO) {
 		ProbabilityType probabilityType = probabilityTypeRepository.findById(probabilityTypeId)
-				.orElseThrow(() -> new RecordNotFoundException("ProbabilityType not exist with id:" + probabilityTypeId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
 		probabilityType.setProbabilityTypeName(probabilityTypeVO.getProbabilityTypeName());
 		probabilityType.setPercentage(probabilityTypeVO.getPercentage());
 		return ProbabilityTypeConverter.convertProbabilityTypeToProbabilityTypeVO(probabilityTypeRepository.save(probabilityType));

@@ -6,7 +6,7 @@ import com.nous.rollingrevenue.model.GlobalMonthlyLeaveLossFactor;
 import com.nous.rollingrevenue.vo.GlobalMonthlyLeaveLossFactorVO;
 
 @Component
-public class LeaveLossFactorVOToLeaveLossFactor {
+public class LeaveLossFactorConverter {
 
 	/**
 	 * Convert GlobalMonthlyLeaveLossFactorVO to GlobalMonthlyLeaveLossFactor

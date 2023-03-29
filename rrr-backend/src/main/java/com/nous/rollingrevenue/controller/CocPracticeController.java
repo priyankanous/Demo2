@@ -1,6 +1,5 @@
 package com.nous.rollingrevenue.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
-import com.nous.rollingrevenue.convertor.CocPracticeVOToCocPractice;
-import com.nous.rollingrevenue.model.CocPractice;
 import com.nous.rollingrevenue.service.CocPracticeService;
 import com.nous.rollingrevenue.vo.CocPracticeVO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
-
-/**
- *
- * @author Nous Infosystems
- */
 
 @Validated
 @RestController
@@ -41,28 +33,21 @@ public class CocPracticeController {
 	@Validated
 	@PostMapping
 	public WSResponse<CocPracticeVO> saveCocPractice(@RequestBody @Valid CocPracticeVO cocpracticeVO) {
-		CocPractice cocpractice = CocPracticeVOToCocPractice.convertCocPracticeVOToCocPractice(cocpracticeVO);
-		cocpractice = cocpracticeService.addCocPractice(cocpractice);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				CocPracticeVOToCocPractice.convertCocPracticeToCocPracticeVO(cocpractice));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpracticeService.addCocPractice(cocpracticeVO));
 	}
 
 	@Operation(summary = "Update cocpractice")
 	@PutMapping(value = "/{id}")
-	public WSResponse<CocPracticeVO> updateCocPractice(@PathVariable @Valid Long id, @RequestBody @Valid CocPracticeVO cocpracticeVO) {
-		CocPractice cocpractice = cocpracticeService.updateCocPractice(id,cocpracticeVO);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				CocPracticeVOToCocPractice.convertCocPracticeToCocPracticeVO(cocpractice));
+	public WSResponse<CocPracticeVO> updateCocPractice(@PathVariable @Valid Long id,
+			@RequestBody @Valid CocPracticeVO cocpracticeVO) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpracticeService.updateCocPractice(id, cocpracticeVO));
 
 	}
 
 	@Operation(summary = "Get cocpractice by Id")
 	@GetMapping(value = "/{id}")
 	public WSResponse<CocPracticeVO> getCocPractice(@PathVariable @Valid Long id) {
-		CocPractice cocpractice = null;
-		cocpractice = cocpracticeService.getCocPractice(id);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				CocPracticeVOToCocPractice.convertCocPracticeToCocPracticeVO(cocpractice));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpracticeService.getCocPractice(id));
 	}
 
 	@Operation(summary = "Delete cocpractice")
@@ -76,11 +61,7 @@ public class CocPracticeController {
 	@Operation(summary = "Get All cocpractice")
 	@GetMapping
 	public WSResponse<List<CocPracticeVO>> getCocPractice() {
-		List<CocPracticeVO> cocpractice = new ArrayList<>();
-		cocpracticeService.getAllCocPractice().stream().forEach(e -> {
-			cocpractice.add(CocPracticeVOToCocPractice.convertCocPracticeToCocPracticeVO(e));
-		});
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpractice);
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpracticeService.getAllCocPractice());
 	}
 
 }

@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.PricingTypeConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.PricingType;
@@ -45,7 +46,7 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 	@CacheEvict(value = "pricingtype", key = "#pricingTypeId")
 	public void deletePricingTypeById(Long pricingTypeId) {
 		pricingTypeRepository.findById(pricingTypeId)
-				.orElseThrow(() -> new RecordNotFoundException("PricingType not exist with id:" + pricingTypeId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
 		pricingTypeRepository.deleteById(pricingTypeId);
 
 	}
@@ -54,7 +55,7 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 	@Cacheable(value = "pricingtype", key = "#pricingTypeId")
 	public PricingTypeVO getPricingTypeById(Long pricingTypeId) {
 		PricingType pricingType = pricingTypeRepository.findById(pricingTypeId)
-                .orElseThrow(() -> new RecordNotFoundException("PricingType not exist with id:" + pricingTypeId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
 		return PricingTypeConverter.convertPricingTypeToPricingTypeVO(pricingType);
 	}
 
@@ -63,7 +64,7 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 	@CachePut(value = "pricingtype", key = "#pricingTypeId")
 	public PricingTypeVO updatePricingType(Long pricingTypeId, PricingTypeVO pricingTypeVO) {
 		PricingType pricingType = pricingTypeRepository.findById(pricingTypeId)
-				.orElseThrow(() -> new RecordNotFoundException("PricingType not exist with id:" + pricingTypeId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
 		pricingType.setPricingTypeName(pricingTypeVO.getPricingTypeName());
 		pricingType.setPricingTypeDisplayName(pricingTypeVO.getPricingTypeDisplayName());
 		return PricingTypeConverter.convertPricingTypeToPricingTypeVO(pricingTypeRepository.save(pricingType));

@@ -3,7 +3,6 @@ package com.nous.rollingrevenue.service;
 import java.util.List;
 
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
-import com.nous.rollingrevenue.model.Organization;
 import com.nous.rollingrevenue.vo.OrganizationVO;
 
 /**
@@ -16,10 +15,10 @@ public interface OrganizationService {
 	/**
 	 * Add an organization to the database
 	 * 
-	 * @param organization The organization information to add
+	 * @param organizationVO The organization information to add
 	 * @return The newly added organization details
 	 */
-	public Organization addOrganization(Organization organization);
+	public OrganizationVO addOrganization(OrganizationVO organizationVO);
 
 	/**
 	 * Get the organization details
@@ -28,7 +27,7 @@ public interface OrganizationService {
 	 * @return The organization details matching the organization id. Throws
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
-	public Organization getOrganization(Long id);
+	public OrganizationVO getOrganization(Long id);
 
 	/**
 	 * 
@@ -41,9 +40,14 @@ public interface OrganizationService {
 	 * 
 	 * @return List of all organization in the database
 	 */
-	public List<Organization> getAllOrganization();
+	public List<OrganizationVO> getAllOrganization();
 
-	public Organization updateOrganization(Long id,OrganizationVO organizationVO);
-	
+	/**
+	 * Update an Organization to the database by given Id
+	 * 
+	 * @param organizationId, OrganizationVO
+	 * @return The newly updated Organization details
+	 */
+	public OrganizationVO updateOrganization(Long id, OrganizationVO organizationVO);
 
 }

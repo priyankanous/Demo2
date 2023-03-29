@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -25,7 +24,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/v1/accounts")
 public class AccountController {
-	
+
 	@Autowired
 	private AccountService accountService;
 
@@ -38,9 +37,8 @@ public class AccountController {
 
 	@Operation(summary = "Save Account")
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
 	public WSResponse<AccountVO> saveAccount(@RequestBody @Valid AccountVO accountVO) {
-		return WSResponse.buildWSResponse(HttpStatus.CREATED, RestMessage.SUCCESS, accountService.saveAccount(accountVO));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, accountService.saveAccount(accountVO));
 	}
 
 	@Operation(summary = "Get Account by Id")
@@ -62,6 +60,5 @@ public class AccountController {
 		accountService.deleteAccountById(accountId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-
 
 }

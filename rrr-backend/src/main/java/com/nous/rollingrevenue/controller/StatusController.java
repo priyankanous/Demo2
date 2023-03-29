@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -38,9 +37,8 @@ public class StatusController {
 	
 	@Operation(summary = "Save Status")
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
 	public WSResponse<StatusVO> saveStatus(@RequestBody @Valid StatusVO statusVO) {
-		return WSResponse.buildWSResponse(HttpStatus.CREATED, RestMessage.SUCCESS, statusService.saveStatus(statusVO));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, statusService.saveStatus(statusVO));
 	}
 	
 	@Operation(summary = "Get Status by Id")

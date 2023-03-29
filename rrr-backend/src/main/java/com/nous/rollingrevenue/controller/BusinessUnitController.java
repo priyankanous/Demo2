@@ -1,6 +1,5 @@
 package com.nous.rollingrevenue.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
-import com.nous.rollingrevenue.convertor.BusinessUnitVOToBusinessUnit;
-import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.service.BusinessUnitService;
 import com.nous.rollingrevenue.vo.BusinessUnitVO;
 
@@ -24,7 +21,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/businessunits")
+@RequestMapping("/api/v1/business-unit")
 public class BusinessUnitController {
 
 	@Autowired
@@ -33,29 +30,22 @@ public class BusinessUnitController {
 	@Operation(summary = "save business unit")
 	@PostMapping
 	public WSResponse<BusinessUnitVO> saveBusinessUnit(@RequestBody @Valid BusinessUnitVO businessUnitVO) {
-		BusinessUnit businessUnit = BusinessUnitVOToBusinessUnit.convertBusinessUnitVOToBusinessUnit(businessUnitVO);
-		businessUnit = businessUnitService.addBusinessUnit(businessUnit);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				BusinessUnitVOToBusinessUnit.convertBusinessUnitToBusinessUnitVO(businessUnit));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, businessUnitService.addBusinessUnit(businessUnitVO));
 	}
 
 	@Operation(summary = "Update business unit")
 	@PutMapping(path = "{id}")
 	public WSResponse<BusinessUnitVO> updateBusinessUnit(@PathVariable @Valid Long id,
 			@RequestBody @Valid BusinessUnitVO businessUnitVO) {
-		BusinessUnit businessUnit = businessUnitService.updateBusinessUnit(id, businessUnitVO);
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				BusinessUnitVOToBusinessUnit.convertBusinessUnitToBusinessUnitVO(businessUnit));
+				businessUnitService.updateBusinessUnit(id, businessUnitVO));
 
 	}
 
 	@Operation(summary = "Get business unit by Id")
 	@GetMapping(path = "{id}")
 	public WSResponse<BusinessUnitVO> getBusinessUnitById(@PathVariable @Valid Long id) {
-		BusinessUnit businessUnit = null;
-		businessUnit = businessUnitService.getBusinessUnitById(id);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				BusinessUnitVOToBusinessUnit.convertBusinessUnitToBusinessUnitVO(businessUnit));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, businessUnitService.getBusinessUnitById(id));
 	}
 
 	@Operation(summary = "Remove business unit")
@@ -69,12 +59,7 @@ public class BusinessUnitController {
 	@Operation(summary = "Get Business Units")
 	@GetMapping
 	public WSResponse<List<BusinessUnitVO>> getBusinessUnits() {
-		List<BusinessUnitVO> businessUnits = new ArrayList<>();
-		businessUnitService.getBusinessUnits().stream().forEach(e -> {
-			businessUnits.add(BusinessUnitVOToBusinessUnit.convertBusinessUnitToBusinessUnitVO(e));
-
-		});
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, businessUnits);
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, businessUnitService.getBusinessUnits());
 	}
 
 }

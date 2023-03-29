@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -38,9 +37,8 @@ public class FinancialYearController {
 	
 	@Operation(summary = "Save FinancialYear")
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
 	public WSResponse<FinancialYearVO> saveFinancialYear(@RequestBody @Valid FinancialYearVO financialYearVO) {
-		return WSResponse.buildWSResponse(HttpStatus.CREATED, RestMessage.SUCCESS, financialYearService.saveFinancialYear(financialYearVO));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, financialYearService.saveFinancialYear(financialYearVO));
 	}
 	
 	@Operation(summary = "Get FinancialYear by Id")

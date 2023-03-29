@@ -10,7 +10,7 @@ import com.nous.rollingrevenue.vo.OrganizationVO;
  *
  */
 @Component
-public class OrganizationVOToOrganization {
+public class OrganizationConverter {
 	/**
 	 * Convert OrganizationVO to Organization
 	 * 

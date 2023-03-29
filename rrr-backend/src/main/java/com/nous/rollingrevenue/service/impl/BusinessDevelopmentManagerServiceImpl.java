@@ -1,5 +1,6 @@
 package com.nous.rollingrevenue.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
+import com.nous.rollingrevenue.convertor.BusinessDevelopmentManagerConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
 import com.nous.rollingrevenue.repository.BusinessDevelopmentManagerRepository;
@@ -24,33 +27,34 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 
 	@Override
 	@Transactional
-	public BusinessDevelopmentManager addBDMDetails(BusinessDevelopmentManager bdm) {
-		return businessDevelopmentManagerRepository.save(bdm);
+	public BDMVO addBDMDetails(BDMVO bdmVO) {
+		BusinessDevelopmentManager bdm = BusinessDevelopmentManagerConverter.convertBdmVOToBdm(bdmVO);
+		return BusinessDevelopmentManagerConverter.convertBdmToBdmVO(businessDevelopmentManagerRepository.save(bdm));
 	}
 
 	@Override
 	@Transactional
 	@CachePut(value = "bdm", key = "#bdmId")
-	public BusinessDevelopmentManager updateBDMDetails(Long bdmId, BDMVO bdmVO) {
-		BusinessDevelopmentManager bdm = businessDevelopmentManagerRepository.findById(bdmId).orElseThrow(
-				() -> new RecordNotFoundException("Business Development Manager(BDM) not found for id:" + bdmId));
+	public BDMVO updateBDMDetails(Long bdmId, BDMVO bdmVO) {
+		BusinessDevelopmentManager bdm = businessDevelopmentManagerRepository.findById(bdmId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmId));
 		bdm.setBdmName(bdmVO.getBdmName());
 		bdm.setBdmDisplayName(bdmVO.getBdmDisplayName());
 		bdm.setActiveFrom(bdmVO.getActiveFrom());
 		bdm.setActiveUntil(bdmVO.getActiveUntil());
 		bdm.setLinkedToBusinessUnit(bdmVO.getLinkedToBusinessUnit());
 		bdm.setLinkedToRegion(bdmVO.getLinkedToRegion());
-		return businessDevelopmentManagerRepository.save(bdm);
+		return BusinessDevelopmentManagerConverter.convertBdmToBdmVO(businessDevelopmentManagerRepository.save(bdm));
 	}
 
 	@Override
 	@Cacheable(value = "bdm", key = "#bdmId")
-	public BusinessDevelopmentManager getBdmById(Long bdmId) {
+	public BDMVO getBdmById(Long bdmId) {
 		Optional<BusinessDevelopmentManager> bdmOptional = businessDevelopmentManagerRepository.findById(bdmId);
 		if (bdmOptional.isPresent()) {
-			return bdmOptional.get();
+			return BusinessDevelopmentManagerConverter.convertBdmToBdmVO(bdmOptional.get());
 		}
-		throw new RecordNotFoundException("Business Development Manager(BDM) not found for id:" + bdmId);
+		throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmId);
 	}
 
 	@Override
@@ -61,13 +65,16 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 		if (bdmOptional.isPresent()) {
 			businessDevelopmentManagerRepository.deleteById(bdmId);
 		} else {
-			throw new RecordNotFoundException("Business Development Manager(BDM) not found for id:" + bdmId);
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmId);
 		}
 	}
 
 	@Override
-	public List<BusinessDevelopmentManager> getBDM() {
-		return businessDevelopmentManagerRepository.findAll();
+	public List<BDMVO> getBDM() {
+		List<BDMVO> bdmVOs = new ArrayList<>();
+		businessDevelopmentManagerRepository.findAll().stream()
+				.forEach(bdm -> bdmVOs.add(BusinessDevelopmentManagerConverter.convertBdmToBdmVO(bdm)));
+		return bdmVOs;
 	}
 
 }

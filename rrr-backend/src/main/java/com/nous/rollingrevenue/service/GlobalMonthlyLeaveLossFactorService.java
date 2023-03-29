@@ -3,7 +3,6 @@ package com.nous.rollingrevenue.service;
 import java.util.List;
 
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
-import com.nous.rollingrevenue.model.GlobalMonthlyLeaveLossFactor;
 import com.nous.rollingrevenue.vo.GlobalMonthlyLeaveLossFactorVO;
 
 public interface GlobalMonthlyLeaveLossFactorService {
@@ -11,18 +10,18 @@ public interface GlobalMonthlyLeaveLossFactorService {
 	/**
 	 * Add an Global monthly leave loss factor to the database
 	 * 
-	 * @param leaveLossFactor
+	 * @param leaveLossFactorVO
 	 * @return The newly added Global monthly leave loss factor details
 	 */
-	public GlobalMonthlyLeaveLossFactor addLeaveLossFactor(GlobalMonthlyLeaveLossFactor leaveLossFactor);
+	public GlobalMonthlyLeaveLossFactorVO addLeaveLossFactor(GlobalMonthlyLeaveLossFactorVO leaveLossFactorVO);
 
 	/**
 	 * Update an Global monthly leave loss factor to the database
 	 * 
-	 * @param businessUnit
+	 * @param leaveLossFactorVO
 	 * @return updated Global monthly leave loss factor details
 	 */
-	public GlobalMonthlyLeaveLossFactor updateLeaveLossFactor(Long id, GlobalMonthlyLeaveLossFactorVO factorVO);
+	public GlobalMonthlyLeaveLossFactorVO updateLeaveLossFactor(Long id, GlobalMonthlyLeaveLossFactorVO factorVO);
 
 	/**
 	 * Get the Global monthly leave loss factor details
@@ -31,7 +30,7 @@ public interface GlobalMonthlyLeaveLossFactorService {
 	 * @return Global monthly leave loss factor. Throws
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
-	public GlobalMonthlyLeaveLossFactor getLeaveLossFactorById(Long id);
+	public GlobalMonthlyLeaveLossFactorVO getLeaveLossFactorById(Long id);
 
 	/**
 	 * Delete an Global monthly leave loss factor record
@@ -45,6 +44,6 @@ public interface GlobalMonthlyLeaveLossFactorService {
 	 * 
 	 * @return List of all Global monthly leave loss factor in the database
 	 */
-	public List<GlobalMonthlyLeaveLossFactor> getLeaveLossFactors();
+	public List<GlobalMonthlyLeaveLossFactorVO> getLeaveLossFactors();
 
 }

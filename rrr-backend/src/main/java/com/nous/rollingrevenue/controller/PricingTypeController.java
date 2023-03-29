@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -38,9 +37,8 @@ public class PricingTypeController {
 	
 	@Operation(summary = "Save PricingType")
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
 	public WSResponse<PricingTypeVO> savePricingType(@RequestBody @Valid PricingTypeVO pricingTypeVO) {
-		return WSResponse.buildWSResponse(HttpStatus.CREATED, RestMessage.SUCCESS, pricingTypeService.savePricingType(pricingTypeVO));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, pricingTypeService.savePricingType(pricingTypeVO));
 	}
 	
 	@Operation(summary = "Get PricingType by Id")

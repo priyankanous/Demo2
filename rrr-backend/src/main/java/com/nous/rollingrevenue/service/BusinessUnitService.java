@@ -3,7 +3,6 @@ package com.nous.rollingrevenue.service;
 import java.util.List;
 
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
-import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.vo.BusinessUnitVO;
 
 public interface BusinessUnitService {
@@ -11,10 +10,10 @@ public interface BusinessUnitService {
 	/**
 	 * Add an business unit to the database
 	 * 
-	 * @param businessUnit
+	 * @param businessUnitVO
 	 * @return The newly added businessUnit details
 	 */
-	public BusinessUnit addBusinessUnit(BusinessUnit businessUnit);
+	public BusinessUnitVO addBusinessUnit(BusinessUnitVO businessUnitVO);
 
 	/**
 	 * Get the business unit details
@@ -23,7 +22,7 @@ public interface BusinessUnitService {
 	 * @return The BusinessUnit details matching the Business Unit id. Throws
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
-	public BusinessUnit getBusinessUnitById(Long id);
+	public BusinessUnitVO getBusinessUnitById(Long id);
 
 	/**
 	 * Delete an BusinessUnit record
@@ -37,14 +36,14 @@ public interface BusinessUnitService {
 	 * 
 	 * @return List of all BusinessUnit in the database
 	 */
-	public List<BusinessUnit> getBusinessUnits();
+	public List<BusinessUnitVO> getBusinessUnits();
 
 	/**
 	 * Update an business unit to the database
 	 * 
-	 * @param businessUnit
+	 * @param businessUnitVO
 	 * @return updated businessUnit details
 	 */
-	public BusinessUnit updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO);
+	public BusinessUnitVO updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO);
 
 }

@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.OpportunityConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Opportunity;
@@ -45,7 +46,7 @@ public class OpportunityServiceImpl implements OpportunityService {
 	@CacheEvict(value = "opportunity", key = "#opportunityId")
 	public void deleteOpportunityById(Long opportunityId) {
 		opportunityRepository.findById(opportunityId)
-				.orElseThrow(() -> new RecordNotFoundException("Opportunity not exist with id:" + opportunityId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 		opportunityRepository.deleteById(opportunityId);
 
 	}
@@ -54,7 +55,7 @@ public class OpportunityServiceImpl implements OpportunityService {
 	@Cacheable(value = "opportunity", key = "#opportunityId")
 	public OpportunityVO getOpportunityById(Long opportunityId) {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
-				.orElseThrow(() -> new RecordNotFoundException("Opportunity not exist with id:" + opportunityId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 		return OpportunityConverter.convertOpportunityToOpportunityVO(opportunity);
 	}
 
@@ -63,7 +64,7 @@ public class OpportunityServiceImpl implements OpportunityService {
 	@CachePut(value = "opportunity", key = "#opportunityId")
 	public OpportunityVO updateOpportunity(Long opportunityId, OpportunityVO opportunityVO) {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
-				.orElseThrow(() -> new RecordNotFoundException("Opportunity not exist with id:" + opportunityId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 		opportunity.setChildOfAccount(opportunityVO.getChildOfAccount());
 		opportunity.setProjectCode(opportunityVO.getProjectCode());
 		opportunity.setOpportunityName(opportunityVO.getOpportunityName());

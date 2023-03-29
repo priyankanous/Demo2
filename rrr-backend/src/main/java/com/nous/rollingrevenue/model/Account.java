@@ -3,7 +3,7 @@ package com.nous.rollingrevenue.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.nous.rollingrevenue.model.converter.StringArrayToStringConverter;
+import com.nous.rollingrevenue.model.converter.StringSetToStringConverter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -16,20 +16,20 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "accounts")
 public class Account {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "account_id")
 	private Long accountId;
-	
+
 	@Column(name = "account_name")
 	private String accountName;
-	
+
 	@Column(name = "account_or_clientcode")
 	private String accountOrClientCode;
-	
+
 	@Column(name = "location")
-	@Convert(converter = StringArrayToStringConverter.class)
+	@Convert(converter = StringSetToStringConverter.class)
 	private Set<String> location = new HashSet<>();
 
 	public Account() {
@@ -80,6 +80,5 @@ public class Account {
 		return "Account [accountId=" + accountId + ", accountName=" + accountName + ", accountOrClientCode="
 				+ accountOrClientCode + ", location=" + location + "]";
 	}
-	
 
 }

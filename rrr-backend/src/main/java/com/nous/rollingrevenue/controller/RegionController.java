@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -38,9 +37,8 @@ public class RegionController {
 
 	@Operation(summary = "Save Region")
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
 	public WSResponse<RegionVO> saveRegion(@RequestBody @Valid RegionVO regionVO) {
-		return WSResponse.buildWSResponse(HttpStatus.CREATED, RestMessage.SUCCESS, regionService.saveRegion(regionVO));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, regionService.saveRegion(regionVO));
 	}
 
 	@Operation(summary = "Get Region by Id")

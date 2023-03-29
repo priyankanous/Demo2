@@ -3,7 +3,6 @@ package com.nous.rollingrevenue.service;
 import java.util.List;
 
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
-import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
 import com.nous.rollingrevenue.vo.BDMVO;
 
 public interface BusinessDevelopmentManagerService {
@@ -14,7 +13,7 @@ public interface BusinessDevelopmentManagerService {
 	 * @param bdm
 	 * @return The newly added Business Development Manager details
 	 */
-	public BusinessDevelopmentManager addBDMDetails(BusinessDevelopmentManager bdm);
+	public BDMVO addBDMDetails(BDMVO bdmvo);
 
 	/**
 	 * Update an Business Development Manager to the database
@@ -22,7 +21,7 @@ public interface BusinessDevelopmentManagerService {
 	 * @param bdmId, bdmVO
 	 * @return updated Business Development Manager details
 	 */
-	public BusinessDevelopmentManager updateBDMDetails(Long bdmId, BDMVO bdmVO);
+	public BDMVO updateBDMDetails(Long bdmId, BDMVO bdmVO);
 
 	/**
 	 * Get the Business Development Manager details By Id
@@ -31,7 +30,7 @@ public interface BusinessDevelopmentManagerService {
 	 * @return BusinessDevelopmentManager. Throws {@link RecordNotFoundException} if
 	 *         no match is found
 	 */
-	public BusinessDevelopmentManager getBdmById(Long bdmId);
+	public BDMVO getBdmById(Long bdmId);
 
 	/**
 	 * Delete an Business Development Manager record
@@ -45,6 +44,6 @@ public interface BusinessDevelopmentManagerService {
 	 * 
 	 * @return List of all Business Development Manager in the database
 	 */
-	public List<BusinessDevelopmentManager> getBDM();
+	public List<BDMVO> getBDM();
 
 }

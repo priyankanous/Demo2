@@ -9,6 +9,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.AccountConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Account;
@@ -40,10 +41,10 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "accounts", key= "#accountId")
+	@CacheEvict(value = "accounts", key = "#accountId")
 	public void deleteAccountById(Long accountId) {
 		accountRepository.findById(accountId)
-				.orElseThrow(() -> new RecordNotFoundException("Account not exist with id:" + accountId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
 		accountRepository.deleteById(accountId);
 	}
 
@@ -51,19 +52,19 @@ public class AccountServiceImpl implements AccountService {
 	@Cacheable(value = "accounts", key = "#accountId")
 	public AccountVO getAccountById(Long accountId) {
 		Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new RecordNotFoundException("Account not exist with id:" + accountId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
 		return AccountConverter.convertAccountToAccountVO(account);
 	}
 
 	@Override
 	public AccountVO updateAccount(Long accountId, AccountVO accountVO) {
 		Account account = accountRepository.findById(accountId)
-				.orElseThrow(() -> new RecordNotFoundException("Account not exist with id:" + accountId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
 		account.setAccountName(accountVO.getAccountName());
 		account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
 		account.setLocation(accountVO.getLocation());
 		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
-		
+
 	}
 
 }

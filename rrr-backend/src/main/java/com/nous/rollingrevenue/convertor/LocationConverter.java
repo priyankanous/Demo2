@@ -6,7 +6,7 @@ import com.nous.rollingrevenue.model.Location;
 import com.nous.rollingrevenue.vo.LocationVO;
 
 @Component
-public class LocationVOToLocation {
+public class LocationConverter {
 
 	/**
 	 * Convert LocationVO to Location

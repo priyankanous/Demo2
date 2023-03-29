@@ -9,9 +9,12 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.AnnualTargetEntryConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.helper.ExcelHelper;
 import com.nous.rollingrevenue.model.AnnualTargetEntry;
 import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
 import com.nous.rollingrevenue.service.AnnualTargetEntryService;
@@ -45,7 +48,7 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 	@CacheEvict(value = "annualtargetentry", key = "#annualTargetEntryId")
 	public void deleteAnnualTargetEntryById(Long annualTargetEntryId) {
 		annualTargetEntryRepository.findById(annualTargetEntryId)
-				.orElseThrow(() -> new RecordNotFoundException("AnnualTargetEntry not exist with id:" + annualTargetEntryId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + annualTargetEntryId));
 		annualTargetEntryRepository.deleteById(annualTargetEntryId);
 	}
 
@@ -53,7 +56,7 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 	@Cacheable(value = "annualtargetentry", key = "#annualTargetEntryId")
 	public AnnualTargetEntryVO getAnnualTargetEntryById(Long annualTargetEntryId) {
 		AnnualTargetEntry annualTargetEntry = annualTargetEntryRepository.findById(annualTargetEntryId)
-                .orElseThrow(() -> new RecordNotFoundException("AnnualTargetEntry not exist with id:" + annualTargetEntryId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + annualTargetEntryId));
 		return AnnualTargetEntryConverter.convertAnnualTargetEntryToAnnualTargetEntryVO(annualTargetEntry);
 	}
 
@@ -63,7 +66,7 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 	public AnnualTargetEntryVO updateAnnualTargetEntry(Long annualTargetEntryId,
 			AnnualTargetEntryVO annualTargetEntryVO) {
 		AnnualTargetEntry annualTargetEntry = annualTargetEntryRepository.findById(annualTargetEntryId)
-				.orElseThrow(() -> new RecordNotFoundException("AnnualTargetEntry not exist with id:" + annualTargetEntryId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + annualTargetEntryId));
 		annualTargetEntry.setFinancialYear(annualTargetEntryVO.getFinancialYear());
 		annualTargetEntry.setBusinessUnit(annualTargetEntryVO.getBusinessUnit());
 		annualTargetEntry.setStartegicBusinessUnit(annualTargetEntryVO.getStartegicBusinessUnit());
@@ -87,7 +90,19 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 		annualTargetEntry.setQ4FYS(annualTargetEntryVO.getQ4FYS());
 		annualTargetEntry.setQ4FYT(annualTargetEntryVO.getQ4FYT());
 		annualTargetEntry.setFY(annualTargetEntryVO.getFY());
-		return AnnualTargetEntryConverter.convertAnnualTargetEntryToAnnualTargetEntryVO(annualTargetEntryRepository.save(annualTargetEntry));
+		return AnnualTargetEntryConverter
+				.convertAnnualTargetEntryToAnnualTargetEntryVO(annualTargetEntryRepository.save(annualTargetEntry));
+	}
+
+	@Override
+	@Transactional
+	public void saveExcelDataOfAnnualTargetEntry(MultipartFile file, String financialYear) {
+		List<AnnualTargetEntryVO> annualTargetEntryVOs = ExcelHelper.convertExceltoListOfAnnualTargetEntry(file,
+				financialYear);
+		List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+		annualTargetEntryVOs.stream().forEach(annualTargetEntryVO -> annualTargetEntries
+				.add(AnnualTargetEntryConverter.convertAnnualTargetEntryVOToAnnualTargetEntry(annualTargetEntryVO)));
+		annualTargetEntryRepository.saveAll(annualTargetEntries);
 	}
 
 }

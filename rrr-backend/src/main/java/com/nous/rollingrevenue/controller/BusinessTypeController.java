@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -38,9 +37,8 @@ public class BusinessTypeController {
 	
 	@Operation(summary = "Save BusinessType")
 	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
 	public WSResponse<BusinessTypeVO> saveBusinessType(@RequestBody @Valid BusinessTypeVO businessTypeVO) {
-		return WSResponse.buildWSResponse(HttpStatus.CREATED, RestMessage.SUCCESS, businessTypeService.saveBusinessType(businessTypeVO));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, businessTypeService.saveBusinessType(businessTypeVO));
 	}
 	
 	@Operation(summary = "Get BusinessType by Id")

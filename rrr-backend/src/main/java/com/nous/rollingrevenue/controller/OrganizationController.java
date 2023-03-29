@@ -1,6 +1,5 @@
 package com.nous.rollingrevenue.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
-import com.nous.rollingrevenue.convertor.OrganizationVOToOrganization;
-import com.nous.rollingrevenue.model.Organization;
 import com.nous.rollingrevenue.service.OrganizationService;
 import com.nous.rollingrevenue.vo.OrganizationVO;
 
@@ -41,28 +38,21 @@ public class OrganizationController {
 	@Validated
 	@PostMapping
 	public WSResponse<OrganizationVO> saveOrganization(@RequestBody @Valid OrganizationVO organizationVO) {
-		Organization organization = OrganizationVOToOrganization.convertOrganizationVOToOrganization(organizationVO);
-		organization = organizationService.addOrganization(organization);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				OrganizationVOToOrganization.convertOrganizationToOrganizationVO(organization));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, organizationService.addOrganization(organizationVO));
 	}
 
 	@Operation(summary = "Update organization")
 	@PutMapping(value = "{id}")
-	public WSResponse<OrganizationVO> updateOrganization(@PathVariable @Valid Long id, @RequestBody @Valid OrganizationVO organizationVO) {
-		Organization organization = organizationService.updateOrganization(id,organizationVO);
+	public WSResponse<OrganizationVO> updateOrganization(@PathVariable @Valid Long id,
+			@RequestBody @Valid OrganizationVO organizationVO) {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				OrganizationVOToOrganization.convertOrganizationToOrganizationVO(organization));
-
+				organizationService.updateOrganization(id, organizationVO));
 	}
 
 	@Operation(summary = "Get ogranization by Id")
 	@GetMapping(value = "/{id}")
 	public WSResponse<OrganizationVO> getOrganization(@PathVariable @Valid Long id) {
-		Organization organization = null;
-		organization = organizationService.getOrganization(id);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				OrganizationVOToOrganization.convertOrganizationToOrganizationVO(organization));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, organizationService.getOrganization(id));
 	}
 
 	@Operation(summary = "Delete organization")
@@ -76,11 +66,7 @@ public class OrganizationController {
 	@Operation(summary = "Get All organization")
 	@GetMapping
 	public WSResponse<List<OrganizationVO>> getOrganization() {
-		List<OrganizationVO> organization = new ArrayList<>();
-		organizationService.getAllOrganization().stream().forEach(e -> {
-			organization.add(OrganizationVOToOrganization.convertOrganizationToOrganizationVO(e));
-		});
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, organization);
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, organizationService.getAllOrganization());
 	}
 
 }

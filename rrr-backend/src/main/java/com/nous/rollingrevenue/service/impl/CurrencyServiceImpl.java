@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.CurrencyConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Currency;
@@ -44,7 +45,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@CacheEvict(value = "currency", key= "#currencyId")
 	public void deleteCurrencyById(Long currencyId) {
 		currencyRepository.findById(currencyId)
-				.orElseThrow(() -> new RecordNotFoundException("Currency not exist with id:" + currencyId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
 		currencyRepository.deleteById(currencyId);
 	}
 
@@ -52,7 +53,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@Cacheable(value = "currency", key = "#currencyId")
 	public CurrencyVO getCurrencyById(Long currencyId) {
 		Currency currency = currencyRepository.findById(currencyId)
-                .orElseThrow(() -> new RecordNotFoundException("Currency not exist with id:" + currencyId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
 		return CurrencyConverter.convertCurrencyToCurrencyVO(currency);
 	}
 
@@ -61,7 +62,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@CachePut(value = "currency", key = "#currencyId")
 	public CurrencyVO updateCurrency(Long currencyId, CurrencyVO currencyVO) {
 		Currency currency = currencyRepository.findById(currencyId)
-				.orElseThrow(() -> new RecordNotFoundException("Currency not exist with id:" + currencyId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
 		currency.setCurrency(currencyVO.getCurrency());
 		currency.setCurrencyName(currencyVO.getCurrencyName());
 		currency.setSymbol(currencyVO.getSymbol());

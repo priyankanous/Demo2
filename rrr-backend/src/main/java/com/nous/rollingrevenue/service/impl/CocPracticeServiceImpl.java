@@ -1,5 +1,6 @@
 package com.nous.rollingrevenue.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +11,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
+import com.nous.rollingrevenue.convertor.CocPracticeConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.CocPractice;
 import com.nous.rollingrevenue.repository.CocPracticeRepository;
@@ -25,19 +28,20 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 
 	@Override
 	@Transactional
-	public CocPractice addCocPractice(CocPractice cocpractice) {
-		return cocpracticeRepository.save(cocpractice);
+	public CocPracticeVO addCocPractice(CocPracticeVO cocpracticeVO) {
+		CocPractice cocPractice = CocPracticeConverter.convertCocPracticeVOToCocPractice(cocpracticeVO);
+		return CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocpracticeRepository.save(cocPractice));
 	}
 
 	@Override
 	@Cacheable(value = "cocpractice", key = "#id")
-	public CocPractice getCocPractice(Long id) {
+	public CocPracticeVO getCocPractice(Long id) {
 		Optional<CocPractice> cocOptional = cocpracticeRepository.findById(id);
 
 		if (cocOptional.isPresent()) {
-			return cocOptional.get();
+			return CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocOptional.get());
 		}
-		throw new RecordNotFoundException("CocPractice not found for id:" + id);
+		throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id);
 
 	}
 
@@ -50,24 +54,28 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 		if (cocOptional.isPresent()) {
 			cocpracticeRepository.deleteById(id);
 		} else {
-			throw new RecordNotFoundException("cocpractice not found for id:" + id);
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id);
 		}
 	}
 
 	@Override
-	public List<CocPractice> getAllCocPractice() {
-		return cocpracticeRepository.findAll();
+	public List<CocPracticeVO> getAllCocPractice() {
+		List<CocPracticeVO> cocPracticeVOs = new ArrayList<>();
+		cocpracticeRepository.findAll().stream().forEach(cocPractice -> {
+			cocPracticeVOs.add(CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocPractice));
+		});
+		return cocPracticeVOs;
 	}
 
 	@Override
 	@Transactional
 	@CachePut(value = "cocpractice", key = "#id")
-	public CocPractice updateCocPractice(Long id, CocPracticeVO cocpracticeVO) {
+	public CocPracticeVO updateCocPractice(Long id, CocPracticeVO cocpracticeVO) {
 		CocPractice cocpractice = cocpracticeRepository.findById(id)
-				.orElseThrow(() -> new RecordNotFoundException("CocPractice not found for id:" + id));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		cocpractice.setCocPracticeDisplayName(cocpracticeVO.getCocPracticeDisplayName());
 		cocpractice.setCocPracticeName(cocpracticeVO.getCocPracticeName());
 		cocpractice.setBuDisplayName(cocpracticeVO.getBuDisplayName());
-		return cocpracticeRepository.save(cocpractice);
+		return CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocpracticeRepository.save(cocpractice));
 	}
 }

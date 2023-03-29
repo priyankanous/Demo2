@@ -10,6 +10,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.WorkOrderStatusConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.WorkOrderStatus;
@@ -45,7 +46,7 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 	@CacheEvict(value = "wostatus", key = "#woStatusId")
 	public void deleteWorkOrderStatusById(Long woStatusId) {
 		woStatusRepository.findById(woStatusId)
-				.orElseThrow(() -> new RecordNotFoundException("WorkOrderStatus not exist with id:" + woStatusId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
 		woStatusRepository.deleteById(woStatusId);
 	}
 
@@ -53,7 +54,7 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 	@Cacheable(value = "wostatus", key = "#woStatusId")
 	public WorkOrderStatusVO getWorkOrderStatusById(Long woStatusId) {
 		WorkOrderStatus woStatus = woStatusRepository.findById(woStatusId)
-                .orElseThrow(() -> new RecordNotFoundException("WorkOrderStatus not exist with id:" + woStatusId));
+                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
 		return WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(woStatus);
 	}
 
@@ -62,7 +63,7 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 	@CachePut(value = "wostatus", key = "#woStatusId")
 	public WorkOrderStatusVO updateWorkOrderStatus(Long woStatusId, WorkOrderStatusVO woStatusVO) {
 		WorkOrderStatus woStatus = woStatusRepository.findById(woStatusId)
-				.orElseThrow(() -> new RecordNotFoundException("WorkOrderStatus not exist with id:" + woStatusId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
 		woStatus.setWoStatusName(woStatusVO.getWoStatusName());
 		woStatus.setWoStatusDisplayName(woStatusVO.getWoStatusDisplayName());
 		return WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(woStatusRepository.save(woStatus));
