@@ -16,8 +16,6 @@ import com.nous.rollingrevenue.repository.BusinessDevelopmentManagerRepository;
 import com.nous.rollingrevenue.service.BusinessDevelopmentManagerService;
 import com.nous.rollingrevenue.vo.BDMVO;
 
-import jakarta.validation.Valid;
-
 @Service
 public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmentManagerService {
 

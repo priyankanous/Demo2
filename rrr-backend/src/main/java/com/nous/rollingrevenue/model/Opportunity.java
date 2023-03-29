@@ -1,0 +1,106 @@
+package com.nous.rollingrevenue.model;
+
+import java.time.LocalDate;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "opportunity")
+public class Opportunity {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "opportunity_id")
+	private Long opportunityId;
+	
+	@Column(name = "opportunity_name")
+	private String opportunityName;
+	
+	@Column(name = "child_of_account")
+	private String childOfAccount;
+	
+	@Column(name = "project_code")
+	private String projectCode;
+	
+	@Column(name = "project_start_date")
+	private LocalDate projectStartDate;
+	
+	@Column(name = "project_end_date")
+	private LocalDate projectEndDate;
+
+	public Opportunity() {
+
+	}
+
+	public Opportunity(Long opportunityId, String opportunityName, String childOfAccount, String projectCode,
+			LocalDate projectStartDate, LocalDate projectEndDate) {
+		this.opportunityId = opportunityId;
+		this.opportunityName = opportunityName;
+		this.childOfAccount = childOfAccount;
+		this.projectCode = projectCode;
+		this.projectStartDate = projectStartDate;
+		this.projectEndDate = projectEndDate;
+	}
+
+	public Long getOpportunityId() {
+		return opportunityId;
+	}
+
+	public void setOpportunityId(Long opportunityId) {
+		this.opportunityId = opportunityId;
+	}
+
+	public String getOpportunityName() {
+		return opportunityName;
+	}
+
+	public void setOpportunityName(String opportunityName) {
+		this.opportunityName = opportunityName;
+	}
+
+	public String getChildOfAccount() {
+		return childOfAccount;
+	}
+
+	public void setChildOfAccount(String childOfAccount) {
+		this.childOfAccount = childOfAccount;
+	}
+
+	public String getProjectCode() {
+		return projectCode;
+	}
+
+	public void setProjectCode(String projectCode) {
+		this.projectCode = projectCode;
+	}
+
+	public LocalDate getProjectStartDate() {
+		return projectStartDate;
+	}
+
+	public void setProjectStartDate(LocalDate projectStartDate) {
+		this.projectStartDate = projectStartDate;
+	}
+
+	public LocalDate getProjectEndDate() {
+		return projectEndDate;
+	}
+
+	public void setProjectEndDate(LocalDate projectEndDate) {
+		this.projectEndDate = projectEndDate;
+	}
+
+	@Override
+	public String toString() {
+		return "Opportunity [opportunityId=" + opportunityId + ", opportunityName=" + opportunityName
+				+ ", childOfAccount=" + childOfAccount + ", projectCode=" + projectCode + ", projectStartDate="
+				+ projectStartDate + ", projectEndDate=" + projectEndDate + "]";
+	}
+	
+
+}

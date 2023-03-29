@@ -3,9 +3,7 @@ package com.nous.rollingrevenue.convertor;
 import org.springframework.stereotype.Component;
 
 import com.nous.rollingrevenue.model.CocPractice;
-import com.nous.rollingrevenue.model.Organization;
 import com.nous.rollingrevenue.vo.CocPracticeVO;
-import com.nous.rollingrevenue.vo.OrganizationVO;
 
 /**
  * @author Nous Infosystems
