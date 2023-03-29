@@ -118,4 +118,9 @@
 		<key-type>java.lang.Long</key-type>
 		<value-type>com.nous.rollingrevenue.vo.LocationVO</value-type>
 	</cache>
+
+    <cache alias="holidaycalendar" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.model.HolidayCalendar</value-type>
+	</cache>
 </config>
