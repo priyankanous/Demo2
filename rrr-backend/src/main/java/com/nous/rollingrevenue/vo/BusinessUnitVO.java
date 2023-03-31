@@ -13,18 +13,15 @@ public class BusinessUnitVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(value = "bui", access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long businessUnitId;
 
-	@JsonProperty("bun")
 	@NotEmpty(message = "business unit name must not be empty")
 	private String businessUnitName;
 
-	@JsonProperty("bdn")
 	@NotEmpty(message = "business unit display name must not be empty")
 	private String businessUnitDisplayName;
 
-	@JsonProperty("coo")
 	@NotEmpty(message = "child of organization must not be empty")
 	private String childOfOrg;
 

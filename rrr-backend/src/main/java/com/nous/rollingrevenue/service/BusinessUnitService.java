@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service;
 import java.util.List;
 
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.vo.BusinessUnitVO;
 
 public interface BusinessUnitService {
@@ -45,5 +46,7 @@ public interface BusinessUnitService {
 	 * @return updated businessUnit details
 	 */
 	public BusinessUnitVO updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO);
+
+	public List<BusinessUnitVO> getPagination(int pagenumber, int pagesize, String sortBy);
 
 }
