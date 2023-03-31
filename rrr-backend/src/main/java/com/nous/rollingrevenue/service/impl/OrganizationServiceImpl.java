@@ -69,13 +69,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "organizations", key = "id")
+	@CachePut(value = "organizations", key = "#id")
 	public OrganizationVO updateOrganization(Long id, OrganizationVO organizationVO) {
 		Organization organization = organizationRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		organization.setorgDisplayName(organizationVO.getorgDisplayName());
 		organization.setorgName(organizationVO.getorgName());
-		organization.setId(organizationVO.getId());
 		return OrganizationConverter.convertOrganizationToOrganizationVO(organizationRepository.save(organization));
 	}
 
