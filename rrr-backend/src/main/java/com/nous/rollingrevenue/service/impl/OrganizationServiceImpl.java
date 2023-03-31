@@ -27,6 +27,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	OrganizationRepository organizationRepository;
 
 	@Override
+	@Transactional
 	public OrganizationVO addOrganization(OrganizationVO organizationVO) {
 		Organization organization = OrganizationConverter.convertOrganizationVOToOrganization(organizationVO);
 		return OrganizationConverter.convertOrganizationToOrganizationVO(organizationRepository.save(organization));
@@ -58,7 +59,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	@Transactional
 	public List<OrganizationVO> getAllOrganization() {
 		List<OrganizationVO> organizationVOs = new ArrayList<>();
 		organizationRepository.findAll().stream().forEach(organization -> {
