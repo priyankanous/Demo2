@@ -51,4 +51,6 @@ public interface StrategicBusinessUnitService {
 
 	public  StrategicBusinessUnitVO updateSBU(Long sbuId, StrategicBusinessUnitVO sbuVO);
 
+	public List<StrategicBusinessUnitVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
 }

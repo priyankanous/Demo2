@@ -1,6 +1,7 @@
 package com.nous.rollingrevenue.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,6 +80,20 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 		businessDevelopmentManagerRepository.findAll().stream()
 				.forEach(bdm -> bdmVOs.add(BusinessDevelopmentManagerConverter.convertBdmToBdmVO(bdm)));
 		return bdmVOs;
+	}
+	
+	@Override
+	public List<BDMVO> getPagination(int pagenumber, int pagesize, String sortBy) {
+		List<BDMVO> bdmVOs = new ArrayList<>();
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Page<BusinessDevelopmentManager> pageResult = businessDevelopmentManagerRepository.findAll(paging);
+		if (pageResult.hasContent()) {
+			pageResult.getContent().stream().forEach(e -> {
+				bdmVOs.add(BusinessDevelopmentManagerConverter.convertBdmToBdmVO(e));
+			});
+			return bdmVOs;
+		}
+		return Collections.emptyList();
 	}
 
 }

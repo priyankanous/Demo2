@@ -1,6 +1,7 @@
 package com.nous.rollingrevenue.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,5 +82,19 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 		cocpractice.setCocPracticeName(cocpracticeVO.getCocPracticeName());
 		cocpractice.setBuDisplayName(cocpracticeVO.getBuDisplayName());
 		return CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocpracticeRepository.save(cocpractice));
+	}
+	
+	@Override
+	public List<CocPracticeVO> getPagination(int pagenumber, int pagesize, String sortBy) {
+		List<CocPracticeVO> cocPracticeVOs = new ArrayList<>();
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Page<CocPractice> pageResult = cocpracticeRepository.findAll(paging);
+		if (pageResult.hasContent()) {
+			pageResult.getContent().stream().forEach(e -> {
+				cocPracticeVOs.add(CocPracticeConverter.convertCocPracticeToCocPracticeVO(e));
+			});
+			return cocPracticeVOs;
+		}
+		return Collections.emptyList();
 	}
 }

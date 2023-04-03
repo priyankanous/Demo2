@@ -57,4 +57,7 @@ public interface PricingTypeService {
 	public  PricingTypeVO updatePricingType(Long pricingTypeId, PricingTypeVO pricingTypeVO);
 
 
+	public List<PricingTypeVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
+
 }

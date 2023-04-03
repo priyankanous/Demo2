@@ -47,4 +47,6 @@ public interface HolidayCalendarService {
 	 */
 	public List<HolidayCalendar> getCalendars();
 
+	List<HolidayCalendarVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

@@ -46,4 +46,6 @@ public interface GlobalMonthlyLeaveLossFactorService {
 	 */
 	public List<GlobalMonthlyLeaveLossFactorVO> getLeaveLossFactors();
 
+	public List<GlobalMonthlyLeaveLossFactorVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

@@ -56,4 +56,7 @@ public interface StatusService {
 
 	public  StatusVO updateStatus(Long statusId, StatusVO statusVO);
 
+
+	public List<StatusVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

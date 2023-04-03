@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -61,6 +62,14 @@ public class StatusController {
 	public WSResponse<String> deleteStatus(@PathVariable Long statusId) {
 		statusService.deleteStatusById(statusId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
+	}
+	
+	@Operation(summary = "Get Status By Pagination")
+	@GetMapping("/page")
+	public WSResponse<List<StatusVO>> getStatusByPagination(
+			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+			@RequestParam(defaultValue = "statusId", required = false) String sortBy) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, statusService.getPagination(pagenumber, pagesize, sortBy));
 	}
 
 }

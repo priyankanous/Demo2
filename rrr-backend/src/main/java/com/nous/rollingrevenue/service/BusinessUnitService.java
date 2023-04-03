@@ -3,7 +3,6 @@ package com.nous.rollingrevenue.service;
 import java.util.List;
 
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
-import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.vo.BusinessUnitVO;
 
 public interface BusinessUnitService {

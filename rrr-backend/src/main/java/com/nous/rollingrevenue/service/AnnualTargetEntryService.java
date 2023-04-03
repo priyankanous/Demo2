@@ -66,4 +66,6 @@ public interface AnnualTargetEntryService {
 
 	public void saveExcelDataOfAnnualTargetEntry(MultipartFile file, String financialYear);
 
+	public List<AnnualTargetEntryVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

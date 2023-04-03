@@ -46,4 +46,6 @@ public interface LocationService {
 	 */
 	public List<LocationVO> getLocations();
 
+	public List<LocationVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

@@ -52,4 +52,7 @@ public interface CocPracticeService {
 
 	public CocPracticeVO updateCocPractice(Long id, CocPracticeVO cocpracticeVO);
 
+	public List<CocPracticeVO> getPagination(int pagenumber, int pagesize, String sortBy) ;
+	
+
 }

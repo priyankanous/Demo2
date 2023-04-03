@@ -56,4 +56,7 @@ public interface AccountService {
 
 	public  AccountVO updateAccount(Long accountId, AccountVO accountVO);
 
+
+	public List<AccountVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

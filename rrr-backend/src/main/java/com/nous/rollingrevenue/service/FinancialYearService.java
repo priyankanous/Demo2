@@ -57,4 +57,7 @@ public interface FinancialYearService {
 	public  FinancialYearVO updateFinancialYear(Long financialYearId, FinancialYearVO financialYearVO);
 
 
+	public List<FinancialYearVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
+
 }

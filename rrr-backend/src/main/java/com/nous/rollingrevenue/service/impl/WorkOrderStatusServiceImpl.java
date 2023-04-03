@@ -1,12 +1,17 @@
 package com.nous.rollingrevenue.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +72,20 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 		woStatus.setWoStatusName(woStatusVO.getWoStatusName());
 		woStatus.setWoStatusDisplayName(woStatusVO.getWoStatusDisplayName());
 		return WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(woStatusRepository.save(woStatus));
+	}
+	
+	@Override
+	public List<WorkOrderStatusVO> getPagination(int pagenumber, int pagesize, String sortBy) {
+		List<WorkOrderStatusVO> workOrderStatusVOs = new ArrayList<>();
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Page<WorkOrderStatus> pageResult = woStatusRepository.findAll(paging);
+		if (pageResult.hasContent()) {
+			pageResult.getContent().stream().forEach(e -> {
+				workOrderStatusVOs.add(WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(e));
+			});
+			return workOrderStatusVOs;
+		}
+		return Collections.emptyList();
 	}
 
 }

@@ -1,12 +1,17 @@
 package com.nous.rollingrevenue.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,6 +77,20 @@ public class RegionServiceImpl implements RegionService {
 		region.setRegionName(regionVO.getRegionName());
 		region.setRegionDisplayName(regionVO.getRegionDisplayName());
 		return RegionConverter.convertRegionToRegionVO(regionRepository.save(region));
+	}
+	
+	@Override
+	public List<RegionVO> getPagination(int pagenumber, int pagesize, String sortBy) {
+		List<RegionVO> regionVOs = new ArrayList<>();
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Page<Region> pageResult = regionRepository.findAll(paging);
+		if (pageResult.hasContent()) {
+			pageResult.getContent().stream().forEach(e -> {
+				regionVOs.add(RegionConverter.convertRegionToRegionVO(e));
+			});
+			return regionVOs;
+		}
+		return Collections.emptyList();
 	}
 
 }
