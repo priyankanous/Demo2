@@ -6,7 +6,7 @@ import com.nous.rollingrevenue.model.HolidayCalendar;
 import com.nous.rollingrevenue.vo.HolidayCalendarVO;
 
 @Component
-public class HolidayCalendarVOToHolidayCalendar {
+public class HolidayCalendarConverter {
 
 	/**
 	 * Convert HolidayCalendarVO to HolidayCalendar

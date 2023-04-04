@@ -1,6 +1,5 @@
 package com.nous.rollingrevenue.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
-import com.nous.rollingrevenue.convertor.HolidayCalendarVOToHolidayCalendar;
-import com.nous.rollingrevenue.model.HolidayCalendar;
 import com.nous.rollingrevenue.service.HolidayCalendarService;
 import com.nous.rollingrevenue.vo.HolidayCalendarVO;
 
@@ -25,7 +22,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/v1/holidayCalendar")
+@RequestMapping("/api/v1/holiday-calendar")
 @CrossOrigin(origins = "*")
 public class HolidayCalendarController {
 
@@ -35,29 +32,20 @@ public class HolidayCalendarController {
 	@Operation(summary = "Save Calendar")
 	@PostMapping
 	public WSResponse<HolidayCalendarVO> saveCalendar(@RequestBody @Valid HolidayCalendarVO holidayCalendarVO) {
-		HolidayCalendar holidayCalendar = HolidayCalendarVOToHolidayCalendar.convertHolidayCalendarVOToHolidayCalendar(holidayCalendarVO);
-		holidayCalendar = holidayCalendarService.addCalendar(holidayCalendar);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				HolidayCalendarVOToHolidayCalendar.convertHolidayCalendarToHolidayCalendarVO(holidayCalendar));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendarService.addCalendar(holidayCalendarVO));
 	}
 
 	@Operation(summary = "Update Calendar by Id")
 	@PutMapping(path = "{holidayId}")
 	public WSResponse<HolidayCalendarVO> updateLocation(@PathVariable @Valid Long holidayId,
 			@RequestBody @Valid HolidayCalendarVO holidayCalendarVO) {
-		HolidayCalendar holidayCalendar = holidayCalendarService.updateHolidayCalendar(holidayId, holidayCalendarVO);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				HolidayCalendarVOToHolidayCalendar.convertHolidayCalendarToHolidayCalendarVO(holidayCalendar));
-
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendarService.updateHolidayCalendar(holidayId, holidayCalendarVO));
 	}
 
 	@Operation(summary = "Get Calendar by Id")
 	@GetMapping(path = "{holidayId}")
 	public WSResponse<HolidayCalendarVO> getHolidayCalendar(@PathVariable @Valid Long holidayId) {
-		HolidayCalendar holidayCalendar = null;
-		holidayCalendar = holidayCalendarService.getHolidayCalendar(holidayId);
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				HolidayCalendarVOToHolidayCalendar.convertHolidayCalendarToHolidayCalendarVO(holidayCalendar));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendarService.getHolidayCalendar(holidayId));
 	}
 
 	@Operation(summary = "Delete Calendar by Id")
@@ -71,11 +59,7 @@ public class HolidayCalendarController {
 	@Operation(summary = "Get Calendar")
 	@GetMapping
 	public WSResponse<List<HolidayCalendarVO>> getCalendars() {
-		List<HolidayCalendarVO> holidayCalendar = new ArrayList<>();
-		holidayCalendarService.getCalendars().stream().forEach(e -> {
-			holidayCalendar.add(HolidayCalendarVOToHolidayCalendar.convertHolidayCalendarToHolidayCalendarVO(e));
-		});
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendar);
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendarService.getCalendars());
 	}
 
 }

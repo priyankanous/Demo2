@@ -121,6 +121,6 @@
 
     <cache alias="holidaycalendar" uses-template="default">
 		<key-type>java.lang.Long</key-type>
-		<value-type>com.nous.rollingrevenue.model.HolidayCalendar</value-type>
+		<value-type>com.nous.rollingrevenue.vo.HolidayCalendarVO</value-type>
 	</cache>
 </config>
