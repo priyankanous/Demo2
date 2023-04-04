@@ -2,9 +2,13 @@ package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import jakarta.validation.constraints.NotEmpty;
 
 public class BDMVO implements Serializable {
 
@@ -26,9 +30,26 @@ public class BDMVO implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate activeUntil;
 
-	private String linkedToBusinessUnit;
+	@NotEmpty(message = "Atleast one BusinessUnit is required")
+	private Set<String> linkedToBusinessUnit = new HashSet<>();
 
-	private String linkedToRegion;
+	@NotEmpty(message = "Atleast one Region is required")
+	private Set<String> linkedToRegion = new HashSet<>();
+
+	public BDMVO() {
+
+	}
+
+	public BDMVO(Long bdmId, String bdmName, String bdmDisplayName, LocalDate activeFrom, LocalDate activeUntil,
+			Set<String> linkedToBusinessUnit, Set<String> linkedToRegion) {
+		this.bdmId = bdmId;
+		this.bdmName = bdmName;
+		this.bdmDisplayName = bdmDisplayName;
+		this.activeFrom = activeFrom;
+		this.activeUntil = activeUntil;
+		this.linkedToBusinessUnit = linkedToBusinessUnit;
+		this.linkedToRegion = linkedToRegion;
+	}
 
 	public Long getBdmId() {
 		return bdmId;
@@ -70,20 +91,27 @@ public class BDMVO implements Serializable {
 		this.activeUntil = activeUntil;
 	}
 
-	public String getLinkedToBusinessUnit() {
+	public Set<String> getLinkedToBusinessUnit() {
 		return linkedToBusinessUnit;
 	}
 
-	public void setLinkedToBusinessUnit(String linkedToBusinessUnit) {
+	public void setLinkedToBusinessUnit(Set<String> linkedToBusinessUnit) {
 		this.linkedToBusinessUnit = linkedToBusinessUnit;
 	}
 
-	public String getLinkedToRegion() {
+	public Set<String> getLinkedToRegion() {
 		return linkedToRegion;
 	}
 
-	public void setLinkedToRegion(String linkedToRegion) {
+	public void setLinkedToRegion(Set<String> linkedToRegion) {
 		this.linkedToRegion = linkedToRegion;
+	}
+
+	@Override
+	public String toString() {
+		return "BDMVO [bdmId=" + bdmId + ", bdmName=" + bdmName + ", bdmDisplayName=" + bdmDisplayName + ", activeFrom="
+				+ activeFrom + ", activeUntil=" + activeUntil + ", linkedToBusinessUnit=" + linkedToBusinessUnit
+				+ ", linkedToRegion=" + linkedToRegion + "]";
 	}
 
 }

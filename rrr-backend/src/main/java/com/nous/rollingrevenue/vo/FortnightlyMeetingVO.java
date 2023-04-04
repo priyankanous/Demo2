@@ -3,6 +3,10 @@ package com.nous.rollingrevenue.vo;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.validation.constraints.NotBlank;
+
 public class FortnightlyMeetingVO implements Serializable{
 
 	/**
@@ -12,8 +16,10 @@ public class FortnightlyMeetingVO implements Serializable{
 
 	private Long meetingId;
 	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate meetingDate;
 	
+	@NotBlank(message = "FinancialYear cannot be null or empty")
 	private String financialYear;
 
 	public FortnightlyMeetingVO() {

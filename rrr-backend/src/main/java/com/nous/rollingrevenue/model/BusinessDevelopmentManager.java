@@ -1,8 +1,13 @@
 package com.nous.rollingrevenue.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
+import com.nous.rollingrevenue.model.converter.StringSetToStringConverter;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,10 +36,28 @@ public class BusinessDevelopmentManager {
 	private LocalDate activeUntil;
 
 	@Column(name = "linked_to_bu")
-	private String linkedToBusinessUnit;
-
+	@Convert(converter = StringSetToStringConverter.class)
+	private Set<String> linkedToBusinessUnit = new HashSet<>();
+	
 	@Column(name = "linked_to_region")
-	private String linkedToRegion;
+	@Convert(converter = StringSetToStringConverter.class)
+	private Set<String> linkedToRegion = new HashSet<>();
+
+	public BusinessDevelopmentManager() {
+		
+	}
+
+	public BusinessDevelopmentManager(Long bdmId, String bdmName, String bdmDisplayName, LocalDate activeFrom,
+			LocalDate activeUntil, Set<String> linkedToBusinessUnit, Set<String> linkedToRegion) {
+		super();
+		this.bdmId = bdmId;
+		this.bdmName = bdmName;
+		this.bdmDisplayName = bdmDisplayName;
+		this.activeFrom = activeFrom;
+		this.activeUntil = activeUntil;
+		this.linkedToBusinessUnit = linkedToBusinessUnit;
+		this.linkedToRegion = linkedToRegion;
+	}
 
 	public Long getBdmId() {
 		return bdmId;
@@ -76,37 +99,28 @@ public class BusinessDevelopmentManager {
 		this.activeUntil = activeUntil;
 	}
 
-	public String getLinkedToBusinessUnit() {
+	public Set<String> getLinkedToBusinessUnit() {
 		return linkedToBusinessUnit;
 	}
 
-	public void setLinkedToBusinessUnit(String linkedToBusinessUnit) {
+	public void setLinkedToBusinessUnit(Set<String> linkedToBusinessUnit) {
 		this.linkedToBusinessUnit = linkedToBusinessUnit;
 	}
 
-	public String getLinkedToRegion() {
+	public Set<String> getLinkedToRegion() {
 		return linkedToRegion;
 	}
 
-	public void setLinkedToRegion(String linkedToRegion) {
+	public void setLinkedToRegion(Set<String> linkedToRegion) {
 		this.linkedToRegion = linkedToRegion;
 	}
 
-	public BusinessDevelopmentManager() {
-		super();
-		// TODO Auto-generated constructor stub
+	@Override
+	public String toString() {
+		return "BusinessDevelopmentManager [bdmId=" + bdmId + ", bdmName=" + bdmName + ", bdmDisplayName="
+				+ bdmDisplayName + ", activeFrom=" + activeFrom + ", activeUntil=" + activeUntil
+				+ ", linkedToBusinessUnit=" + linkedToBusinessUnit + ", linkedToRegion=" + linkedToRegion + "]";
 	}
-
-	public BusinessDevelopmentManager(Long bdmId, String bdmName, String bdmDisplayName, LocalDate activeFrom,
-			LocalDate activeUntil, String linkedToBusinessUnit, String linkedToRegion) {
-		super();
-		this.bdmId = bdmId;
-		this.bdmName = bdmName;
-		this.bdmDisplayName = bdmDisplayName;
-		this.activeFrom = activeFrom;
-		this.activeUntil = activeUntil;
-		this.linkedToBusinessUnit = linkedToBusinessUnit;
-		this.linkedToRegion = linkedToRegion;
-	}
+	
 
 }

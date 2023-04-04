@@ -27,10 +27,10 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 	@NotBlank(message = "SBUName cannot be null or empty")
 	private String sbuName;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate activeFrom;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM/dd/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
 	private LocalDate activeUntil;
 
 	public StrategicBusinessUnitHeadVO() {
