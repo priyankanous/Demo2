@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -64,6 +65,14 @@ public class CocPracticeController {
 	@GetMapping
 	public WSResponse<List<CocPracticeVO>> getCocPractice() {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpracticeService.getAllCocPractice());
+	}
+	
+	@Operation(summary = "Get CocPractice By Pagination")
+	@GetMapping("/page")
+	public WSResponse<List<CocPracticeVO>> getCocPracticeByPagination(
+			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+			@RequestParam(defaultValue = "cocPracticeId", required = false) String sortBy) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpracticeService.getPagination(pagenumber, pagesize, sortBy));
 	}
 
 }

@@ -57,4 +57,7 @@ public interface OpportunityService {
 	public  OpportunityVO updateOpportunity(Long opportunityId, OpportunityVO opportunityVO);
 
 
+	public List<OpportunityVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
+
 }

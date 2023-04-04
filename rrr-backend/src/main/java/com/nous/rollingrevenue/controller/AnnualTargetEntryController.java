@@ -87,4 +87,11 @@ public class AnnualTargetEntryController {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
+	@Operation(summary = "Get AnnualTargetEntry By Pagination")
+	@GetMapping("/page")
+	public WSResponse<List<AnnualTargetEntryVO>> getAnnualTargetEntryByPagination(
+			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+			@RequestParam(defaultValue = "annualTargetEntryId", required = false) String sortBy) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, annualTargetEntryService.getPagination(pagenumber, pagesize, sortBy));
+	}
 }

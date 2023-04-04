@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -61,6 +62,14 @@ public class AccountController {
 	public WSResponse<String> deleteAccount(@PathVariable Long accountId) {
 		accountService.deleteAccountById(accountId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
+	}
+	
+	@Operation(summary = "Get Account By Pagination")
+	@GetMapping("/page")
+	public WSResponse<List<AccountVO>> getAccountByPagination(
+			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+			@RequestParam(defaultValue = "accountId", required = false) String sortBy) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, accountService.getPagination(pagenumber, pagesize, sortBy));
 	}
 
 }

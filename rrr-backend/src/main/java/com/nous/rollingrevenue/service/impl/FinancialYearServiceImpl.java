@@ -1,12 +1,17 @@
 package com.nous.rollingrevenue.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -90,6 +95,20 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 			fortnightlyMeetingService.generateFortnightlyMeetingsOfFinancialYear(savedFinancialYearVO);
 		}
 		return savedFinancialYearVO;
+	}
+	
+	@Override
+	public List<FinancialYearVO> getPagination(int pagenumber, int pagesize, String sortBy) {
+		List<FinancialYearVO> financialYearVOs = new ArrayList<>();
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Page<FinancialYear> pageResult = financialYearRepository.findAll(paging);
+		if (pageResult.hasContent()) {
+			pageResult.getContent().stream().forEach(e -> {
+				financialYearVOs.add(FinancialYearConverter.convertFinancialYearToFinancialYearVO(e));
+			});
+			return financialYearVOs;
+		}
+		return Collections.emptyList();
 	}
 
 }

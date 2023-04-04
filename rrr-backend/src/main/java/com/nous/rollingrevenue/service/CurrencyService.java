@@ -57,4 +57,7 @@ public interface CurrencyService {
 	public  CurrencyVO updateCurrency(Long currencyId, CurrencyVO currencyVO);
 
 
+	public List<CurrencyVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
+
 }

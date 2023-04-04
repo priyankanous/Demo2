@@ -56,4 +56,7 @@ public interface ProbabilityTypeService {
 
 	public  ProbabilityTypeVO updateProbabilityType(Long probabilityTypeId, ProbabilityTypeVO probabilityTypeVO);
 
+
+	public List<ProbabilityTypeVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

@@ -46,4 +46,6 @@ public interface BusinessUnitService {
 	 */
 	public BusinessUnitVO updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO);
 
+	public List<BusinessUnitVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

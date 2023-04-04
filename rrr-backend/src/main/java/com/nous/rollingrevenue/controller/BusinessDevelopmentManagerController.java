@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -60,6 +61,15 @@ public class BusinessDevelopmentManagerController {
 	@GetMapping
 	public WSResponse<List<BDMVO>> getBDMDetails() {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, businessDevelopmentManagerService.getBDM());
+	}
+	
+	@Operation(summary = "Get BusinessDevelopmentManager By Pagination")
+	@GetMapping("/page")
+	public WSResponse<List<BDMVO>> getBusinessDevelopmentManagerPagination(
+			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+			@RequestParam(defaultValue = "bdmId", required = false) String sortBy) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				businessDevelopmentManagerService.getPagination(pagenumber, pagesize, sortBy));
 	}
 
 }

@@ -46,4 +46,6 @@ public interface BusinessDevelopmentManagerService {
 	 */
 	public List<BDMVO> getBDM();
 
+	public List<BDMVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

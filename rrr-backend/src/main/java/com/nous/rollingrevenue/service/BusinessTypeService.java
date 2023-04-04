@@ -56,4 +56,7 @@ public interface BusinessTypeService {
 
 	public  BusinessTypeVO updateBusinessType(Long businessTypeId, BusinessTypeVO businessTypeVO);
 
+
+	public List<BusinessTypeVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

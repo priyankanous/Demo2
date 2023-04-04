@@ -1,11 +1,16 @@
 package com.nous.rollingrevenue.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -65,6 +70,20 @@ public class AccountServiceImpl implements AccountService {
 		account.setLocation(accountVO.getLocation());
 		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
 
+	}
+	
+	@Override
+	public List<AccountVO> getPagination(int pagenumber, int pagesize, String sortBy) {
+		List<AccountVO> accountVOs = new ArrayList<>();
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Page<Account> pageResult = accountRepository.findAll(paging);
+		if (pageResult.hasContent()) {
+			pageResult.getContent().stream().forEach(e -> {
+				accountVOs.add(AccountConverter.convertAccountToAccountVO(e));
+			});
+			return accountVOs;
+		}
+		return Collections.emptyList();
 	}
 
 }

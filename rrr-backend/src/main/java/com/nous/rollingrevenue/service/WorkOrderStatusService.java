@@ -56,4 +56,7 @@ public interface WorkOrderStatusService {
 
 	public  WorkOrderStatusVO updateWorkOrderStatus(Long woStatusId, WorkOrderStatusVO woStatusVO);
 
+
+	public List<WorkOrderStatusVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

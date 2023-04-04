@@ -55,4 +55,7 @@ public interface RegionService {
 
 	public  RegionVO updateRegion(Long regionId, RegionVO regionVO);
 
+
+	public List<RegionVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
 }

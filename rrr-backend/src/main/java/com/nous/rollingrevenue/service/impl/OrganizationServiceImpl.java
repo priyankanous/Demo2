@@ -1,6 +1,7 @@
 package com.nous.rollingrevenue.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +32,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	OrganizationRepository organizationRepository;
 
 	@Override
+	@Transactional
 	public OrganizationVO addOrganization(OrganizationVO organizationVO) {
 		Organization organization = OrganizationConverter.convertOrganizationVOToOrganization(organizationVO);
 		return OrganizationConverter.convertOrganizationToOrganizationVO(organizationRepository.save(organization));
@@ -58,7 +64,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	@Transactional
 	public List<OrganizationVO> getAllOrganization() {
 		List<OrganizationVO> organizationVOs = new ArrayList<>();
 		organizationRepository.findAll().stream().forEach(organization -> {
@@ -69,14 +74,28 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "organizations", key = "id")
+	@CachePut(value = "organizations", key = "#id")
 	public OrganizationVO updateOrganization(Long id, OrganizationVO organizationVO) {
 		Organization organization = organizationRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		organization.setorgDisplayName(organizationVO.getorgDisplayName());
 		organization.setorgName(organizationVO.getorgName());
-		organization.setId(organizationVO.getId());
 		return OrganizationConverter.convertOrganizationToOrganizationVO(organizationRepository.save(organization));
 	}
+	
+	@Override
+	public List<OrganizationVO> getPagination(int pagenumber, int pagesize, String sortBy) {
+		List<OrganizationVO> organizationVOs = new ArrayList<>();
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Page<Organization> pageResult = organizationRepository.findAll(paging);
+		if (pageResult.hasContent()) {
+			pageResult.getContent().stream().forEach(e -> {
+				organizationVOs.add(OrganizationConverter.convertOrganizationToOrganizationVO(e));
+			});
+			return organizationVOs;
+		}
+		return Collections.emptyList();
+	}
+
 
 }
