@@ -53,6 +53,14 @@ public class GlobalMonthlyLeaveLossFactorController {
 				globalMonthlyLeaveLossFactorService.getLeaveLossFactorById(id));
 	}
 
+	@Operation(summary = "Get leave loss factor by FinancialYear")
+	@GetMapping(path = "/financial/{financialYear}")
+	public WSResponse<List<GlobalMonthlyLeaveLossFactorVO>> getLeaveLossFactorByFinancialYear(
+			@PathVariable @Valid String financialYear) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				globalMonthlyLeaveLossFactorService.getLeaveLossFactorByFinancialYear(financialYear));
+	}
+
 	@Operation(summary = "Remove leave loss factor")
 	@DeleteMapping(path = "{id}")
 	public WSResponse<String> removeLeaveLossFactor(@PathVariable @Valid Long id) {
@@ -67,13 +75,14 @@ public class GlobalMonthlyLeaveLossFactorController {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
 				globalMonthlyLeaveLossFactorService.getLeaveLossFactors());
 	}
-	
+
 	@Operation(summary = "Get  leave loss factors By Pagination")
 	@GetMapping("/page")
 	public WSResponse<List<GlobalMonthlyLeaveLossFactorVO>> getGlobalMonthlyLeaveLossFactorByPagination(
 			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "leaveLossFactorId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, globalMonthlyLeaveLossFactorService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				globalMonthlyLeaveLossFactorService.getPagination(pagenumber, pagesize, sortBy));
 	}
 
 }
