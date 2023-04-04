@@ -31,6 +31,15 @@ public interface GlobalMonthlyLeaveLossFactorService {
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
 	public GlobalMonthlyLeaveLossFactorVO getLeaveLossFactorById(Long id);
+	
+	/**
+	 * Get the Global monthly leave loss factor details
+	 * 
+	 * @param financialYear
+	 * @return Global monthly leave loss factor. Throws
+	 *         {@link RecordNotFoundException} if no match is found
+	 */
+	public List<GlobalMonthlyLeaveLossFactorVO> getLeaveLossFactorByFinancialYear(String financialYear);
 
 	/**
 	 * Delete an Global monthly leave loss factor record

@@ -79,7 +79,7 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 		});
 		return leaveLossFactorVOs;
 	}
-	
+
 	@Override
 	public List<GlobalMonthlyLeaveLossFactorVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<GlobalMonthlyLeaveLossFactorVO> globalMonthlyLeaveLossFactorVOs = new ArrayList<>();
@@ -87,11 +87,21 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 		Page<GlobalMonthlyLeaveLossFactor> pageResult = globalMonthlyLeaveLossFactorRepository.findAll(paging);
 		if (pageResult.hasContent()) {
 			pageResult.getContent().stream().forEach(e -> {
-				globalMonthlyLeaveLossFactorVOs.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(e));
+				globalMonthlyLeaveLossFactorVOs
+						.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(e));
 			});
 			return globalMonthlyLeaveLossFactorVOs;
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	public List<GlobalMonthlyLeaveLossFactorVO> getLeaveLossFactorByFinancialYear(String financialYear) {
+		List<GlobalMonthlyLeaveLossFactorVO> leaveLossFactorVOs = new ArrayList<>();
+		globalMonthlyLeaveLossFactorRepository.findByFinancialYear(financialYear).stream().forEach(leaveLossFactor -> {
+			leaveLossFactorVOs.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(leaveLossFactor));
+		});
+		return leaveLossFactorVOs;
 	}
 
 }
