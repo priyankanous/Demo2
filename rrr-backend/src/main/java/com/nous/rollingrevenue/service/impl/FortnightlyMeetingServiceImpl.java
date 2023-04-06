@@ -66,7 +66,7 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 		fortnightlyMeetingRepository.deleteAll(fortnightlyMeetingRepository.findByFinancialYear(financialYear));
 	}
 	
-
+	//Generate Recurring dates of Alternate Friday based on FinancialYear Start and End Date
 	private List<LocalDate> generateRecurringDates(LocalDate startDate, LocalDate endDate) {
 		List<LocalDate> recurringDates = new ArrayList<>();
 		LocalDate tempDate = startDate;

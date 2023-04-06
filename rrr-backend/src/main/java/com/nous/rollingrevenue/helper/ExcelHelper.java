@@ -1,5 +1,6 @@
 package com.nous.rollingrevenue.helper;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -87,43 +88,43 @@ public class ExcelHelper {
 								(cell.getStringCellValue().isBlank()) ? null : cell.getStringCellValue());
 						break;
 					case 9:
-						annualTargetEntryVO.setQ1FYB((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ1FYB(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 10:
-						annualTargetEntryVO.setQ1FYS((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ1FYS(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 11:
-						annualTargetEntryVO.setQ1FYT((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ1FYT(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 12:
-						annualTargetEntryVO.setQ2FYB((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ2FYB(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 13:
-						annualTargetEntryVO.setQ2FYS((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ2FYS(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 14:
-						annualTargetEntryVO.setQ2FYT((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ2FYT(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 15:
-						annualTargetEntryVO.setQ3FYB((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ3FYB(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 16:
-						annualTargetEntryVO.setQ3FYS((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ3FYS(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 17:
-						annualTargetEntryVO.setQ3FYT((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ3FYT(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 18:
-						annualTargetEntryVO.setQ4FYB((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ4FYB(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 19:
-						annualTargetEntryVO.setQ4FYS((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ4FYS(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 20:
-						annualTargetEntryVO.setQ4FYT((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setQ4FYT(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					case 21:
-						annualTargetEntryVO.setFY((long) cell.getNumericCellValue());
+						annualTargetEntryVO.setFY(BigDecimal.valueOf(cell.getNumericCellValue()).toBigInteger());
 						break;
 					default:
 						break;

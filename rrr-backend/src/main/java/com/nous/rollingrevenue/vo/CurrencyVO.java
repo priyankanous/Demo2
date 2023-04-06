@@ -1,6 +1,7 @@
 package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,7 +26,7 @@ public class CurrencyVO implements Serializable{
 	@NotBlank(message = "Symbol cannot be null or empty")
 	private String symbol;
 	
-	private Double conversionRate;
+	private BigDecimal conversionRate;
 	
 	@NotBlank(message = "FinancialYear cannot be null or empty")
 	private String financialYear;
@@ -37,7 +38,7 @@ public class CurrencyVO implements Serializable{
 
 	}
 
-	public CurrencyVO(Long currencyId, String currency, String currencyName, String symbol, Double conversionRate,
+	public CurrencyVO(Long currencyId, String currency, String currencyName, String symbol, BigDecimal conversionRate,
 			String financialYear, String baseCurrency) {
 		this.currencyId = currencyId;
 		this.currency = currency;
@@ -80,11 +81,11 @@ public class CurrencyVO implements Serializable{
 		this.symbol = symbol;
 	}
 
-	public Double getConversionRate() {
+	public BigDecimal getConversionRate() {
 		return conversionRate;
 	}
 
-	public void setConversionRate(Double conversionRate) {
+	public void setConversionRate(BigDecimal conversionRate) {
 		this.conversionRate = conversionRate;
 	}
 

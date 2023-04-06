@@ -54,7 +54,7 @@ public class GlobalMonthlyLeaveLossFactorController {
 	}
 
 	@Operation(summary = "Get leave loss factor by FinancialYear")
-	@GetMapping(path = "/financial/{financialYear}")
+	@GetMapping(path = "/financial-year/{financialYear}")
 	public WSResponse<List<GlobalMonthlyLeaveLossFactorVO>> getLeaveLossFactorByFinancialYear(
 			@PathVariable @Valid String financialYear) {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,

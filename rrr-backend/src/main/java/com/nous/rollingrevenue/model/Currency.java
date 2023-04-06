@@ -1,7 +1,12 @@
 package com.nous.rollingrevenue.model;
 
+import java.math.BigDecimal;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -9,7 +14,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "currency")
-public class Currency {
+@EntityListeners(AuditingEntityListener.class)
+public class Currency extends Auditable<String> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +32,7 @@ public class Currency {
 	private String symbol;
 
 	@Column(name = "conversion_rate")
-	private Double conversionRate;
+	private BigDecimal conversionRate;
 
 	@Column(name = "financial_year")
 	private String financialYear;
@@ -38,7 +44,7 @@ public class Currency {
 
 	}
 
-	public Currency(Long currencyId, String currency, String currencyName, String symbol, Double conversionRate,
+	public Currency(Long currencyId, String currency, String currencyName, String symbol, BigDecimal conversionRate,
 			String financialYear, String baseCurrency) {
 		this.currencyId = currencyId;
 		this.currency = currency;
@@ -81,11 +87,11 @@ public class Currency {
 		this.symbol = symbol;
 	}
 
-	public Double getConversionRate() {
+	public BigDecimal getConversionRate() {
 		return conversionRate;
 	}
 
-	public void setConversionRate(Double conversionRate) {
+	public void setConversionRate(BigDecimal conversionRate) {
 		this.conversionRate = conversionRate;
 	}
 
