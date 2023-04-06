@@ -19,7 +19,7 @@ public class HolidayCalendarVO implements Serializable {
 
 	private String holidayName;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate holidayDate;
 	
 	private String holidayDay;

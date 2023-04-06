@@ -24,10 +24,10 @@ public class FinancialYearVO implements Serializable {
 	@NotBlank(message = "FinancialYearCustomName cannot be null or empty")
 	private String financialYearCustomName;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate startingFrom;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate endingOn;
 
 	public FinancialYearVO() {

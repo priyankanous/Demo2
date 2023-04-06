@@ -16,7 +16,7 @@ public class FortnightlyMeetingVO implements Serializable{
 
 	private Long meetingId;
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate meetingDate;
 	
 	@NotBlank(message = "FinancialYear cannot be null or empty")
