@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,7 +78,7 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 	@Override
 	public List<StrategicBusinessUnitVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<StrategicBusinessUnitVO> strategicBusinessUnitVOs = new ArrayList<>();
-		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<StrategicBusinessUnit> pageResult =  sbuRepository.findAll(paging);
 		if (pageResult.hasContent()) {
 			pageResult.getContent().stream().forEach(e -> {

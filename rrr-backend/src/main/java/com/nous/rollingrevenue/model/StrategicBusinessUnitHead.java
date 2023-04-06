@@ -2,8 +2,11 @@ package com.nous.rollingrevenue.model;
 
 import java.time.LocalDate;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,7 +14,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "strategic_business_unit_head")
-public class StrategicBusinessUnitHead {
+@EntityListeners(AuditingEntityListener.class)
+public class StrategicBusinessUnitHead extends Auditable<String> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

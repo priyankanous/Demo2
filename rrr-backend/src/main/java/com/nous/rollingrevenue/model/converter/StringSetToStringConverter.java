@@ -17,7 +17,7 @@ public class StringSetToStringConverter implements AttributeConverter<Set<String
 		if (attribute == null) {
 			return null;
 		}
-		return attribute.stream().collect(Collectors.joining(", "));
+		return attribute.stream().collect(Collectors.joining(DELIMITER));
 
 	}
 

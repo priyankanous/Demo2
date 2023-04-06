@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -100,7 +101,7 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	@Override
 	public List<FinancialYearVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<FinancialYearVO> financialYearVOs = new ArrayList<>();
-		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<FinancialYear> pageResult = financialYearRepository.findAll(paging);
 		if (pageResult.hasContent()) {
 			pageResult.getContent().stream().forEach(e -> {

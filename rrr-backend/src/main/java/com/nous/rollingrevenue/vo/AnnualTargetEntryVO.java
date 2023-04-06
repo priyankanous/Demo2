@@ -1,6 +1,7 @@
 package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -46,31 +47,31 @@ public class AnnualTargetEntryVO implements Serializable {
 	@NotBlank(message = "BusinessDevelopmentManager cannot be null or empty")
 	private String businessDevelopmentManager;
 
-	private Long Q1FYB;
+	private BigInteger Q1FYB;
 
-	private Long Q1FYS;
+	private BigInteger Q1FYS;
 
-	private Long Q1FYT;
+	private BigInteger Q1FYT;
 
-	private Long Q2FYB;
+	private BigInteger Q2FYB;
 
-	private Long Q2FYS;
+	private BigInteger Q2FYS;
 
-	private Long Q2FYT;
+	private BigInteger Q2FYT;
 	
-	private Long Q3FYB;
+	private BigInteger Q3FYB;
 
-	private Long Q3FYS;
+	private BigInteger Q3FYS;
 
-	private Long Q3FYT;
+	private BigInteger Q3FYT;
 	
-	private Long Q4FYB;
+	private BigInteger Q4FYB;
 
-	private Long Q4FYS;
+	private BigInteger Q4FYS;
 
-	private Long Q4FYT;
+	private BigInteger Q4FYT;
 
-	private Long FY;
+	private BigInteger FY;
 
 	public AnnualTargetEntryVO() {
 
@@ -87,8 +88,8 @@ public class AnnualTargetEntryVO implements Serializable {
 			@NotBlank(message = "BusinessTypeName cannot be null or empty") String businessType,
 			@NotBlank(message = "COCPractice cannot be null or empty") String cocPractice,
 			@NotBlank(message = "BusinessDevelopmentManager cannot be null or empty") String businessDevelopmentManager,
-			Long q1fyb, Long q1fys, Long q1fyt, Long q2fyb, Long q2fys, Long q2fyt, Long q3fyb, Long q3fys, Long q3fyt,
-			Long q4fyb, Long q4fys, Long q4fyt, Long fY) {
+			BigInteger q1fyb, BigInteger q1fys, BigInteger q1fyt, BigInteger q2fyb, BigInteger q2fys, BigInteger q2fyt, BigInteger q3fyb, BigInteger q3fys, BigInteger q3fyt,
+			BigInteger q4fyb, BigInteger q4fys, BigInteger q4fyt, BigInteger fY) {
 		super();
 		this.annualTargetEntryId = annualTargetEntryId;
 		this.financialYear = financialYear;
@@ -204,113 +205,110 @@ public class AnnualTargetEntryVO implements Serializable {
 		this.businessDevelopmentManager = businessDevelopmentManager;
 	}
 
-	public Long getQ1FYB() {
+	public BigInteger getQ1FYB() {
 		return Q1FYB;
 	}
 
-	public void setQ1FYB(Long q1fyb) {
+	public void setQ1FYB(BigInteger q1fyb) {
 		Q1FYB = q1fyb;
 	}
 
-	public Long getQ1FYS() {
+	public BigInteger getQ1FYS() {
 		return Q1FYS;
 	}
 
-	public void setQ1FYS(Long q1fys) {
+	public void setQ1FYS(BigInteger q1fys) {
 		Q1FYS = q1fys;
 	}
 
-	public Long getQ1FYT() {
+	public BigInteger getQ1FYT() {
 		return Q1FYT;
 	}
 
-	public void setQ1FYT(Long q1fyt) {
+	public void setQ1FYT(BigInteger q1fyt) {
 		Q1FYT = q1fyt;
 	}
 
-	public Long getQ2FYB() {
+	public BigInteger getQ2FYB() {
 		return Q2FYB;
 	}
 
-	public void setQ2FYB(Long q2fyb) {
+	public void setQ2FYB(BigInteger q2fyb) {
 		Q2FYB = q2fyb;
 	}
 
-	public Long getQ2FYS() {
+	public BigInteger getQ2FYS() {
 		return Q2FYS;
 	}
 
-	public void setQ2FYS(Long q2fys) {
+	public void setQ2FYS(BigInteger q2fys) {
 		Q2FYS = q2fys;
 	}
 
-	public Long getQ2FYT() {
+	public BigInteger getQ2FYT() {
 		return Q2FYT;
 	}
 
-	public void setQ2FYT(Long q2fyt) {
+	public void setQ2FYT(BigInteger q2fyt) {
 		Q2FYT = q2fyt;
 	}
 
-	public Long getQ3FYB() {
+	public BigInteger getQ3FYB() {
 		return Q3FYB;
 	}
 
-	public void setQ3FYB(Long q3fyb) {
+	public void setQ3FYB(BigInteger q3fyb) {
 		Q3FYB = q3fyb;
 	}
 
-	public Long getQ3FYS() {
+	public BigInteger getQ3FYS() {
 		return Q3FYS;
 	}
 
-	public void setQ3FYS(Long q3fys) {
+	public void setQ3FYS(BigInteger q3fys) {
 		Q3FYS = q3fys;
 	}
 
-	public Long getQ3FYT() {
+	public BigInteger getQ3FYT() {
 		return Q3FYT;
 	}
 
-	public void setQ3FYT(Long q3fyt) {
+	public void setQ3FYT(BigInteger q3fyt) {
 		Q3FYT = q3fyt;
 	}
 
-	public Long getQ4FYB() {
+	public BigInteger getQ4FYB() {
 		return Q4FYB;
 	}
 
-	public void setQ4FYB(Long q4fyb) {
+	public void setQ4FYB(BigInteger q4fyb) {
 		Q4FYB = q4fyb;
 	}
 
-	public Long getQ4FYS() {
+	public BigInteger getQ4FYS() {
 		return Q4FYS;
 	}
 
-	public void setQ4FYS(Long q4fys) {
+	public void setQ4FYS(BigInteger q4fys) {
 		Q4FYS = q4fys;
 	}
 
-	public Long getQ4FYT() {
+	public BigInteger getQ4FYT() {
 		return Q4FYT;
 	}
 
-	public void setQ4FYT(Long q4fyt) {
+	public void setQ4FYT(BigInteger q4fyt) {
 		Q4FYT = q4fyt;
 	}
 
-	public Long getFY() {
+	public BigInteger getFY() {
 		return FY;
 	}
 
-	public void setFY(Long fY) {
+	public void setFY(BigInteger fY) {
 		FY = fY;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 
 	@Override
 	public String toString() {

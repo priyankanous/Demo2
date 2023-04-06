@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -86,7 +87,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public List<OrganizationVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<OrganizationVO> organizationVOs = new ArrayList<>();
-		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<Organization> pageResult = organizationRepository.findAll(paging);
 		if (pageResult.hasContent()) {
 			pageResult.getContent().stream().forEach(e -> {

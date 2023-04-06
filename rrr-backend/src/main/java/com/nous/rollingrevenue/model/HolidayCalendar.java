@@ -1,8 +1,12 @@
 package com.nous.rollingrevenue.model;
 
 import java.time.LocalDate;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -10,7 +14,22 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "holiday_calendar")
-public class HolidayCalendar {
+@EntityListeners(AuditingEntityListener.class)
+public class HolidayCalendar extends Auditable<String> {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "holiday_id")
+	private Long holidayId;
+
+	@Column(name = "holiday_name")
+	private String holidayName;
+
+	@Column(name = "holiday_date")
+	private LocalDate holidayDate;
+
+	@Column(name = "holiday_day")
+	private String holidayDay;
 
 	public HolidayCalendar() {
 		super();
@@ -23,20 +42,6 @@ public class HolidayCalendar {
 		this.holidayDate = holidayDate;
 		this.holidayDay = holidayDay;
 	}
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "holiday_id")
-	private Long holidayId;
-
-	@Column(name = "holiday_name")
-	private String holidayName;
-
-	@Column(name = "holiday_date")
-	private LocalDate holidayDate;
-	
-	@Column(name = "holiday_day")
-	private String holidayDay;
 
 	public Long getHolidayId() {
 		return holidayId;
@@ -71,4 +76,3 @@ public class HolidayCalendar {
 	}
 
 }
-

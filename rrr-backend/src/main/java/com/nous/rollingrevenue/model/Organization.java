@@ -1,19 +1,20 @@
 package com.nous.rollingrevenue.model;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-/**
- * @author Nous Infosystems
- *
- */
 @Entity
 @Table(name = "ORGANIZATION")
-public class Organization {
+@EntityListeners(AuditingEntityListener.class)
+public class Organization extends Auditable<String> {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "org_id")
@@ -88,8 +89,7 @@ public class Organization {
 
 	@Override
 	public String toString() {
-		return "Organization [id =" + id + "   org disaply name=" + orgDisplayName + " org Name=" + orgName +"]";
+		return "Organization [id =" + id + "   org disaply name=" + orgDisplayName + " org Name=" + orgName + "]";
 	}
 
 }
-

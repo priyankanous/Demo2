@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -113,7 +114,7 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 	@Override
 	public List<AnnualTargetEntryVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<AnnualTargetEntryVO> annualTargetEntryVOs = new ArrayList<>();
-		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(sortBy));
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<AnnualTargetEntry> pageResult = annualTargetEntryRepository.findAll(paging);
 		if (pageResult.hasContent()) {
 			pageResult.getContent().stream().forEach(e -> {
