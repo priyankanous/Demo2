@@ -26,9 +26,10 @@ import com.nous.rollingrevenue.vo.CurrencyVO;
 @Service
 @Transactional(readOnly = true)
 public class CurrencyServiceImpl implements CurrencyService {
-	
+
 	@Autowired
 	private CurrencyRepository currencyRepository;
+	private Currency Currency;
 
 	@Override
 	public List<CurrencyVO> getAllCurrency() {
@@ -47,7 +48,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "currency", key= "#currencyId")
+	@CacheEvict(value = "currency", key = "#currencyId")
 	public void deleteCurrencyById(Long currencyId) {
 		currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
@@ -58,7 +59,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@Cacheable(value = "currency", key = "#currencyId")
 	public CurrencyVO getCurrencyById(Long currencyId) {
 		Currency currency = currencyRepository.findById(currencyId)
-                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
 		return CurrencyConverter.convertCurrencyToCurrencyVO(currency);
 	}
 
@@ -76,7 +77,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 		currency.setBaseCurrency(currencyVO.getBaseCurrency());
 		return CurrencyConverter.convertCurrencyToCurrencyVO(currencyRepository.save(currency));
 	}
-	
+
 	@Override
 	public List<CurrencyVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<CurrencyVO> currencyVOs = new ArrayList<>();
@@ -89,6 +90,15 @@ public class CurrencyServiceImpl implements CurrencyService {
 			return currencyVOs;
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	public List<CurrencyVO> getCurrencyByFinancialYear(String financialYear) {
+		List<CurrencyVO> currencyVOs = new ArrayList<>();
+		currencyRepository.findByFinancialYear(financialYear).stream().forEach(currency -> {
+			currencyVOs.add(CurrencyConverter.convertCurrencyToCurrencyVO(currency));
+		});
+		return currencyVOs;
 	}
 
 }

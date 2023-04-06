@@ -71,5 +71,13 @@ public class CurrencyController {
 			@RequestParam(defaultValue = "currencyId", required = false) String sortBy) {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, currencyService.getPagination(pagenumber, pagesize, sortBy));
 	}
+	
+	@Operation(summary = "Get Currency By FinancialYear")
+	@GetMapping(path = "/financialyear/{year}")
+	public WSResponse<List<CurrencyVO>> getCurrencyByFinancialYear(
+			@PathVariable @Valid String year) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				currencyService.getCurrencyByFinancialYear(year));
+	}
 
 }

@@ -58,6 +58,16 @@ public interface CurrencyService {
 
 
 	public List<CurrencyVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	
+	/**
+	 * Get the Currency details
+	 * 
+	 * @param financialYear
+	 * @return Currency. Throws
+	 *         {@link RecordNotFoundException} if no match is found
+	 */
+	public List<CurrencyVO> getCurrencyByFinancialYear(String financialYear);
 
 
 }
