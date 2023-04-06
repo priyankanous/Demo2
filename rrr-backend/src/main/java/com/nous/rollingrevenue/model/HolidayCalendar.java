@@ -30,17 +30,22 @@ public class HolidayCalendar extends Auditable<String> {
 
 	@Column(name = "holiday_day")
 	private String holidayDay;
+	
+	@Column(name = "financial_year")
+	private String financialYear;
+
 
 	public HolidayCalendar() {
 		super();
 	}
 
-	public HolidayCalendar(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay) {
+	public HolidayCalendar(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay, String financialYear) {
 		super();
 		this.holidayId = holidayId;
 		this.holidayName = holidayName;
 		this.holidayDate = holidayDate;
 		this.holidayDay = holidayDay;
+		this.financialYear = financialYear;
 	}
 
 	public Long getHolidayId() {
@@ -73,6 +78,14 @@ public class HolidayCalendar extends Auditable<String> {
 
 	public void setHolidayDay(String holidayDay) {
 		this.holidayDay = holidayDay;
+	}
+
+	public String getFinancialYear() {
+		return financialYear;
+	}
+
+	public void setFinancialYear(String financialYear) {
+		this.financialYear = financialYear;
 	}
 
 }

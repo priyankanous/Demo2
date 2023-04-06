@@ -23,6 +23,7 @@ public class HolidayCalendarConverter {
 			holidayCalendar.setHolidayName(holidayCalendarVO.getHolidayName());
 			holidayCalendar.setHolidayDate(holidayCalendarVO.getHolidayDate());
 			holidayCalendar.setHolidayDay(holidayCalendarVO.getHolidayDay());
+			holidayCalendar.setFinancialYear(holidayCalendarVO.getFinancialYear());
 
 		}
 		return holidayCalendar;
@@ -41,6 +42,7 @@ public class HolidayCalendarConverter {
 			holidayCalendarVO.setHolidayName(holidayCalendar.getHolidayName());
 			holidayCalendarVO.setHolidayDate(holidayCalendar.getHolidayDate());
 			holidayCalendarVO.setHolidayDay(holidayCalendar.getHolidayDay());
+			holidayCalendarVO.setFinancialYear(holidayCalendar.getFinancialYear());
 		}
 		return holidayCalendarVO;
 	}

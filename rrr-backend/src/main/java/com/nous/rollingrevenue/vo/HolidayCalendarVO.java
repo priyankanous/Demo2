@@ -23,6 +23,17 @@ public class HolidayCalendarVO implements Serializable {
 	private LocalDate holidayDate;
 	
 	private String holidayDay;
+	
+	private String financialYear;
+	
+
+	public String getFinancialYear() {
+		return financialYear;
+	}
+
+	public void setFinancialYear(String financialYear) {
+		this.financialYear = financialYear;
+	}
 
 	public Long getHolidayId() {
 		return holidayId;
@@ -56,6 +67,7 @@ public class HolidayCalendarVO implements Serializable {
 		this.holidayDay = holidayDay;
 	}
 
+	
 	
 }
 

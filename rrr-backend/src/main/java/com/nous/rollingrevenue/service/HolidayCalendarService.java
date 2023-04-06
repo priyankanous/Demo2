@@ -5,6 +5,8 @@ import java.util.List;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.vo.HolidayCalendarVO;
 
+import jakarta.validation.Valid;
+
 public interface HolidayCalendarService {
 
 	/**
@@ -47,5 +49,7 @@ public interface HolidayCalendarService {
 	public List<HolidayCalendarVO> getCalendars();
 
 	List<HolidayCalendarVO> getPagination(int pagenumber, int pagesize, String sortBy);
+
+	List<HolidayCalendarVO> getHolidayCalendarByFinancialYear(@Valid String financialyear);
 
 }

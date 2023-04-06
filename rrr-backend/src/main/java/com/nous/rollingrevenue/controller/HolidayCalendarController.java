@@ -70,6 +70,14 @@ public class HolidayCalendarController {
 			@RequestParam(defaultValue = "holidayId", required = false) String sortBy) {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendarService.getPagination(pagenumber, pagesize, sortBy));
 	}
+	
+	@Operation(summary = "Get Calendar By FinancialYear")
+	@GetMapping(path = "/financialyear/{financialyear}")
+	public WSResponse<List<HolidayCalendarVO>> getHolidayCalendarByFinancialYear(
+			@PathVariable String financialyear) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				holidayCalendarService.getHolidayCalendarByFinancialYear(financialyear));
+	}
 
 }
 
