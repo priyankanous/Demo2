@@ -36,15 +36,21 @@ public class Account extends Auditable<String> {
 	@Convert(converter = StringSetToStringConverter.class)
 	private Set<String> location = new HashSet<>();
 
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
+
 	public Account() {
 
 	}
 
-	public Account(Long accountId, String accountName, String accountOrClientCode, Set<String> location) {
+	public Account(Long accountId, String accountName, String accountOrClientCode, Set<String> location,
+			boolean isActive) {
+		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
 		this.accountOrClientCode = accountOrClientCode;
 		this.location = location;
+		this.isActive = isActive;
 	}
 
 	public Long getAccountId() {
@@ -79,10 +85,18 @@ public class Account extends Auditable<String> {
 		this.location = location;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "Account [accountId=" + accountId + ", accountName=" + accountName + ", accountOrClientCode="
-				+ accountOrClientCode + ", location=" + location + "]";
+				+ accountOrClientCode + ", location=" + location + ", isActive=" + isActive + "]";
 	}
 
 }

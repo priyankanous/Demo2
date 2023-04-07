@@ -58,6 +58,12 @@ public interface PricingTypeService {
 
 
 	public List<PricingTypeVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public PricingTypeVO activateOrDeactivateById(Long id);
 
 
 }

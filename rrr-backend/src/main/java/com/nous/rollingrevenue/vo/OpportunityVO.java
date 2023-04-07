@@ -33,18 +33,22 @@ public class OpportunityVO implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectEndDate;
 
+	private boolean isActive;
+
 	public OpportunityVO() {
 
 	}
 
 	public OpportunityVO(Long opportunityId, String opportunityName, String childOfAccount, String projectCode,
-			LocalDate projectStartDate, LocalDate projectEndDate) {
+			LocalDate projectStartDate, LocalDate projectEndDate, boolean isActive) {
+		super();
 		this.opportunityId = opportunityId;
 		this.opportunityName = opportunityName;
 		this.childOfAccount = childOfAccount;
 		this.projectCode = projectCode;
 		this.projectStartDate = projectStartDate;
 		this.projectEndDate = projectEndDate;
+		this.isActive = isActive;
 	}
 
 	public Long getOpportunityId() {
@@ -95,11 +99,20 @@ public class OpportunityVO implements Serializable {
 		this.projectEndDate = projectEndDate;
 	}
 
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "OpportunityVO [opportunityId=" + opportunityId + ", opportunityName=" + opportunityName
 				+ ", childOfAccount=" + childOfAccount + ", projectCode=" + projectCode + ", projectStartDate="
-				+ projectStartDate + ", projectEndDate=" + projectEndDate + "]";
+				+ projectStartDate + ", projectEndDate=" + projectEndDate + ", isActive=" + isActive + "]";
 	}
 	
 

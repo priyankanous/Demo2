@@ -96,5 +96,15 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 		}
 		return Collections.emptyList();
 	}
+	
+	@Override
+	@Transactional
+	@CachePut(value = "bdm", key = "#bdmId")
+	public BDMVO activateOrDeactivateById(Long bdmId) {
+		BusinessDevelopmentManager bdm = businessDevelopmentManagerRepository.findById(bdmId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmId));
+		bdm.setActive(!bdm.isActive());
+		return BusinessDevelopmentManagerConverter.convertBdmToBdmVO(businessDevelopmentManagerRepository.save(bdm));
+	}
 
 }

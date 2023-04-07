@@ -20,6 +20,7 @@ public class ProbabilityTypeConverter {
 		if (probabilityTypeVO != null) {
 			if (probabilityTypeVO.getProbabilityTypeId() != null) {
 				probabilityType.setProbabilityTypeId(probabilityTypeVO.getProbabilityTypeId());
+				probabilityType.setActive(probabilityTypeVO.isActive());
 			}
 			probabilityType.setProbabilityTypeName(probabilityTypeVO.getProbabilityTypeName());
 			probabilityType.setPercentage(probabilityTypeVO.getPercentage());
@@ -41,6 +42,7 @@ public class ProbabilityTypeConverter {
 			probabilityTypeVO.setProbabilityTypeId(probabilityType.getProbabilityTypeId());
 			probabilityTypeVO.setProbabilityTypeName(probabilityType.getProbabilityTypeName());
 			probabilityTypeVO.setPercentage(probabilityType.getPercentage());
+			probabilityTypeVO.setActive(probabilityType.isActive());
 		}
 		return probabilityTypeVO;
 	}

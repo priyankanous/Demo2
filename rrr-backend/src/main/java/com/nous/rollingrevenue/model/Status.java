@@ -26,14 +26,19 @@ public class Status extends Auditable<String> {
 	@Column(name = "status_display_name")
 	private String statusDisplayName;
 
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
+
 	public Status() {
 
 	}
 
-	public Status(Long statusId, String statusName, String statusDisplayName) {
+	public Status(Long statusId, String statusName, String statusDisplayName, boolean isActive) {
+		super();
 		this.statusId = statusId;
 		this.statusName = statusName;
 		this.statusDisplayName = statusDisplayName;
+		this.isActive = isActive;
 	}
 
 	public Long getStatusId() {
@@ -60,11 +65,18 @@ public class Status extends Auditable<String> {
 		this.statusDisplayName = statusDisplayName;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "Status [statusId=" + statusId + ", statusName=" + statusName + ", statusDisplayName="
-				+ statusDisplayName + "]";
+				+ statusDisplayName + ", isActive=" + isActive + "]";
 	}
-	
 
 }

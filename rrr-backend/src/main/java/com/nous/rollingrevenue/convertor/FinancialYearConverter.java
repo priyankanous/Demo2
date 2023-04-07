@@ -20,6 +20,7 @@ public class FinancialYearConverter {
 		if (financialYearVO != null) {
 			if (financialYearVO.getFinancialYearId() != null) {
 				financialYear.setFinancialYearId(financialYearVO.getFinancialYearId());
+				financialYear.setActive(financialYearVO.isActive());
 			}
 			financialYear.setFinancialYearName(financialYearVO.getFinancialYearName());
 			financialYear.setFinancialYearCustomName(financialYearVO.getFinancialYearCustomName());
@@ -45,6 +46,7 @@ public class FinancialYearConverter {
 			financialYearVO.setFinancialYearCustomName(financialYear.getFinancialYearCustomName());
 			financialYearVO.setStartingFrom(financialYear.getStartingFrom());
 			financialYearVO.setEndingOn(financialYear.getEndingOn());
+			financialYearVO.setActive(financialYear.isActive());
 		}
 		return financialYearVO;
 	}

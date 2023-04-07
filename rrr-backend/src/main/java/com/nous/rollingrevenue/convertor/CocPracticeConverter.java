@@ -22,6 +22,7 @@ public class CocPracticeConverter {
 		if (cocpracticeVO != null) {
 			if (cocpracticeVO.getCocPracticeId() != null) {
 				cocpractice.setCocPracticeId(cocpracticeVO.getCocPracticeId());
+				cocpractice.setActive(cocpracticeVO.isActive());
 			}
 			cocpractice.setCocPracticeId(cocpracticeVO.getCocPracticeId());
 			cocpractice.setCocPracticeName(cocpracticeVO.getCocPracticeName());
@@ -46,6 +47,7 @@ public class CocPracticeConverter {
 			cocpracticeVO.setCocPracticeName(cocpractice.getCocPracticeName());
 			cocpracticeVO.setCocPracticeDisplayName(cocpractice.getCocPracticeDisplayName());
 			cocpracticeVO.setBuDisplayName(cocpractice.getBuDisplayName());
+			cocpracticeVO.setActive(cocpractice.isActive());
 		}
 
 		return cocpracticeVO;

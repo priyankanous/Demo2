@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 
 public class StrategicBusinessUnitHeadVO implements Serializable {
-	
+
 	/**
 	 * Serial Version ID
 	 */
@@ -17,7 +17,7 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long sbuHeadId;
-	
+
 	@NotBlank(message = "SBUHeadName cannot be null or empty")
 	private String sbuHeadName;
 
@@ -33,12 +33,14 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate activeUntil;
 
+	private boolean isActive;
+
 	public StrategicBusinessUnitHeadVO() {
 
 	}
 
 	public StrategicBusinessUnitHeadVO(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName, String sbuName,
-			LocalDate activeFrom, LocalDate activeUntil) {
+			LocalDate activeFrom, LocalDate activeUntil, boolean isActive) {
 		super();
 		this.sbuHeadId = sbuHeadId;
 		this.sbuHeadName = sbuHeadName;
@@ -46,6 +48,7 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 		this.sbuName = sbuName;
 		this.activeFrom = activeFrom;
 		this.activeUntil = activeUntil;
+		this.isActive = isActive;
 	}
 
 	public Long getSbuHeadId() {
@@ -96,12 +99,21 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 		this.activeUntil = activeUntil;
 	}
 
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "StrategicBusinessUnitHeadVO [sbuHeadId=" + sbuHeadId + ", sbuHeadName=" + sbuHeadName
 				+ ", sbuHeadDisplayName=" + sbuHeadDisplayName + ", sbuName=" + sbuName + ", activeFrom=" + activeFrom
-				+ ", activeUntil=" + activeUntil + "]";
+				+ ", activeUntil=" + activeUntil + ", isActive=" + isActive + "]";
 	}
-
 	
+
 }

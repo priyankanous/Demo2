@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/sbu")
 @CrossOrigin(origins = "*")
 public class StrategicBusinessUnitController {
-	
+
 	@Autowired
 	private StrategicBusinessUnitService sbuService;
 
@@ -37,33 +37,33 @@ public class StrategicBusinessUnitController {
 		List<StrategicBusinessUnitVO> sbuVO = sbuService.getAllSBU();
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuVO);
 	}
-	
+
 	@Operation(summary = "Save SBU")
 	@PostMapping
 	public WSResponse<StrategicBusinessUnitVO> saveSBU(@RequestBody @Valid StrategicBusinessUnitVO sbuVO) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuService.saveSBU(sbuVO));
 	}
-	
+
 	@Operation(summary = "Get SBU by Id")
 	@GetMapping(path = "{sbuId}")
 	public WSResponse<StrategicBusinessUnitVO> getSBUById(@PathVariable Long sbuId) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuService.getSBUById(sbuId));
 	}
-	
+
 	@Operation(summary = "Update SBU by Id")
 	@PutMapping(path = "{sbuId}")
-	public WSResponse<StrategicBusinessUnitVO> updateSBU(@PathVariable Long sbuId, @RequestBody @Valid StrategicBusinessUnitVO sbuVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				sbuService.updateSBU(sbuId, sbuVO));
+	public WSResponse<StrategicBusinessUnitVO> updateSBU(@PathVariable Long sbuId,
+			@RequestBody @Valid StrategicBusinessUnitVO sbuVO) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuService.updateSBU(sbuId, sbuVO));
 	}
-	
+
 	@Operation(summary = "Delete SBU by Id")
 	@DeleteMapping(path = "{sbuId}")
 	public WSResponse<String> deleteSBU(@PathVariable Long sbuId) {
 		sbuService.deleteSBUById(sbuId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
+
 	@Operation(summary = "Get SBU By Pagination")
 	@GetMapping("/page")
 	public WSResponse<List<StrategicBusinessUnitVO>> getStrategicBusinessUnitByPagination(
@@ -72,5 +72,11 @@ public class StrategicBusinessUnitController {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, sbuService.getPagination(pagenumber, pagesize, sortBy));
 	}
 
+	@Operation(summary = "Activate or Deactivate StrategicBusinessUnit by Id")
+	@PutMapping(path = "/activate-or-deactivate/{sbuId}")
+	public WSResponse<StrategicBusinessUnitVO> activateOrDeactivateStrategicBusinessUnitById(@PathVariable Long sbuId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				sbuService.activateOrDeactivateById(sbuId));
+	}
 
 }

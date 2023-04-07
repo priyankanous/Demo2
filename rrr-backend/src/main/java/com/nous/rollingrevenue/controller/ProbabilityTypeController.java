@@ -27,49 +27,60 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/probability-type")
 @CrossOrigin(origins = "*")
 public class ProbabilityTypeController {
-	
+
 	@Autowired
 	private ProbabilityTypeService probabilityTypeService;
-	
+
 	@Operation(summary = "Get All ProbabilityType")
 	@GetMapping
 	public WSResponse<List<ProbabilityTypeVO>> getAllProbabilityType() {
 		List<ProbabilityTypeVO> probabilityTypeVOs = probabilityTypeService.getAllProbabilityType();
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, probabilityTypeVOs);
 	}
-	
+
 	@Operation(summary = "Save ProbabilityType")
 	@PostMapping
 	public WSResponse<ProbabilityTypeVO> saveProbabilityType(@RequestBody @Valid ProbabilityTypeVO probabilityTypeVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, probabilityTypeService.saveProbabilityType(probabilityTypeVO));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				probabilityTypeService.saveProbabilityType(probabilityTypeVO));
 	}
-	
+
 	@Operation(summary = "Get ProbabilityType by Id")
 	@GetMapping(path = "{probabilityTypeId}")
 	public WSResponse<ProbabilityTypeVO> getProbabilityTypeById(@PathVariable Long probabilityTypeId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, probabilityTypeService.getProbabilityTypeById(probabilityTypeId));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				probabilityTypeService.getProbabilityTypeById(probabilityTypeId));
 	}
-	
+
 	@Operation(summary = "Update ProbabilityType by Id")
 	@PutMapping(path = "{probabilityTypeId}")
-	public WSResponse<ProbabilityTypeVO> updateProbabilityType(@PathVariable Long probabilityTypeId, @RequestBody @Valid ProbabilityTypeVO probabilityTypeVO) {
+	public WSResponse<ProbabilityTypeVO> updateProbabilityType(@PathVariable Long probabilityTypeId,
+			@RequestBody @Valid ProbabilityTypeVO probabilityTypeVO) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				probabilityTypeService.updateProbabilityType(probabilityTypeId, probabilityTypeVO));
 	}
-	
+
 	@Operation(summary = "Delete ProbabilityType by Id")
 	@DeleteMapping(path = "{probabilityTypeId}")
 	public WSResponse<String> deleteProbabilityType(@PathVariable Long probabilityTypeId) {
 		probabilityTypeService.deleteProbabilityTypeById(probabilityTypeId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
+
 	@Operation(summary = "Get ProbabilityType By Pagination")
 	@GetMapping("/page")
 	public WSResponse<List<ProbabilityTypeVO>> getProbabilityTypeByPagination(
 			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "probabilityTypeId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, probabilityTypeService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				probabilityTypeService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate ProbabilityType by Id")
+	@PutMapping(path = "/activate-or-deactivate/{probabilityTypeId}")
+	public WSResponse<ProbabilityTypeVO> activateOrDeactivateProbabilityTypeById(@PathVariable Long probabilityTypeId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				probabilityTypeService.activateOrDeactivateById(probabilityTypeId));
 	}
 
 }

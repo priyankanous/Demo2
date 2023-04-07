@@ -14,31 +14,36 @@ import jakarta.persistence.Table;
 @Table(name = "coc_practice")
 @EntityListeners(AuditingEntityListener.class)
 public class CocPractice extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "coc_practice_id")
 	private Long cocPracticeId;
-	
+
 	@Column(name = "coc_practice_name")
 	private String cocPracticeName;
-	
+
 	@Column(name = "coc_practice_display_name")
 	private String cocPracticeDisplayName;
-	
+
 	@Column(name = "bu_display_name")
 	private String buDisplayName;
+
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
 	public CocPractice() {
 
 	}
 
-	public CocPractice(Long cocPracticeId, String cocPracticeName, String cocPracticeDisplayName, String buDisplayName) {
+	public CocPractice(Long cocPracticeId, String cocPracticeName, String cocPracticeDisplayName, String buDisplayName,
+			boolean isActive) {
 		super();
 		this.cocPracticeId = cocPracticeId;
 		this.cocPracticeName = cocPracticeName;
 		this.cocPracticeDisplayName = cocPracticeDisplayName;
 		this.buDisplayName = buDisplayName;
+		this.isActive = isActive;
 	}
 
 	public Long getCocPracticeId() {
@@ -73,12 +78,19 @@ public class CocPractice extends Auditable<String> {
 		this.buDisplayName = buDisplayName;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "CocPractice [cocPracticeId=" + cocPracticeId + ", cocPracticeName=" + cocPracticeName
-				+ ", cocPracticeDisplayName=" + cocPracticeDisplayName + ", buDisplayName=" + buDisplayName + "]";
+				+ ", cocPracticeDisplayName=" + cocPracticeDisplayName + ", buDisplayName=" + buDisplayName
+				+ ", isActive=" + isActive + "]";
 	}
-	
 
 }
-

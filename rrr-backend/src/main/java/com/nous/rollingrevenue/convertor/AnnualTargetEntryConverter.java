@@ -20,6 +20,7 @@ public class AnnualTargetEntryConverter {
 		if (annualTargetEntryVO != null) {
 			if (annualTargetEntryVO.getAnnualTargetEntryId() != null) {
 				annualTargetEntry.setAnnualTargetEntryId(annualTargetEntryVO.getAnnualTargetEntryId());
+				annualTargetEntry.setActive(annualTargetEntryVO.isActive());
 			}
 			annualTargetEntry.setFinancialYear(annualTargetEntryVO.getFinancialYear());
 			annualTargetEntry.setBusinessUnit(annualTargetEntryVO.getBusinessUnit());
@@ -84,6 +85,8 @@ public class AnnualTargetEntryConverter {
 			annualTargetEntryVO.setQ4FYS(annualTargetEntry.getQ4FYS());
 			annualTargetEntryVO.setQ4FYT(annualTargetEntry.getQ4FYT());
 			annualTargetEntryVO.setFY(annualTargetEntry.getFY());
+			annualTargetEntryVO.setActive(annualTargetEntry.isActive());
+			
 		}
 		return annualTargetEntryVO;
 	}

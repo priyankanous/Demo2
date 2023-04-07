@@ -110,7 +110,7 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 				.add(AnnualTargetEntryConverter.convertAnnualTargetEntryVOToAnnualTargetEntry(annualTargetEntryVO)));
 		annualTargetEntryRepository.saveAll(annualTargetEntries);
 	}
-	
+
 	@Override
 	public List<AnnualTargetEntryVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<AnnualTargetEntryVO> annualTargetEntryVOs = new ArrayList<>();
@@ -123,5 +123,16 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 			return annualTargetEntryVOs;
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	@Transactional
+	@CachePut(value = "annualtargetentry", key = "#id")
+	public AnnualTargetEntryVO activateOrDeactivateById(Long id) {
+		AnnualTargetEntry annualTargetEntry = annualTargetEntryRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
+		annualTargetEntry.setActive(!annualTargetEntry.isActive());
+		return AnnualTargetEntryConverter
+				.convertAnnualTargetEntryToAnnualTargetEntryVO(annualTargetEntryRepository.save(annualTargetEntry));
 	}
 }

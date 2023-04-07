@@ -58,5 +58,11 @@ public interface AccountService {
 
 
 	public List<AccountVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public AccountVO activateOrDeactivateById(Long id);
 
 }

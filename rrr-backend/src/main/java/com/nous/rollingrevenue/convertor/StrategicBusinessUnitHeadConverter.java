@@ -20,6 +20,7 @@ public class StrategicBusinessUnitHeadConverter {
 		if (sbuHeadVO != null) {
 			if (sbuHeadVO.getSbuHeadId() != null) {
 				sbuHead.setSbuHeadId(sbuHeadVO.getSbuHeadId());
+				sbuHead.setActive(sbuHeadVO.isActive());
 			}
 			sbuHead.setSbuHeadName(sbuHeadVO.getSbuHeadName());
 			sbuHead.setSbuHeadDisplayName(sbuHeadVO.getSbuHeadDisplayName());
@@ -46,6 +47,7 @@ public class StrategicBusinessUnitHeadConverter {
 			sbuHeadVO.setSbuName(sbuHead.getSbuName());
 			sbuHeadVO.setActiveFrom(sbuHead.getActiveFrom());
 			sbuHeadVO.setActiveUntil(sbuHead.getActiveUntil());
+			sbuHeadVO.setActive(sbuHead.isActive());
 		}
 		System.out.println(sbuHeadVO);
 		return sbuHeadVO;

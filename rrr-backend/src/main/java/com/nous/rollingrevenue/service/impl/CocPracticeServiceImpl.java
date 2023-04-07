@@ -84,7 +84,7 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 		cocpractice.setBuDisplayName(cocpracticeVO.getBuDisplayName());
 		return CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocpracticeRepository.save(cocpractice));
 	}
-	
+
 	@Override
 	public List<CocPracticeVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<CocPracticeVO> cocPracticeVOs = new ArrayList<>();
@@ -97,5 +97,15 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 			return cocPracticeVOs;
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	@Transactional
+	@CachePut(value = "cocpractice", key = "#id")
+	public CocPracticeVO activateOrDeactivateById(Long id) {
+		CocPractice cocpractice = cocpracticeRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
+		cocpractice.setActive(!cocpractice.isActive());
+		return CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocpracticeRepository.save(cocpractice));
 	}
 }

@@ -27,39 +27,39 @@ import com.nous.rollingrevenue.vo.StrategicBusinessUnitVO;
 @Service
 @Transactional(readOnly = true)
 public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitService {
-	
+
 	@Autowired
 	private StrategicBusinessUnitRepository sbuRepository;
 
 	@Override
 	public List<StrategicBusinessUnitVO> getAllSBU() {
 		List<StrategicBusinessUnitVO> sbuVO = new ArrayList<>();
-		sbuRepository.findAll().stream().forEach(
-				sbu -> sbuVO.add(StrategicBusinessUnitConverter.convertSBUToSBUVO(sbu)));
+		sbuRepository.findAll().stream()
+				.forEach(sbu -> sbuVO.add(StrategicBusinessUnitConverter.convertSBUToSBUVO(sbu)));
 		return sbuVO;
 	}
 
 	@Override
 	@Transactional
 	public StrategicBusinessUnitVO saveSBU(StrategicBusinessUnitVO sbuVO) {
-		StrategicBusinessUnit sbu = sbuRepository.save(StrategicBusinessUnitConverter.convertSBUVOToSBU(sbuVO));	
+		StrategicBusinessUnit sbu = sbuRepository.save(StrategicBusinessUnitConverter.convertSBUVOToSBU(sbuVO));
 		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbu);
 	}
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "sbu", key= "#sbuId")
+	@CacheEvict(value = "sbu", key = "#sbuId")
 	public void deleteSBUById(Long sbuId) {
 		sbuRepository.findById(sbuId)
-                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
-		sbuRepository.deleteById(sbuId);		
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
+		sbuRepository.deleteById(sbuId);
 	}
 
 	@Override
 	@Cacheable(value = "sbu", key = "#sbuId")
 	public StrategicBusinessUnitVO getSBUById(Long sbuId) {
 		StrategicBusinessUnit sbu = sbuRepository.findById(sbuId)
-                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
 		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbu);
 	}
 
@@ -74,12 +74,12 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 		sbu.setBuDisplayName(sbuVO.getBuDisplayName());
 		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuRepository.save(sbu));
 	}
-	
+
 	@Override
 	public List<StrategicBusinessUnitVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<StrategicBusinessUnitVO> strategicBusinessUnitVOs = new ArrayList<>();
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
-		Page<StrategicBusinessUnit> pageResult =  sbuRepository.findAll(paging);
+		Page<StrategicBusinessUnit> pageResult = sbuRepository.findAll(paging);
 		if (pageResult.hasContent()) {
 			pageResult.getContent().stream().forEach(e -> {
 				strategicBusinessUnitVOs.add(StrategicBusinessUnitConverter.convertSBUToSBUVO(e));
@@ -87,6 +87,16 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 			return strategicBusinessUnitVOs;
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	@Transactional
+	@CachePut(value = "sbu", key = "#sbuId")
+	public StrategicBusinessUnitVO activateOrDeactivateById(Long sbuId) {
+		StrategicBusinessUnit sbu = sbuRepository.findById(sbuId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
+		sbu.setActive(!sbu.isActive());
+		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuRepository.save(sbu));
 	}
 
 }

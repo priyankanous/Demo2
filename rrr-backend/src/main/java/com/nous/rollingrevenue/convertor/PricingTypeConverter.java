@@ -20,6 +20,7 @@ public class PricingTypeConverter {
 		if (pricingTypeVO != null) {
 			if (pricingTypeVO.getPricingTypeId() != null) {
 				pricingType.setPricingTypeId(pricingTypeVO.getPricingTypeId());
+				pricingType.setActive(pricingTypeVO.isActive());
 			}
 			pricingType.setPricingTypeName(pricingTypeVO.getPricingTypeName());
 			pricingType.setPricingTypeDisplayName(pricingTypeVO.getPricingTypeDisplayName());
@@ -41,6 +42,7 @@ public class PricingTypeConverter {
 			pricingTypeVO.setPricingTypeId(pricingType.getPricingTypeId());
 			pricingTypeVO.setPricingTypeName(pricingType.getPricingTypeName());
 			pricingTypeVO.setPricingTypeDisplayName(pricingType.getPricingTypeDisplayName());
+			pricingTypeVO.setActive(pricingType.isActive());
 		}
 		return pricingTypeVO;
 	}

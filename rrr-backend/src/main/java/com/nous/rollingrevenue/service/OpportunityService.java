@@ -58,6 +58,12 @@ public interface OpportunityService {
 
 
 	public List<OpportunityVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public OpportunityVO activateOrDeactivateById(Long id);
 
 
 }

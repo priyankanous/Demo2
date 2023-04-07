@@ -6,8 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class WorkOrderStatusVO implements Serializable{
-	
+public class WorkOrderStatusVO implements Serializable {
+
 	/**
 	 * Serial Version ID
 	 */
@@ -15,21 +15,25 @@ public class WorkOrderStatusVO implements Serializable{
 
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long woStatusId;
-	
+
 	@NotBlank(message = "WOStatusName cannot be null or empty")
 	private String woStatusName;
-	
+
 	@NotBlank(message = "WOStatusDisplayName cannot be null or empty")
 	private String woStatusDisplayName;
+
+	private boolean isActive;
 
 	public WorkOrderStatusVO() {
 
 	}
 
-	public WorkOrderStatusVO(Long woStatusId, String woStatusName, String woStatusDisplayName) {
+	public WorkOrderStatusVO(Long woStatusId, String woStatusName, String woStatusDisplayName, boolean isActive) {
+		super();
 		this.woStatusId = woStatusId;
 		this.woStatusName = woStatusName;
 		this.woStatusDisplayName = woStatusDisplayName;
+		this.isActive = isActive;
 	}
 
 	public Long getWoStatusId() {
@@ -56,10 +60,19 @@ public class WorkOrderStatusVO implements Serializable{
 		this.woStatusDisplayName = woStatusDisplayName;
 	}
 
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "WorkOrderStatusVO [woStatusId=" + woStatusId + ", woStatusName=" + woStatusName
-				+ ", woStatusDisplayName=" + woStatusDisplayName + "]";
+				+ ", woStatusDisplayName=" + woStatusDisplayName + ", isActive=" + isActive + "]";
 	}
 	
 

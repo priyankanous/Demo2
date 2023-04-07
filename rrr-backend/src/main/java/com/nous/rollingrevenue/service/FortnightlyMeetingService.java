@@ -26,5 +26,11 @@ public interface FortnightlyMeetingService {
 	 */
 	void deleteFortnightlyMeetingByFinancialYear(String financialYear);
 	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public FortnightlyMeetingVO activateOrDeactivateById(Long id);
+	
 
 }

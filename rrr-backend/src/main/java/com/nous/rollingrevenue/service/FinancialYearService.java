@@ -58,6 +58,12 @@ public interface FinancialYearService {
 
 
 	public List<FinancialYearVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public FinancialYearVO activateOrDeactivateById(Long id);
 
 
 }

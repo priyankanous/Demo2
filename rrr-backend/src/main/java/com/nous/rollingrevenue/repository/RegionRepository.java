@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.nous.rollingrevenue.model.Region;
 
-
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Long> {
 

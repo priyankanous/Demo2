@@ -26,6 +26,21 @@ public class Location extends Auditable<String> {
 	@Column(name = "location_display_name")
 	private String locationDisplayName;
 
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
+
+	public Location() {
+
+	}
+
+	public Location(Long locationId, String locationName, String locationDisplayName, boolean isActive) {
+		super();
+		this.locationId = locationId;
+		this.locationName = locationName;
+		this.locationDisplayName = locationDisplayName;
+		this.isActive = isActive;
+	}
+
 	public Long getLocationId() {
 		return locationId;
 	}
@@ -50,16 +65,18 @@ public class Location extends Auditable<String> {
 		this.locationDisplayName = locationDisplayName;
 	}
 
-	public Location() {
-		super();
-		// TODO Auto-generated constructor stub
+	public boolean isActive() {
+		return isActive;
 	}
 
-	public Location(Long locationId, String locationName, String locationDisplayName) {
-		super();
-		this.locationId = locationId;
-		this.locationName = locationName;
-		this.locationDisplayName = locationDisplayName;
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	@Override
+	public String toString() {
+		return "Location [locationId=" + locationId + ", locationName=" + locationName + ", locationDisplayName="
+				+ locationDisplayName + ", isActive=" + isActive + "]";
 	}
 
 }

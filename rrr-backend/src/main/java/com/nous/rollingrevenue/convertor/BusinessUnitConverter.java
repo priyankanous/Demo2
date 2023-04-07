@@ -19,6 +19,7 @@ public class BusinessUnitConverter {
 		if (businessUnitVO != null) {
 			if (businessUnitVO.getBusinessUnitId() != null) {
 				businessUnit.setBusinessUnitId(businessUnitVO.getBusinessUnitId());
+				businessUnit.setActive(businessUnitVO.isActive());
 			}
 			businessUnit.setBusinessUnitName(businessUnitVO.getBusinessUnitName());
 			businessUnit.setBusinessUnitDisplayName(businessUnitVO.getBusinessUnitDisplayName());
@@ -40,6 +41,7 @@ public class BusinessUnitConverter {
 			businessUnitVO.setBusinessUnitName(businessUnit.getBusinessUnitName());
 			businessUnitVO.setBusinessUnitDisplayName(businessUnit.getBusinessUnitDisplayName());
 			businessUnitVO.setChildOfOrg(businessUnit.getChildOfOrg());
+			businessUnitVO.setActive(businessUnit.isActive());
 		}
 
 		return businessUnitVO;

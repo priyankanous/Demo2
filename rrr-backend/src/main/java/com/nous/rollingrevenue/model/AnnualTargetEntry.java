@@ -16,80 +16,83 @@ import jakarta.persistence.Table;
 @Table(name = "annual_target_entry")
 @EntityListeners(AuditingEntityListener.class)
 public class AnnualTargetEntry extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "annual_target_entry_id")
 	private Long annualTargetEntryId;
-	
+
 	@Column(name = "financial_year")
 	private String financialYear;
-	
+
 	@Column(name = "bu")
 	private String businessUnit;
-	
+
 	@Column(name = "sbu")
 	private String startegicBusinessUnit;
-	
+
 	@Column(name = "sbu_head")
 	private String strategicBusinessUnitHead;
-	
+
 	@Column(name = "location")
 	private String location;
-	
+
 	@Column(name = "region")
 	private String region;
-	
+
 	@Column(name = "account")
 	private String account;
-	
+
 	@Column(name = "business_type")
 	private String businessType;
-	
+
 	@Column(name = "coc_practice")
 	private String cocPractice;
-	
+
 	@Column(name = "bdm")
 	private String businessDevelopmentManager;
-	
+
 	@Column(name = "q1fy_s")
 	private BigInteger Q1FYS;
-	
+
 	@Column(name = "q1fy_b")
 	private BigInteger Q1FYB;
-	
+
 	@Column(name = "q1fy_t")
 	private BigInteger Q1FYT;
-	
+
 	@Column(name = "q2fy_s")
 	private BigInteger Q2FYS;
-	
+
 	@Column(name = "q2fy_b")
 	private BigInteger Q2FYB;
-	
+
 	@Column(name = "q2fy_t")
 	private BigInteger Q2FYT;
-	
+
 	@Column(name = "q3fy_s")
 	private BigInteger Q3FYS;
-	
+
 	@Column(name = "q3fy_b")
 	private BigInteger Q3FYB;
-	
+
 	@Column(name = "q3fy_t")
 	private BigInteger Q3FYT;
-	
+
 	@Column(name = "q4fy_s")
 	private BigInteger Q4FYS;
-	
+
 	@Column(name = "q4fy_b")
 	private BigInteger Q4FYB;
-	
+
 	@Column(name = "q4fy_t")
 	private BigInteger Q4FYT;
-	
+
 	@Column(name = "fy")
 	private BigInteger FY;
+
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
 	public AnnualTargetEntry() {
 
@@ -97,9 +100,10 @@ public class AnnualTargetEntry extends Auditable<String> {
 
 	public AnnualTargetEntry(Long annualTargetEntryId, String financialYear, String businessUnit,
 			String startegicBusinessUnit, String strategicBusinessUnitHead, String location, String region,
-			String account, String businessType, String cocPractice, String businessDevelopmentManager, BigInteger q1fys,
-			BigInteger q1fyb, BigInteger q1fyt, BigInteger q2fys, BigInteger q2fyb, BigInteger q2fyt, BigInteger q3fys, BigInteger q3fyb, BigInteger q3fyt, BigInteger q4fys,
-			BigInteger q4fyb, BigInteger q4fyt, BigInteger fY) {
+			String account, String businessType, String cocPractice, String businessDevelopmentManager,
+			BigInteger q1fys, BigInteger q1fyb, BigInteger q1fyt, BigInteger q2fys, BigInteger q2fyb, BigInteger q2fyt,
+			BigInteger q3fys, BigInteger q3fyb, BigInteger q3fyt, BigInteger q4fys, BigInteger q4fyb, BigInteger q4fyt,
+			BigInteger fY, boolean isActive) {
 		super();
 		this.annualTargetEntryId = annualTargetEntryId;
 		this.financialYear = financialYear;
@@ -125,6 +129,7 @@ public class AnnualTargetEntry extends Auditable<String> {
 		Q4FYB = q4fyb;
 		Q4FYT = q4fyt;
 		FY = fY;
+		this.isActive = isActive;
 	}
 
 	public Long getAnnualTargetEntryId() {
@@ -319,6 +324,14 @@ public class AnnualTargetEntry extends Auditable<String> {
 		FY = fY;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "AnnualTargetEntry [annualTargetEntryId=" + annualTargetEntryId + ", financialYear=" + financialYear
@@ -328,8 +341,7 @@ public class AnnualTargetEntry extends Auditable<String> {
 				+ ", businessDevelopmentManager=" + businessDevelopmentManager + ", Q1FYS=" + Q1FYS + ", Q1FYB=" + Q1FYB
 				+ ", Q1FYT=" + Q1FYT + ", Q2FYS=" + Q2FYS + ", Q2FYB=" + Q2FYB + ", Q2FYT=" + Q2FYT + ", Q3FYS=" + Q3FYS
 				+ ", Q3FYB=" + Q3FYB + ", Q3FYT=" + Q3FYT + ", Q4FYS=" + Q4FYS + ", Q4FYB=" + Q4FYB + ", Q4FYT=" + Q4FYT
-				+ ", FY=" + FY + "]";
+				+ ", FY=" + FY + ", isActive=" + isActive + "]";
 	}
-
 
 }

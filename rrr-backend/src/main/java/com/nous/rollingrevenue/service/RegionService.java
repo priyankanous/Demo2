@@ -57,5 +57,11 @@ public interface RegionService {
 
 
 	public List<RegionVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public RegionVO activateOrDeactivateById(Long id);
 
 }

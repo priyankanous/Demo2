@@ -14,26 +14,32 @@ import jakarta.persistence.Table;
 @Table(name = "business_type")
 @EntityListeners(AuditingEntityListener.class)
 public class BusinessType extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "business_type_id")
 	private Long businessTypeId;
-	
+
 	@Column(name = "business_type_name")
 	private String businessTypeName;
-	
+
 	@Column(name = "business_type_display_name")
 	private String businessTypeDisplayName;
+
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
 	public BusinessType() {
 
 	}
 
-	public BusinessType(Long businessTypeId, String businessTypeName, String businessTypeDisplayName) {
+	public BusinessType(Long businessTypeId, String businessTypeName, String businessTypeDisplayName,
+			boolean isActive) {
+		super();
 		this.businessTypeId = businessTypeId;
 		this.businessTypeName = businessTypeName;
 		this.businessTypeDisplayName = businessTypeDisplayName;
+		this.isActive = isActive;
 	}
 
 	public Long getBusinessTypeId() {
@@ -60,11 +66,18 @@ public class BusinessType extends Auditable<String> {
 		this.businessTypeDisplayName = businessTypeDisplayName;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "BusinessType [businessTypeId=" + businessTypeId + ", businessTypeName=" + businessTypeName
-				+ ", businessTypeDisplayName=" + businessTypeDisplayName + "]";
+				+ ", businessTypeDisplayName=" + businessTypeDisplayName + ", isActive=" + isActive + "]";
 	}
-	
 
 }

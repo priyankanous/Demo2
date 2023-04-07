@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/currency")
 @CrossOrigin(origins = "*")
 public class CurrencyController {
-	
+
 	@Autowired
 	private CurrencyService currencyService;
 
@@ -47,12 +47,14 @@ public class CurrencyController {
 	@Operation(summary = "Get Currency by Id")
 	@GetMapping(path = "{currencyId}")
 	public WSResponse<CurrencyVO> getCurrencyById(@PathVariable Long currencyId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, currencyService.getCurrencyById(currencyId));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				currencyService.getCurrencyById(currencyId));
 	}
 
 	@Operation(summary = "Update Currency by Id")
 	@PutMapping(path = "{currencyId}")
-	public WSResponse<CurrencyVO> updateCurrency(@PathVariable Long currencyId, @RequestBody @Valid CurrencyVO currencyVO) {
+	public WSResponse<CurrencyVO> updateCurrency(@PathVariable Long currencyId,
+			@RequestBody @Valid CurrencyVO currencyVO) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				currencyService.updateCurrency(currencyId, currencyVO));
 	}
@@ -66,10 +68,18 @@ public class CurrencyController {
 
 	@Operation(summary = "Get Currency By Pagination")
 	@GetMapping("/page")
-	public WSResponse<List<CurrencyVO>> getCurrencyByPagination(
-			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+	public WSResponse<List<CurrencyVO>> getCurrencyByPagination(@RequestParam(defaultValue = "1") int pagenumber,
+			@RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "currencyId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, currencyService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				currencyService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate Currency by Id")
+	@PutMapping(path = "/activate-or-deactivate/{currencyId}")
+	public WSResponse<CurrencyVO> activateOrDeactivateCurrencyById(@PathVariable Long currencyId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				currencyService.activateOrDeactivateById(currencyId));
 	}
 
 }

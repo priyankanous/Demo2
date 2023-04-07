@@ -20,6 +20,7 @@ public class BusinessTypeConverter {
 		if (businessTypeVO != null) {
 			if (businessTypeVO.getBusinessTypeId() != null) {
 				businessType.setBusinessTypeId(businessTypeVO.getBusinessTypeId());
+				businessType.setActive(businessTypeVO.isActive());
 			}
 			businessType.setBusinessTypeName(businessTypeVO.getBusinessTypeName());
 			businessType.setBusinessTypeDisplayName(businessTypeVO.getBusinessTypeDisplayName());
@@ -41,6 +42,7 @@ public class BusinessTypeConverter {
 			businessTypeVO.setBusinessTypeId(businessType.getBusinessTypeId());
 			businessTypeVO.setBusinessTypeName(businessType.getBusinessTypeName());
 			businessTypeVO.setBusinessTypeDisplayName(businessType.getBusinessTypeDisplayName());
+			businessTypeVO.setActive(businessType.isActive());
 		}
 		return businessTypeVO;
 	}

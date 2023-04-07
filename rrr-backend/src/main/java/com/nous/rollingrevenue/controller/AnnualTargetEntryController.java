@@ -92,6 +92,15 @@ public class AnnualTargetEntryController {
 	public WSResponse<List<AnnualTargetEntryVO>> getAnnualTargetEntryByPagination(
 			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "annualTargetEntryId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, annualTargetEntryService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				annualTargetEntryService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate AnnualTargetEntry by Id")
+	@PutMapping(path = "/activate-or-deactivate/{annualTargetEntryId}")
+	public WSResponse<AnnualTargetEntryVO> activateOrDeactivateAnnualTargetEntryById(
+			@PathVariable Long annualTargetEntryId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				annualTargetEntryService.activateOrDeactivateById(annualTargetEntryId));
 	}
 }

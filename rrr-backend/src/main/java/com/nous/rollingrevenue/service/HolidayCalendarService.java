@@ -47,5 +47,11 @@ public interface HolidayCalendarService {
 	public List<HolidayCalendarVO> getCalendars();
 
 	List<HolidayCalendarVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public HolidayCalendarVO activateOrDeactivateById(Long id);
 
 }

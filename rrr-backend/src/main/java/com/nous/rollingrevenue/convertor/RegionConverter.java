@@ -20,6 +20,7 @@ public class RegionConverter {
 		if (regionVO != null) {
 			if (regionVO.getRegionId() != null) {
 				region.setRegionId(regionVO.getRegionId());
+				region.setActive(regionVO.isActive());
 			}
 			region.setRegionName(regionVO.getRegionName());
 			region.setRegionDisplayName(regionVO.getRegionDisplayName());
@@ -41,6 +42,7 @@ public class RegionConverter {
 			regionVO.setRegionId(region.getRegionId());
 			regionVO.setRegionName(region.getRegionName());
 			regionVO.setRegionDisplayName(region.getRegionDisplayName());
+			regionVO.setActive(region.isActive());
 		}
 		return regionVO;
 	}

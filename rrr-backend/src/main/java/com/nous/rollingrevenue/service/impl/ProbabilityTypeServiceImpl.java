@@ -60,7 +60,7 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 	@Cacheable(value = "probabilitytype", key = "#probabilityTypeId")
 	public ProbabilityTypeVO getProbabilityTypeById(Long probabilityTypeId) {
 		ProbabilityType probabilityType = probabilityTypeRepository.findById(probabilityTypeId)
-                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
 		return ProbabilityTypeConverter.convertProbabilityTypeToProbabilityTypeVO(probabilityType);
 	}
 
@@ -72,9 +72,10 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
 		probabilityType.setProbabilityTypeName(probabilityTypeVO.getProbabilityTypeName());
 		probabilityType.setPercentage(probabilityTypeVO.getPercentage());
-		return ProbabilityTypeConverter.convertProbabilityTypeToProbabilityTypeVO(probabilityTypeRepository.save(probabilityType));
+		return ProbabilityTypeConverter
+				.convertProbabilityTypeToProbabilityTypeVO(probabilityTypeRepository.save(probabilityType));
 	}
-	
+
 	@Override
 	public List<ProbabilityTypeVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<ProbabilityTypeVO> probabilityTypeVOs = new ArrayList<>();
@@ -89,5 +90,15 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 		return Collections.emptyList();
 	}
 
+	@Override
+	@Transactional
+	@CachePut(value = "probabilitytype", key = "#probabilityTypeId")
+	public ProbabilityTypeVO activateOrDeactivateById(Long probabilityTypeId) {
+		ProbabilityType probabilityType = probabilityTypeRepository.findById(probabilityTypeId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
+		probabilityType.setActive(!probabilityType.isActive());
+		return ProbabilityTypeConverter
+				.convertProbabilityTypeToProbabilityTypeVO(probabilityTypeRepository.save(probabilityType));
+	}
 
 }

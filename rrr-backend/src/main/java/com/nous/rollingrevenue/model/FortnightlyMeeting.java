@@ -16,27 +16,31 @@ import jakarta.persistence.Table;
 @Table(name = "fortnightly_meeting")
 @EntityListeners(AuditingEntityListener.class)
 public class FortnightlyMeeting extends Auditable<String> {
-	
+
 	@Id
 	@Column(name = "meeting_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long meetingId;
-	
+
 	@Column(name = "meeting_date")
 	private LocalDate meetingDate;
-	
+
 	@Column(name = "financial_year")
 	private String financialYear;
-	
+
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
 	public FortnightlyMeeting() {
 
 	}
 
-	public FortnightlyMeeting(Long meetingId, LocalDate meetingDate, String financialYear) {
+	public FortnightlyMeeting(Long meetingId, LocalDate meetingDate, String financialYear, boolean isActive) {
+		super();
 		this.meetingId = meetingId;
 		this.meetingDate = meetingDate;
 		this.financialYear = financialYear;
+		this.isActive = isActive;
 	}
 
 	public Long getMeetingId() {
@@ -63,11 +67,18 @@ public class FortnightlyMeeting extends Auditable<String> {
 		this.financialYear = financialYear;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "FortnightlyMeeting [meetingId=" + meetingId + ", meetingDate=" + meetingDate + ", financialYear="
-				+ financialYear + "]";
+				+ financialYear + ", isActive=" + isActive + "]";
 	}
 
-	
 }

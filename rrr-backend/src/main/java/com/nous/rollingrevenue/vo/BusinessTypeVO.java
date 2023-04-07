@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 
 public class BusinessTypeVO implements Serializable {
-	
+
 	/**
 	 * Serial Version ID
 	 */
@@ -15,21 +15,26 @@ public class BusinessTypeVO implements Serializable {
 
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long businessTypeId;
-	
+
 	@NotBlank(message = "BusinessTypeName cannot be null or empty")
 	private String businessTypeName;
-	
+
 	@NotBlank(message = "BusinessTypeDisplayName cannot be null or empty")
 	private String businessTypeDisplayName;
+
+	private boolean isActive;
 
 	public BusinessTypeVO() {
 
 	}
 
-	public BusinessTypeVO(Long businessTypeId, String businessTypeName, String businessTypeDisplayName) {
+	public BusinessTypeVO(Long businessTypeId, String businessTypeName, String businessTypeDisplayName,
+			boolean isActive) {
+		super();
 		this.businessTypeId = businessTypeId;
 		this.businessTypeName = businessTypeName;
 		this.businessTypeDisplayName = businessTypeDisplayName;
+		this.isActive = isActive;
 	}
 
 	public Long getBusinessTypeId() {
@@ -56,10 +61,19 @@ public class BusinessTypeVO implements Serializable {
 		this.businessTypeDisplayName = businessTypeDisplayName;
 	}
 
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "BusinessTypeVO [businessTypeId=" + businessTypeId + ", businessTypeName=" + businessTypeName
-				+ ", businessTypeDisplayName=" + businessTypeDisplayName + "]";
+				+ ", businessTypeDisplayName=" + businessTypeDisplayName + ", isActive=" + isActive + "]";
 	}
 	
 

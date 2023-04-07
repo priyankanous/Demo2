@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.nous.rollingrevenue.model.Currency;
 
 @Repository
-public interface CurrencyRepository extends JpaRepository<Currency, Long>{
+public interface CurrencyRepository extends JpaRepository<Currency, Long> {
 
 }

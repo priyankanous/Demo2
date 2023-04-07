@@ -69,9 +69,17 @@ public class OpportunityController {
 
 	@Operation(summary = "Get Opportunity By Pagination")
 	@GetMapping("/page")
-	public WSResponse<List<OpportunityVO>> getOpportunityByPagination(
-			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+	public WSResponse<List<OpportunityVO>> getOpportunityByPagination(@RequestParam(defaultValue = "1") int pagenumber,
+			@RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "opportunityId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, opportunityService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				opportunityService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate Opportunity by Id")
+	@PutMapping(path = "/activate-or-deactivate/{opportunityId}")
+	public WSResponse<OpportunityVO> activateOrDeactivateOpportunityById(@PathVariable Long opportunityId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				opportunityService.activateOrDeactivateById(opportunityId));
 	}
 }

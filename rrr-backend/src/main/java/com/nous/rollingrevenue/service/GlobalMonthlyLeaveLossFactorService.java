@@ -56,5 +56,11 @@ public interface GlobalMonthlyLeaveLossFactorService {
 	public List<GlobalMonthlyLeaveLossFactorVO> getLeaveLossFactors();
 
 	public List<GlobalMonthlyLeaveLossFactorVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public GlobalMonthlyLeaveLossFactorVO activateOrDeactivateById(Long id);
 
 }

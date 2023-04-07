@@ -25,8 +25,20 @@ public class CocPracticeVO implements Serializable {
 	@NotBlank(message = "BUDisplayName cannot be null or empty")
 	private String buDisplayName;
 
+	private boolean isActive;
+
 	public CocPracticeVO() {
 
+	}
+
+	public CocPracticeVO(Long cocPracticeId, String cocPracticeName, String cocPracticeDisplayName,
+			String buDisplayName, boolean isActive) {
+		super();
+		this.cocPracticeId = cocPracticeId;
+		this.cocPracticeName = cocPracticeName;
+		this.cocPracticeDisplayName = cocPracticeDisplayName;
+		this.buDisplayName = buDisplayName;
+		this.isActive = isActive;
 	}
 
 	public Long getCocPracticeId() {
@@ -61,11 +73,21 @@ public class CocPracticeVO implements Serializable {
 		this.buDisplayName = buDisplayName;
 	}
 
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "CocPracticeVO [cocPracticeId=" + cocPracticeId + ", cocPracticeName=" + cocPracticeName
-				+ ", cocPracticeDisplayName=" + cocPracticeDisplayName + ", buDisplayName=" + buDisplayName + "]";
+				+ ", cocPracticeDisplayName=" + cocPracticeDisplayName + ", buDisplayName=" + buDisplayName
+				+ ", isActive=" + isActive + "]";
 	}
-
 	
+
 }

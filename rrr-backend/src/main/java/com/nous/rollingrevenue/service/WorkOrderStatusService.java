@@ -58,5 +58,11 @@ public interface WorkOrderStatusService {
 
 
 	public List<WorkOrderStatusVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public WorkOrderStatusVO activateOrDeactivateById(Long id);
 
 }

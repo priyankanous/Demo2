@@ -58,13 +58,13 @@ public class AnnualTargetEntryVO implements Serializable {
 	private BigInteger Q2FYS;
 
 	private BigInteger Q2FYT;
-	
+
 	private BigInteger Q3FYB;
 
 	private BigInteger Q3FYS;
 
 	private BigInteger Q3FYT;
-	
+
 	private BigInteger Q4FYB;
 
 	private BigInteger Q4FYS;
@@ -73,23 +73,18 @@ public class AnnualTargetEntryVO implements Serializable {
 
 	private BigInteger FY;
 
+	private boolean isActive;
+
 	public AnnualTargetEntryVO() {
 
 	}
 
-	public AnnualTargetEntryVO(Long annualTargetEntryId,
-			@NotBlank(message = "FinancialYear cannot be null or empty") String financialYear,
-			@NotBlank(message = "BusinessUnit cannot be null or empty") String businessUnit,
-			@NotBlank(message = "StartegicBusinessUnit cannot be null or empty") String startegicBusinessUnit,
-			@NotBlank(message = "StrategicBusinessUnitHead cannot be null or empty") String strategicBusinessUnitHead,
-			@NotBlank(message = "Location cannot be null or empty") String location,
-			@NotBlank(message = "Region cannot be null or empty") String region,
-			@NotBlank(message = "Account cannot be null or empty") String account,
-			@NotBlank(message = "BusinessTypeName cannot be null or empty") String businessType,
-			@NotBlank(message = "COCPractice cannot be null or empty") String cocPractice,
-			@NotBlank(message = "BusinessDevelopmentManager cannot be null or empty") String businessDevelopmentManager,
-			BigInteger q1fyb, BigInteger q1fys, BigInteger q1fyt, BigInteger q2fyb, BigInteger q2fys, BigInteger q2fyt, BigInteger q3fyb, BigInteger q3fys, BigInteger q3fyt,
-			BigInteger q4fyb, BigInteger q4fys, BigInteger q4fyt, BigInteger fY) {
+	public AnnualTargetEntryVO(Long annualTargetEntryId, String financialYear, String businessUnit,
+			String startegicBusinessUnit, String strategicBusinessUnitHead, String location, String region,
+			String account, String businessType, String cocPractice, String businessDevelopmentManager,
+			BigInteger q1fyb, BigInteger q1fys, BigInteger q1fyt, BigInteger q2fyb, BigInteger q2fys, BigInteger q2fyt,
+			BigInteger q3fyb, BigInteger q3fys, BigInteger q3fyt, BigInteger q4fyb, BigInteger q4fys, BigInteger q4fyt,
+			BigInteger fY, boolean isActive) {
 		super();
 		this.annualTargetEntryId = annualTargetEntryId;
 		this.financialYear = financialYear;
@@ -115,6 +110,7 @@ public class AnnualTargetEntryVO implements Serializable {
 		Q4FYS = q4fys;
 		Q4FYT = q4fyt;
 		FY = fY;
+		this.isActive = isActive;
 	}
 
 	public Long getAnnualTargetEntryId() {
@@ -309,6 +305,14 @@ public class AnnualTargetEntryVO implements Serializable {
 		FY = fY;
 	}
 
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 
 	@Override
 	public String toString() {
@@ -319,8 +323,8 @@ public class AnnualTargetEntryVO implements Serializable {
 				+ ", businessDevelopmentManager=" + businessDevelopmentManager + ", Q1FYB=" + Q1FYB + ", Q1FYS=" + Q1FYS
 				+ ", Q1FYT=" + Q1FYT + ", Q2FYB=" + Q2FYB + ", Q2FYS=" + Q2FYS + ", Q2FYT=" + Q2FYT + ", Q3FYB=" + Q3FYB
 				+ ", Q3FYS=" + Q3FYS + ", Q3FYT=" + Q3FYT + ", Q4FYB=" + Q4FYB + ", Q4FYS=" + Q4FYS + ", Q4FYT=" + Q4FYT
-				+ ", FY=" + FY + "]";
+				+ ", FY=" + FY + ", isActive=" + isActive + "]";
 	}
-
 	
+
 }

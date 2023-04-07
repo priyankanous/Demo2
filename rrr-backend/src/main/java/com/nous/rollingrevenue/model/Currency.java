@@ -40,12 +40,16 @@ public class Currency extends Auditable<String> {
 	@Column(name = "base_currency")
 	private String baseCurrency;
 
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
+
 	public Currency() {
 
 	}
 
 	public Currency(Long currencyId, String currency, String currencyName, String symbol, BigDecimal conversionRate,
-			String financialYear, String baseCurrency) {
+			String financialYear, String baseCurrency, boolean isActive) {
+		super();
 		this.currencyId = currencyId;
 		this.currency = currency;
 		this.currencyName = currencyName;
@@ -53,6 +57,7 @@ public class Currency extends Auditable<String> {
 		this.conversionRate = conversionRate;
 		this.financialYear = financialYear;
 		this.baseCurrency = baseCurrency;
+		this.isActive = isActive;
 	}
 
 	public Long getCurrencyId() {
@@ -111,12 +116,19 @@ public class Currency extends Auditable<String> {
 		this.baseCurrency = baseCurrency;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "Currency [currencyId=" + currencyId + ", currency=" + currency + ", currencyName=" + currencyName
 				+ ", symbol=" + symbol + ", conversionRate=" + conversionRate + ", financialYear=" + financialYear
-				+ ", baseCurrency=" + baseCurrency + "]";
+				+ ", baseCurrency=" + baseCurrency + ", isActive=" + isActive + "]";
 	}
-	
 
 }

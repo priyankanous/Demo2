@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,8 @@ public class HolidayCalendarController {
 	@PutMapping(path = "{holidayId}")
 	public WSResponse<HolidayCalendarVO> updateLocation(@PathVariable @Valid Long holidayId,
 			@RequestBody @Valid HolidayCalendarVO holidayCalendarVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendarService.updateHolidayCalendar(holidayId, holidayCalendarVO));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				holidayCalendarService.updateHolidayCalendar(holidayId, holidayCalendarVO));
 	}
 
 	@Operation(summary = "Get Calendar by Id")
@@ -68,8 +70,15 @@ public class HolidayCalendarController {
 	public WSResponse<List<HolidayCalendarVO>> getHolidayCalendarByPagination(
 			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "holidayId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendarService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				holidayCalendarService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate HolidayCalendar by Id")
+	@PutMapping(path = "/activate-or-deactivate/{holidayId}")
+	public WSResponse<HolidayCalendarVO> activateOrDeactivateHolidayCalendarById(@PathVariable Long holidayId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				holidayCalendarService.activateOrDeactivateById(holidayId));
 	}
 
 }
-

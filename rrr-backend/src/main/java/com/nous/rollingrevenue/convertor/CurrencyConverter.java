@@ -20,6 +20,7 @@ public class CurrencyConverter {
 		if (currencyVO != null) {
 			if (currencyVO.getCurrencyId() != null) {
 				currency.setCurrencyId(currencyVO.getCurrencyId());
+				currency.setActive(currencyVO.isActive());
 			}
 			currency.setCurrency(currencyVO.getCurrency());
 			currency.setCurrencyName(currencyVO.getCurrencyName());
@@ -49,6 +50,7 @@ public class CurrencyConverter {
 			currencyVO.setConversionRate(currency.getConversionRate());
 			currencyVO.setFinancialYear(currency.getFinancialYear());
 			currencyVO.setBaseCurrency(currency.getBaseCurrency());
+			currencyVO.setActive(currency.isActive());
 		}
 		return currencyVO;
 	}

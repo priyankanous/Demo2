@@ -79,11 +79,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public OrganizationVO updateOrganization(Long id, OrganizationVO organizationVO) {
 		Organization organization = organizationRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
-		organization.setorgDisplayName(organizationVO.getorgDisplayName());
-		organization.setorgName(organizationVO.getorgName());
+		organization.setOrgName(organizationVO.getOrgName());
+		organization.setOrgDisplayName(organizationVO.getOrgDisplayName());
 		return OrganizationConverter.convertOrganizationToOrganizationVO(organizationRepository.save(organization));
 	}
-	
+
 	@Override
 	public List<OrganizationVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<OrganizationVO> organizationVOs = new ArrayList<>();
@@ -98,5 +98,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return Collections.emptyList();
 	}
 
+	@Override
+	@Transactional
+	@CachePut(value = "organizations", key = "#id")
+	public OrganizationVO activateOrDeactivateById(Long id) {
+		Organization organization = organizationRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
+		organization.setActive(!organization.isActive());
+		return OrganizationConverter.convertOrganizationToOrganizationVO(organizationRepository.save(organization));
+	}
 
 }

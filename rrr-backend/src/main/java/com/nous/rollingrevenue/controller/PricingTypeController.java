@@ -27,36 +27,39 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/pricing-type")
 @CrossOrigin(origins = "*")
 public class PricingTypeController {
-	
+
 	@Autowired
 	private PricingTypeService pricingTypeService;
-	
+
 	@Operation(summary = "Get All PricingType")
 	@GetMapping
 	public WSResponse<List<PricingTypeVO>> getAllPricingType() {
 		List<PricingTypeVO> pricingTypeVOs = pricingTypeService.getAllPricingType();
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, pricingTypeVOs);
 	}
-	
+
 	@Operation(summary = "Save PricingType")
 	@PostMapping
 	public WSResponse<PricingTypeVO> savePricingType(@RequestBody @Valid PricingTypeVO pricingTypeVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, pricingTypeService.savePricingType(pricingTypeVO));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				pricingTypeService.savePricingType(pricingTypeVO));
 	}
-	
+
 	@Operation(summary = "Get PricingType by Id")
 	@GetMapping(path = "{pricingTypeId}")
 	public WSResponse<PricingTypeVO> getPricingTypeById(@PathVariable Long pricingTypeId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, pricingTypeService.getPricingTypeById(pricingTypeId));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				pricingTypeService.getPricingTypeById(pricingTypeId));
 	}
-	
+
 	@Operation(summary = "Update PricingType by Id")
 	@PutMapping(path = "{pricingTypeId}")
-	public WSResponse<PricingTypeVO> updatePricingType(@PathVariable Long pricingTypeId, @RequestBody @Valid PricingTypeVO pricingTypeVO) {
+	public WSResponse<PricingTypeVO> updatePricingType(@PathVariable Long pricingTypeId,
+			@RequestBody @Valid PricingTypeVO pricingTypeVO) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				pricingTypeService.updatePricingType(pricingTypeId, pricingTypeVO));
 	}
-	
+
 	@Operation(summary = "Delete PricingType by Id")
 	@DeleteMapping(path = "{pricingTypeId}")
 	public WSResponse<String> deletePricingType(@PathVariable Long pricingTypeId) {
@@ -66,9 +69,17 @@ public class PricingTypeController {
 
 	@Operation(summary = "Get PricingType  By Pagination")
 	@GetMapping("/page")
-	public WSResponse<List<PricingTypeVO>> getPricingTypeByPagination(
-			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+	public WSResponse<List<PricingTypeVO>> getPricingTypeByPagination(@RequestParam(defaultValue = "1") int pagenumber,
+			@RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "pricingTypeId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, pricingTypeService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				pricingTypeService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate PricingType by Id")
+	@PutMapping(path = "/activate-or-deactivate/{pricingTypeId}")
+	public WSResponse<PricingTypeVO> activateOrDeactivatePricingTypeById(@PathVariable Long pricingTypeId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				pricingTypeService.activateOrDeactivateById(pricingTypeId));
 	}
 }

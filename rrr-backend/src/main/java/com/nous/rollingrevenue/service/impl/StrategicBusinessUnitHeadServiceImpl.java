@@ -49,7 +49,7 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "sbuhead", key= "#sbuHeadId")
+	@CacheEvict(value = "sbuhead", key = "#sbuHeadId")
 	public void deleteSBUHeadById(Long sbuHeadId) {
 		sbuHeadRepository.findById(sbuHeadId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
@@ -78,12 +78,12 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 		sbuHead.setActiveUntil(sbuHeadVO.getActiveUntil());
 		return StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(sbuHeadRepository.save(sbuHead));
 	}
-	
+
 	@Override
 	public List<StrategicBusinessUnitHeadVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<StrategicBusinessUnitHeadVO> strategicBusinessUnitHeadVOs = new ArrayList<>();
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
-		Page<StrategicBusinessUnitHead> pageResult =  sbuHeadRepository.findAll(paging);
+		Page<StrategicBusinessUnitHead> pageResult = sbuHeadRepository.findAll(paging);
 		if (pageResult.hasContent()) {
 			pageResult.getContent().stream().forEach(e -> {
 				strategicBusinessUnitHeadVOs.add(StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(e));
@@ -93,5 +93,14 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 		return Collections.emptyList();
 	}
 
+	@Override
+	@Transactional
+	@CachePut(value = "sbuhead", key = "#sbuHeadId")
+	public StrategicBusinessUnitHeadVO activateOrDeactivateById(Long sbuHeadId) {
+		StrategicBusinessUnitHead sbuHead = sbuHeadRepository.findById(sbuHeadId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
+		sbuHead.setActive(!sbuHead.isActive());
+		return StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(sbuHeadRepository.save(sbuHead));
+	}
 
 }

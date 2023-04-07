@@ -19,6 +19,7 @@ public class BusinessDevelopmentManagerConverter {
 		if (bdmVO != null) {
 			if (bdmVO.getBdmId() != null) {
 				bdm.setBdmId(bdmVO.getBdmId());
+				bdm.setActive(bdmVO.isActive());
 			}
 			bdm.setBdmName(bdmVO.getBdmName());
 			bdm.setBdmDisplayName(bdmVO.getBdmDisplayName());
@@ -46,6 +47,7 @@ public class BusinessDevelopmentManagerConverter {
 			bdmVO.setActiveUntil(bdm.getActiveUntil());
 			bdmVO.setLinkedToBusinessUnit(bdm.getLinkedToBusinessUnit());
 			bdmVO.setLinkedToRegion(bdm.getLinkedToRegion());
+			bdmVO.setActive(bdm.isActive());
 		}
 
 		return bdmVO;

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.nous.rollingrevenue.model.FinancialYear;
 
 @Repository
-public interface FinancialYearRepository extends JpaRepository<FinancialYear, Long>{
+public interface FinancialYearRepository extends JpaRepository<FinancialYear, Long> {
 
 }

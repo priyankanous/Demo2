@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.FortnightlyMeetingConverter;
+import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.FortnightlyMeeting;
 import com.nous.rollingrevenue.repository.FortnightlyMeetingRepository;
 import com.nous.rollingrevenue.service.FortnightlyMeetingService;
@@ -25,18 +27,18 @@ import com.nous.rollingrevenue.vo.FortnightlyMeetingVO;
 public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService {
 
 	private static final Logger logger = LoggerFactory.getLogger(FortnightlyMeetingServiceImpl.class);
-	
+
 	@Autowired
 	private FortnightlyMeetingRepository fortnightlyMeetingRepository;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void generateFortnightlyMeetingsOfFinancialYear(FinancialYearVO financialYearVO) {
-		
+
 		LocalDate startDate = financialYearVO.getStartingFrom();
 		LocalDate endDate = financialYearVO.getEndingOn();
 		String financialYear = financialYearVO.getFinancialYearName();
-		logger.info("generating recurring dates for start date"+startDate+" end date "+endDate);
+		logger.info("generating recurring dates for start date" + startDate + " end date " + endDate);
 		List<LocalDate> recurringDates = this.generateRecurringDates(startDate, endDate);
 		List<FortnightlyMeeting> fortnightlyMeetings = new ArrayList<>();
 		for (LocalDate recurringDate : recurringDates) {
@@ -49,7 +51,6 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 		fortnightlyMeetingRepository.saveAll(fortnightlyMeetings);
 	}
 
-	
 	@Override
 	public List<FortnightlyMeetingVO> getFortnightlyMeetingsByFinancialYear(String financialYear) {
 		List<FortnightlyMeetingVO> fortnightlyMeetingVOs = new ArrayList<>();
@@ -58,15 +59,15 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 						.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeeting)));
 		return fortnightlyMeetingVOs;
 	}
-	
 
 	@Override
 	@Transactional
 	public void deleteFortnightlyMeetingByFinancialYear(String financialYear) {
 		fortnightlyMeetingRepository.deleteAll(fortnightlyMeetingRepository.findByFinancialYear(financialYear));
 	}
-	
-	//Generate Recurring dates of Alternate Friday based on FinancialYear Start and End Date
+
+	// Generate Recurring dates of Alternate Friday based on FinancialYear Start and
+	// End Date
 	private List<LocalDate> generateRecurringDates(LocalDate startDate, LocalDate endDate) {
 		List<LocalDate> recurringDates = new ArrayList<>();
 		LocalDate tempDate = startDate;
@@ -83,5 +84,14 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 		return recurringDates;
 	}
 
+	@Override
+	@Transactional
+	public FortnightlyMeetingVO activateOrDeactivateById(Long id) {
+		FortnightlyMeeting fortnightlyMeeting = fortnightlyMeetingRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
+		fortnightlyMeeting.setActive(!fortnightlyMeeting.isActive());
+		return FortnightlyMeetingConverter
+				.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeetingRepository.save(fortnightlyMeeting));
+	}
 
 }

@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -77,6 +78,15 @@ public class OrganizationController {
 	public WSResponse<List<OrganizationVO>> getOrganizationByPagination(
 			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "id", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, organizationService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				organizationService.getPagination(pagenumber, pagesize, sortBy));
 	}
+
+	@Operation(summary = "Activate or Deactivate Organization by Id")
+	@PutMapping(path = "/activate-or-deactivate/{id}")
+	public WSResponse<OrganizationVO> activateOrDeactivateOrganizationById(@PathVariable Long id) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				organizationService.activateOrDeactivateById(id));
+	}
+
 }

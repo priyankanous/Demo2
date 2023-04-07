@@ -58,5 +58,11 @@ public interface ProbabilityTypeService {
 
 
 	public List<ProbabilityTypeVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public ProbabilityTypeVO activateOrDeactivateById(Long id);
 
 }

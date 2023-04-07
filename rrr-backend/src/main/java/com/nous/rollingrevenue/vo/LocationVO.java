@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class LocationVO implements Serializable {
 
 	/**
@@ -14,9 +16,25 @@ public class LocationVO implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long locationId;
 
+	@NotEmpty(message = "LocationName must not be empty")
 	private String locationName;
 
+	@NotEmpty(message = "LocationDisplayName must not be empty")
 	private String locationDisplayName;
+	
+	private boolean isActive;
+
+	public LocationVO() {
+
+	}
+
+	public LocationVO(Long locationId, String locationName, String locationDisplayName, boolean isActive) {
+		super();
+		this.locationId = locationId;
+		this.locationName = locationName;
+		this.locationDisplayName = locationDisplayName;
+		this.isActive = isActive;
+	}
 
 	public Long getLocationId() {
 		return locationId;
@@ -41,5 +59,21 @@ public class LocationVO implements Serializable {
 	public void setLocationDisplayName(String locationDisplayName) {
 		this.locationDisplayName = locationDisplayName;
 	}
+
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	@Override
+	public String toString() {
+		return "LocationVO [locationId=" + locationId + ", locationName=" + locationName + ", locationDisplayName="
+				+ locationDisplayName + ", isActive=" + isActive + "]";
+	}
+
 
 }

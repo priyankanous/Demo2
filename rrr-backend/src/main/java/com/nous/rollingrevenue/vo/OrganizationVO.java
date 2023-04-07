@@ -22,55 +22,62 @@ public class OrganizationVO implements Serializable {
 
 	@NotEmpty(message = "oganization name must not be empty")
 	private String orgName;
+
 	@NotEmpty(message = "organization display name must not be empty")
 	private String orgDisplayName;
-	/**
-	 * @return the id
-	 */
+
+	private boolean isActive;
+
+	public OrganizationVO() {
+
+	}
+
+	public OrganizationVO(Long id, String orgName, String orgDisplayName, boolean isActive) {
+		super();
+		this.id = id;
+		this.orgName = orgName;
+		this.orgDisplayName = orgDisplayName;
+		this.isActive = isActive;
+	}
+
 	public Long getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the orgName
-	 */
-	public String getorgName() {
+	public String getOrgName() {
 		return orgName;
 	}
-	/**
-	 * @param id the id to set
-	 */
-	public void setorgName(String orgName) {
+
+	public void setOrgName(String orgName) {
 		this.orgName = orgName;
 	}
 
-	/**
-	 * @return the orgName
-	 */
-	public String getorgDisplayName() {
+	public String getOrgDisplayName() {
 		return orgDisplayName;
 	}
 
-	/**
-	 * @param orgDisplayName the orgDisplayName to set
-	 */
-	public void setorgDisplayName(String orgDisplayName) {
+	public void setOrgDisplayName(String orgDisplayName) {
 		this.orgDisplayName = orgDisplayName;
 	}
 
-	/**
-	 * toString
-	 */
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
-		return "Organization [id =" + id + "   org name=" + orgName + " org Display Name=" + orgDisplayName + "]";
+		return "OrganizationVO [id=" + id + ", orgName=" + orgName + ", orgDisplayName=" + orgDisplayName
+				+ ", isActive=" + isActive + "]";
 	}
+	
 
 }

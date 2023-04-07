@@ -20,6 +20,7 @@ public class AccountConverter {
 		if (accountVO != null) {
 			if (accountVO.getAccountId() != null) {
 				account.setAccountId(accountVO.getAccountId());
+				account.setActive(accountVO.isActive());
 			}
 			account.setAccountName(accountVO.getAccountName());
 			account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
@@ -43,6 +44,7 @@ public class AccountConverter {
 			accountVO.setAccountName(account.getAccountName());
 			accountVO.setAccountOrClientCode(account.getAccountOrClientCode());
 			accountVO.setLocation(account.getLocation());
+			accountVO.setActive(account.isActive());
 		}
 		return accountVO;
 	}

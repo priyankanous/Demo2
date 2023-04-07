@@ -53,4 +53,10 @@ public interface StrategicBusinessUnitService {
 
 	public List<StrategicBusinessUnitVO> getPagination(int pagenumber, int pagesize, String sortBy);
 	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public StrategicBusinessUnitVO activateOrDeactivateById(Long id);
+	
 }

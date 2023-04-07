@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.nous.rollingrevenue.model.BusinessType;
 
 @Repository
-public interface BusinessTypeRepository extends JpaRepository<BusinessType, Long>{
+public interface BusinessTypeRepository extends JpaRepository<BusinessType, Long> {
 
 }

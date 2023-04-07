@@ -63,13 +63,21 @@ public class AccountController {
 		accountService.deleteAccountById(accountId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
+
 	@Operation(summary = "Get Account By Pagination")
 	@GetMapping("/page")
-	public WSResponse<List<AccountVO>> getAccountByPagination(
-			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+	public WSResponse<List<AccountVO>> getAccountByPagination(@RequestParam(defaultValue = "1") int pagenumber,
+			@RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "accountId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, accountService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				accountService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate Account by Id")
+	@PutMapping(path = "/activate-or-deactivate/{accountId}")
+	public WSResponse<AccountVO> activateOrDeactivateAccountById(@PathVariable Long accountId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				accountService.activateOrDeactivateById(accountId));
 	}
 
 }

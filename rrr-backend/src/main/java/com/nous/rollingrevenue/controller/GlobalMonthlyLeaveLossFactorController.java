@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -83,6 +84,14 @@ public class GlobalMonthlyLeaveLossFactorController {
 			@RequestParam(defaultValue = "leaveLossFactorId", required = false) String sortBy) {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
 				globalMonthlyLeaveLossFactorService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate GlobalMonthlyLeaveLossFactor by Id")
+	@PutMapping(path = "/activate-or-deactivate/{leaveLossFactorId}")
+	public WSResponse<GlobalMonthlyLeaveLossFactorVO> activateOrDeactivateGlobalMonthlyLeaveLossFactorById(
+			@PathVariable Long leaveLossFactorId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				globalMonthlyLeaveLossFactorService.activateOrDeactivateById(leaveLossFactorId));
 	}
 
 }

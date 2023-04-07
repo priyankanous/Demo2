@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -66,13 +67,20 @@ public class CocPracticeController {
 	public WSResponse<List<CocPracticeVO>> getCocPractice() {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpracticeService.getAllCocPractice());
 	}
-	
+
 	@Operation(summary = "Get CocPractice By Pagination")
 	@GetMapping("/page")
-	public WSResponse<List<CocPracticeVO>> getCocPracticeByPagination(
-			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+	public WSResponse<List<CocPracticeVO>> getCocPracticeByPagination(@RequestParam(defaultValue = "1") int pagenumber,
+			@RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "cocPracticeId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpracticeService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				cocpracticeService.getPagination(pagenumber, pagesize, sortBy));
 	}
 
+	@Operation(summary = "Activate or Deactivate CocPractice by Id")
+	@PutMapping(path = "/activate-or-deactivate/{id}")
+	public WSResponse<CocPracticeVO> activateOrDeactivateCocPracticeById(@PathVariable Long id) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				cocpracticeService.activateOrDeactivateById(id));
+	}
 }

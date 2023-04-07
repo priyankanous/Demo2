@@ -7,5 +7,5 @@ import com.nous.rollingrevenue.model.WorkOrderStatus;
 
 @Repository
 public interface WorkOrderStatusRepository extends JpaRepository<WorkOrderStatus, Long> {
-
+	
 }

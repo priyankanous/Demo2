@@ -60,7 +60,7 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 	@Cacheable(value = "wostatus", key = "#woStatusId")
 	public WorkOrderStatusVO getWorkOrderStatusById(Long woStatusId) {
 		WorkOrderStatus woStatus = woStatusRepository.findById(woStatusId)
-                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
 		return WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(woStatus);
 	}
 
@@ -74,7 +74,7 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 		woStatus.setWoStatusDisplayName(woStatusVO.getWoStatusDisplayName());
 		return WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(woStatusRepository.save(woStatus));
 	}
-	
+
 	@Override
 	public List<WorkOrderStatusVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<WorkOrderStatusVO> workOrderStatusVOs = new ArrayList<>();
@@ -87,6 +87,16 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 			return workOrderStatusVOs;
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	@Transactional
+	@CachePut(value = "wostatus", key = "#woStatusId")
+	public WorkOrderStatusVO activateOrDeactivateById(Long woStatusId) {
+		WorkOrderStatus woStatus = woStatusRepository.findById(woStatusId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
+		woStatus.setActive(!woStatus.isActive());
+		return WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(woStatusRepository.save(woStatus));
 	}
 
 }

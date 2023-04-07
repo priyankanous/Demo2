@@ -58,5 +58,11 @@ public interface BusinessTypeService {
 
 
 	public List<BusinessTypeVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public BusinessTypeVO activateOrDeactivateById(Long id);
 
 }

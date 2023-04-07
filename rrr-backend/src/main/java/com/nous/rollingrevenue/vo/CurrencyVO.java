@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
 
-public class CurrencyVO implements Serializable{
-	
+public class CurrencyVO implements Serializable {
+
 	/**
 	 * Serial Version ID
 	 */
@@ -16,30 +16,33 @@ public class CurrencyVO implements Serializable{
 
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long currencyId;
-	
+
 	@NotBlank(message = "Currency cannot be null or empty")
 	private String currency;
-	
+
 	@NotBlank(message = "CurrencyName cannot be null or empty")
 	private String currencyName;
-	
+
 	@NotBlank(message = "Symbol cannot be null or empty")
 	private String symbol;
-	
+
 	private BigDecimal conversionRate;
-	
+
 	@NotBlank(message = "FinancialYear cannot be null or empty")
 	private String financialYear;
-	
+
 	@NotBlank(message = "BaseCurrency cannot be null or empty")
 	private String baseCurrency;
+
+	private boolean isActive;
 
 	public CurrencyVO() {
 
 	}
 
 	public CurrencyVO(Long currencyId, String currency, String currencyName, String symbol, BigDecimal conversionRate,
-			String financialYear, String baseCurrency) {
+			String financialYear, String baseCurrency, boolean isActive) {
+		super();
 		this.currencyId = currencyId;
 		this.currency = currency;
 		this.currencyName = currencyName;
@@ -47,6 +50,7 @@ public class CurrencyVO implements Serializable{
 		this.conversionRate = conversionRate;
 		this.financialYear = financialYear;
 		this.baseCurrency = baseCurrency;
+		this.isActive = isActive;
 	}
 
 	public Long getCurrencyId() {
@@ -105,11 +109,20 @@ public class CurrencyVO implements Serializable{
 		this.baseCurrency = baseCurrency;
 	}
 
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "CurrencyVO [currencyId=" + currencyId + ", currency=" + currency + ", currencyName=" + currencyName
 				+ ", symbol=" + symbol + ", conversionRate=" + conversionRate + ", financialYear=" + financialYear
-				+ ", baseCurrency=" + baseCurrency + "]";
+				+ ", baseCurrency=" + baseCurrency + ", isActive=" + isActive + "]";
 	}
 	
 

@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -63,6 +64,8 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
+	@Transactional
+	@CachePut(value = "accounts", key = "#accountId")
 	public AccountVO updateAccount(Long accountId, AccountVO accountVO) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
@@ -72,7 +75,7 @@ public class AccountServiceImpl implements AccountService {
 		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
 
 	}
-	
+
 	@Override
 	public List<AccountVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<AccountVO> accountVOs = new ArrayList<>();
@@ -85,6 +88,16 @@ public class AccountServiceImpl implements AccountService {
 			return accountVOs;
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	@Transactional
+	@CachePut(value = "accounts", key = "#accountId")
+	public AccountVO activateOrDeactivateById(Long accountId) {
+		Account account = accountRepository.findById(accountId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
+		account.setActive(!account.isActive());
+		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
 	}
 
 }

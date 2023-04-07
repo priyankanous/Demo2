@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/sbuhead")
 @CrossOrigin(origins = "*")
 public class StrategicBusinessUnitHeadController {
-	
+
 	@Autowired
 	private StrategicBusinessUnitHeadService sbuHeadService;
 
@@ -37,26 +37,28 @@ public class StrategicBusinessUnitHeadController {
 		List<StrategicBusinessUnitHeadVO> sbuHeadVO = sbuHeadService.getAllSBUHead();
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuHeadVO);
 	}
-	
+
 	@Operation(summary = "Save SBUHead")
 	@PostMapping
-	public WSResponse<StrategicBusinessUnitHeadVO> saveSBUHead(@RequestBody @Valid StrategicBusinessUnitHeadVO sbuHeadVO) {
+	public WSResponse<StrategicBusinessUnitHeadVO> saveSBUHead(
+			@RequestBody @Valid StrategicBusinessUnitHeadVO sbuHeadVO) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuHeadService.saveSBUHead(sbuHeadVO));
 	}
-	
+
 	@Operation(summary = "Get SBUHead by Id")
 	@GetMapping(path = "{sbuHeadId}")
 	public WSResponse<StrategicBusinessUnitHeadVO> getSBUHeadById(@PathVariable Long sbuHeadId) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuHeadService.getSBUHeadById(sbuHeadId));
 	}
-	
+
 	@Operation(summary = "Update SBUHead by Id")
 	@PutMapping(path = "{sbuHeadId}")
-	public WSResponse<StrategicBusinessUnitHeadVO> updateSBUHead(@PathVariable Long sbuHeadId, @RequestBody @Valid StrategicBusinessUnitHeadVO sbuHeadVO) {
+	public WSResponse<StrategicBusinessUnitHeadVO> updateSBUHead(@PathVariable Long sbuHeadId,
+			@RequestBody @Valid StrategicBusinessUnitHeadVO sbuHeadVO) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				sbuHeadService.updateSBUHead(sbuHeadId, sbuHeadVO));
 	}
-	
+
 	@Operation(summary = "Delete SBUHead by Id")
 	@DeleteMapping(path = "{sbuHeadId}")
 	public WSResponse<String> deleteSBUHead(@PathVariable Long sbuHeadId) {
@@ -64,12 +66,21 @@ public class StrategicBusinessUnitHeadController {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
-
 	@Operation(summary = "Get SBUHead By Pagination")
 	@GetMapping("/page")
 	public WSResponse<List<StrategicBusinessUnitHeadVO>> getStrategicBusinessUnitHeadByPagination(
 			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "sbuHeadId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, sbuHeadService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				sbuHeadService.getPagination(pagenumber, pagesize, sortBy));
 	}
+
+	@Operation(summary = "Activate or Deactivate StrategicBusinessUnitHead by Id")
+	@PutMapping(path = "/activate-or-deactivate/{sbuHeadId}")
+	public WSResponse<StrategicBusinessUnitHeadVO> activateOrDeactivateStrategicBusinessUnitHeadById(
+			@PathVariable Long sbuHeadId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				sbuHeadService.activateOrDeactivateById(sbuHeadId));
+	}
+
 }

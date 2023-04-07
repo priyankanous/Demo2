@@ -32,6 +32,24 @@ public class GlobalMonthlyLeaveLossFactor extends Auditable<String> {
 	@Column(name = "financial_year")
 	private String financialYear;
 
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
+
+	public GlobalMonthlyLeaveLossFactor() {
+
+	}
+
+	public GlobalMonthlyLeaveLossFactor(Long leaveLossFactorId, String month, Long offShore, Long onSite,
+			String financialYear, boolean isActive) {
+		super();
+		this.leaveLossFactorId = leaveLossFactorId;
+		this.month = month;
+		this.offShore = offShore;
+		this.onSite = onSite;
+		this.financialYear = financialYear;
+		this.isActive = isActive;
+	}
+
 	public Long getLeaveLossFactorId() {
 		return leaveLossFactorId;
 	}
@@ -72,19 +90,19 @@ public class GlobalMonthlyLeaveLossFactor extends Auditable<String> {
 		this.financialYear = financialYear;
 	}
 
-	public GlobalMonthlyLeaveLossFactor() {
-		super();
-		// TODO Auto-generated constructor stub
+	public boolean isActive() {
+		return isActive;
 	}
 
-	public GlobalMonthlyLeaveLossFactor(Long leaveLossFactorId, String month, Long offShore, Long onSite,
-			String financialYear) {
-		super();
-		this.leaveLossFactorId = leaveLossFactorId;
-		this.month = month;
-		this.offShore = offShore;
-		this.onSite = onSite;
-		this.financialYear = financialYear;
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	@Override
+	public String toString() {
+		return "GlobalMonthlyLeaveLossFactor [leaveLossFactorId=" + leaveLossFactorId + ", month=" + month
+				+ ", offShore=" + offShore + ", onSite=" + onSite + ", financialYear=" + financialYear + ", isActive="
+				+ isActive + "]";
 	}
 
 }

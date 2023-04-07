@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 @Table(name = "ORGANIZATION")
 @EntityListeners(AuditingEntityListener.class)
 public class Organization extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "org_id")
@@ -26,70 +26,57 @@ public class Organization extends Auditable<String> {
 	@Column(name = "org_name")
 	private String orgName;
 
-	/**
-	 * @param id
-	 * @param orgDisplayName
-	 * @param orgName
-	 */
-	public Organization(Long id, String orgDisplayName, String orgName) {
-		this.id = id;
-		this.orgDisplayName = orgDisplayName;
-		this.orgName = orgName;
-	}
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
-	/**
-	 * 
-	 */
 	public Organization() {
 
 	}
 
-	/**
-	 * 
-	 * @return the id
-	 */
+	public Organization(Long id, String orgDisplayName, String orgName, boolean isActive) {
+		super();
+		this.id = id;
+		this.orgDisplayName = orgDisplayName;
+		this.orgName = orgName;
+		this.isActive = isActive;
+	}
+
 	public Long getId() {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	/**
-	 * @return the orgDisplayName
-	 */
-	public String getorgDisplayName() {
+	public String getOrgDisplayName() {
 		return orgDisplayName;
 	}
 
-	/**
-	 * @param firstName the firstName to set
-	 */
-	public void setorgDisplayName(String orgDisplayName) {
+	public void setOrgDisplayName(String orgDisplayName) {
 		this.orgDisplayName = orgDisplayName;
 	}
 
-	/**
-	 * @return the orgName
-	 */
-	public String getorgName() {
+	public String getOrgName() {
 		return orgName;
 	}
 
-	/**
-	 * @param orgName the orgName to set
-	 */
-	public void setorgName(String orgName) {
+	public void setOrgName(String orgName) {
 		this.orgName = orgName;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	@Override
 	public String toString() {
-		return "Organization [id =" + id + "   org disaply name=" + orgDisplayName + " org Name=" + orgName + "]";
+		return "Organization [id=" + id + ", orgDisplayName=" + orgDisplayName + ", orgName=" + orgName + ", isActive="
+				+ isActive + "]";
 	}
 
 }

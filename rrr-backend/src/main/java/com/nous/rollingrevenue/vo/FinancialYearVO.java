@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 
 public class FinancialYearVO implements Serializable {
-	
+
 	/**
 	 * Serial Version ID
 	 */
@@ -17,30 +17,34 @@ public class FinancialYearVO implements Serializable {
 
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long financialYearId;
-	
+
 	@NotBlank(message = "FinancialYearName cannot be null or empty")
 	private String financialYearName;
-	
+
 	@NotBlank(message = "FinancialYearCustomName cannot be null or empty")
 	private String financialYearCustomName;
-	
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate startingFrom;
-	
+
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate endingOn;
+
+	private boolean isActive;
 
 	public FinancialYearVO() {
 
 	}
 
 	public FinancialYearVO(Long financialYearId, String financialYearName, String financialYearCustomName,
-			LocalDate startingFrom, LocalDate endingOn) {
+			LocalDate startingFrom, LocalDate endingOn, boolean isActive) {
+		super();
 		this.financialYearId = financialYearId;
 		this.financialYearName = financialYearName;
 		this.financialYearCustomName = financialYearCustomName;
 		this.startingFrom = startingFrom;
 		this.endingOn = endingOn;
+		this.isActive = isActive;
 	}
 
 	public Long getFinancialYearId() {
@@ -83,11 +87,20 @@ public class FinancialYearVO implements Serializable {
 		this.endingOn = endingOn;
 	}
 
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "FinancialYearVO [financialYearId=" + financialYearId + ", financialYearName=" + financialYearName
 				+ ", financialYearCustomName=" + financialYearCustomName + ", startingFrom=" + startingFrom
-				+ ", endingOn=" + endingOn + "]";
+				+ ", endingOn=" + endingOn + ", isActive=" + isActive + "]";
 	}
 	
 

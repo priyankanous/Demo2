@@ -98,4 +98,15 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 		}
 		return Collections.emptyList();
 	}
+
+	@Override
+	@Transactional
+	@CachePut(value = "holidaycalendar", key = "#holidayId")
+	public HolidayCalendarVO activateOrDeactivateById(Long holidayId) {
+		HolidayCalendar holidayCalendar = holidayCalendarRepository.findById(holidayId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + holidayId));
+		holidayCalendar.setActive(!holidayCalendar.isActive());
+		return HolidayCalendarConverter
+				.convertHolidayCalendarToHolidayCalendarVO(holidayCalendarRepository.save(holidayCalendar));
+	}
 }

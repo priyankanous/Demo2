@@ -27,47 +27,41 @@ import com.nous.rollingrevenue.vo.RegionVO;
 @Service
 @Transactional(readOnly = true)
 public class RegionServiceImpl implements RegionService {
-	
-	
+
 	@Autowired
 	private RegionRepository regionRepository;
-
 
 	@Override
 	public List<RegionVO> getAllRegions() {
 		List<RegionVO> regionsVO = new ArrayList<>();
-		regionRepository.findAll().stream().forEach(
-				region -> regionsVO.add(RegionConverter.convertRegionToRegionVO(region)));
+		regionRepository.findAll().stream()
+				.forEach(region -> regionsVO.add(RegionConverter.convertRegionToRegionVO(region)));
 		return regionsVO;
 	}
-
 
 	@Override
 	@Transactional
 	public RegionVO saveRegion(RegionVO regionVO) {
-		Region region = regionRepository.save(RegionConverter.convertRegionVOToRegion(regionVO));	
+		Region region = regionRepository.save(RegionConverter.convertRegionVOToRegion(regionVO));
 		return RegionConverter.convertRegionToRegionVO(region);
 	}
 
-
 	@Override
 	@Transactional
-	@CacheEvict(value = "regions", key= "#regionId")
+	@CacheEvict(value = "regions", key = "#regionId")
 	public void deleteRegionById(Long regionId) {
 		regionRepository.findById(regionId)
-                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
-		regionRepository.deleteById(regionId);	
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
+		regionRepository.deleteById(regionId);
 	}
-
 
 	@Override
 	@Cacheable(value = "regions", key = "#regionId")
 	public RegionVO getRegionById(Long regionId) {
 		Region region = regionRepository.findById(regionId)
-                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
 		return RegionConverter.convertRegionToRegionVO(region);
 	}
-
 
 	@Override
 	@Transactional
@@ -79,7 +73,7 @@ public class RegionServiceImpl implements RegionService {
 		region.setRegionDisplayName(regionVO.getRegionDisplayName());
 		return RegionConverter.convertRegionToRegionVO(regionRepository.save(region));
 	}
-	
+
 	@Override
 	public List<RegionVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<RegionVO> regionVOs = new ArrayList<>();
@@ -92,6 +86,16 @@ public class RegionServiceImpl implements RegionService {
 			return regionVOs;
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	@Transactional
+	@CachePut(value = "regions", key = "#regionId")
+	public RegionVO activateOrDeactivateById(Long regionId) {
+		Region region = regionRepository.findById(regionId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
+		region.setActive(!region.isActive());
+		return RegionConverter.convertRegionToRegionVO(regionRepository.save(region));
 	}
 
 }

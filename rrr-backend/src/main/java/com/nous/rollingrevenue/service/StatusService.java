@@ -58,5 +58,11 @@ public interface StatusService {
 
 
 	public List<StatusVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public StatusVO activateOrDeactivateById(Long id);
 
 }

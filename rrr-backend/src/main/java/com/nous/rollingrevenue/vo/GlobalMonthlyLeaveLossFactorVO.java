@@ -29,6 +29,23 @@ public class GlobalMonthlyLeaveLossFactorVO implements Serializable {
 	@NotEmpty(message = "financial year must not be empty")
 	private String financialYear;
 
+	private boolean isActive;
+
+	public GlobalMonthlyLeaveLossFactorVO() {
+
+	}
+
+	public GlobalMonthlyLeaveLossFactorVO(Long leaveLossFactorId, String month, Long offShore, Long onSite,
+			String financialYear, boolean isActive) {
+		super();
+		this.leaveLossFactorId = leaveLossFactorId;
+		this.month = month;
+		this.offShore = offShore;
+		this.onSite = onSite;
+		this.financialYear = financialYear;
+		this.isActive = isActive;
+	}
+
 	public Long getLeaveLossFactorId() {
 		return leaveLossFactorId;
 	}
@@ -68,5 +85,22 @@ public class GlobalMonthlyLeaveLossFactorVO implements Serializable {
 	public void setFinancialYear(String financialYear) {
 		this.financialYear = financialYear;
 	}
+
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	@Override
+	public String toString() {
+		return "GlobalMonthlyLeaveLossFactorVO [leaveLossFactorId=" + leaveLossFactorId + ", month=" + month
+				+ ", offShore=" + offShore + ", onSite=" + onSite + ", financialYear=" + financialYear + ", isActive="
+				+ isActive + "]";
+	}
+	
 
 }

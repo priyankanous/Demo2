@@ -22,10 +22,11 @@ public class OrganizationConverter {
 		if (organizationVO != null) {
 			if (organizationVO.getId() != null) {
 				organization.setId(organizationVO.getId());
+				organization.setActive(organizationVO.isActive());
 			}
 			organization.setId(organizationVO.getId());
-			organization.setorgName((organizationVO.getorgName()));
-			organization.setorgDisplayName(organizationVO.getorgDisplayName());
+			organization.setOrgName((organizationVO.getOrgName()));
+			organization.setOrgDisplayName(organizationVO.getOrgDisplayName());
 		}
 
 		return organization;
@@ -42,8 +43,9 @@ public class OrganizationConverter {
 		OrganizationVO organizationVO = new OrganizationVO();
 		if (organization != null) {
 			organizationVO.setId(organization.getId());
-			organizationVO.setorgName(organization.getorgName());
-			organizationVO.setorgDisplayName((organization.getorgDisplayName()));
+			organizationVO.setOrgName(organization.getOrgName());
+			organizationVO.setOrgDisplayName((organization.getOrgDisplayName()));
+			organizationVO.setActive(organization.isActive());
 		}
 
 		return organizationVO;

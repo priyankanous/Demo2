@@ -16,39 +16,44 @@ import jakarta.persistence.Table;
 @Table(name = "opportunity")
 @EntityListeners(AuditingEntityListener.class)
 public class Opportunity extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "opportunity_id")
 	private Long opportunityId;
-	
+
 	@Column(name = "opportunity_name")
 	private String opportunityName;
-	
+
 	@Column(name = "child_of_account")
 	private String childOfAccount;
-	
+
 	@Column(name = "project_code")
 	private String projectCode;
-	
+
 	@Column(name = "project_start_date")
 	private LocalDate projectStartDate;
-	
+
 	@Column(name = "project_end_date")
 	private LocalDate projectEndDate;
+
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
 	public Opportunity() {
 
 	}
 
 	public Opportunity(Long opportunityId, String opportunityName, String childOfAccount, String projectCode,
-			LocalDate projectStartDate, LocalDate projectEndDate) {
+			LocalDate projectStartDate, LocalDate projectEndDate, boolean isActive) {
+		super();
 		this.opportunityId = opportunityId;
 		this.opportunityName = opportunityName;
 		this.childOfAccount = childOfAccount;
 		this.projectCode = projectCode;
 		this.projectStartDate = projectStartDate;
 		this.projectEndDate = projectEndDate;
+		this.isActive = isActive;
 	}
 
 	public Long getOpportunityId() {
@@ -99,12 +104,19 @@ public class Opportunity extends Auditable<String> {
 		this.projectEndDate = projectEndDate;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "Opportunity [opportunityId=" + opportunityId + ", opportunityName=" + opportunityName
 				+ ", childOfAccount=" + childOfAccount + ", projectCode=" + projectCode + ", projectStartDate="
-				+ projectStartDate + ", projectEndDate=" + projectEndDate + "]";
+				+ projectStartDate + ", projectEndDate=" + projectEndDate + ", isActive=" + isActive + "]";
 	}
-	
 
 }

@@ -51,5 +51,11 @@ public interface OrganizationService {
 	public OrganizationVO updateOrganization(Long id, OrganizationVO organizationVO);
 
 	public List<OrganizationVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public OrganizationVO activateOrDeactivateById(Long id);
 
 }

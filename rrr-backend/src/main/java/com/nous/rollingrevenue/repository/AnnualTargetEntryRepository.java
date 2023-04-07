@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.nous.rollingrevenue.model.AnnualTargetEntry;
 
 @Repository
-public interface AnnualTargetEntryRepository extends JpaRepository<AnnualTargetEntry, Long>{
+public interface AnnualTargetEntryRepository extends JpaRepository<AnnualTargetEntry, Long> {
 
 }

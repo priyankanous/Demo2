@@ -59,7 +59,7 @@ public class StatusServiceImpl implements StatusService {
 	@Cacheable(value = "status", key = "#statusId")
 	public StatusVO getStatusById(Long statusId) {
 		Status status = statusRepository.findById(statusId)
-                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
 		return StatusConverter.convertStatusToStatusVO(status);
 	}
 
@@ -73,7 +73,7 @@ public class StatusServiceImpl implements StatusService {
 		status.setStatusDisplayName(statusVO.getStatusDisplayName());
 		return StatusConverter.convertStatusToStatusVO(statusRepository.save(status));
 	}
-	
+
 	@Override
 	public List<StatusVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<StatusVO> statusVOs = new ArrayList<>();
@@ -88,5 +88,14 @@ public class StatusServiceImpl implements StatusService {
 		return Collections.emptyList();
 	}
 
+	@Override
+	@Transactional
+	@CachePut(value = "status", key = "#statusId")
+	public StatusVO activateOrDeactivateById(Long statusId) {
+		Status status = statusRepository.findById(statusId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
+		status.setActive(!status.isActive());
+		return StatusConverter.convertStatusToStatusVO(statusRepository.save(status));
+	}
 
 }

@@ -25,6 +25,22 @@ public class BusinessUnitVO implements Serializable {
 	@NotEmpty(message = "child of organization must not be empty")
 	private String childOfOrg;
 
+	private boolean isActive;
+
+	public BusinessUnitVO() {
+		super();
+	}
+
+	public BusinessUnitVO(Long businessUnitId, String businessUnitName, String businessUnitDisplayName,
+			String childOfOrg, boolean isActive) {
+		super();
+		this.businessUnitId = businessUnitId;
+		this.businessUnitName = businessUnitName;
+		this.businessUnitDisplayName = businessUnitDisplayName;
+		this.childOfOrg = childOfOrg;
+		this.isActive = isActive;
+	}
+
 	public Long getBusinessUnitId() {
 		return businessUnitId;
 	}
@@ -56,5 +72,22 @@ public class BusinessUnitVO implements Serializable {
 	public void setChildOfOrg(String childOfOrg) {
 		this.childOfOrg = childOfOrg;
 	}
+
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	@Override
+	public String toString() {
+		return "BusinessUnitVO [businessUnitId=" + businessUnitId + ", businessUnitName=" + businessUnitName
+				+ ", businessUnitDisplayName=" + businessUnitDisplayName + ", childOfOrg=" + childOfOrg + ", isActive="
+				+ isActive + "]";
+	}
+	
 
 }

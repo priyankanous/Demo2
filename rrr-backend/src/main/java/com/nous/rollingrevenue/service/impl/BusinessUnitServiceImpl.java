@@ -96,5 +96,15 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 		}
 		return Collections.emptyList();
 	}
+	
+	@Override
+	@Transactional
+	@CachePut(value = "businessUnitCache", key = "#id")
+	public BusinessUnitVO activateOrDeactivateById(Long id) {
+		BusinessUnit businessUnit = businessUnitRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
+		businessUnit.setActive(!businessUnit.isActive());
+		return BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnitRepository.save(businessUnit));
+	}
 
 }

@@ -27,49 +27,60 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/v1/financial-year")
 @CrossOrigin(origins = "*")
 public class FinancialYearController {
-	
+
 	@Autowired
 	private FinancialYearService financialYearService;
-	
+
 	@Operation(summary = "Get All FinancialYear")
 	@GetMapping
 	public WSResponse<List<FinancialYearVO>> getAllFinancialYear() {
 		List<FinancialYearVO> financialYearVOs = financialYearService.getAllFinancialYear();
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, financialYearVOs);
 	}
-	
+
 	@Operation(summary = "Save FinancialYear")
 	@PostMapping
 	public WSResponse<FinancialYearVO> saveFinancialYear(@RequestBody @Valid FinancialYearVO financialYearVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, financialYearService.saveFinancialYear(financialYearVO));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				financialYearService.saveFinancialYear(financialYearVO));
 	}
-	
+
 	@Operation(summary = "Get FinancialYear by Id")
 	@GetMapping(path = "{financialYearId}")
 	public WSResponse<FinancialYearVO> getFinancialYearById(@PathVariable Long financialYearId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, financialYearService.getFinancialYearById(financialYearId));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				financialYearService.getFinancialYearById(financialYearId));
 	}
-	
+
 	@Operation(summary = "Update FinancialYear by Id")
 	@PutMapping(path = "{financialYearId}")
-	public WSResponse<FinancialYearVO> updateFinancialYear(@PathVariable Long financialYearId, @RequestBody @Valid FinancialYearVO financialYearVO) {
+	public WSResponse<FinancialYearVO> updateFinancialYear(@PathVariable Long financialYearId,
+			@RequestBody @Valid FinancialYearVO financialYearVO) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				financialYearService.updateFinancialYear(financialYearId, financialYearVO));
 	}
-	
+
 	@Operation(summary = "Delete FinancialYear by Id")
 	@DeleteMapping(path = "{financialYearId}")
 	public WSResponse<String> deleteFinancialYear(@PathVariable Long financialYearId) {
 		financialYearService.deleteFinancialYearById(financialYearId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
+
 	@Operation(summary = "Get FinancialYear By Pagination")
 	@GetMapping("/page")
 	public WSResponse<List<FinancialYearVO>> getFinancialYearByPagination(
 			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "financialYearId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, financialYearService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				financialYearService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate FinancialYear by Id")
+	@PutMapping(path = "/activate-or-deactivate/{financialYearId}")
+	public WSResponse<FinancialYearVO> activateOrDeactivateFinancialYearById(@PathVariable Long financialYearId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				financialYearService.activateOrDeactivateById(financialYearId));
 	}
 
 }

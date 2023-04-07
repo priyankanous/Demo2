@@ -89,5 +89,15 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 		}
 		return Collections.emptyList();
 	}
+	
+	@Override
+	@Transactional
+	@CachePut(value = "pricingtype", key = "#pricingTypeId")
+	public PricingTypeVO activateOrDeactivateById(Long pricingTypeId) {
+		PricingType pricingType = pricingTypeRepository.findById(pricingTypeId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
+		pricingType.setActive(!pricingType.isActive());
+		return PricingTypeConverter.convertPricingTypeToPricingTypeVO(pricingTypeRepository.save(pricingType));
+	}
 
 }

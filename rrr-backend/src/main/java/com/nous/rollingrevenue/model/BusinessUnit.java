@@ -29,6 +29,23 @@ public class BusinessUnit extends Auditable<String> {
 	@Column(name = "organization_name")
 	private String childOfOrg;
 
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
+
+	public BusinessUnit() {
+
+	}
+
+	public BusinessUnit(Long businessUnitId, String businessUnitName, String businessUnitDisplayName, String childOfOrg,
+			boolean isActive) {
+		super();
+		this.businessUnitId = businessUnitId;
+		this.businessUnitName = businessUnitName;
+		this.businessUnitDisplayName = businessUnitDisplayName;
+		this.childOfOrg = childOfOrg;
+		this.isActive = isActive;
+	}
+
 	public Long getBusinessUnitId() {
 		return businessUnitId;
 	}
@@ -61,18 +78,19 @@ public class BusinessUnit extends Auditable<String> {
 		this.childOfOrg = childOfOrg;
 	}
 
-	public BusinessUnit() {
-		super();
-		// TODO Auto-generated constructor stub
+	public boolean isActive() {
+		return isActive;
 	}
 
-	public BusinessUnit(Long businessUnitId, String businessUnitName, String businessUnitDisplayName,
-			String childOfOrg) {
-		super();
-		this.businessUnitId = businessUnitId;
-		this.businessUnitName = businessUnitName;
-		this.businessUnitDisplayName = businessUnitDisplayName;
-		this.childOfOrg = childOfOrg;
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	@Override
+	public String toString() {
+		return "BusinessUnit [businessUnitId=" + businessUnitId + ", businessUnitName=" + businessUnitName
+				+ ", businessUnitDisplayName=" + businessUnitDisplayName + ", childOfOrg=" + childOfOrg + ", isActive="
+				+ isActive + "]";
 	}
 
 }

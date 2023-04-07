@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 public class ProbabilityTypeVO implements Serializable {
-	
+
 	/**
 	 * Serial Version ID
 	 */
@@ -17,22 +17,26 @@ public class ProbabilityTypeVO implements Serializable {
 
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long probabilityTypeId;
-	
+
 	@NotBlank(message = "ProbabilityTypeName cannot be null or empty")
 	private String probabilityTypeName;
-	
+
 	@Min(value = 1, message = "Number should not be less than 1")
-    @Max(value = 100, message = "Number should not be greater than 100")
+	@Max(value = 100, message = "Number should not be greater than 100")
 	private Integer percentage;
+
+	private boolean isActive;
 
 	public ProbabilityTypeVO() {
 
 	}
 
-	public ProbabilityTypeVO(Long probabilityTypeId, String probabilityTypeName, Integer percentage) {
+	public ProbabilityTypeVO(Long probabilityTypeId, String probabilityTypeName, Integer percentage, boolean isActive) {
+		super();
 		this.probabilityTypeId = probabilityTypeId;
 		this.probabilityTypeName = probabilityTypeName;
 		this.percentage = percentage;
+		this.isActive = isActive;
 	}
 
 	public Long getProbabilityTypeId() {
@@ -59,10 +63,19 @@ public class ProbabilityTypeVO implements Serializable {
 		this.percentage = percentage;
 	}
 
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "ProbabilityTypeVO [probabilityTypeId=" + probabilityTypeId + ", probabilityTypeName="
-				+ probabilityTypeName + ", percentage=" + percentage + "]";
+				+ probabilityTypeName + ", percentage=" + percentage + ", isActive=" + isActive + "]";
 	}
 	
 

@@ -14,31 +14,36 @@ import jakarta.persistence.Table;
 @Table(name = "strategic_business_unit")
 @EntityListeners(AuditingEntityListener.class)
 public class StrategicBusinessUnit extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "sbu_id")
 	private Long sbuId;
-	
+
 	@Column(name = "sbu_name")
 	private String sbuName;
-	
+
 	@Column(name = "sbu_display_name")
 	private String sbuDisplayName;
-	
+
 	@Column(name = "bu_display_name")
 	private String buDisplayName;
+
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
 	public StrategicBusinessUnit() {
 
 	}
 
-	public StrategicBusinessUnit(Long sbuId, String sbuName, String sbuDisplayName, String buDisplayName) {
+	public StrategicBusinessUnit(Long sbuId, String sbuName, String sbuDisplayName, String buDisplayName,
+			boolean isActive) {
 		super();
 		this.sbuId = sbuId;
 		this.sbuName = sbuName;
 		this.sbuDisplayName = sbuDisplayName;
 		this.buDisplayName = buDisplayName;
+		this.isActive = isActive;
 	}
 
 	public Long getSbuId() {
@@ -73,11 +78,18 @@ public class StrategicBusinessUnit extends Auditable<String> {
 		this.buDisplayName = buDisplayName;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "StrategicBusinessUnit [sbuId=" + sbuId + ", sbuName=" + sbuName + ", sbuDisplayName=" + sbuDisplayName
-				+ ", buDisplayName=" + buDisplayName + "]";
+				+ ", buDisplayName=" + buDisplayName + ", isActive=" + isActive + "]";
 	}
-	
 
 }

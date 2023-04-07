@@ -21,7 +21,7 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "sbu_head_id")
 	private Long sbuHeadId;
-	
+
 	@Column(name = "sbu_head_name")
 	private String sbuHeadName;
 
@@ -37,12 +37,15 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 	@Column(name = "active_until")
 	private LocalDate activeUntil;
 
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
+
 	public StrategicBusinessUnitHead() {
 
 	}
 
 	public StrategicBusinessUnitHead(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName, String sbuName,
-			LocalDate activeFrom, LocalDate activeUntil) {
+			LocalDate activeFrom, LocalDate activeUntil, boolean isActive) {
 		super();
 		this.sbuHeadId = sbuHeadId;
 		this.sbuHeadName = sbuHeadName;
@@ -50,6 +53,7 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 		this.sbuName = sbuName;
 		this.activeFrom = activeFrom;
 		this.activeUntil = activeUntil;
+		this.isActive = isActive;
 	}
 
 	public Long getSbuHeadId() {
@@ -100,12 +104,19 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 		this.activeUntil = activeUntil;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "StrategicBusinessUnitHead [sbuHeadId=" + sbuHeadId + ", sbuHeadName=" + sbuHeadName
 				+ ", sbuHeadDisplayName=" + sbuHeadDisplayName + ", sbuName=" + sbuName + ", activeFrom=" + activeFrom
-				+ ", activeUntil=" + activeUntil + "]";
+				+ ", activeUntil=" + activeUntil + ", isActive=" + isActive + "]";
 	}
-
 
 }

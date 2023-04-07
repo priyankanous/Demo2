@@ -42,17 +42,20 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 	@Column(name = "linked_to_bu")
 	@Convert(converter = StringSetToStringConverter.class)
 	private Set<String> linkedToBusinessUnit = new HashSet<>();
-	
+
 	@Column(name = "linked_to_region")
 	@Convert(converter = StringSetToStringConverter.class)
 	private Set<String> linkedToRegion = new HashSet<>();
 
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
+
 	public BusinessDevelopmentManager() {
-		
+
 	}
 
 	public BusinessDevelopmentManager(Long bdmId, String bdmName, String bdmDisplayName, LocalDate activeFrom,
-			LocalDate activeUntil, Set<String> linkedToBusinessUnit, Set<String> linkedToRegion) {
+			LocalDate activeUntil, Set<String> linkedToBusinessUnit, Set<String> linkedToRegion, boolean isActive) {
 		super();
 		this.bdmId = bdmId;
 		this.bdmName = bdmName;
@@ -61,6 +64,7 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 		this.activeUntil = activeUntil;
 		this.linkedToBusinessUnit = linkedToBusinessUnit;
 		this.linkedToRegion = linkedToRegion;
+		this.isActive = isActive;
 	}
 
 	public Long getBdmId() {
@@ -119,12 +123,20 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 		this.linkedToRegion = linkedToRegion;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "BusinessDevelopmentManager [bdmId=" + bdmId + ", bdmName=" + bdmName + ", bdmDisplayName="
 				+ bdmDisplayName + ", activeFrom=" + activeFrom + ", activeUntil=" + activeUntil
-				+ ", linkedToBusinessUnit=" + linkedToBusinessUnit + ", linkedToRegion=" + linkedToRegion + "]";
+				+ ", linkedToBusinessUnit=" + linkedToBusinessUnit + ", linkedToRegion=" + linkedToRegion
+				+ ", isActive=" + isActive + "]";
 	}
-	
 
 }

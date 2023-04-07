@@ -20,6 +20,7 @@ public class StrategicBusinessUnitConverter {
 		if (sbuVO != null) {
 			if (sbuVO.getSbuId() != null) {
 				sbu.setSbuId(sbuVO.getSbuId());
+				sbu.setActive(sbuVO.isActive());
 			}
 			sbu.setSbuName(sbuVO.getSbuName());
 			sbu.setSbuDisplayName(sbuVO.getSbuDisplayName());
@@ -42,6 +43,7 @@ public class StrategicBusinessUnitConverter {
 			sbuVO.setSbuName(sbu.getSbuName());
 			sbuVO.setSbuDisplayName(sbu.getSbuDisplayName());
 			sbuVO.setBuDisplayName(sbu.getBuDisplayName());
+			sbuVO.setActive(sbu.isActive());
 		}
 		return sbuVO;
 	}

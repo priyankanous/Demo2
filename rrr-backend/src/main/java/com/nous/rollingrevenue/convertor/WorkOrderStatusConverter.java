@@ -20,6 +20,7 @@ public class WorkOrderStatusConverter {
 		if (woStatusVO != null) {
 			if (woStatusVO.getWoStatusId() != null) {
 				woStatus.setWoStatusId(woStatusVO.getWoStatusId());
+				woStatus.setActive(woStatusVO.isActive());
 			}
 			woStatus.setWoStatusName(woStatusVO.getWoStatusName());
 			woStatus.setWoStatusDisplayName(woStatusVO.getWoStatusDisplayName());
@@ -41,6 +42,7 @@ public class WorkOrderStatusConverter {
 			woStatusVO.setWoStatusId(woStatus.getWoStatusId());
 			woStatusVO.setWoStatusName(woStatus.getWoStatusName());
 			woStatusVO.setWoStatusDisplayName(woStatus.getWoStatusDisplayName());
+			woStatusVO.setActive(woStatus.isActive());
 		}
 		return woStatusVO;
 	}

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.nous.rollingrevenue.model.Opportunity;
 
 @Repository
-public interface OpportunityRepository extends JpaRepository<Opportunity, Long>{
+public interface OpportunityRepository extends JpaRepository<Opportunity, Long> {
 
 }

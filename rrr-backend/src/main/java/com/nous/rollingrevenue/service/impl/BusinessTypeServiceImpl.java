@@ -88,5 +88,15 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 		}
 		return Collections.emptyList();
 	}
+	
+	@Override
+	@Transactional
+	@CachePut(value = "businesstype", key = "#businessTypeId")
+	public BusinessTypeVO activateOrDeactivateById(Long businessTypeId) {
+		BusinessType businessType = businessTypeRepository.findById(businessTypeId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
+		businessType.setActive(!businessType.isActive());
+		return BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(businessTypeRepository.save(businessType));
+	}
 
 }

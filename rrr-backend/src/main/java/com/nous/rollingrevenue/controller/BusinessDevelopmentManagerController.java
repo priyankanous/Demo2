@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,7 +63,7 @@ public class BusinessDevelopmentManagerController {
 	public WSResponse<List<BDMVO>> getBDMDetails() {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, businessDevelopmentManagerService.getBDM());
 	}
-	
+
 	@Operation(summary = "Get BusinessDevelopmentManager By Pagination")
 	@GetMapping("/page")
 	public WSResponse<List<BDMVO>> getBusinessDevelopmentManagerPagination(
@@ -70,6 +71,13 @@ public class BusinessDevelopmentManagerController {
 			@RequestParam(defaultValue = "bdmId", required = false) String sortBy) {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
 				businessDevelopmentManagerService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate BusinessDevelopmentManager by Id")
+	@PutMapping(path = "/activate-or-deactivate/{bdmId}")
+	public WSResponse<BDMVO> activateOrDeactivateBusinessDevelopmentManagerById(@PathVariable Long bdmId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				businessDevelopmentManagerService.activateOrDeactivateById(bdmId));
 	}
 
 }

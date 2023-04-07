@@ -105,4 +105,15 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 		return leaveLossFactorVOs;
 	}
 
+	@Override
+	@Transactional
+	@CachePut(value = "lossfactor", key = "#id")
+	public GlobalMonthlyLeaveLossFactorVO activateOrDeactivateById(Long id) {
+		GlobalMonthlyLeaveLossFactor leaveLossFactor = globalMonthlyLeaveLossFactorRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
+		leaveLossFactor.setActive(!leaveLossFactor.isActive());
+		return LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(
+				globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor));
+	}
+
 }

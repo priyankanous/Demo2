@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.nous.rollingrevenue.model.Organization;
 
-
 @Repository
 public interface OrganizationRepository extends JpaRepository<Organization, Long> {
 

@@ -51,7 +51,7 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 		FinancialYearVO savedFinancialYearVO = FinancialYearConverter
 				.convertFinancialYearToFinancialYearVO(financialYear);
 		// Generate Fortnightly Meetings for the Respective FinancialYear.
-		fortnightlyMeetingService.generateFortnightlyMeetingsOfFinancialYear(savedFinancialYearVO);
+		//fortnightlyMeetingService.generateFortnightlyMeetingsOfFinancialYear(savedFinancialYearVO);
 		return savedFinancialYearVO;
 	}
 
@@ -77,27 +77,28 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	@Transactional
 	@CachePut(value = "financialyear", key = "#financialYearId")
 	public FinancialYearVO updateFinancialYear(Long financialYearId, FinancialYearVO financialYearVO) {
-		FinancialYearVO tempFinancialYearVO = null;
+		//FinancialYearVO tempFinancialYearVO = null;
 		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
-		tempFinancialYearVO = FinancialYearConverter.convertFinancialYearToFinancialYearVO(financialYear);
+		//tempFinancialYearVO = FinancialYearConverter.convertFinancialYearToFinancialYearVO(financialYear);
 		financialYear.setFinancialYearName(financialYearVO.getFinancialYearName());
 		financialYear.setFinancialYearCustomName(financialYearVO.getFinancialYearCustomName());
 		financialYear.setStartingFrom(financialYearVO.getStartingFrom());
 		financialYear.setEndingOn(financialYearVO.getEndingOn());
 		FinancialYearVO savedFinancialYearVO = FinancialYearConverter
 				.convertFinancialYearToFinancialYearVO(financialYearRepository.save(financialYear));
-		// Delete Existing and Generate Fortnightly Meetings for the Updated FinancialYear.
-		if (!financialYearVO.getStartingFrom().equals(tempFinancialYearVO.getStartingFrom())
-				| !financialYearVO.getEndingOn().equals(tempFinancialYearVO.getEndingOn())
-				| !financialYearVO.getFinancialYearName().equals(tempFinancialYearVO.getFinancialYearName())) {
-			fortnightlyMeetingService
-					.deleteFortnightlyMeetingByFinancialYear(tempFinancialYearVO.getFinancialYearName());
-			fortnightlyMeetingService.generateFortnightlyMeetingsOfFinancialYear(savedFinancialYearVO);
-		}
+		// Delete Existing and Generate Fortnightly Meetings for the Updated
+		// FinancialYear.
+//		if (!financialYearVO.getStartingFrom().equals(tempFinancialYearVO.getStartingFrom())
+//				| !financialYearVO.getEndingOn().equals(tempFinancialYearVO.getEndingOn())
+//				| !financialYearVO.getFinancialYearName().equals(tempFinancialYearVO.getFinancialYearName())) {
+//			fortnightlyMeetingService
+//					.deleteFortnightlyMeetingByFinancialYear(tempFinancialYearVO.getFinancialYearName());
+//			fortnightlyMeetingService.generateFortnightlyMeetingsOfFinancialYear(savedFinancialYearVO);
+//		}
 		return savedFinancialYearVO;
 	}
-	
+
 	@Override
 	public List<FinancialYearVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<FinancialYearVO> financialYearVOs = new ArrayList<>();
@@ -110,6 +111,17 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 			return financialYearVOs;
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	@Transactional
+	@CachePut(value = "financialyear", key = "#financialYearId")
+	public FinancialYearVO activateOrDeactivateById(Long financialYearId) {
+		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
+		financialYear.setActive(!financialYear.isActive());
+		return FinancialYearConverter
+				.convertFinancialYearToFinancialYearVO(financialYearRepository.save(financialYear));
 	}
 
 }

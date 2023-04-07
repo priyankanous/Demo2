@@ -20,6 +20,7 @@ public class FortnightlyMeetingConverter {
 		if (fortnightlyMeetingVO != null) {
 			if (fortnightlyMeetingVO.getMeetingId() != null) {
 				fortnightlyMeeting.setMeetingId(fortnightlyMeetingVO.getMeetingId());
+				fortnightlyMeeting.setActive(fortnightlyMeetingVO.isActive());
 			}
 			fortnightlyMeeting.setMeetingDate(fortnightlyMeetingVO.getMeetingDate());
 			fortnightlyMeeting.setFinancialYear(fortnightlyMeetingVO.getFinancialYear());
@@ -41,6 +42,7 @@ public class FortnightlyMeetingConverter {
 			fortnightlyMeetingVO.setMeetingId(fortnightlyMeeting.getMeetingId());
 			fortnightlyMeetingVO.setMeetingDate(fortnightlyMeeting.getMeetingDate());
 			fortnightlyMeetingVO.setFinancialYear(fortnightlyMeeting.getFinancialYear());
+			fortnightlyMeetingVO.setActive(fortnightlyMeeting.isActive());
 		}
 		return fortnightlyMeetingVO;
 	}

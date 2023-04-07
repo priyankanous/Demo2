@@ -14,26 +14,31 @@ import jakarta.persistence.Table;
 @Table(name = "work_order_status")
 @EntityListeners(AuditingEntityListener.class)
 public class WorkOrderStatus extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "wo_status_id")
 	private Long woStatusId;
-	
+
 	@Column(name = "wo_status_name")
 	private String woStatusName;
-	
+
 	@Column(name = "wo_status_display_name")
 	private String woStatusDisplayName;
+
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
 	public WorkOrderStatus() {
 
 	}
 
-	public WorkOrderStatus(Long woStatusId, String woStatusName, String woStatusDisplayName) {
+	public WorkOrderStatus(Long woStatusId, String woStatusName, String woStatusDisplayName, boolean isActive) {
+		super();
 		this.woStatusId = woStatusId;
 		this.woStatusName = woStatusName;
 		this.woStatusDisplayName = woStatusDisplayName;
+		this.isActive = isActive;
 	}
 
 	public Long getWoStatusId() {
@@ -60,11 +65,18 @@ public class WorkOrderStatus extends Auditable<String> {
 		this.woStatusDisplayName = woStatusDisplayName;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "WorkOrderStatus [woStatusId=" + woStatusId + ", woStatusName=" + woStatusName + ", woStatusDisplayName="
-				+ woStatusDisplayName + "]";
+				+ woStatusDisplayName + ", isActive=" + isActive + "]";
 	}
-	
 
 }

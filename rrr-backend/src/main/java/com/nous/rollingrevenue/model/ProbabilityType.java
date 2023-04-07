@@ -14,26 +14,31 @@ import jakarta.persistence.Table;
 @Table(name = "probability_type")
 @EntityListeners(AuditingEntityListener.class)
 public class ProbabilityType extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "probability_type_id")
 	private Long probabilityTypeId;
-	
+
 	@Column(name = "probability_type_name")
 	private String probabilityTypeName;
-	
+
 	@Column(name = "percentage")
 	private Integer percentage;
+
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
 	public ProbabilityType() {
 
 	}
 
-	public ProbabilityType(Long probabilityTypeId, String probabilityTypeName, Integer percentage) {
+	public ProbabilityType(Long probabilityTypeId, String probabilityTypeName, Integer percentage, boolean isActive) {
+		super();
 		this.probabilityTypeId = probabilityTypeId;
 		this.probabilityTypeName = probabilityTypeName;
 		this.percentage = percentage;
+		this.isActive = isActive;
 	}
 
 	public Long getProbabilityTypeId() {
@@ -60,11 +65,18 @@ public class ProbabilityType extends Auditable<String> {
 		this.percentage = percentage;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "ProbabilityType [probabilityTypeId=" + probabilityTypeId + ", probabilityTypeName="
-				+ probabilityTypeName + ", percentage=" + percentage + "]";
+				+ probabilityTypeName + ", percentage=" + percentage + ", isActive=" + isActive + "]";
 	}
-	
 
 }

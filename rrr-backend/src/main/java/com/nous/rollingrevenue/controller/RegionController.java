@@ -63,13 +63,21 @@ public class RegionController {
 		regionService.deleteRegionById(regionId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
+
 	@Operation(summary = "Get Region By Pagination")
 	@GetMapping("/page")
-	public WSResponse<List<RegionVO>> getRegionByPagination(
-			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+	public WSResponse<List<RegionVO>> getRegionByPagination(@RequestParam(defaultValue = "1") int pagenumber,
+			@RequestParam(defaultValue = "10") int pagesize,
 			@RequestParam(defaultValue = "regionId", required = false) String sortBy) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, regionService.getPagination(pagenumber, pagesize, sortBy));
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				regionService.getPagination(pagenumber, pagesize, sortBy));
+	}
+
+	@Operation(summary = "Activate or Deactivate Region by Id")
+	@PutMapping(path = "/activate-or-deactivate/{regionId}")
+	public WSResponse<RegionVO> activateOrDeactivateRegionById(@PathVariable Long regionId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				regionService.activateOrDeactivateById(regionId));
 	}
 
 }

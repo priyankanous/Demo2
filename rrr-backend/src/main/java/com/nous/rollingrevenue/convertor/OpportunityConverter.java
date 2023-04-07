@@ -20,6 +20,7 @@ public class OpportunityConverter {
 		if (opportunityVO != null) {
 			if (opportunityVO.getOpportunityId() != null) {
 				opportunity.setOpportunityId(opportunityVO.getOpportunityId());
+				opportunity.setActive(opportunityVO.isActive());
 			}
 			opportunity.setOpportunityName(opportunityVO.getOpportunityName());
 			opportunity.setChildOfAccount(opportunityVO.getChildOfAccount());
@@ -47,6 +48,7 @@ public class OpportunityConverter {
 			opportunityVO.setProjectCode(opportunity.getProjectCode());
 			opportunityVO.setProjectStartDate(opportunity.getProjectStartDate());
 			opportunityVO.setProjectEndDate(opportunity.getProjectEndDate());
+			opportunityVO.setActive(opportunity.isActive());
 		}
 		return opportunityVO;
 	}

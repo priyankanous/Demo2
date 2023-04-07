@@ -20,6 +20,7 @@ public class LeaveLossFactorConverter {
 		if (leaveLossFactorVO != null) {
 			if (leaveLossFactorVO.getLeaveLossFactorId() != null) {
 				leaveLossFactor.setLeaveLossFactorId(leaveLossFactorVO.getLeaveLossFactorId());
+				leaveLossFactor.setActive(leaveLossFactorVO.isActive());
 			}
 			leaveLossFactor.setMonth(leaveLossFactorVO.getMonth());
 			leaveLossFactor.setOffShore(leaveLossFactorVO.getOffShore());
@@ -44,6 +45,7 @@ public class LeaveLossFactorConverter {
 			leaveLossFactorVO.setOffShore(leaveLossFactor.getOffShore());
 			leaveLossFactorVO.setOnSite(leaveLossFactor.getOnSite());
 			leaveLossFactorVO.setFinancialYear(leaveLossFactor.getFinancialYear());
+			leaveLossFactorVO.setActive(leaveLossFactor.isActive());
 		}
 		return leaveLossFactorVO;
 	}

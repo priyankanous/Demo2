@@ -34,8 +34,8 @@ public class OpportunityServiceImpl implements OpportunityService {
 	@Override
 	public List<OpportunityVO> getAllOpportunity() {
 		List<OpportunityVO> opportunityVOs = new ArrayList<>();
-		opportunityRepository.findAll().stream().forEach(opportunity -> opportunityVOs
-				.add(OpportunityConverter.convertOpportunityToOpportunityVO(opportunity)));
+		opportunityRepository.findAll().stream().forEach(
+				opportunity -> opportunityVOs.add(OpportunityConverter.convertOpportunityToOpportunityVO(opportunity)));
 		return opportunityVOs;
 	}
 
@@ -78,7 +78,7 @@ public class OpportunityServiceImpl implements OpportunityService {
 		opportunity.setProjectStartDate(opportunityVO.getProjectStartDate());
 		return OpportunityConverter.convertOpportunityToOpportunityVO(opportunityRepository.save(opportunity));
 	}
-	
+
 	@Override
 	public List<OpportunityVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<OpportunityVO> opportunityVOs = new ArrayList<>();
@@ -93,5 +93,14 @@ public class OpportunityServiceImpl implements OpportunityService {
 		return Collections.emptyList();
 	}
 
+	@Override
+	@Transactional
+	@CachePut(value = "opportunity", key = "#opportunityId")
+	public OpportunityVO activateOrDeactivateById(Long opportunityId) {
+		Opportunity opportunity = opportunityRepository.findById(opportunityId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
+		opportunity.setActive(!opportunity.isActive());
+		return OpportunityConverter.convertOpportunityToOpportunityVO(opportunityRepository.save(opportunity));
+	}
 
 }

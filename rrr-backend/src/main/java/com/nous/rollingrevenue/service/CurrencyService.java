@@ -58,6 +58,12 @@ public interface CurrencyService {
 
 
 	public List<CurrencyVO> getPagination(int pagenumber, int pagesize, String sortBy);
+	
+	/**
+	 * Activate or Deactivate the record
+	 * @param id
+	 */
+	public CurrencyVO activateOrDeactivateById(Long id);
 
 
 }

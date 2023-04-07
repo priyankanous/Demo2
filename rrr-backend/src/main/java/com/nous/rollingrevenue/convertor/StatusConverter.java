@@ -20,6 +20,7 @@ public class StatusConverter {
 		if (statusVO != null) {
 			if (statusVO.getStatusId() != null) {
 				status.setStatusId(statusVO.getStatusId());
+				status.setActive(statusVO.isActive());
 			}
 			status.setStatusName(statusVO.getStatusName());
 			status.setStatusDisplayName(statusVO.getStatusDisplayName());
@@ -41,6 +42,7 @@ public class StatusConverter {
 			statusVO.setStatusId(status.getStatusId());
 			statusVO.setStatusName(status.getStatusName());
 			statusVO.setStatusDisplayName(status.getStatusDisplayName());
+			statusVO.setActive(status.isActive());
 		}
 		return statusVO;
 	}

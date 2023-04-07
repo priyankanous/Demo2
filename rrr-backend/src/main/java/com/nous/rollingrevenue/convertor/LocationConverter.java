@@ -19,6 +19,7 @@ public class LocationConverter {
 		if (locationVO != null) {
 			if (locationVO.getLocationId() != null) {
 				location.setLocationId(locationVO.getLocationId());
+				location.setActive(locationVO.isActive());
 			}
 			location.setLocationName(locationVO.getLocationName());
 			location.setLocationDisplayName(locationVO.getLocationDisplayName());
@@ -38,6 +39,7 @@ public class LocationConverter {
 			locationVO.setLocationId(location.getLocationId());
 			locationVO.setLocationName(location.getLocationName());
 			locationVO.setLocationDisplayName(location.getLocationDisplayName());
+			locationVO.setActive(location.isActive());
 		}
 		return locationVO;
 	}

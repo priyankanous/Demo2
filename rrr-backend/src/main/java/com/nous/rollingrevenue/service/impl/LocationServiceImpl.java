@@ -80,7 +80,7 @@ public class LocationServiceImpl implements LocationService {
 		});
 		return locationVOs;
 	}
-	
+
 	@Override
 	public List<LocationVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<LocationVO> locationVOs = new ArrayList<>();
@@ -93,5 +93,15 @@ public class LocationServiceImpl implements LocationService {
 			return locationVOs;
 		}
 		return Collections.emptyList();
+	}
+
+	@Override
+	@Transactional
+	@CachePut(value = "location", key = "#locationId")
+	public LocationVO activateOrDeactivateById(Long locationId) {
+		Location location = locationRepository.findById(locationId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + locationId));
+		location.setActive(!location.isActive());
+		return LocationConverter.convertLocationToLocationVO(locationRepository.save(location));
 	}
 }

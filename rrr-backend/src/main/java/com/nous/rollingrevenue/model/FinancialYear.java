@@ -16,35 +16,40 @@ import jakarta.persistence.Table;
 @Table(name = "financial_year")
 @EntityListeners(AuditingEntityListener.class)
 public class FinancialYear extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "fy_id")
 	private Long financialYearId;
-	
+
 	@Column(name = "fy_name")
 	private String financialYearName;
-	
+
 	@Column(name = "fy_custom_name")
 	private String financialYearCustomName;
-	
+
 	@Column(name = "starting_from")
 	private LocalDate startingFrom;
-	
+
 	@Column(name = "ending_on")
 	private LocalDate endingOn;
+
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
 	public FinancialYear() {
 
 	}
 
 	public FinancialYear(Long financialYearId, String financialYearName, String financialYearCustomName,
-			LocalDate startingFrom, LocalDate endingOn) {
+			LocalDate startingFrom, LocalDate endingOn, boolean isActive) {
+		super();
 		this.financialYearId = financialYearId;
 		this.financialYearName = financialYearName;
 		this.financialYearCustomName = financialYearCustomName;
 		this.startingFrom = startingFrom;
 		this.endingOn = endingOn;
+		this.isActive = isActive;
 	}
 
 	public Long getFinancialYearId() {
@@ -87,12 +92,19 @@ public class FinancialYear extends Auditable<String> {
 		this.endingOn = endingOn;
 	}
 
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 	@Override
 	public String toString() {
 		return "FinancialYear [financialYearId=" + financialYearId + ", financialYearName=" + financialYearName
 				+ ", financialYearCustomName=" + financialYearCustomName + ", startingFrom=" + startingFrom
-				+ ", endingOn=" + endingOn + "]";
+				+ ", endingOn=" + endingOn + ", isActive=" + isActive + "]";
 	}
-	
 
 }
