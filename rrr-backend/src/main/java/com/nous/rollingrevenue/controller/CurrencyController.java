@@ -81,5 +81,13 @@ public class CurrencyController {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				currencyService.activateOrDeactivateById(currencyId));
 	}
+	
+	@Operation(summary = "Get Currency By FinancialYear")
+	@GetMapping(path = "/financialyear/{year}")
+	public WSResponse<List<CurrencyVO>> getCurrencyByFinancialYear(
+			@PathVariable @Valid String year) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				currencyService.getCurrencyByFinancialYear(year));
+	}
 
 }

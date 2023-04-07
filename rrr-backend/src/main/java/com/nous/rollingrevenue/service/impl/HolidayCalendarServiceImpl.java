@@ -109,4 +109,14 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 		return HolidayCalendarConverter
 				.convertHolidayCalendarToHolidayCalendarVO(holidayCalendarRepository.save(holidayCalendar));
 	}
+
+	@Override
+	public List<HolidayCalendarVO> getHolidayCalendarByYear(String year) {
+		List<HolidayCalendarVO> holidayCalendarVOs = new ArrayList<>();
+		holidayCalendarRepository.findByYear(year).stream().forEach(holidayClaendar -> {
+			holidayCalendarVOs.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(holidayClaendar));
+		});
+		return holidayCalendarVOs;
+
+	}
 }

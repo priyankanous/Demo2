@@ -30,6 +30,10 @@ public class HolidayCalendar extends Auditable<String> {
 
 	@Column(name = "holiday_day")
 	private String holidayDay;
+	
+	@Column(name = "year")
+	private String year;
+
 
 	@Column(name = "is_active")
 	private boolean isActive = Boolean.TRUE;
@@ -39,12 +43,13 @@ public class HolidayCalendar extends Auditable<String> {
 	}
 
 	public HolidayCalendar(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay,
-			boolean isActive) {
+			String year, boolean isActive) {
 		super();
 		this.holidayId = holidayId;
 		this.holidayName = holidayName;
 		this.holidayDate = holidayDate;
 		this.holidayDay = holidayDay;
+		this.year = year;
 		this.isActive = isActive;
 	}
 
@@ -80,6 +85,14 @@ public class HolidayCalendar extends Auditable<String> {
 		this.holidayDay = holidayDay;
 	}
 
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
 	public boolean isActive() {
 		return isActive;
 	}
@@ -91,7 +104,8 @@ public class HolidayCalendar extends Auditable<String> {
 	@Override
 	public String toString() {
 		return "HolidayCalendar [holidayId=" + holidayId + ", holidayName=" + holidayName + ", holidayDate="
-				+ holidayDate + ", holidayDay=" + holidayDay + ", isActive=" + isActive + "]";
+				+ holidayDate + ", holidayDay=" + holidayDay + ", year=" + year + ", isActive=" + isActive + "]";
 	}
+
 
 }

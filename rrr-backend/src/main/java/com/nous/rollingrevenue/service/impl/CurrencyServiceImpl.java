@@ -102,4 +102,12 @@ public class CurrencyServiceImpl implements CurrencyService {
 		return CurrencyConverter.convertCurrencyToCurrencyVO(currencyRepository.save(currency));
 	}
 
+	public List<CurrencyVO> getCurrencyByFinancialYear(String financialYear) {
+		List<CurrencyVO> currencyVOs = new ArrayList<>();
+		currencyRepository.findByFinancialYear(financialYear).stream().forEach(currency -> {
+			currencyVOs.add(CurrencyConverter.convertCurrencyToCurrencyVO(currency));
+		});
+		return currencyVOs;
+	}
+
 }

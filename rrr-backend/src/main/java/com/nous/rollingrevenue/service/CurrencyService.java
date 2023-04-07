@@ -64,6 +64,15 @@ public interface CurrencyService {
 	 * @param id
 	 */
 	public CurrencyVO activateOrDeactivateById(Long id);
+	
+	/**
+	 * Get the Currency details
+	 * 
+	 * @param financialYear
+	 * @return Currency. Throws
+	 *         {@link RecordNotFoundException} if no match is found
+	 */
+	public List<CurrencyVO> getCurrencyByFinancialYear(String financialYear);
 
 
 }

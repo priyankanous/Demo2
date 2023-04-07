@@ -81,4 +81,10 @@ public class HolidayCalendarController {
 				holidayCalendarService.activateOrDeactivateById(holidayId));
 	}
 
+	@Operation(summary = "Get Calendar By Year")
+	@GetMapping(path = "/year/{year}")
+	public WSResponse<List<HolidayCalendarVO>> getHolidayCalendarByYear(@PathVariable String year) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendarService.getHolidayCalendarByYear(year));
+	}
+
 }

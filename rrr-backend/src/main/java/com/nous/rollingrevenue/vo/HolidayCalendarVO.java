@@ -24,23 +24,27 @@ public class HolidayCalendarVO implements Serializable {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate holidayDate;
-	
+
 	@NotEmpty(message = "HolidayDay must not be empty")
 	private String holidayDay;
-	
+
+	@NotEmpty(message = "Year must not be empty")
+	private String year;
+
 	private boolean isActive;
 
 	public HolidayCalendarVO() {
 
 	}
 
-	public HolidayCalendarVO(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay,
+	public HolidayCalendarVO(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay, String year,
 			boolean isActive) {
 		super();
 		this.holidayId = holidayId;
 		this.holidayName = holidayName;
 		this.holidayDate = holidayDate;
 		this.holidayDay = holidayDay;
+		this.year = year;
 		this.isActive = isActive;
 	}
 
@@ -76,7 +80,14 @@ public class HolidayCalendarVO implements Serializable {
 		this.holidayDay = holidayDay;
 	}
 
-	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public String getYear() {
+		return year;
+	}
+
+	public void setYear(String year) {
+		this.year = year;
+	}
+
 	public boolean isActive() {
 		return isActive;
 	}
@@ -88,9 +99,8 @@ public class HolidayCalendarVO implements Serializable {
 	@Override
 	public String toString() {
 		return "HolidayCalendarVO [holidayId=" + holidayId + ", holidayName=" + holidayName + ", holidayDate="
-				+ holidayDate + ", holidayDay=" + holidayDay + ", isActive=" + isActive + "]";
+				+ holidayDate + ", holidayDay=" + holidayDay + ", year=" + year + ", isActive=" + isActive + "]";
 	}
 	
-	
-}
 
+}
