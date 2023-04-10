@@ -56,6 +56,6 @@ public interface HolidayCalendarService {
 	 */
 	public HolidayCalendarVO activateOrDeactivateById(Long id);
 
-	List<HolidayCalendarVO> getHolidayCalendarByYear(@Valid String year);
+	List<HolidayCalendarVO> getHolidayCalendarByFinancialYear(@Valid String financialYear);
 
 }

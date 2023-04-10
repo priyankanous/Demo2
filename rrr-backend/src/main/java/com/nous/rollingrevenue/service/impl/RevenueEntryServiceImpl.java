@@ -115,7 +115,7 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 
 	private void getMonthlyWorkingHours(RollingRevenueVO rollingRevenueVO) {
 		String financialYear = rollingRevenueVO.getFinancialYear();
-		List<HolidayCalendar> holidayCalendarList = holidayCalendarRepository.findByYear(financialYear);
+		List<HolidayCalendar> holidayCalendarList = holidayCalendarRepository.findByFinancialYear(financialYear);
 
 	}
 

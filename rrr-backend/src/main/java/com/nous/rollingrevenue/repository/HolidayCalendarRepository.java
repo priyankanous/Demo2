@@ -10,6 +10,6 @@ import com.nous.rollingrevenue.model.HolidayCalendar;
 @Repository
 public interface HolidayCalendarRepository extends JpaRepository<HolidayCalendar, Long> {
 
-	List<HolidayCalendar> findByYear(String year);
+	List<HolidayCalendar> findByFinancialYear(String financialYear);
 
 }
