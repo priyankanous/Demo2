@@ -1,6 +1,7 @@
 package com.nous.rollingrevenue.service.impl;
 
 import java.math.BigDecimal;
+import java.time.YearMonth;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -63,7 +64,6 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			rollingRevenueCommonEntry.setCocPractice(rollingRevenueVO.getCocPractice());
 			rollingRevenueCommonEntry.setLocation(rollingRevenueVO.getLocation());
 
-			// TODO: need to check which currency calculation required to save the data.
 			rollingRevenueCommonEntry.setCurrency(rollingRevenueVO.getCurrency());
 
 			rollingRevenueCommonEntry.setWorkOrder(rollingRevenueVO.getWorkOrder());
@@ -78,7 +78,7 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			// TODO: need to check which billing rate type required to save the data.
 			tmMRevenueEntry.setBillingRateType(rollingRevenueVO.getBillingRateType());
 
-			tmMRevenueEntry.setBillingRate(rollingRevenueVO.getBillingRate());
+			tmMRevenueEntry.setBillingRate(calculatingBillingRate(rollingRevenueVO).longValue());
 
 			ResourcesEntry resourcesEntry = new ResourcesEntry();
 			Set<ResourcesEntry> set = new HashSet<>();
@@ -89,7 +89,7 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 					resourcesEntry.setResourceStartDate(resourcesDetailsVO.getResourceStartDate());
 					resourcesEntry.setResourceEndDate(resourcesDetailsVO.getResourceEndDate());
 					resourcesEntry.setLeaveLossFactor(resourcesDetailsVO.getLeaveLossFactor());
-					resourcesEntry.setBillingRate(resourcesDetailsVO.getBillingRate());
+					resourcesEntry.setBillingRate(calculatingBillingRate(rollingRevenueVO).longValue());
 					ResourcesEntry entry = resourceEntryRepository.save(resourcesEntry);
 					set.add(entry);
 				}
@@ -103,20 +103,30 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 		return "Please enter valid Pricing Type";
 	}
 
-	private void rollingRevenueCalculations(RollingRevenueVO rollingRevenueVO) {
+	private BigDecimal calculatingBillingRate(RollingRevenueVO rollingRevenueVO) {
+		BigDecimal conversionRateValue = getConversionRateValue(rollingRevenueVO);
+		return conversionRateValue.multiply(BigDecimal.valueOf(rollingRevenueVO.getBillingRate()));
+	}
+
+	private BigDecimal getConversionRateValue(RollingRevenueVO rollingRevenueVO) {
 		String financialYear = rollingRevenueVO.getFinancialYear();
 		List<Currency> currencyList = currencyRepository.findByFinancialYear(financialYear);
 
-		BigDecimal currencyConversionRate = currencyList.stream()
-				.filter(c -> rollingRevenueVO.getCurrency().equalsIgnoreCase(c.getCurrencyName()))
+		return currencyList.stream().filter(c -> rollingRevenueVO.getCurrency().equalsIgnoreCase(c.getCurrencyName()))
 				.map(Currency::getConversionRate).findFirst().orElse(null);
 
+	}
+
+	private static int weekDaysInMonth(YearMonth yearMonth) {
+		int len = yearMonth.lengthOfMonth(); // 28-31, supporting leap year
+		int dow = yearMonth.atDay(1).getDayOfWeek().getValue(); // 1=Mon, 7=Sun
+		return (dow <= 5 ? Math.min(len - 8, 26 - dow) : Math.max(len + dow - 16, 20));
 	}
 
 	private void getMonthlyWorkingHours(RollingRevenueVO rollingRevenueVO) {
 		String financialYear = rollingRevenueVO.getFinancialYear();
 		List<HolidayCalendar> holidayCalendarList = holidayCalendarRepository.findByYear(financialYear);
-
+		// TODO: get holidays count for each month
 	}
 
 }
