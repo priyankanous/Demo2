@@ -48,11 +48,11 @@ public class RollingRevenueVO implements Serializable {
 	private String projectCode;
 
 	@NotBlank(message = "Project Start Date cannot be null or empty")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectStartDate;
 
 	@NotBlank(message = "Project End Date cannot be null or empty")
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectEndDate;
 
 	@NotBlank(message = "Probability cannot be null or empty")
