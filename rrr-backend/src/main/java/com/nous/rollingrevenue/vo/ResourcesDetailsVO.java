@@ -25,10 +25,10 @@ public class ResourcesDetailsVO implements Serializable {
 	@NotBlank(message = "Resource Name cannot be null or empty")
 	private String resourceName;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate resourceStartDate;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate resourceEndDate;
 
 	@NotNull(message = "Leave Loss Factor cannot be null or empty on Resource Level")
