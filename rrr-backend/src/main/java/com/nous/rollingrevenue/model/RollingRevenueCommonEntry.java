@@ -81,6 +81,9 @@ public class RollingRevenueCommonEntry {
 	@Column(name = "remarks")
 	private Long remarks;
 
+	@Column(name = "status")
+	private String status;
+
 	public Long getCommonId() {
 		return commonId;
 	}
@@ -255,6 +258,14 @@ public class RollingRevenueCommonEntry {
 
 	public void setRemarks(Long remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }
