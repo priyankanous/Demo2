@@ -25,7 +25,7 @@ public class HolidayCalendarVO implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate holidayDate;
 
-	@NotEmpty(message = "HolidayDay must not be empty")
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String holidayDay;
 
 	@NotEmpty(message = "FinancialYear must not be empty")

@@ -22,7 +22,6 @@ import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.repository.FinancialYearRepository;
 import com.nous.rollingrevenue.service.FinancialYearService;
-import com.nous.rollingrevenue.service.FortnightlyMeetingService;
 import com.nous.rollingrevenue.vo.FinancialYearVO;
 
 @Service
@@ -31,9 +30,6 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 
 	@Autowired
 	private FinancialYearRepository financialYearRepository;
-
-	@Autowired
-	private FortnightlyMeetingService fortnightlyMeetingService;
 
 	@Override
 	public List<FinancialYearVO> getAllFinancialYear() {
@@ -50,8 +46,6 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 				.save(FinancialYearConverter.convertFinancialYearVOToFinancialYear(financialYearVO));
 		FinancialYearVO savedFinancialYearVO = FinancialYearConverter
 				.convertFinancialYearToFinancialYearVO(financialYear);
-		// Generate Fortnightly Meetings for the Respective FinancialYear.
-		//fortnightlyMeetingService.generateFortnightlyMeetingsOfFinancialYear(savedFinancialYearVO);
 		return savedFinancialYearVO;
 	}
 
@@ -59,9 +53,8 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	@Transactional
 	@CacheEvict(value = "financialyear", key = "#financialYearId")
 	public void deleteFinancialYearById(Long financialYearId) {
-		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
+		financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
-		fortnightlyMeetingService.deleteFortnightlyMeetingByFinancialYear(financialYear.getFinancialYearName());
 		financialYearRepository.deleteById(financialYearId);
 	}
 
@@ -77,25 +70,14 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	@Transactional
 	@CachePut(value = "financialyear", key = "#financialYearId")
 	public FinancialYearVO updateFinancialYear(Long financialYearId, FinancialYearVO financialYearVO) {
-		//FinancialYearVO tempFinancialYearVO = null;
 		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
-		//tempFinancialYearVO = FinancialYearConverter.convertFinancialYearToFinancialYearVO(financialYear);
 		financialYear.setFinancialYearName(financialYearVO.getFinancialYearName());
 		financialYear.setFinancialYearCustomName(financialYearVO.getFinancialYearCustomName());
 		financialYear.setStartingFrom(financialYearVO.getStartingFrom());
 		financialYear.setEndingOn(financialYearVO.getEndingOn());
 		FinancialYearVO savedFinancialYearVO = FinancialYearConverter
 				.convertFinancialYearToFinancialYearVO(financialYearRepository.save(financialYear));
-		// Delete Existing and Generate Fortnightly Meetings for the Updated
-		// FinancialYear.
-//		if (!financialYearVO.getStartingFrom().equals(tempFinancialYearVO.getStartingFrom())
-//				| !financialYearVO.getEndingOn().equals(tempFinancialYearVO.getEndingOn())
-//				| !financialYearVO.getFinancialYearName().equals(tempFinancialYearVO.getFinancialYearName())) {
-//			fortnightlyMeetingService
-//					.deleteFortnightlyMeetingByFinancialYear(tempFinancialYearVO.getFinancialYearName());
-//			fortnightlyMeetingService.generateFortnightlyMeetingsOfFinancialYear(savedFinancialYearVO);
-//		}
 		return savedFinancialYearVO;
 	}
 

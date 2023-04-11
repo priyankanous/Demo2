@@ -15,13 +15,29 @@ public class FortnightlyMeetingVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long meetingId;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate meetingDate;
 
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
+	private String meetingDay;
+
 	@NotBlank(message = "FinancialYear cannot be null or empty")
 	private String financialYear;
+
+	@NotBlank(message = "MeetingName1 cannot be null or empty")
+	private String meetingName1;
+
+	@NotBlank(message = "MeetingName2 cannot be null or empty")
+	private String meetingName2;
+
+	@NotBlank(message = "MeetingName3 cannot be null or empty")
+	private String meetingName3;
+
+	@NotBlank(message = "MeetingName4 cannot be null or empty")
+	private String meetingName4;
 
 	private boolean isActive;
 
@@ -29,11 +45,17 @@ public class FortnightlyMeetingVO implements Serializable {
 
 	}
 
-	public FortnightlyMeetingVO(Long meetingId, LocalDate meetingDate, String financialYear, boolean isActive) {
+	public FortnightlyMeetingVO(Long meetingId, LocalDate meetingDate, String meetingDay, String financialYear,
+			String meetingName1, String meetingName2, String meetingName3, String meetingName4, boolean isActive) {
 		super();
 		this.meetingId = meetingId;
 		this.meetingDate = meetingDate;
+		this.meetingDay = meetingDay;
 		this.financialYear = financialYear;
+		this.meetingName1 = meetingName1;
+		this.meetingName2 = meetingName2;
+		this.meetingName3 = meetingName3;
+		this.meetingName4 = meetingName4;
 		this.isActive = isActive;
 	}
 
@@ -53,12 +75,52 @@ public class FortnightlyMeetingVO implements Serializable {
 		this.meetingDate = meetingDate;
 	}
 
+	public String getMeetingDay() {
+		return meetingDay;
+	}
+
+	public void setMeetingDay(String meetingDay) {
+		this.meetingDay = meetingDay;
+	}
+
 	public String getFinancialYear() {
 		return financialYear;
 	}
 
 	public void setFinancialYear(String financialYear) {
 		this.financialYear = financialYear;
+	}
+
+	public String getMeetingName1() {
+		return meetingName1;
+	}
+
+	public void setMeetingName1(String meetingName1) {
+		this.meetingName1 = meetingName1;
+	}
+
+	public String getMeetingName2() {
+		return meetingName2;
+	}
+
+	public void setMeetingName2(String meetingName2) {
+		this.meetingName2 = meetingName2;
+	}
+
+	public String getMeetingName3() {
+		return meetingName3;
+	}
+
+	public void setMeetingName3(String meetingName3) {
+		this.meetingName3 = meetingName3;
+	}
+
+	public String getMeetingName4() {
+		return meetingName4;
+	}
+
+	public void setMeetingName4(String meetingName4) {
+		this.meetingName4 = meetingName4;
 	}
 
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
@@ -72,9 +134,10 @@ public class FortnightlyMeetingVO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "FortnightlyMeetingVO [meetingId=" + meetingId + ", meetingDate=" + meetingDate + ", financialYear="
-				+ financialYear + ", isActive=" + isActive + "]";
+		return "FortnightlyMeetingVO [meetingId=" + meetingId + ", meetingDate=" + meetingDate + ", meetingDay="
+				+ meetingDay + ", financialYear=" + financialYear + ", meetingName1=" + meetingName1 + ", meetingName2="
+				+ meetingName2 + ", meetingName3=" + meetingName3 + ", meetingName4=" + meetingName4 + ", isActive="
+				+ isActive + "]";
 	}
-	
 
 }

@@ -37,6 +37,7 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 	public HolidayCalendarVO addCalendar(HolidayCalendarVO holidayCalendarVO) {
 		HolidayCalendar holidayCalendar = HolidayCalendarConverter
 				.convertHolidayCalendarVOToHolidayCalendar(holidayCalendarVO);
+		holidayCalendar.setHolidayDay(holidayCalendar.getHolidayDate().getDayOfWeek().name());
 		return HolidayCalendarConverter
 				.convertHolidayCalendarToHolidayCalendarVO(holidayCalendarRepository.save(holidayCalendar));
 	}
@@ -49,7 +50,9 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + holidayId));
 		holidayCalendar.setHolidayName(holidayCalendarVO.getHolidayName());
 		holidayCalendar.setHolidayDate(holidayCalendarVO.getHolidayDate());
-		holidayCalendar.setHolidayDay(holidayCalendarVO.getHolidayDay());
+		holidayCalendar.setLocation(holidayCalendarVO.getLocation());
+		holidayCalendar.setFinancialYear(holidayCalendarVO.getFinancialYear());
+		holidayCalendar.setHolidayDay(holidayCalendarVO.getHolidayDate().getDayOfWeek().name());
 		return HolidayCalendarConverter
 				.convertHolidayCalendarToHolidayCalendarVO(holidayCalendarRepository.save(holidayCalendar));
 	}

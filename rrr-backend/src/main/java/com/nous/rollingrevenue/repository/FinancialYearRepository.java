@@ -7,5 +7,7 @@ import com.nous.rollingrevenue.model.FinancialYear;
 
 @Repository
 public interface FinancialYearRepository extends JpaRepository<FinancialYear, Long> {
+	
+	FinancialYear findByFinancialYearName(String financialYearName);
 
 }
