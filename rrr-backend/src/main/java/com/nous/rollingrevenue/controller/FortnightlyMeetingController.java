@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -31,9 +30,9 @@ public class FortnightlyMeetingController {
 	private FortnightlyMeetingService fortnightlyMeetingService;
 
 	@Operation(summary = "Get Fortnightly Meetings by FinancialYear")
-	@GetMapping
+	@GetMapping(path = "/{financialYear}")
 	public WSResponse<List<FortnightlyMeetingVO>> getFortnightlyMeetingsByFinancialYear(
-			@RequestParam String financialYear) {
+			@PathVariable String financialYear) {
 		List<FortnightlyMeetingVO> fortnightlyMeetingVOs = fortnightlyMeetingService
 				.getFortnightlyMeetingsByFinancialYear(financialYear);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, fortnightlyMeetingVOs);

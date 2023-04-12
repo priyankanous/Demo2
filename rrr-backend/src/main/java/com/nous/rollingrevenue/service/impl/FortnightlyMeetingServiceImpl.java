@@ -17,6 +17,7 @@ import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.FinancialYearConverter;
 import com.nous.rollingrevenue.convertor.FortnightlyMeetingConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.FortnightlyMeeting;
 import com.nous.rollingrevenue.repository.FinancialYearRepository;
 import com.nous.rollingrevenue.repository.FortnightlyMeetingRepository;
@@ -46,44 +47,50 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 	@Override
 	@Transactional
 	public void generateFortnightlyMeetings(FortnightlyMeetingVO fortnightlyMeetingVO) {
-		FinancialYearVO financialYearVO = FinancialYearConverter.convertFinancialYearToFinancialYearVO(
-				financialYearRepository.findByFinancialYearName(fortnightlyMeetingVO.getFinancialYear()));
-		List<HolidayCalendarVO> holidayCalendarVOs = holidayCalendarService
-				.getHolidayCalendarByFinancialYear(fortnightlyMeetingVO.getFinancialYear());
-		LocalDate startDate = fortnightlyMeetingVO.getMeetingDate();
-		LocalDate endDate = financialYearVO.getEndingOn();
-		String financialYear = fortnightlyMeetingVO.getFinancialYear();
-		logger.info("generating recurring dates for start date" + startDate + " end date " + endDate + "FinancialYear"
-				+ financialYear);
-		List<LocalDate> recurringDates = this.generateRecurringDates(startDate, endDate);
-		List<FortnightlyMeeting> fortnightlyMeetings = new ArrayList<>();
-		FortnightlyMeeting fortnightMeeting = new FortnightlyMeeting();
-		fortnightMeeting.setMeetingDate(fortnightlyMeetingVO.getMeetingDate());
-		fortnightMeeting.setMeetingDay(fortnightlyMeetingVO.getMeetingDate().getDayOfWeek().name());
-		fortnightMeeting.setFinancialYear(fortnightlyMeetingVO.getFinancialYear());
-		fortnightMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
-		fortnightMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
-		fortnightMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
-		fortnightMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
-		fortnightlyMeetings.add(fortnightMeeting);
-		for (LocalDate recurringDate : recurringDates) {
-			tempDate = recurringDate;
-			while (holidayCalendarVOs.stream()
-					.anyMatch(holidayCalendar -> holidayCalendar.getHolidayDate().isEqual(tempDate))) {
-				tempDate = tempDate.minusDays(1);
+		FinancialYear findByfinancialYear = financialYearRepository
+				.findByFinancialYearName(fortnightlyMeetingVO.getFinancialYear());
+		if (findByfinancialYear != null) {
+			FinancialYearVO financialYearVO = FinancialYearConverter
+					.convertFinancialYearToFinancialYearVO(findByfinancialYear);
+			List<HolidayCalendarVO> holidayCalendarVOs = holidayCalendarService
+					.getHolidayCalendarByFinancialYear(fortnightlyMeetingVO.getFinancialYear());
+			if (!holidayCalendarVOs.isEmpty()) {
+				LocalDate startDate = fortnightlyMeetingVO.getMeetingDate();
+				LocalDate endDate = financialYearVO.getEndingOn();
+				String financialYear = fortnightlyMeetingVO.getFinancialYear();
+				logger.info("generating recurring dates for start date" + startDate + " end date " + endDate
+						+ "FinancialYear" + financialYear);
+				List<LocalDate> recurringDates = this.generateRecurringDates(startDate, endDate);
+				List<FortnightlyMeeting> fortnightlyMeetings = new ArrayList<>();
+				FortnightlyMeeting fortnightMeeting = new FortnightlyMeeting();
+				fortnightMeeting.setMeetingDate(fortnightlyMeetingVO.getMeetingDate());
+				fortnightMeeting.setMeetingDay(fortnightlyMeetingVO.getMeetingDate().getDayOfWeek().name());
+				fortnightMeeting.setFinancialYear(fortnightlyMeetingVO.getFinancialYear());
+				fortnightMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
+				fortnightMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
+				fortnightMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
+				fortnightMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
+				fortnightlyMeetings.add(fortnightMeeting);
+				for (LocalDate recurringDate : recurringDates) {
+					tempDate = recurringDate;
+					while (holidayCalendarVOs.stream()
+							.anyMatch(holidayCalendar -> holidayCalendar.getHolidayDate().isEqual(tempDate))) {
+						tempDate = tempDate.minusDays(1);
+					}
+					FortnightlyMeeting fortnightlyMeeting = new FortnightlyMeeting();
+					fortnightlyMeeting.setMeetingDate(tempDate);
+					fortnightlyMeeting.setMeetingDay(tempDate.getDayOfWeek().name());
+					fortnightlyMeeting.setFinancialYear(financialYear);
+					fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
+					fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
+					fortnightlyMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
+					fortnightlyMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
+					fortnightlyMeetings.add(fortnightlyMeeting);
+				}
+				logger.info("saving fortnightlymeetings");
+				fortnightlyMeetingRepository.saveAll(fortnightlyMeetings);
 			}
-			FortnightlyMeeting fortnightlyMeeting = new FortnightlyMeeting();
-			fortnightlyMeeting.setMeetingDate(tempDate);
-			fortnightlyMeeting.setMeetingDay(tempDate.getDayOfWeek().name());
-			fortnightlyMeeting.setFinancialYear(financialYear);
-			fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
-			fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
-			fortnightlyMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
-			fortnightlyMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
-			fortnightlyMeetings.add(fortnightlyMeeting);
 		}
-		logger.info("saving fortnightlymeetings");
-		fortnightlyMeetingRepository.saveAll(fortnightlyMeetings);
 	}
 
 	@Override
@@ -91,12 +98,24 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 	public void updateFortnightlyMeetings(FortnightlyMeetingVO fortnightlyMeetingVO) {
 		List<FortnightlyMeeting> findByFinancialYear = fortnightlyMeetingRepository
 				.findByFinancialYear(fortnightlyMeetingVO.getFinancialYear());
-		if (!fortnightlyMeetingVO.getMeetingDate()
-				.equals(findByFinancialYear.stream().sorted(Comparator.comparing(FortnightlyMeeting::getMeetingDate))
-						.map(FortnightlyMeeting::getMeetingDate).findFirst().get())) {
-			findByFinancialYear.stream().map(fortnightlyMeeting -> fortnightlyMeeting.getMeetingId())
-					.forEach(id -> this.activateOrDeactivateById(id));
-			this.generateFortnightlyMeetings(fortnightlyMeetingVO);
+		if (!findByFinancialYear.isEmpty()) {
+			if (!fortnightlyMeetingVO.getMeetingDate()
+					.equals(findByFinancialYear.stream().filter(fortnightlyMeeting -> fortnightlyMeeting.isActive()==true)
+							.sorted(Comparator.comparing(FortnightlyMeeting::getMeetingDate))
+							.map(FortnightlyMeeting::getMeetingDate).findFirst().get())) {
+				findByFinancialYear.stream().map(fortnightlyMeeting -> fortnightlyMeeting.getMeetingId())
+						.forEach(id -> this.activateOrDeactivateById(id));
+				this.generateFortnightlyMeetings(fortnightlyMeetingVO);
+			} else {
+				findByFinancialYear.stream().filter(fortnightlyMeeting -> fortnightlyMeeting.isActive()==true)
+				.forEach(fortnightlyMeeting -> {
+					fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
+					fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
+					fortnightlyMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
+					fortnightlyMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
+				});
+				fortnightlyMeetingRepository.saveAll(findByFinancialYear);
+			}
 		}
 	}
 
