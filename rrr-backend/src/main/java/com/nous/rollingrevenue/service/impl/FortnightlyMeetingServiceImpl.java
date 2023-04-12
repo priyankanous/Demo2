@@ -122,7 +122,7 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 	@Override
 	public List<FortnightlyMeetingVO> getFortnightlyMeetingsByFinancialYear(String financialYear) {
 		List<FortnightlyMeetingVO> fortnightlyMeetingVOs = new ArrayList<>();
-		fortnightlyMeetingRepository.findByFinancialYear(financialYear).stream()
+		fortnightlyMeetingRepository.findByFinancialYear(financialYear).stream().filter(fortnightlyMeeting -> fortnightlyMeeting.isActive()==true)
 				.forEach(fortnightlyMeeting -> fortnightlyMeetingVOs.add(FortnightlyMeetingConverter
 						.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeeting)));
 		return fortnightlyMeetingVOs;

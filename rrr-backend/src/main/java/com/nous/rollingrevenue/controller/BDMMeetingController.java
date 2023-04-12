@@ -53,7 +53,7 @@ public class BDMMeetingController {
 	}
 
 	@Operation(summary = "Get BDMMeetings By FinancialYear")
-	@GetMapping(path = "/financialyear/{financialYear}")
+	@GetMapping(path = "/financial-year/{financialYear}")
 	public WSResponse<List<BDMMeetingVO>> getBDMMeetingsByFinancialYear(@PathVariable String financialYear) {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
 				bdmMeetingService.getBDMMeetingByFinancialYear(financialYear));
