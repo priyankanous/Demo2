@@ -2,6 +2,7 @@ package com.nous.rollingrevenue.service.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -79,6 +81,7 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			rollingRevenueCommonEntry.setRegion(rollingRevenueVO.getRegion());
 			rollingRevenueCommonEntry.setCocPractice(rollingRevenueVO.getCocPractice());
 			rollingRevenueCommonEntry.setLocation(rollingRevenueVO.getLocation());
+			rollingRevenueCommonEntry.setFinancialYear(rollingRevenueVO.getFinancialYear());
 
 			rollingRevenueCommonEntry.setCurrency(rollingRevenueVO.getCurrency());
 
@@ -159,7 +162,6 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			rollingRevenueAccountVO.setRegion(revenueCommonEntry.getRegion());
 			rollingRevenueAccountVO.setLocation(revenueCommonEntry.getLocation());
 			rollingRevenueAccountVO.setProbability(revenueCommonEntry.getProbability());
-
 			if (Constants.NON_COC_BASED.equalsIgnoreCase(revenueCommonEntry.getCocPractice())) {
 				rollingRevenueAccountVO.setCoc(Constants.NO);
 			} else {
@@ -170,6 +172,12 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			List<Opportunity> listOfOpportunities = opportunityRepository
 					.findByChildOfAccount(revenueCommonEntry.getAccount());
 			for (Opportunity opportunity : listOfOpportunities) {
+
+				rollingRevenueAccountVO.setMonthlyFinancialYearVO(
+						setQuarterlyDetails(tmRevenueEntry, revenueCommonEntry, opportunity));
+
+				monthlyBillingSeparation(tmRevenueEntry, revenueCommonEntry, opportunity);
+
 				ProjectCodesVO projectCodesVO = new ProjectCodesVO();
 
 				projectCodesVO.setProjectCodeId(opportunity.getOpportunityId());
@@ -189,10 +197,10 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 		return rollingRevenueAccountVO;
 	}
 
-	private List<String> getListOfMonthsBetweenDates(RollingRevenueCommonEntry revenueCommonEntry) {
+	private List<String> getListOfMonthsBetweenDates(Opportunity opportunity) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
-		LocalDate startDate = revenueCommonEntry.getProjectStartDate();
-		LocalDate endDate = revenueCommonEntry.getProjectEndDate();
+		LocalDate startDate = opportunity.getProjectStartDate();
+		LocalDate endDate = opportunity.getProjectEndDate();
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(2))).map(date -> date.format(formatter))
 				.collect(Collectors.toList());
@@ -204,71 +212,171 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 		return (dow <= 5 ? Math.min(len - 8, 26 - dow) : Math.max(len + dow - 16, 20));
 	}
 
-	private void getMonthlyWorkingHours(RollingRevenueVO rollingRevenueVO) {
-		String financialYear = rollingRevenueVO.getFinancialYear();
+	private Map<Month, Long> getMonthlyWorkingHours(String financialYear) {
 		List<HolidayCalendar> holidayCalendarList = holidayCalendarRepository.findByFinancialYear(financialYear);
-
+		return holidayCalendarList.stream().map(date -> date.getHolidayDate())
+				.collect(Collectors.groupingBy(Month::from, Collectors.counting()));
 	}
 
-	private void monthlyBillingSeparation(RollingRevenueCommonEntry revenueCommonEntry) {
-		List<String> list = getListOfMonthsBetweenDates(revenueCommonEntry);
+	private Long getMonthlyHolidaysCount(String financialYear, String monthName) {
+		Map<Month, Long> monthlyCounts = getMonthlyWorkingHours(financialYear);
+		return monthlyCounts.entrySet().stream().filter(k -> k.getKey().equals(monthName)).map(Map.Entry::getValue)
+				.findFirst().orElse(null);
+	}
 
-		int currentYear = LocalDate.now().getYear();
-		int nextYear = LocalDate.now().plusYears(1).getYear();
+	private double convertBillingTypeToMonthly(String billingType, String year, int monthNumber, String monthName,
+			Long billingRate, Long noOfResources, Long leaveLossFact) {
+		double cal = 0;
+		int daysInMonth = weekDaysInMonth(YearMonth.of(Integer.parseInt(year), monthNumber));
+		Long monthlyHolidaysCount = getMonthlyHolidaysCount(year, monthName);
 
+		long totalHours = (daysInMonth - monthlyHolidaysCount) * 8 * (1 - (leaveLossFact / 100));
+
+		if (Constants.HOURLY.equalsIgnoreCase(billingType)) {
+			cal = billingRate * totalHours;
+		} else if (Constants.DAILY.equalsIgnoreCase(billingType)) {
+			cal = billingRate * (totalHours / 8);
+		} else if (Constants.MONTHLY.equalsIgnoreCase(billingType)) {
+			cal = billingRate;
+		} else if (Constants.QUARTERLY.equalsIgnoreCase(billingType)) {
+			cal = (billingRate / 3);
+		} else {
+			cal = (billingRate / 6);
+		}
+		return cal;
+	}
+
+	private MonthlyFinancialYearVO setQuarterlyDetails(TandMRevenueEntry tmRevenueEntry,
+			RollingRevenueCommonEntry revenueCommonEntry, Opportunity opportunity) {
+		MonthlyFinancialYearVO monthlyFinancialYearVO = monthlyBillingSeparation(tmRevenueEntry, revenueCommonEntry,
+				opportunity);
+
+		monthlyFinancialYearVO.setQ1FYP(
+				monthlyFinancialYearVO.getApril() + monthlyFinancialYearVO.getMay() + monthlyFinancialYearVO.getJune());
+
+		monthlyFinancialYearVO.setQ2FYP(monthlyFinancialYearVO.getJuly() + monthlyFinancialYearVO.getAugust()
+				+ monthlyFinancialYearVO.getSeptember());
+
+		monthlyFinancialYearVO.setQ3FYP(monthlyFinancialYearVO.getOctober() + monthlyFinancialYearVO.getNovember()
+				+ monthlyFinancialYearVO.getDecember());
+
+		monthlyFinancialYearVO.setQ4FYP(monthlyFinancialYearVO.getJanuary() + monthlyFinancialYearVO.getFebruary()
+				+ monthlyFinancialYearVO.getMarch());
+
+		return monthlyFinancialYearVO;
+	}
+
+	private MonthlyFinancialYearVO monthlyBillingSeparation(TandMRevenueEntry tmRevenueEntry,
+			RollingRevenueCommonEntry revenueCommonEntry, Opportunity opportunity) {
 		MonthlyFinancialYearVO monthlyFinancialYearVO = new MonthlyFinancialYearVO();
+		String financialYear = revenueCommonEntry.getFinancialYear();
+		String[] finaYear = financialYear.replace("FY'", "").split(financialYear);
+		List<String> projectMonthAndYear = getListOfMonthsBetweenDates(opportunity);
 
-		for (String monthAndYear : list) {
+		double monthlyBillRate = 0;
+
+		for (String monthAndYear : projectMonthAndYear) {
 			String[] split = monthAndYear.split("-");
 
-			if (Integer.parseInt(split[1]) == currentYear) {
+			if (Integer.parseInt(split[1]) == Integer.parseInt(finaYear[0])) {
 
 				switch (split[0]) {
 
 				case "April":
-
-					monthlyFinancialYearVO.setApril(monthAndYear);
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 4,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setApril(monthlyBillRate);
 					break;
 
 				case "May":
-					System.out.println("10");
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 5,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setMay(monthlyBillRate);
 					break;
 
 				case "June":
-					System.out.println("10");
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 6,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setJune(monthlyBillRate);
 					break;
 
 				case "July":
-					System.out.println("10");
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 7,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setJuly(monthlyBillRate);
 					break;
 
 				case "August":
-					System.out.println("10");
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 8,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setAugust(monthlyBillRate);
 					break;
 
 				case "September":
-					System.out.println("10");
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 9,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setSeptember(monthlyBillRate);
 					break;
 
 				case "October":
-					System.out.println("10");
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 10,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setOctober(monthlyBillRate);
 					break;
 
 				case "November":
-					System.out.println("10");
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 11,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setNovember(monthlyBillRate);
 					break;
 
 				case "December":
-					System.out.println("10");
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 12,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setDecember(monthlyBillRate);
 					break;
 
 				}
 
-			} else {
+			} else if (Integer.parseInt(split[1]) == Integer.parseInt(finaYear[1])) {
+
+				switch (split[0]) {
+
+				case "January":
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 4,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setJanuary(monthlyBillRate);
+					break;
+
+				case "February":
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 5,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setFebruary(monthlyBillRate);
+					break;
+
+				case "March":
+					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), finaYear[0], 6,
+							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
+							tmRevenueEntry.getLeaveLossFactor());
+					monthlyFinancialYearVO.setMarch(monthlyBillRate);
+					break;
+
+				}
 
 			}
-
 		}
+		return monthlyFinancialYearVO;
 	}
 
 }

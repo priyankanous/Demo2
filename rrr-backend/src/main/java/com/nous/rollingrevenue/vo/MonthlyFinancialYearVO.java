@@ -9,273 +9,273 @@ public class MonthlyFinancialYearVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String april;
+	private Double april;
 
-	private String may;
+	private Double may;
 
-	private String june;
+	private Double june;
 
-	private String q1FYA;
+	private Double q1FYA;
 
-	private String q1FYB;
+	private Double q1FYB;
 
-	private String q1FYP;
+	private Double q1FYP;
 
-	private String july;
+	private Double july;
 
-	private String august;
+	private Double august;
 
-	private String spetember;
+	private Double september;
 
-	private String q2FYA;
+	private Double q2FYA;
 
-	private String q2FYB;
+	private Double q2FYB;
 
-	private String q2FYP;
+	private Double q2FYP;
 
-	private String october;
+	private Double october;
 
-	private String november;
+	private Double november;
 
-	private String december;
+	private Double december;
 
-	private String q3FYA;
+	private Double q3FYA;
 
-	private String q3FYB;
+	private Double q3FYB;
 
-	private String q3FYP;
+	private Double q3FYP;
 
-	private String january;
+	private Double january;
 
-	private String february;
+	private Double february;
 
-	private String march;
+	private Double march;
 
-	private String q4FYA;
+	private Double q4FYA;
 
-	private String q4FYB;
+	private Double q4FYB;
 
-	private String q4FYP;
+	private Double q4FYP;
 
-	private String fyP;
+	private Double fyP;
 
-	private String fyB;
+	private Double fyB;
 
-	private String diffFY;
+	private Double diffFY;
 
-	public String getApril() {
+	public Double getApril() {
 		return april;
 	}
 
-	public void setApril(String april) {
+	public void setApril(Double april) {
 		this.april = april;
 	}
 
-	public String getMay() {
+	public Double getMay() {
 		return may;
 	}
 
-	public void setMay(String may) {
+	public void setMay(Double may) {
 		this.may = may;
 	}
 
-	public String getJune() {
+	public Double getJune() {
 		return june;
 	}
 
-	public void setJune(String june) {
+	public void setJune(Double june) {
 		this.june = june;
 	}
 
-	public String getQ1FYA() {
+	public Double getQ1FYA() {
 		return q1FYA;
 	}
 
-	public void setQ1FYA(String q1fya) {
+	public void setQ1FYA(Double q1fya) {
 		q1FYA = q1fya;
 	}
 
-	public String getQ1FYB() {
+	public Double getQ1FYB() {
 		return q1FYB;
 	}
 
-	public void setQ1FYB(String q1fyb) {
+	public void setQ1FYB(Double q1fyb) {
 		q1FYB = q1fyb;
 	}
 
-	public String getQ1FYP() {
+	public Double getQ1FYP() {
 		return q1FYP;
 	}
 
-	public void setQ1FYP(String q1fyp) {
+	public void setQ1FYP(Double q1fyp) {
 		q1FYP = q1fyp;
 	}
 
-	public String getJuly() {
+	public Double getJuly() {
 		return july;
 	}
 
-	public void setJuly(String july) {
+	public void setJuly(Double july) {
 		this.july = july;
 	}
 
-	public String getAugust() {
+	public Double getAugust() {
 		return august;
 	}
 
-	public void setAugust(String august) {
+	public void setAugust(Double august) {
 		this.august = august;
 	}
 
-	public String getSpetember() {
-		return spetember;
+	public Double getSeptember() {
+		return september;
 	}
 
-	public void setSpetember(String spetember) {
-		this.spetember = spetember;
+	public void setSeptember(Double september) {
+		this.september = september;
 	}
 
-	public String getQ2FYA() {
+	public Double getQ2FYA() {
 		return q2FYA;
 	}
 
-	public void setQ2FYA(String q2fya) {
+	public void setQ2FYA(Double q2fya) {
 		q2FYA = q2fya;
 	}
 
-	public String getQ2FYB() {
+	public Double getQ2FYB() {
 		return q2FYB;
 	}
 
-	public void setQ2FYB(String q2fyb) {
+	public void setQ2FYB(Double q2fyb) {
 		q2FYB = q2fyb;
 	}
 
-	public String getQ2FYP() {
+	public Double getQ2FYP() {
 		return q2FYP;
 	}
 
-	public void setQ2FYP(String q2fyp) {
+	public void setQ2FYP(Double q2fyp) {
 		q2FYP = q2fyp;
 	}
 
-	public String getOctober() {
+	public Double getOctober() {
 		return october;
 	}
 
-	public void setOctober(String october) {
+	public void setOctober(Double october) {
 		this.october = october;
 	}
 
-	public String getNovember() {
+	public Double getNovember() {
 		return november;
 	}
 
-	public void setNovember(String november) {
+	public void setNovember(Double november) {
 		this.november = november;
 	}
 
-	public String getDecember() {
+	public Double getDecember() {
 		return december;
 	}
 
-	public void setDecember(String december) {
+	public void setDecember(Double december) {
 		this.december = december;
 	}
 
-	public String getQ3FYA() {
+	public Double getQ3FYA() {
 		return q3FYA;
 	}
 
-	public void setQ3FYA(String q3fya) {
+	public void setQ3FYA(Double q3fya) {
 		q3FYA = q3fya;
 	}
 
-	public String getQ3FYB() {
+	public Double getQ3FYB() {
 		return q3FYB;
 	}
 
-	public void setQ3FYB(String q3fyb) {
+	public void setQ3FYB(Double q3fyb) {
 		q3FYB = q3fyb;
 	}
 
-	public String getQ3FYP() {
+	public Double getQ3FYP() {
 		return q3FYP;
 	}
 
-	public void setQ3FYP(String q3fyp) {
+	public void setQ3FYP(Double q3fyp) {
 		q3FYP = q3fyp;
 	}
 
-	public String getJanuary() {
+	public Double getJanuary() {
 		return january;
 	}
 
-	public void setJanuary(String january) {
+	public void setJanuary(Double january) {
 		this.january = january;
 	}
 
-	public String getFebruary() {
+	public Double getFebruary() {
 		return february;
 	}
 
-	public void setFebruary(String february) {
+	public void setFebruary(Double february) {
 		this.february = february;
 	}
 
-	public String getMarch() {
+	public Double getMarch() {
 		return march;
 	}
 
-	public void setMarch(String march) {
+	public void setMarch(Double march) {
 		this.march = march;
 	}
 
-	public String getQ4FYA() {
+	public Double getQ4FYA() {
 		return q4FYA;
 	}
 
-	public void setQ4FYA(String q4fya) {
+	public void setQ4FYA(Double q4fya) {
 		q4FYA = q4fya;
 	}
 
-	public String getQ4FYB() {
+	public Double getQ4FYB() {
 		return q4FYB;
 	}
 
-	public void setQ4FYB(String q4fyb) {
+	public void setQ4FYB(Double q4fyb) {
 		q4FYB = q4fyb;
 	}
 
-	public String getQ4FYP() {
+	public Double getQ4FYP() {
 		return q4FYP;
 	}
 
-	public void setQ4FYP(String q4fyp) {
+	public void setQ4FYP(Double q4fyp) {
 		q4FYP = q4fyp;
 	}
 
-	public String getFyP() {
+	public Double getFyP() {
 		return fyP;
 	}
 
-	public void setFyP(String fyP) {
+	public void setFyP(Double fyP) {
 		this.fyP = fyP;
 	}
 
-	public String getFyB() {
+	public Double getFyB() {
 		return fyB;
 	}
 
-	public void setFyB(String fyB) {
+	public void setFyB(Double fyB) {
 		this.fyB = fyB;
 	}
 
-	public String getDiffFY() {
+	public Double getDiffFY() {
 		return diffFY;
 	}
 
-	public void setDiffFY(String diffFY) {
+	public void setDiffFY(Double diffFY) {
 		this.diffFY = diffFY;
 	}
 
