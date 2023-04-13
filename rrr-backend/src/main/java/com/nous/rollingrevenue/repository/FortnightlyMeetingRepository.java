@@ -12,6 +12,4 @@ public interface FortnightlyMeetingRepository extends JpaRepository<FortnightlyM
 
 	List<FortnightlyMeeting> findByFinancialYear(String financialYear);
 
-	void deleteAllByFinancialYear(String financialYear);
-
 }

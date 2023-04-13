@@ -87,11 +87,13 @@ public class RollingRevenueVO implements Serializable {
 	private Long billingRate;
 
 	@NotNull(message = "Region cannot be null or empty")
-	private Long NoOfResources;
+	private Long noOfResources;
 
 	private List<ResourcesDetailsVO> resourcesList;
 
 	private Long remarks;
+
+	private String status;
 
 	public Long getRollingRevenueId() {
 		return rollingRevenueId;
@@ -278,11 +280,11 @@ public class RollingRevenueVO implements Serializable {
 	}
 
 	public Long getNoOfResources() {
-		return NoOfResources;
+		return noOfResources;
 	}
 
 	public void setNoOfResources(Long noOfResources) {
-		NoOfResources = noOfResources;
+		noOfResources = noOfResources;
 	}
 
 	public List<ResourcesDetailsVO> getResourcesList() {
@@ -307,6 +309,14 @@ public class RollingRevenueVO implements Serializable {
 
 	public void setFinancialYear(String financialYear) {
 		this.financialYear = financialYear;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

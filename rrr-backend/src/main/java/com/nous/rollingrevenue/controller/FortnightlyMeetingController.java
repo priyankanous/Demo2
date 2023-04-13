@@ -5,20 +5,17 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
 import com.nous.rollingrevenue.service.FortnightlyMeetingService;
-import com.nous.rollingrevenue.vo.FinancialYearVO;
 import com.nous.rollingrevenue.vo.FortnightlyMeetingVO;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,9 +30,9 @@ public class FortnightlyMeetingController {
 	private FortnightlyMeetingService fortnightlyMeetingService;
 
 	@Operation(summary = "Get Fortnightly Meetings by FinancialYear")
-	@GetMapping
+	@GetMapping(path = "/{financialYear}")
 	public WSResponse<List<FortnightlyMeetingVO>> getFortnightlyMeetingsByFinancialYear(
-			@RequestParam String financialYear) {
+			@PathVariable String financialYear) {
 		List<FortnightlyMeetingVO> fortnightlyMeetingVOs = fortnightlyMeetingService
 				.getFortnightlyMeetingsByFinancialYear(financialYear);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, fortnightlyMeetingVOs);
@@ -43,16 +40,17 @@ public class FortnightlyMeetingController {
 
 	@Operation(summary = "Generate Fortnightly Meetings by FinancialYear")
 	@PostMapping
-	public WSResponse<String> genearteAndSaveFortnightlyMeetingsByFinancialYear(
-			@RequestBody @Valid FinancialYearVO financialYearVO) {
-		fortnightlyMeetingService.generateFortnightlyMeetingsOfFinancialYear(financialYearVO);
+	public WSResponse<String> genearteAndSaveFortnightlyMeetings(
+			@RequestBody @Valid FortnightlyMeetingVO fortnightlyMeetingVO) {
+		fortnightlyMeetingService.generateFortnightlyMeetings(fortnightlyMeetingVO);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-
-	@Operation(summary = "Delete Fortnightly Meetings by FinancialYear")
-	@DeleteMapping("{financialYear}")
-	public WSResponse<String> deleteFortnightlyMeetingsByFinancialYear(@PathVariable String financialYear) {
-		fortnightlyMeetingService.deleteFortnightlyMeetingByFinancialYear(financialYear);
+	
+	@Operation(summary = "Update Fortnightly")
+	@PutMapping
+	public WSResponse<String> updateFortnightlyMeetings(
+			@RequestBody @Valid FortnightlyMeetingVO fortnightlyMeetingVO) {
+		fortnightlyMeetingService.updateFortnightlyMeetings(fortnightlyMeetingVO);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 

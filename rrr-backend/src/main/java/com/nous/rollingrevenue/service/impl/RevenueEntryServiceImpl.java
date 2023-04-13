@@ -1,10 +1,18 @@
 package com.nous.rollingrevenue.service.impl;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,16 +20,21 @@ import org.springframework.stereotype.Service;
 import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.model.Currency;
 import com.nous.rollingrevenue.model.HolidayCalendar;
+import com.nous.rollingrevenue.model.Opportunity;
 import com.nous.rollingrevenue.model.ResourcesEntry;
 import com.nous.rollingrevenue.model.RollingRevenueCommonEntry;
 import com.nous.rollingrevenue.model.TandMRevenueEntry;
 import com.nous.rollingrevenue.repository.CurrencyRepository;
 import com.nous.rollingrevenue.repository.HolidayCalendarRepository;
+import com.nous.rollingrevenue.repository.OpportunityRepository;
 import com.nous.rollingrevenue.repository.ResourceEntryRepository;
 import com.nous.rollingrevenue.repository.RollingRevenueCommonRepository;
 import com.nous.rollingrevenue.repository.TandMRevenueRepository;
 import com.nous.rollingrevenue.service.RevenueEntryService;
+import com.nous.rollingrevenue.vo.MonthlyFinancialYearVO;
+import com.nous.rollingrevenue.vo.ProjectCodesVO;
 import com.nous.rollingrevenue.vo.ResourcesDetailsVO;
+import com.nous.rollingrevenue.vo.RollingRevenueAccountVO;
 import com.nous.rollingrevenue.vo.RollingRevenueVO;
 
 @Service
@@ -41,6 +54,9 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 
 	@Autowired
 	private HolidayCalendarRepository holidayCalendarRepository;
+
+	@Autowired
+	private OpportunityRepository opportunityRepository;
 
 	@Override
 	public String saveRollingRevenue(RollingRevenueVO rollingRevenueVO) {
@@ -71,6 +87,12 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			rollingRevenueCommonEntry.setWorkOrderStatus(rollingRevenueVO.getWorkOrderStatus());
 			rollingRevenueCommonEntry.setNoOfResources(rollingRevenueVO.getNoOfResources());
 			rollingRevenueCommonEntry.setRemarks(rollingRevenueVO.getRemarks());
+
+			if (Constants.SAVE_AS_DRAFT.equalsIgnoreCase(rollingRevenueVO.getStatus())) {
+				rollingRevenueCommonEntry.setStatus(Constants.SAVE_AS_DRAFT);
+			} else {
+				rollingRevenueCommonEntry.setStatus(Constants.SUBMITTED);
+			}
 
 			TandMRevenueEntry tmMRevenueEntry = new TandMRevenueEntry();
 			tmMRevenueEntry.setLeaveLossFactor(rollingRevenueVO.getLeaveLossFactor());
@@ -117,6 +139,65 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 
 	}
 
+	@Override
+	public RollingRevenueAccountVO getRevenueByAccountLevel(Long id) {
+		RollingRevenueAccountVO rollingRevenueAccountVO = new RollingRevenueAccountVO();
+
+		List<ProjectCodesVO> projectCodeList = new ArrayList<>();
+
+		Optional<TandMRevenueEntry> optional = tmRevenueRepository.findById(id);
+		if (optional.isPresent()) {
+			TandMRevenueEntry tmRevenueEntry = optional.get();
+			RollingRevenueCommonEntry revenueCommonEntry = tmRevenueEntry.getCommonEntry();
+
+			rollingRevenueAccountVO.setBusinessUnit(revenueCommonEntry.getBusinessUnit());
+			rollingRevenueAccountVO.setStrategicBusinessUnit(revenueCommonEntry.getStrategicBusinessUnit());
+			rollingRevenueAccountVO.setStrategicBusinessUnitHead(revenueCommonEntry.getStrategicBusinessUnitHead());
+			rollingRevenueAccountVO.setBdm(revenueCommonEntry.getBdm());
+			rollingRevenueAccountVO.setBusinessType(revenueCommonEntry.getBusinessType());
+			rollingRevenueAccountVO.setAccount(revenueCommonEntry.getAccount());
+			rollingRevenueAccountVO.setRegion(revenueCommonEntry.getRegion());
+			rollingRevenueAccountVO.setLocation(revenueCommonEntry.getLocation());
+			rollingRevenueAccountVO.setProbability(revenueCommonEntry.getProbability());
+
+			if (Constants.NON_COC_BASED.equalsIgnoreCase(revenueCommonEntry.getCocPractice())) {
+				rollingRevenueAccountVO.setCoc(Constants.NO);
+			} else {
+				rollingRevenueAccountVO.setCoc(Constants.YES);
+			}
+			rollingRevenueAccountVO.setStatus(revenueCommonEntry.getStatus());
+
+			List<Opportunity> listOfOpportunities = opportunityRepository
+					.findByChildOfAccount(revenueCommonEntry.getAccount());
+			for (Opportunity opportunity : listOfOpportunities) {
+				ProjectCodesVO projectCodesVO = new ProjectCodesVO();
+
+				projectCodesVO.setProjectCodeId(opportunity.getOpportunityId());
+				projectCodesVO.setProjectCode(opportunity.getProjectCode());
+				projectCodesVO.setOpportunityName(opportunity.getOpportunityName());
+				projectCodesVO.setPricingType(revenueCommonEntry.getPricingType());
+				projectCodesVO.setCocPractice(revenueCommonEntry.getCocPractice());
+				projectCodesVO.setNoOfResources(revenueCommonEntry.getNoOfResources());
+				projectCodesVO.setLeaveLossFactor(tmRevenueEntry.getLeaveLossFactor());
+
+				projectCodeList.add(projectCodesVO);
+			}
+			rollingRevenueAccountVO.setProjectCodeList(projectCodeList);
+
+		}
+
+		return rollingRevenueAccountVO;
+	}
+
+	private List<String> getListOfMonthsBetweenDates(RollingRevenueCommonEntry revenueCommonEntry) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
+		LocalDate startDate = revenueCommonEntry.getProjectStartDate();
+		LocalDate endDate = revenueCommonEntry.getProjectEndDate();
+		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
+				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(2))).map(date -> date.format(formatter))
+				.collect(Collectors.toList());
+	}
+
 	private static int weekDaysInMonth(YearMonth yearMonth) {
 		int len = yearMonth.lengthOfMonth(); // 28-31, supporting leap year
 		int dow = yearMonth.atDay(1).getDayOfWeek().getValue(); // 1=Mon, 7=Sun
@@ -125,8 +206,69 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 
 	private void getMonthlyWorkingHours(RollingRevenueVO rollingRevenueVO) {
 		String financialYear = rollingRevenueVO.getFinancialYear();
-		List<HolidayCalendar> holidayCalendarList = holidayCalendarRepository.findByYear(financialYear);
-		// TODO: get holidays count for each month
+		List<HolidayCalendar> holidayCalendarList = holidayCalendarRepository.findByFinancialYear(financialYear);
+
+	}
+
+	private void monthlyBillingSeparation(RollingRevenueCommonEntry revenueCommonEntry) {
+		List<String> list = getListOfMonthsBetweenDates(revenueCommonEntry);
+
+		int currentYear = LocalDate.now().getYear();
+		int nextYear = LocalDate.now().plusYears(1).getYear();
+
+		MonthlyFinancialYearVO monthlyFinancialYearVO = new MonthlyFinancialYearVO();
+
+		for (String monthAndYear : list) {
+			String[] split = monthAndYear.split("-");
+
+			if (Integer.parseInt(split[1]) == currentYear) {
+
+				switch (split[0]) {
+
+				case "April":
+
+					monthlyFinancialYearVO.setApril(monthAndYear);
+					break;
+
+				case "May":
+					System.out.println("10");
+					break;
+
+				case "June":
+					System.out.println("10");
+					break;
+
+				case "July":
+					System.out.println("10");
+					break;
+
+				case "August":
+					System.out.println("10");
+					break;
+
+				case "September":
+					System.out.println("10");
+					break;
+
+				case "October":
+					System.out.println("10");
+					break;
+
+				case "November":
+					System.out.println("10");
+					break;
+
+				case "December":
+					System.out.println("10");
+					break;
+
+				}
+
+			} else {
+
+			}
+
+		}
 	}
 
 }

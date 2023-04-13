@@ -5,11 +5,11 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.nous.rollingrevenue.model.Opportunity;
+import com.nous.rollingrevenue.model.BDMMeeting;
 
 @Repository
-public interface OpportunityRepository extends JpaRepository<Opportunity, Long> {
+public interface BDMMeetingRepository extends JpaRepository<BDMMeeting, Long>{
 
-	List<Opportunity> findByChildOfAccount(String account);
-
+	List<BDMMeeting> findByFinancialYear(String financialYear);
+	
 }

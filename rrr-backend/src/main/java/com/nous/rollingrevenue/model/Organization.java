@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "ORGANIZATION")
+@Table(name = "organization")
 @EntityListeners(AuditingEntityListener.class)
 public class Organization extends Auditable<String> {
 

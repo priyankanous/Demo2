@@ -25,11 +25,14 @@ public class HolidayCalendarVO implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate holidayDate;
 
-	@NotEmpty(message = "HolidayDay must not be empty")
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String holidayDay;
 
-	@NotEmpty(message = "Year must not be empty")
-	private String year;
+	@NotEmpty(message = "FinancialYear must not be empty")
+	private String financialYear;
+	
+	@NotEmpty(message = "Location must not be empty")
+	private String location;
 
 	private boolean isActive;
 
@@ -37,14 +40,15 @@ public class HolidayCalendarVO implements Serializable {
 
 	}
 
-	public HolidayCalendarVO(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay, String year,
-			boolean isActive) {
+	public HolidayCalendarVO(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay, String financialYear,
+			String location, boolean isActive) {
 		super();
 		this.holidayId = holidayId;
 		this.holidayName = holidayName;
 		this.holidayDate = holidayDate;
 		this.holidayDay = holidayDay;
-		this.year = year;
+		this.financialYear = financialYear;
+		this.location = location;
 		this.isActive = isActive;
 	}
 
@@ -80,14 +84,15 @@ public class HolidayCalendarVO implements Serializable {
 		this.holidayDay = holidayDay;
 	}
 
-	public String getYear() {
-		return year;
+	public String getFinancialYear() {
+		return financialYear;
 	}
 
-	public void setYear(String year) {
-		this.year = year;
+	public void setFinancialYear(String financialYear) {
+		this.financialYear = financialYear;
 	}
 
+	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
 	}
@@ -96,10 +101,19 @@ public class HolidayCalendarVO implements Serializable {
 		this.isActive = isActive;
 	}
 
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
 	@Override
 	public String toString() {
 		return "HolidayCalendarVO [holidayId=" + holidayId + ", holidayName=" + holidayName + ", holidayDate="
-				+ holidayDate + ", holidayDay=" + holidayDay + ", year=" + year + ", isActive=" + isActive + "]";
+				+ holidayDate + ", holidayDay=" + holidayDay + ", financialYear=" + financialYear + ", location="
+				+ location + ", isActive=" + isActive + "]";
 	}
 	
 
