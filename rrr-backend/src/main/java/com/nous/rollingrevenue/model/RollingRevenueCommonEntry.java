@@ -76,13 +76,16 @@ public class RollingRevenueCommonEntry {
 	private String workOrderStatus;
 
 	@Column(name = "no_of_resources")
-	private Long NoOfResources;
+	private Long noOfResources;
 
 	@Column(name = "remarks")
 	private Long remarks;
 
 	@Column(name = "status")
 	private String status;
+
+	@Column(name = "financial_year")
+	private String financialYear;
 
 	public Long getCommonId() {
 		return commonId;
@@ -245,11 +248,11 @@ public class RollingRevenueCommonEntry {
 	}
 
 	public Long getNoOfResources() {
-		return NoOfResources;
+		return noOfResources;
 	}
 
 	public void setNoOfResources(Long noOfResources) {
-		NoOfResources = noOfResources;
+		this.noOfResources = noOfResources;
 	}
 
 	public Long getRemarks() {
@@ -266,6 +269,14 @@ public class RollingRevenueCommonEntry {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getFinancialYear() {
+		return financialYear;
+	}
+
+	public void setFinancialYear(String financialYear) {
+		this.financialYear = financialYear;
 	}
 
 }

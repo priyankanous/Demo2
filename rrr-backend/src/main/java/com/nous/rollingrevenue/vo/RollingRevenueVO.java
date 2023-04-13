@@ -74,7 +74,7 @@ public class RollingRevenueVO implements Serializable {
 
 	private String workOrder;
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate workOrderEndDate;
 
 	private String workOrderStatus;
@@ -284,7 +284,7 @@ public class RollingRevenueVO implements Serializable {
 	}
 
 	public void setNoOfResources(Long noOfResources) {
-		noOfResources = noOfResources;
+		this.noOfResources = noOfResources;
 	}
 
 	public List<ResourcesDetailsVO> getResourcesList() {
