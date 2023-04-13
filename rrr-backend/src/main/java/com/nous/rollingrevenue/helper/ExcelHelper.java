@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.nous.rollingrevenue.exception.ExcelParserException;
 import com.nous.rollingrevenue.vo.AnnualTargetEntryVO;
+import com.nous.rollingrevenue.vo.WorkOrderVO;
 
 public class ExcelHelper {
 
@@ -137,6 +138,60 @@ public class ExcelHelper {
 			throw new ExcelParserException(e.getLocalizedMessage());
 		}
 		return annualTargetEntryVOs;
+	}
+
+	// convert excel to list of WorkOrderEntries
+	public static List<WorkOrderVO> convertExceltoListOfWorkOrder(MultipartFile file) {
+		List<WorkOrderVO> workOrderVOs = new ArrayList<>();
+		int rowNumber = 0;
+
+		try (XSSFWorkbook workBook = new XSSFWorkbook(file.getInputStream())) {
+			XSSFSheet sheet = workBook.getSheetAt(0);
+			Iterator<Row> rowIterater = sheet.iterator();
+			while (rowIterater.hasNext()) {
+				Row row = rowIterater.next();
+				if (rowNumber == 0) {
+					rowNumber++;
+					continue;
+				}
+
+				int cellId = 0;
+				WorkOrderVO workOrderVO = new WorkOrderVO();
+				Iterator<Cell> cellIterator = row.iterator();
+				while (cellIterator.hasNext()) {
+					Cell cell = cellIterator.next();
+					switch (cellId) {
+
+					case 0:
+						workOrderVO.setWorkOrderNumber(
+								(cell.getStringCellValue().isBlank()) ? null : cell.getStringCellValue());
+						break;
+
+					case 5:
+						workOrderVO.setWorkOrderEndDate(cell.getLocalDateTimeCellValue() == null ? null
+								: cell.getLocalDateTimeCellValue().toLocalDate());
+						break;
+					case 6:
+						workOrderVO.setWorkOrderStatus(
+								(cell.getStringCellValue().isBlank()) ? null : cell.getStringCellValue());
+						break;
+
+					case 7:
+						workOrderVO.setAccountName(
+								(cell.getStringCellValue().isBlank()) ? null : cell.getStringCellValue());
+						break;
+
+					default:
+						break;
+					}
+					cellId++;
+				}
+				workOrderVOs.add(workOrderVO);
+			}
+		} catch (Exception e) {
+			throw new ExcelParserException(e.getLocalizedMessage());
+		}
+		return workOrderVOs;
 	}
 
 }
