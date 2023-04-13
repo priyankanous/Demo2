@@ -34,22 +34,19 @@ public class FinancialYear extends Auditable<String> {
 	@Column(name = "ending_on")
 	private LocalDate endingOn;
 
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
 
 	public FinancialYear() {
 
 	}
 
 	public FinancialYear(Long financialYearId, String financialYearName, String financialYearCustomName,
-			LocalDate startingFrom, LocalDate endingOn, boolean isActive) {
+			LocalDate startingFrom, LocalDate endingOn) {
 		super();
 		this.financialYearId = financialYearId;
 		this.financialYearName = financialYearName;
 		this.financialYearCustomName = financialYearCustomName;
 		this.startingFrom = startingFrom;
 		this.endingOn = endingOn;
-		this.isActive = isActive;
 	}
 
 	public Long getFinancialYearId() {
@@ -92,19 +89,12 @@ public class FinancialYear extends Auditable<String> {
 		this.endingOn = endingOn;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 
 	@Override
 	public String toString() {
 		return "FinancialYear [financialYearId=" + financialYearId + ", financialYearName=" + financialYearName
 				+ ", financialYearCustomName=" + financialYearCustomName + ", startingFrom=" + startingFrom
-				+ ", endingOn=" + endingOn + ", isActive=" + isActive + "]";
+				+ ", endingOn=" + endingOn + "]";
 	}
 
 }

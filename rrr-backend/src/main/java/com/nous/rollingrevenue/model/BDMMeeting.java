@@ -41,15 +41,13 @@ public class BDMMeeting extends Auditable<String> {
 	@Column(name = "financial_year")
 	private String financialYear;
 	
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
 
 	public BDMMeeting() {
 
 	}
 
 	public BDMMeeting(Long bdmMeetingId, String bdmName, String region, String meetingName, LocalDate meetingDate,
-			LocalTime meetingTime, String financialYear, boolean isActive) {
+			LocalTime meetingTime, String financialYear) {
 		super();
 		this.bdmMeetingId = bdmMeetingId;
 		this.bdmName = bdmName;
@@ -58,7 +56,6 @@ public class BDMMeeting extends Auditable<String> {
 		this.meetingDate = meetingDate;
 		this.meetingTime = meetingTime;
 		this.financialYear = financialYear;
-		this.isActive = isActive;
 	}
 
 	public String getFinancialYear() {
@@ -117,19 +114,11 @@ public class BDMMeeting extends Auditable<String> {
 		this.meetingTime = meetingTime;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
 	@Override
 	public String toString() {
 		return "BDMMeeting [bdmMeetingId=" + bdmMeetingId + ", bdmName=" + bdmName + ", region=" + region
 				+ ", meetingName=" + meetingName + ", meetingDate=" + meetingDate + ", meetingTime=" + meetingTime
-				+ ", financialYear=" + financialYear + ", isActive=" + isActive + "]";
+				+ ", financialYear=" + financialYear + "]";
 	}
 
 

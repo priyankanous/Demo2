@@ -10,6 +10,7 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Temporal;
@@ -31,17 +32,23 @@ public abstract class Auditable<U> {
 	@LastModifiedDate
 	@Temporal(TIMESTAMP)
 	protected LocalDateTime lastModifiedDate;
+	
+	@Column(name = "is_active")
+	private boolean isActive = Boolean.TRUE;
 
 	public Auditable() {
 
 	}
 
-	public Auditable(U createdBy, LocalDateTime createdDate, U lastModifiedBy, LocalDateTime lastModifiedDate) {
+	public Auditable(U createdBy, LocalDateTime createdDate, U lastModifiedBy, LocalDateTime lastModifiedDate,
+			boolean isActive) {
 		this.createdBy = createdBy;
 		this.createdDate = createdDate;
 		this.lastModifiedBy = lastModifiedBy;
 		this.lastModifiedDate = lastModifiedDate;
+		this.isActive = isActive;
 	}
+
 
 	public U getCreatedBy() {
 		return createdBy;
@@ -74,11 +81,19 @@ public abstract class Auditable<U> {
 	public void setLastModifiedDate(LocalDateTime lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
 	}
+	
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
 
 	@Override
 	public String toString() {
 		return "Auditable [createdBy=" + createdBy + ", createdDate=" + createdDate + ", lastModifiedBy="
-				+ lastModifiedBy + ", lastModifiedDate=" + lastModifiedDate + "]";
+				+ lastModifiedBy + ", lastModifiedDate=" + lastModifiedDate + ", isActive=" + isActive + "]";
 	}
 	
 	

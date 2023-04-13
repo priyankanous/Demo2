@@ -32,22 +32,19 @@ public class GlobalMonthlyLeaveLossFactor extends Auditable<String> {
 	@Column(name = "financial_year")
 	private String financialYear;
 
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
 
 	public GlobalMonthlyLeaveLossFactor() {
 
 	}
 
 	public GlobalMonthlyLeaveLossFactor(Long leaveLossFactorId, String month, Long offShore, Long onSite,
-			String financialYear, boolean isActive) {
+			String financialYear) {
 		super();
 		this.leaveLossFactorId = leaveLossFactorId;
 		this.month = month;
 		this.offShore = offShore;
 		this.onSite = onSite;
 		this.financialYear = financialYear;
-		this.isActive = isActive;
 	}
 
 	public Long getLeaveLossFactorId() {
@@ -90,19 +87,11 @@ public class GlobalMonthlyLeaveLossFactor extends Auditable<String> {
 		this.financialYear = financialYear;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 
 	@Override
 	public String toString() {
 		return "GlobalMonthlyLeaveLossFactor [leaveLossFactorId=" + leaveLossFactorId + ", month=" + month
-				+ ", offShore=" + offShore + ", onSite=" + onSite + ", financialYear=" + financialYear + ", isActive="
-				+ isActive + "]";
+				+ ", offShore=" + offShore + ", onSite=" + onSite + ", financialYear=" + financialYear + "]";
 	}
 
 }

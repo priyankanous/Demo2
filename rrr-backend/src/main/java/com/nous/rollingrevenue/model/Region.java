@@ -26,19 +26,16 @@ public class Region extends Auditable<String> {
 	@Column(name = "region_display_name")
 	private String regionDisplayName;
 
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
 
 	public Region() {
 
 	}
 
-	public Region(Long regionId, String regionName, String regionDisplayName, boolean isActive) {
+	public Region(Long regionId, String regionName, String regionDisplayName) {
 		super();
 		this.regionId = regionId;
 		this.regionName = regionName;
 		this.regionDisplayName = regionDisplayName;
-		this.isActive = isActive;
 	}
 
 	public Long getRegionId() {
@@ -65,18 +62,10 @@ public class Region extends Auditable<String> {
 		this.regionDisplayName = regionDisplayName;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
 	@Override
 	public String toString() {
 		return "Region [regionId=" + regionId + ", regionName=" + regionName + ", regionDisplayName="
-				+ regionDisplayName + ", isActive=" + isActive + "]";
+				+ regionDisplayName + "]";
 	}
 
 }

@@ -19,24 +19,17 @@ public class OrganizationConverter {
 	 */
 	public static Organization convertOrganizationVOToOrganization(OrganizationVO organizationVO) {
 		Organization organization = new Organization();
-		if (organizationVO != null) {
-			if (organizationVO.getId() != null) {
-				organization.setId(organizationVO.getId());
-				organization.setActive(organizationVO.isActive());
-			}
-			organization.setId(organizationVO.getId());
-			organization.setOrgName((organizationVO.getOrgName()));
-			organization.setOrgDisplayName(organizationVO.getOrgDisplayName());
-		}
-
-		return organization;
+		organization.setId(organizationVO.getId());
+		organization.setOrgName((organizationVO.getOrgName()));
+		organization.setOrgDisplayName(organizationVO.getOrgDisplayName());
+	return organization;
 
 	}
 
 	/**
 	 * Convert Organization to OrganizationVO
 	 * 
-	 * @param Organization organization
+	 * @param Organization
 	 * @return organizationVO
 	 */
 	public static OrganizationVO convertOrganizationToOrganizationVO(Organization organization) {

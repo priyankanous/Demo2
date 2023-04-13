@@ -28,22 +28,18 @@ public class StrategicBusinessUnit extends Auditable<String> {
 
 	@Column(name = "bu_display_name")
 	private String buDisplayName;
-
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
+	
 
 	public StrategicBusinessUnit() {
 
 	}
 
-	public StrategicBusinessUnit(Long sbuId, String sbuName, String sbuDisplayName, String buDisplayName,
-			boolean isActive) {
+	public StrategicBusinessUnit(Long sbuId, String sbuName, String sbuDisplayName, String buDisplayName) {
 		super();
 		this.sbuId = sbuId;
 		this.sbuName = sbuName;
 		this.sbuDisplayName = sbuDisplayName;
 		this.buDisplayName = buDisplayName;
-		this.isActive = isActive;
 	}
 
 	public Long getSbuId() {
@@ -78,18 +74,11 @@ public class StrategicBusinessUnit extends Auditable<String> {
 		this.buDisplayName = buDisplayName;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 
 	@Override
 	public String toString() {
 		return "StrategicBusinessUnit [sbuId=" + sbuId + ", sbuName=" + sbuName + ", sbuDisplayName=" + sbuDisplayName
-				+ ", buDisplayName=" + buDisplayName + ", isActive=" + isActive + "]";
+				+ ", buDisplayName=" + buDisplayName + "]";
 	}
 
 }

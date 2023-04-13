@@ -13,7 +13,6 @@ public class BusinessUnitVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long businessUnitId;
 
 	@NotEmpty(message = "business unit name must not be empty")
@@ -22,8 +21,7 @@ public class BusinessUnitVO implements Serializable {
 	@NotEmpty(message = "business unit display name must not be empty")
 	private String businessUnitDisplayName;
 
-	@NotEmpty(message = "child of organization must not be empty")
-	private String childOfOrg;
+	private OrganizationVO organizationVO;
 
 	private boolean isActive;
 
@@ -32,12 +30,12 @@ public class BusinessUnitVO implements Serializable {
 	}
 
 	public BusinessUnitVO(Long businessUnitId, String businessUnitName, String businessUnitDisplayName,
-			String childOfOrg, boolean isActive) {
+			OrganizationVO organizationVO, boolean isActive) {
 		super();
 		this.businessUnitId = businessUnitId;
 		this.businessUnitName = businessUnitName;
 		this.businessUnitDisplayName = businessUnitDisplayName;
-		this.childOfOrg = childOfOrg;
+		this.organizationVO = organizationVO;
 		this.isActive = isActive;
 	}
 
@@ -65,12 +63,12 @@ public class BusinessUnitVO implements Serializable {
 		this.businessUnitDisplayName = businessUnitDisplayName;
 	}
 
-	public String getChildOfOrg() {
-		return childOfOrg;
+	public OrganizationVO getOrganizationVO() {
+		return organizationVO;
 	}
 
-	public void setChildOfOrg(String childOfOrg) {
-		this.childOfOrg = childOfOrg;
+	public void setOrganizationVO(OrganizationVO organizationVO) {
+		this.organizationVO = organizationVO;
 	}
 
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
@@ -85,9 +83,9 @@ public class BusinessUnitVO implements Serializable {
 	@Override
 	public String toString() {
 		return "BusinessUnitVO [businessUnitId=" + businessUnitId + ", businessUnitName=" + businessUnitName
-				+ ", businessUnitDisplayName=" + businessUnitDisplayName + ", childOfOrg=" + childOfOrg + ", isActive="
-				+ isActive + "]";
+				+ ", businessUnitDisplayName=" + businessUnitDisplayName + ", organizationVO=" + organizationVO
+				+ ", isActive=" + isActive + "]";
 	}
-	
+
 
 }

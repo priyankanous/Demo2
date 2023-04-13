@@ -25,20 +25,17 @@ public class PricingType extends Auditable<String> {
 
 	@Column(name = "pricing_type_display_name")
 	private String pricingTypeDisplayName;
-
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
+	
 
 	public PricingType() {
 
 	}
 
-	public PricingType(Long pricingTypeId, String pricingTypeName, String pricingTypeDisplayName, boolean isActive) {
+	public PricingType(Long pricingTypeId, String pricingTypeName, String pricingTypeDisplayName) {
 		super();
 		this.pricingTypeId = pricingTypeId;
 		this.pricingTypeName = pricingTypeName;
 		this.pricingTypeDisplayName = pricingTypeDisplayName;
-		this.isActive = isActive;
 	}
 
 	public Long getPricingTypeId() {
@@ -65,18 +62,11 @@ public class PricingType extends Auditable<String> {
 		this.pricingTypeDisplayName = pricingTypeDisplayName;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 
 	@Override
 	public String toString() {
 		return "PricingType [pricingTypeId=" + pricingTypeId + ", pricingTypeName=" + pricingTypeName
-				+ ", pricingTypeDisplayName=" + pricingTypeDisplayName + ", isActive=" + isActive + "]";
+				+ ", pricingTypeDisplayName=" + pricingTypeDisplayName + "]";
 	}
 
 }

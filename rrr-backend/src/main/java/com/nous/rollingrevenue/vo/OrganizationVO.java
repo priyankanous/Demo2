@@ -17,7 +17,6 @@ public class OrganizationVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 2204495143644490674L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long id;
 
 	@NotEmpty(message = "oganization name must not be empty")

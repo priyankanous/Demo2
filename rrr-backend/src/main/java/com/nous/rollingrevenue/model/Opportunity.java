@@ -37,15 +37,12 @@ public class Opportunity extends Auditable<String> {
 	@Column(name = "project_end_date")
 	private LocalDate projectEndDate;
 
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
-
 	public Opportunity() {
 
 	}
 
 	public Opportunity(Long opportunityId, String opportunityName, String childOfAccount, String projectCode,
-			LocalDate projectStartDate, LocalDate projectEndDate, boolean isActive) {
+			LocalDate projectStartDate, LocalDate projectEndDate) {
 		super();
 		this.opportunityId = opportunityId;
 		this.opportunityName = opportunityName;
@@ -53,7 +50,6 @@ public class Opportunity extends Auditable<String> {
 		this.projectCode = projectCode;
 		this.projectStartDate = projectStartDate;
 		this.projectEndDate = projectEndDate;
-		this.isActive = isActive;
 	}
 
 	public Long getOpportunityId() {
@@ -104,19 +100,12 @@ public class Opportunity extends Auditable<String> {
 		this.projectEndDate = projectEndDate;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 
 	@Override
 	public String toString() {
 		return "Opportunity [opportunityId=" + opportunityId + ", opportunityName=" + opportunityName
 				+ ", childOfAccount=" + childOfAccount + ", projectCode=" + projectCode + ", projectStartDate="
-				+ projectStartDate + ", projectEndDate=" + projectEndDate + ", isActive=" + isActive + "]";
+				+ projectStartDate + ", projectEndDate=" + projectEndDate + "]";
 	}
 
 }

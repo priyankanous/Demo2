@@ -26,19 +26,16 @@ public class Organization extends Auditable<String> {
 	@Column(name = "org_name")
 	private String orgName;
 
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
 
 	public Organization() {
 
 	}
 
-	public Organization(Long id, String orgDisplayName, String orgName, boolean isActive) {
+	public Organization(Long id, String orgDisplayName, String orgName) {
 		super();
 		this.id = id;
 		this.orgDisplayName = orgDisplayName;
 		this.orgName = orgName;
-		this.isActive = isActive;
 	}
 
 	public Long getId() {
@@ -65,18 +62,9 @@ public class Organization extends Auditable<String> {
 		this.orgName = orgName;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
 	@Override
 	public String toString() {
-		return "Organization [id=" + id + ", orgDisplayName=" + orgDisplayName + ", orgName=" + orgName + ", isActive="
-				+ isActive + "]";
+		return "Organization [id=" + id + ", orgDisplayName=" + orgDisplayName + ", orgName=" + orgName + "]";
 	}
 
 }

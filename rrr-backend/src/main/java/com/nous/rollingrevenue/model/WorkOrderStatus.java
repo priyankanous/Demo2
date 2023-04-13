@@ -26,19 +26,16 @@ public class WorkOrderStatus extends Auditable<String> {
 	@Column(name = "wo_status_display_name")
 	private String woStatusDisplayName;
 
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
 
 	public WorkOrderStatus() {
 
 	}
 
-	public WorkOrderStatus(Long woStatusId, String woStatusName, String woStatusDisplayName, boolean isActive) {
+	public WorkOrderStatus(Long woStatusId, String woStatusName, String woStatusDisplayName) {
 		super();
 		this.woStatusId = woStatusId;
 		this.woStatusName = woStatusName;
 		this.woStatusDisplayName = woStatusDisplayName;
-		this.isActive = isActive;
 	}
 
 	public Long getWoStatusId() {
@@ -65,18 +62,11 @@ public class WorkOrderStatus extends Auditable<String> {
 		this.woStatusDisplayName = woStatusDisplayName;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 
 	@Override
 	public String toString() {
 		return "WorkOrderStatus [woStatusId=" + woStatusId + ", woStatusName=" + woStatusName + ", woStatusDisplayName="
-				+ woStatusDisplayName + ", isActive=" + isActive + "]";
+				+ woStatusDisplayName + "]";
 	}
 
 }

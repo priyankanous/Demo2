@@ -43,15 +43,13 @@ public class FortnightlyMeeting extends Auditable<String> {
 	@Column(name = "meeting_name4")
 	private String meetingName4;
 
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
 
 	public FortnightlyMeeting() {
 
 	}
 
 	public FortnightlyMeeting(Long meetingId, LocalDate meetingDate, String meetingDay, String financialYear,
-			String meetingName1, String meetingName2, String meetingName3, String meetingName4, boolean isActive) {
+			String meetingName1, String meetingName2, String meetingName3, String meetingName4) {
 		super();
 		this.meetingId = meetingId;
 		this.meetingDate = meetingDate;
@@ -61,7 +59,6 @@ public class FortnightlyMeeting extends Auditable<String> {
 		this.meetingName2 = meetingName2;
 		this.meetingName3 = meetingName3;
 		this.meetingName4 = meetingName4;
-		this.isActive = isActive;
 	}
 
 	public Long getMeetingId() {
@@ -128,20 +125,12 @@ public class FortnightlyMeeting extends Auditable<String> {
 		this.meetingName4 = meetingName4;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 
 	@Override
 	public String toString() {
 		return "FortnightlyMeeting [meetingId=" + meetingId + ", meetingDate=" + meetingDate + ", meetingDay="
 				+ meetingDay + ", financialYear=" + financialYear + ", meetingName1=" + meetingName1 + ", meetingName2="
-				+ meetingName2 + ", meetingName3=" + meetingName3 + ", meetingName4=" + meetingName4 + ", isActive="
-				+ isActive + "]";
+				+ meetingName2 + ", meetingName3=" + meetingName3 + ", meetingName4=" + meetingName4 + "]";
 	}
 
 }

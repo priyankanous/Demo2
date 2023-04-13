@@ -21,7 +21,9 @@ import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.BusinessUnitConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.BusinessUnit;
+import com.nous.rollingrevenue.model.Organization;
 import com.nous.rollingrevenue.repository.BusinessUnitRepository;
+import com.nous.rollingrevenue.repository.OrganizationRepository;
 import com.nous.rollingrevenue.service.BusinessUnitService;
 import com.nous.rollingrevenue.vo.BusinessUnitVO;
 
@@ -30,11 +32,16 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 
 	@Autowired
 	BusinessUnitRepository businessUnitRepository;
+	
+	@Autowired
+	OrganizationRepository organizationRepository;
 
 	@Override
 	@Transactional
 	public BusinessUnitVO addBusinessUnit(BusinessUnitVO businessUnitVO) {
 		BusinessUnit businessUnit = BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(businessUnitVO);
+		Organization organization =  organizationRepository.findById(businessUnitVO.getOrganizationVO().getId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Organization not exist"));
+		businessUnit.setOrganization(organization);
 		return BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnitRepository.save(businessUnit));
 	}
 
@@ -79,7 +86,8 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		businessUnit.setBusinessUnitName(businessUnitVO.getBusinessUnitName());
 		businessUnit.setBusinessUnitDisplayName(businessUnitVO.getBusinessUnitDisplayName());
-		businessUnit.setChildOfOrg(businessUnitVO.getChildOfOrg());
+		Organization organization =  organizationRepository.findById(businessUnitVO.getOrganizationVO().getId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Organization not exist"));
+		businessUnit.setOrganization(organization);
 		return BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnitRepository.save(businessUnit));
 	}
 

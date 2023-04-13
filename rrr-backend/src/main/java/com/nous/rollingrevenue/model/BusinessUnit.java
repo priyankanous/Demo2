@@ -5,9 +5,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,24 +29,21 @@ public class BusinessUnit extends Auditable<String> {
 	@Column(name = "bu_display_name")
 	private String businessUnitDisplayName;
 
-	@Column(name = "organization_name")
-	private String childOfOrg;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "org_id", referencedColumnName = "org_id")
+	private Organization organization;
 
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
 
 	public BusinessUnit() {
 
 	}
 
-	public BusinessUnit(Long businessUnitId, String businessUnitName, String businessUnitDisplayName, String childOfOrg,
-			boolean isActive) {
+	public BusinessUnit(Long businessUnitId, String businessUnitName, String businessUnitDisplayName, Organization organization) {
 		super();
 		this.businessUnitId = businessUnitId;
 		this.businessUnitName = businessUnitName;
 		this.businessUnitDisplayName = businessUnitDisplayName;
-		this.childOfOrg = childOfOrg;
-		this.isActive = isActive;
+		this.organization = organization;
 	}
 
 	public Long getBusinessUnitId() {
@@ -70,27 +70,20 @@ public class BusinessUnit extends Auditable<String> {
 		this.businessUnitDisplayName = businessUnitDisplayName;
 	}
 
-	public String getChildOfOrg() {
-		return childOfOrg;
+
+	public Organization getOrganization() {
+		return organization;
 	}
 
-	public void setChildOfOrg(String childOfOrg) {
-		this.childOfOrg = childOfOrg;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
+	public void setOrganization(Organization organization) {
+		this.organization = organization;
 	}
 
 	@Override
 	public String toString() {
 		return "BusinessUnit [businessUnitId=" + businessUnitId + ", businessUnitName=" + businessUnitName
-				+ ", businessUnitDisplayName=" + businessUnitDisplayName + ", childOfOrg=" + childOfOrg + ", isActive="
-				+ isActive + "]";
+				+ ", businessUnitDisplayName=" + businessUnitDisplayName + ", organization=" + organization + "]";
 	}
+
 
 }

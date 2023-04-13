@@ -16,15 +16,10 @@ public class BusinessUnitConverter {
 	 */
 	public static BusinessUnit convertBusinessUnitVOToBusinessUnit(BusinessUnitVO businessUnitVO) {
 		BusinessUnit businessUnit = new BusinessUnit();
-		if (businessUnitVO != null) {
-			if (businessUnitVO.getBusinessUnitId() != null) {
-				businessUnit.setBusinessUnitId(businessUnitVO.getBusinessUnitId());
-				businessUnit.setActive(businessUnitVO.isActive());
-			}
+			businessUnit.setBusinessUnitId(businessUnitVO.getBusinessUnitId());
 			businessUnit.setBusinessUnitName(businessUnitVO.getBusinessUnitName());
 			businessUnit.setBusinessUnitDisplayName(businessUnitVO.getBusinessUnitDisplayName());
-			businessUnit.setChildOfOrg(businessUnitVO.getChildOfOrg());
-		}
+			businessUnit.setOrganization(OrganizationConverter.convertOrganizationVOToOrganization(businessUnitVO.getOrganizationVO()));
 		return businessUnit;
 	}
 
@@ -40,12 +35,10 @@ public class BusinessUnitConverter {
 			businessUnitVO.setBusinessUnitId(businessUnit.getBusinessUnitId());
 			businessUnitVO.setBusinessUnitName(businessUnit.getBusinessUnitName());
 			businessUnitVO.setBusinessUnitDisplayName(businessUnit.getBusinessUnitDisplayName());
-			businessUnitVO.setChildOfOrg(businessUnit.getChildOfOrg());
+			businessUnitVO.setOrganizationVO(OrganizationConverter.convertOrganizationToOrganizationVO(businessUnit.getOrganization()));
 			businessUnitVO.setActive(businessUnit.isActive());
 		}
-
 		return businessUnitVO;
-
 	}
 
 }

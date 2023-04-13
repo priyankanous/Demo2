@@ -90,9 +90,7 @@ public class AnnualTargetEntry extends Auditable<String> {
 
 	@Column(name = "fy")
 	private BigInteger FY;
-
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
+	
 
 	public AnnualTargetEntry() {
 
@@ -103,7 +101,7 @@ public class AnnualTargetEntry extends Auditable<String> {
 			String account, String businessType, String cocPractice, String businessDevelopmentManager,
 			BigInteger q1fys, BigInteger q1fyb, BigInteger q1fyt, BigInteger q2fys, BigInteger q2fyb, BigInteger q2fyt,
 			BigInteger q3fys, BigInteger q3fyb, BigInteger q3fyt, BigInteger q4fys, BigInteger q4fyb, BigInteger q4fyt,
-			BigInteger fY, boolean isActive) {
+			BigInteger fY) {
 		super();
 		this.annualTargetEntryId = annualTargetEntryId;
 		this.financialYear = financialYear;
@@ -129,7 +127,6 @@ public class AnnualTargetEntry extends Auditable<String> {
 		Q4FYB = q4fyb;
 		Q4FYT = q4fyt;
 		FY = fY;
-		this.isActive = isActive;
 	}
 
 	public Long getAnnualTargetEntryId() {
@@ -324,13 +321,6 @@ public class AnnualTargetEntry extends Auditable<String> {
 		FY = fY;
 	}
 
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
 
 	@Override
 	public String toString() {
@@ -341,7 +331,7 @@ public class AnnualTargetEntry extends Auditable<String> {
 				+ ", businessDevelopmentManager=" + businessDevelopmentManager + ", Q1FYS=" + Q1FYS + ", Q1FYB=" + Q1FYB
 				+ ", Q1FYT=" + Q1FYT + ", Q2FYS=" + Q2FYS + ", Q2FYB=" + Q2FYB + ", Q2FYT=" + Q2FYT + ", Q3FYS=" + Q3FYS
 				+ ", Q3FYB=" + Q3FYB + ", Q3FYT=" + Q3FYT + ", Q4FYS=" + Q4FYS + ", Q4FYB=" + Q4FYB + ", Q4FYT=" + Q4FYT
-				+ ", FY=" + FY + ", isActive=" + isActive + "]";
+				+ ", FY=" + FY + "]";
 	}
 
 }
