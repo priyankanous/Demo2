@@ -7,7 +7,7 @@ import com.nous.rollingrevenue.vo.WorkOrderStatusVO;
 
 @Component
 public class WorkOrderStatusConverter {
-	
+
 	/**
 	 * Convert WorkOrderStatusVO to WorkOrderStatus
 	 * 
@@ -18,17 +18,13 @@ public class WorkOrderStatusConverter {
 	public static WorkOrderStatus convertWorkOrderStatusVOToWorkOrderStatus(WorkOrderStatusVO woStatusVO) {
 		WorkOrderStatus woStatus = new WorkOrderStatus();
 		if (woStatusVO != null) {
-			if (woStatusVO.getWoStatusId() != null) {
-				woStatus.setWoStatusId(woStatusVO.getWoStatusId());
-				woStatus.setActive(woStatusVO.isActive());
-			}
+			woStatus.setWoStatusId(woStatusVO.getWoStatusId());
 			woStatus.setWoStatusName(woStatusVO.getWoStatusName());
 			woStatus.setWoStatusDisplayName(woStatusVO.getWoStatusDisplayName());
 		}
 		return woStatus;
 	}
-	
-	
+
 	/**
 	 * Convert WorkOrderStatus to WorkOrderStatusVO
 	 * 
@@ -46,6 +42,5 @@ public class WorkOrderStatusConverter {
 		}
 		return woStatusVO;
 	}
-
 
 }

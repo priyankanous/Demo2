@@ -5,9 +5,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,8 +32,9 @@ public class GlobalMonthlyLeaveLossFactor extends Auditable<String> {
 	@Column(name = "on_site")
 	private Long onSite;
 
-	@Column(name = "financial_year")
-	private String financialYear;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
+	private FinancialYear financialYear;
 
 
 	public GlobalMonthlyLeaveLossFactor() {
@@ -38,7 +42,7 @@ public class GlobalMonthlyLeaveLossFactor extends Auditable<String> {
 	}
 
 	public GlobalMonthlyLeaveLossFactor(Long leaveLossFactorId, String month, Long offShore, Long onSite,
-			String financialYear) {
+			FinancialYear financialYear) {
 		super();
 		this.leaveLossFactorId = leaveLossFactorId;
 		this.month = month;
@@ -79,11 +83,11 @@ public class GlobalMonthlyLeaveLossFactor extends Auditable<String> {
 		this.onSite = onSite;
 	}
 
-	public String getFinancialYear() {
+	public FinancialYear getFinancialYear() {
 		return financialYear;
 	}
 
-	public void setFinancialYear(String financialYear) {
+	public void setFinancialYear(FinancialYear financialYear) {
 		this.financialYear = financialYear;
 	}
 

@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +37,6 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 
 	@Override
 	@Transactional
-	@CachePut(value = "bdm", key = "#bdmId")
 	public BDMVO updateBDMDetails(Long bdmId, BDMVO bdmVO) {
 		BusinessDevelopmentManager bdm = businessDevelopmentManagerRepository.findById(bdmId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmId));
@@ -54,7 +50,6 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 	}
 
 	@Override
-	@Cacheable(value = "bdm", key = "#bdmId")
 	public BDMVO getBdmById(Long bdmId) {
 		Optional<BusinessDevelopmentManager> bdmOptional = businessDevelopmentManagerRepository.findById(bdmId);
 		if (bdmOptional.isPresent()) {
@@ -65,7 +60,6 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "bdm", key = "#bdmId")
 	public void deleteBDM(Long bdmId) {
 		Optional<BusinessDevelopmentManager> bdmOptional = businessDevelopmentManagerRepository.findById(bdmId);
 		if (bdmOptional.isPresent()) {
@@ -99,7 +93,6 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 	
 	@Override
 	@Transactional
-	@CachePut(value = "bdm", key = "#bdmId")
 	public BDMVO activateOrDeactivateById(Long bdmId) {
 		BusinessDevelopmentManager bdm = businessDevelopmentManagerRepository.findById(bdmId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmId));

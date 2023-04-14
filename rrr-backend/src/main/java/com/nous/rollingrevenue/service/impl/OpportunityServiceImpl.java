@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +52,6 @@ public class OpportunityServiceImpl implements OpportunityService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "opportunity", key = "#opportunityId")
 	public void deleteOpportunityById(Long opportunityId) {
 		opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
@@ -64,7 +60,6 @@ public class OpportunityServiceImpl implements OpportunityService {
 	}
 
 	@Override
-	@Cacheable(value = "opportunity", key = "#opportunityId")
 	public OpportunityVO getOpportunityById(Long opportunityId) {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
@@ -73,7 +68,6 @@ public class OpportunityServiceImpl implements OpportunityService {
 	
 	@Override
 	@Transactional
-	@CachePut(value = "opportunity", key = "#opportunityId")
 	public OpportunityVO updateOpportunity(Long opportunityId, OpportunityVO opportunityVO) {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
@@ -102,7 +96,6 @@ public class OpportunityServiceImpl implements OpportunityService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "opportunity", key = "#opportunityId")
 	public OpportunityVO activateOrDeactivateById(Long opportunityId) {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,8 +24,8 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 	@Autowired
 	private WorkOrderRepository workOrderRepository;
 
-	@Transactional
 	@Override
+	@Transactional
 	public void saveExcelDataOfWorkOrder(MultipartFile file) {
 		List<WorkOrderVO> workOrderVOs = ExcelHelper.convertExceltoListOfWorkOrder(file);
 		List<WorkOrder> workOrderEntries = new ArrayList<>();
@@ -35,10 +34,9 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 		workOrderRepository.saveAll(workOrderEntries);
 
 	}
-
-	@Transactional
-	@CachePut(value = "workOrder", key = "#workOrderNumber")
+	
 	@Override
+	@Transactional
 	public WorkOrderVO activateOrDeactivateByWorkOrderNumber(Long workOrderNumber) {
 		WorkOrder workOrder = workOrderRepository.findByWorkOrderNumber(workOrderNumber);
 		if (workOrder == null) {

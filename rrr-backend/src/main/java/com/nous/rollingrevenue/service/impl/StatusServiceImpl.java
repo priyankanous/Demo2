@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +45,6 @@ public class StatusServiceImpl implements StatusService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "status", key = "#statusId")
 	public void deleteStatusById(Long statusId) {
 		statusRepository.findById(statusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
@@ -56,7 +52,6 @@ public class StatusServiceImpl implements StatusService {
 	}
 
 	@Override
-	@Cacheable(value = "status", key = "#statusId")
 	public StatusVO getStatusById(Long statusId) {
 		Status status = statusRepository.findById(statusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
@@ -65,7 +60,6 @@ public class StatusServiceImpl implements StatusService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "status", key = "#statusId")
 	public StatusVO updateStatus(Long statusId, StatusVO statusVO) {
 		Status status = statusRepository.findById(statusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
@@ -90,7 +84,6 @@ public class StatusServiceImpl implements StatusService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "status", key = "#statusId")
 	public StatusVO activateOrDeactivateById(Long statusId) {
 		Status status = statusRepository.findById(statusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));

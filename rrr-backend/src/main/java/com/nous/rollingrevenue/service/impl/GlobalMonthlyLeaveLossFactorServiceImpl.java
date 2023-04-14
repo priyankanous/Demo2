@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.LeaveLossFactorConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.GlobalMonthlyLeaveLossFactor;
+import com.nous.rollingrevenue.repository.FinancialYearRepository;
 import com.nous.rollingrevenue.repository.GlobalMonthlyLeaveLossFactorRepository;
 import com.nous.rollingrevenue.service.GlobalMonthlyLeaveLossFactorService;
 import com.nous.rollingrevenue.vo.GlobalMonthlyLeaveLossFactorVO;
@@ -29,19 +28,23 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 
 	@Autowired
 	private GlobalMonthlyLeaveLossFactorRepository globalMonthlyLeaveLossFactorRepository;
+	
+	@Autowired
+	private FinancialYearRepository financialYearRepository;
 
 	@Override
 	@Transactional
 	public GlobalMonthlyLeaveLossFactorVO addLeaveLossFactor(GlobalMonthlyLeaveLossFactorVO leaveLossFactorVO) {
 		GlobalMonthlyLeaveLossFactor leaveLossFactor = LeaveLossFactorConverter
 				.convertLeaveLossFactorVOToLeaveLossFactor(leaveLossFactorVO);
+		FinancialYear financialYear = financialYearRepository.findById(leaveLossFactorVO.getFinancialYearVO().getFinancialYearId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+		leaveLossFactor.setFinancialYear(financialYear);
 		return LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(
 				globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor));
 	}
 
 	@Override
 	@Transactional
-	@CachePut(value = "lossfactor", key = "#id")
 	public GlobalMonthlyLeaveLossFactorVO updateLeaveLossFactor(Long id,
 			GlobalMonthlyLeaveLossFactorVO leaveLossFactorVO) {
 		GlobalMonthlyLeaveLossFactor leaveLossFactor = globalMonthlyLeaveLossFactorRepository.findById(id)
@@ -49,13 +52,13 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 		leaveLossFactor.setMonth(leaveLossFactorVO.getMonth());
 		leaveLossFactor.setOffShore(leaveLossFactorVO.getOffShore());
 		leaveLossFactor.setOnSite(leaveLossFactorVO.getOnSite());
-		leaveLossFactor.setFinancialYear(leaveLossFactorVO.getFinancialYear());
+		FinancialYear financialYear = financialYearRepository.findById(leaveLossFactorVO.getFinancialYearVO().getFinancialYearId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+		leaveLossFactor.setFinancialYear(financialYear);
 		return LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(
 				globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor));
 	}
 
 	@Override
-	@Cacheable(value = "lossfactor", key = "#id")
 	public GlobalMonthlyLeaveLossFactorVO getLeaveLossFactorById(Long id) {
 		GlobalMonthlyLeaveLossFactor leaveLossFactor = globalMonthlyLeaveLossFactorRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
@@ -65,7 +68,6 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "lossfactor", key = "#id")
 	public void deleteLeaveLossFactor(Long id) {
 		globalMonthlyLeaveLossFactorRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
@@ -107,7 +109,6 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 
 	@Override
 	@Transactional
-	@CachePut(value = "lossfactor", key = "#id")
 	public GlobalMonthlyLeaveLossFactorVO activateOrDeactivateById(Long id) {
 		GlobalMonthlyLeaveLossFactor leaveLossFactor = globalMonthlyLeaveLossFactorRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));

@@ -18,10 +18,7 @@ public class AnnualTargetEntryConverter {
 	public static AnnualTargetEntry convertAnnualTargetEntryVOToAnnualTargetEntry(AnnualTargetEntryVO annualTargetEntryVO) {
 		AnnualTargetEntry annualTargetEntry = new AnnualTargetEntry();
 		if (annualTargetEntryVO != null) {
-			if (annualTargetEntryVO.getAnnualTargetEntryId() != null) {
-				annualTargetEntry.setAnnualTargetEntryId(annualTargetEntryVO.getAnnualTargetEntryId());
-				annualTargetEntry.setActive(annualTargetEntryVO.isActive());
-			}
+			annualTargetEntry.setAnnualTargetEntryId(annualTargetEntryVO.getAnnualTargetEntryId());
 			annualTargetEntry.setFinancialYear(annualTargetEntryVO.getFinancialYear());
 			annualTargetEntry.setBusinessUnit(annualTargetEntryVO.getBusinessUnit());
 			annualTargetEntry.setStartegicBusinessUnit(annualTargetEntryVO.getStartegicBusinessUnit());

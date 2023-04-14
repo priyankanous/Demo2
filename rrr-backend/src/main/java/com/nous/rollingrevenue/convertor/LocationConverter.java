@@ -17,10 +17,7 @@ public class LocationConverter {
 	public static Location convertLocationVOToLocation(LocationVO locationVO) {
 		Location location = new Location();
 		if (locationVO != null) {
-			if (locationVO.getLocationId() != null) {
-				location.setLocationId(locationVO.getLocationId());
-				location.setActive(locationVO.isActive());
-			}
+			location.setLocationId(locationVO.getLocationId());
 			location.setLocationName(locationVO.getLocationName());
 			location.setLocationDisplayName(locationVO.getLocationDisplayName());
 		}

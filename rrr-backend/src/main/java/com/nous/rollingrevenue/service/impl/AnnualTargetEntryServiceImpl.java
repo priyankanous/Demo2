@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,7 +48,6 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "annualtargetentry", key = "#annualTargetEntryId")
 	public void deleteAnnualTargetEntryById(Long annualTargetEntryId) {
 		annualTargetEntryRepository.findById(annualTargetEntryId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + annualTargetEntryId));
@@ -59,7 +55,6 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 	}
 
 	@Override
-	@Cacheable(value = "annualtargetentry", key = "#annualTargetEntryId")
 	public AnnualTargetEntryVO getAnnualTargetEntryById(Long annualTargetEntryId) {
 		AnnualTargetEntry annualTargetEntry = annualTargetEntryRepository.findById(annualTargetEntryId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + annualTargetEntryId));
@@ -68,7 +63,6 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "annualtargetentry", key = "#annualTargetEntryId")
 	public AnnualTargetEntryVO updateAnnualTargetEntry(Long annualTargetEntryId,
 			AnnualTargetEntryVO annualTargetEntryVO) {
 		AnnualTargetEntry annualTargetEntry = annualTargetEntryRepository.findById(annualTargetEntryId)
@@ -127,7 +121,6 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "annualtargetentry", key = "#id")
 	public AnnualTargetEntryVO activateOrDeactivateById(Long id) {
 		AnnualTargetEntry annualTargetEntry = annualTargetEntryRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));

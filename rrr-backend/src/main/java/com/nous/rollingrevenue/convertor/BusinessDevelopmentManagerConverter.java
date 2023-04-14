@@ -17,10 +17,7 @@ public class BusinessDevelopmentManagerConverter {
 	public static BusinessDevelopmentManager convertBdmVOToBdm(BDMVO bdmVO) {
 		BusinessDevelopmentManager bdm = new BusinessDevelopmentManager();
 		if (bdmVO != null) {
-			if (bdmVO.getBdmId() != null) {
-				bdm.setBdmId(bdmVO.getBdmId());
-				bdm.setActive(bdmVO.isActive());
-			}
+			bdm.setBdmId(bdmVO.getBdmId());
 			bdm.setBdmName(bdmVO.getBdmName());
 			bdm.setBdmDisplayName(bdmVO.getBdmDisplayName());
 			bdm.setActiveFrom(bdmVO.getActiveFrom());

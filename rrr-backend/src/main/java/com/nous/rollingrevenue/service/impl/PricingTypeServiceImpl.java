@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +46,6 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "pricingtype", key = "#pricingTypeId")
 	public void deletePricingTypeById(Long pricingTypeId) {
 		pricingTypeRepository.findById(pricingTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
@@ -58,7 +54,6 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 	}
 
 	@Override
-	@Cacheable(value = "pricingtype", key = "#pricingTypeId")
 	public PricingTypeVO getPricingTypeById(Long pricingTypeId) {
 		PricingType pricingType = pricingTypeRepository.findById(pricingTypeId)
                 .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
@@ -67,7 +62,6 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "pricingtype", key = "#pricingTypeId")
 	public PricingTypeVO updatePricingType(Long pricingTypeId, PricingTypeVO pricingTypeVO) {
 		PricingType pricingType = pricingTypeRepository.findById(pricingTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
@@ -92,7 +86,6 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 	
 	@Override
 	@Transactional
-	@CachePut(value = "pricingtype", key = "#pricingTypeId")
 	public PricingTypeVO activateOrDeactivateById(Long pricingTypeId) {
 		PricingType pricingType = pricingTypeRepository.findById(pricingTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));

@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -51,7 +48,6 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "financialyear", key = "#financialYearId")
 	public void deleteFinancialYearById(Long financialYearId) {
 		financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
@@ -59,7 +55,6 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	}
 
 	@Override
-	@Cacheable(value = "financialyear", key = "#financialYearId")
 	public FinancialYearVO getFinancialYearById(Long financialYearId) {
 		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
@@ -68,7 +63,6 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "financialyear", key = "#financialYearId")
 	public FinancialYearVO updateFinancialYear(Long financialYearId, FinancialYearVO financialYearVO) {
 		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
@@ -97,7 +91,6 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "financialyear", key = "#financialYearId")
 	public FinancialYearVO activateOrDeactivateById(Long financialYearId) {
 		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));

@@ -18,10 +18,7 @@ public class BDMMeetingConverter {
 	public static BDMMeeting convertBDMMeetingVOToBDMMeeting(BDMMeetingVO bdmMeetingVO) {
 		BDMMeeting bdmMeeting = new BDMMeeting();
 		if (bdmMeetingVO != null) {
-			if (bdmMeetingVO.getBdmMeetingId() != null) {
-				bdmMeeting.setBdmMeetingId(bdmMeetingVO.getBdmMeetingId());
-				bdmMeeting.setActive(bdmMeetingVO.isActive());
-			}
+			bdmMeeting.setBdmMeetingId(bdmMeetingVO.getBdmMeetingId());
 			bdmMeeting.setBdmName(bdmMeetingVO.getBdmName());
 			bdmMeeting.setRegion(bdmMeetingVO.getRegion());
 			bdmMeeting.setMeetingName(bdmMeetingVO.getMeetingName());

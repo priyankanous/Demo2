@@ -17,10 +17,7 @@ public class HolidayCalendarConverter {
 	public static HolidayCalendar convertHolidayCalendarVOToHolidayCalendar(HolidayCalendarVO holidayCalendarVO) {
 		HolidayCalendar holidayCalendar = new HolidayCalendar();
 		if (holidayCalendarVO != null) {
-			if (holidayCalendarVO.getHolidayId() != null) {
-				holidayCalendar.setHolidayId(holidayCalendarVO.getHolidayId());
-				holidayCalendar.setActive(holidayCalendarVO.isActive());
-			}
+			holidayCalendar.setHolidayId(holidayCalendarVO.getHolidayId());
 			holidayCalendar.setHolidayName(holidayCalendarVO.getHolidayName());
 			holidayCalendar.setHolidayDate(holidayCalendarVO.getHolidayDate());
 			holidayCalendar.setHolidayDay(holidayCalendarVO.getHolidayDay());

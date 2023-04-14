@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +46,6 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "probabilitytype", key = "#probabilityTypeId")
 	public void deleteProbabilityTypeById(Long probabilityTypeId) {
 		probabilityTypeRepository.findById(probabilityTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
@@ -57,7 +53,6 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 	}
 
 	@Override
-	@Cacheable(value = "probabilitytype", key = "#probabilityTypeId")
 	public ProbabilityTypeVO getProbabilityTypeById(Long probabilityTypeId) {
 		ProbabilityType probabilityType = probabilityTypeRepository.findById(probabilityTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
@@ -66,7 +61,6 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "probabilitytype", key = "#probabilityTypeId")
 	public ProbabilityTypeVO updateProbabilityType(Long probabilityTypeId, ProbabilityTypeVO probabilityTypeVO) {
 		ProbabilityType probabilityType = probabilityTypeRepository.findById(probabilityTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
@@ -92,7 +86,6 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "probabilitytype", key = "#probabilityTypeId")
 	public ProbabilityTypeVO activateOrDeactivateById(Long probabilityTypeId) {
 		ProbabilityType probabilityType = probabilityTypeRepository.findById(probabilityTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));

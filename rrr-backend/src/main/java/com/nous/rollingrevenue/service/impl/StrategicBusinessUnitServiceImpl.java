@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +52,6 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "sbu", key = "#sbuId")
 	public void deleteSBUById(Long sbuId) {
 		sbuRepository.findById(sbuId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
@@ -63,7 +59,6 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 	}
 
 	@Override
-	@Cacheable(value = "sbu", key = "#sbuId")
 	public StrategicBusinessUnitVO getSBUById(Long sbuId) {
 		StrategicBusinessUnit sbu = sbuRepository.findById(sbuId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
@@ -72,7 +67,6 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 
 	@Override
 	@Transactional
-	@CachePut(value = "sbu", key = "#sbuId")
 	public StrategicBusinessUnitVO updateSBU(Long sbuId, StrategicBusinessUnitVO sbuVO) {
 		StrategicBusinessUnit sbu = sbuRepository.findById(sbuId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
@@ -99,7 +93,6 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 
 	@Override
 	@Transactional
-	@CachePut(value = "sbu", key = "#sbuId")
 	public StrategicBusinessUnitVO activateOrDeactivateById(Long sbuId) {
 		StrategicBusinessUnit sbu = sbuRepository.findById(sbuId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));

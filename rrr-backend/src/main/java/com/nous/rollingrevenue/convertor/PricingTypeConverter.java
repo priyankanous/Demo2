@@ -7,7 +7,7 @@ import com.nous.rollingrevenue.vo.PricingTypeVO;
 
 @Component
 public class PricingTypeConverter {
-	
+
 	/**
 	 * Convert PricingTypeVO to PricingType
 	 * 
@@ -18,17 +18,13 @@ public class PricingTypeConverter {
 	public static PricingType convertPricingTypeVOToPricingType(PricingTypeVO pricingTypeVO) {
 		PricingType pricingType = new PricingType();
 		if (pricingTypeVO != null) {
-			if (pricingTypeVO.getPricingTypeId() != null) {
-				pricingType.setPricingTypeId(pricingTypeVO.getPricingTypeId());
-				pricingType.setActive(pricingTypeVO.isActive());
-			}
+			pricingType.setPricingTypeId(pricingTypeVO.getPricingTypeId());
 			pricingType.setPricingTypeName(pricingTypeVO.getPricingTypeName());
 			pricingType.setPricingTypeDisplayName(pricingTypeVO.getPricingTypeDisplayName());
 		}
 		return pricingType;
 	}
-	
-	
+
 	/**
 	 * Convert PricingType to PricingTypeVO
 	 * 
@@ -46,6 +42,5 @@ public class PricingTypeConverter {
 		}
 		return pricingTypeVO;
 	}
-
 
 }

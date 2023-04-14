@@ -18,11 +18,7 @@ public class FortnightlyMeetingConverter {
 	public static FortnightlyMeeting convertFortnightlyMeetingVOToFortnightlyMeeting(FortnightlyMeetingVO fortnightlyMeetingVO) {
 		FortnightlyMeeting fortnightlyMeeting = new FortnightlyMeeting();
 		if (fortnightlyMeetingVO != null) {
-			if (fortnightlyMeetingVO.getMeetingId() != null) {
-				fortnightlyMeeting.setMeetingId(fortnightlyMeetingVO.getMeetingId());
-				fortnightlyMeeting.setMeetingDay(fortnightlyMeetingVO.getMeetingDay());
-				fortnightlyMeeting.setActive(fortnightlyMeetingVO.isActive());
-			}
+			fortnightlyMeeting.setMeetingId(fortnightlyMeetingVO.getMeetingId());
 			fortnightlyMeeting.setMeetingDate(fortnightlyMeetingVO.getMeetingDate());
 			fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
 			fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());

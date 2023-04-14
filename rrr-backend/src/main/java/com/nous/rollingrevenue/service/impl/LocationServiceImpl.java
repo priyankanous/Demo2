@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +38,6 @@ public class LocationServiceImpl implements LocationService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "location", key = "#locationId")
 	public LocationVO updateLocation(Long locationId, LocationVO locationVO) {
 		Location location = locationRepository.findById(locationId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + locationId));
@@ -51,7 +47,6 @@ public class LocationServiceImpl implements LocationService {
 	}
 
 	@Override
-	@Cacheable(value = "location", key = "#locationId")
 	public LocationVO getLocation(Long locationId) {
 		Optional<Location> locationOptional = locationRepository.findById(locationId);
 		if (locationOptional.isPresent()) {
@@ -62,7 +57,6 @@ public class LocationServiceImpl implements LocationService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "location", key = "#locationId")
 	public void deleteLocation(Long locationId) {
 		Optional<Location> locationOptional = locationRepository.findById(locationId);
 		if (locationOptional.isPresent()) {
@@ -97,7 +91,6 @@ public class LocationServiceImpl implements LocationService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "location", key = "#locationId")
 	public LocationVO activateOrDeactivateById(Long locationId) {
 		Location location = locationRepository.findById(locationId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + locationId));

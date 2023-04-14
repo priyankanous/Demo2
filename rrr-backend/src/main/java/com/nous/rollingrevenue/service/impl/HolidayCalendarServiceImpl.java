@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,7 +41,6 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "holidaycalendar", key = "#holidayId")
 	public HolidayCalendarVO updateHolidayCalendar(Long holidayId, HolidayCalendarVO holidayCalendarVO) {
 		HolidayCalendar holidayCalendar = holidayCalendarRepository.findById(holidayId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + holidayId));
@@ -58,7 +54,6 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 	}
 
 	@Override
-	@Cacheable(value = "holidaycalendar", key = "#holidayId")
 	public HolidayCalendarVO getHolidayCalendar(Long holidayId) {
 		Optional<HolidayCalendar> holidayCalendarOptional = holidayCalendarRepository.findById(holidayId);
 		if (holidayCalendarOptional.isPresent()) {
@@ -69,7 +64,6 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "holidaycalendar", key = "#holidayId")
 	public void deleteHolidayCalendar(Long holidayId) {
 		Optional<HolidayCalendar> holidayCalendarOptional = holidayCalendarRepository.findById(holidayId);
 		if (holidayCalendarOptional.isPresent()) {
@@ -104,7 +98,6 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "holidaycalendar", key = "#holidayId")
 	public HolidayCalendarVO activateOrDeactivateById(Long holidayId) {
 		HolidayCalendar holidayCalendar = holidayCalendarRepository.findById(holidayId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + holidayId));

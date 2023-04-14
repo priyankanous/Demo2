@@ -18,10 +18,7 @@ public class BusinessTypeConverter {
 	public static BusinessType convertBusinessTypeVOToBusinessType(BusinessTypeVO businessTypeVO) {
 		BusinessType businessType = new BusinessType();
 		if (businessTypeVO != null) {
-			if (businessTypeVO.getBusinessTypeId() != null) {
-				businessType.setBusinessTypeId(businessTypeVO.getBusinessTypeId());
-				businessType.setActive(businessTypeVO.isActive());
-			}
+			businessType.setBusinessTypeId(businessTypeVO.getBusinessTypeId());
 			businessType.setBusinessTypeName(businessTypeVO.getBusinessTypeName());
 			businessType.setBusinessTypeDisplayName(businessTypeVO.getBusinessTypeDisplayName());
 		}

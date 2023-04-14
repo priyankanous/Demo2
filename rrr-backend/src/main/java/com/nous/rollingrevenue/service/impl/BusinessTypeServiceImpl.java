@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +46,6 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "businesstype", key= "#businessTypeId")
 	public void deleteBusinessTypeById(Long businessTypeId) {
 		businessTypeRepository.findById(businessTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
@@ -57,7 +53,6 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 	}
 
 	@Override
-	@Cacheable(value = "businesstype", key = "#businessTypeId")
 	public BusinessTypeVO getBusinessTypeById(Long businessTypeId) {
 		BusinessType businessType = businessTypeRepository.findById(businessTypeId)
                 .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
@@ -66,7 +61,6 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "businesstype", key = "#businessTypeId")
 	public BusinessTypeVO updateBusinessType(Long businessTypeId, BusinessTypeVO businessTypeVO) {
 		BusinessType businessType = businessTypeRepository.findById(businessTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
@@ -91,7 +85,6 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 	
 	@Override
 	@Transactional
-	@CachePut(value = "businesstype", key = "#businessTypeId")
 	public BusinessTypeVO activateOrDeactivateById(Long businessTypeId) {
 		BusinessType businessType = businessTypeRepository.findById(businessTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));

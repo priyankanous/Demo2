@@ -18,10 +18,7 @@ public class FinancialYearConverter {
 	public static FinancialYear convertFinancialYearVOToFinancialYear(FinancialYearVO financialYearVO) {
 		FinancialYear financialYear = new FinancialYear();
 		if (financialYearVO != null) {
-			if (financialYearVO.getFinancialYearId() != null) {
-				financialYear.setFinancialYearId(financialYearVO.getFinancialYearId());
-				financialYear.setActive(financialYearVO.isActive());
-			}
+			financialYear.setFinancialYearId(financialYearVO.getFinancialYearId());
 			financialYear.setFinancialYearName(financialYearVO.getFinancialYearName());
 			financialYear.setFinancialYearCustomName(financialYearVO.getFinancialYearCustomName());
 			financialYear.setStartingFrom(financialYearVO.getStartingFrom());

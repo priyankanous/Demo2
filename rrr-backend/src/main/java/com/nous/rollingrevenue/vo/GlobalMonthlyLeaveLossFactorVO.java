@@ -14,7 +14,6 @@ public class GlobalMonthlyLeaveLossFactorVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long leaveLossFactorId;
 
 	@NotEmpty(message = "month must not be empty")
@@ -26,8 +25,7 @@ public class GlobalMonthlyLeaveLossFactorVO implements Serializable {
 	@NotNull(message = "on site name must not be empty")
 	private Long onSite;
 
-	@NotEmpty(message = "financial year must not be empty")
-	private String financialYear;
+	private FinancialYearVO financialYearVO;
 
 	private boolean isActive;
 
@@ -36,13 +34,13 @@ public class GlobalMonthlyLeaveLossFactorVO implements Serializable {
 	}
 
 	public GlobalMonthlyLeaveLossFactorVO(Long leaveLossFactorId, String month, Long offShore, Long onSite,
-			String financialYear, boolean isActive) {
+			FinancialYearVO financialYearVO, boolean isActive) {
 		super();
 		this.leaveLossFactorId = leaveLossFactorId;
 		this.month = month;
 		this.offShore = offShore;
 		this.onSite = onSite;
-		this.financialYear = financialYear;
+		this.financialYearVO = financialYearVO;
 		this.isActive = isActive;
 	}
 
@@ -78,12 +76,12 @@ public class GlobalMonthlyLeaveLossFactorVO implements Serializable {
 		this.onSite = onSite;
 	}
 
-	public String getFinancialYear() {
-		return financialYear;
+	public FinancialYearVO getFinancialYearVO() {
+		return financialYearVO;
 	}
 
-	public void setFinancialYear(String financialYear) {
-		this.financialYear = financialYear;
+	public void setFinancialYearVO(FinancialYearVO financialYearVO) {
+		this.financialYearVO = financialYearVO;
 	}
 
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
@@ -98,7 +96,7 @@ public class GlobalMonthlyLeaveLossFactorVO implements Serializable {
 	@Override
 	public String toString() {
 		return "GlobalMonthlyLeaveLossFactorVO [leaveLossFactorId=" + leaveLossFactorId + ", month=" + month
-				+ ", offShore=" + offShore + ", onSite=" + onSite + ", financialYear=" + financialYear + ", isActive="
+				+ ", offShore=" + offShore + ", onSite=" + onSite + ", financialYearVO=" + financialYearVO + ", isActive="
 				+ isActive + "]";
 	}
 	

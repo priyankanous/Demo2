@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +45,6 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "accounts", key = "#accountId")
 	public void deleteAccountById(Long accountId) {
 		accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
@@ -56,7 +52,6 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	@Cacheable(value = "accounts", key = "#accountId")
 	public AccountVO getAccountById(Long accountId) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
@@ -65,7 +60,6 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "accounts", key = "#accountId")
 	public AccountVO updateAccount(Long accountId, AccountVO accountVO) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
@@ -91,7 +85,6 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "accounts", key = "#accountId")
 	public AccountVO activateOrDeactivateById(Long accountId) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));

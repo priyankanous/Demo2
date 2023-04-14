@@ -16,10 +16,12 @@ public class BusinessUnitConverter {
 	 */
 	public static BusinessUnit convertBusinessUnitVOToBusinessUnit(BusinessUnitVO businessUnitVO) {
 		BusinessUnit businessUnit = new BusinessUnit();
+		if (businessUnitVO != null) {
 			businessUnit.setBusinessUnitId(businessUnitVO.getBusinessUnitId());
 			businessUnit.setBusinessUnitName(businessUnitVO.getBusinessUnitName());
 			businessUnit.setBusinessUnitDisplayName(businessUnitVO.getBusinessUnitDisplayName());
 			businessUnit.setOrganization(OrganizationConverter.convertOrganizationVOToOrganization(businessUnitVO.getOrganizationVO()));
+		}
 		return businessUnit;
 	}
 

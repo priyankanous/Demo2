@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +52,6 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "currency", key = "#currencyId")
 	public void deleteCurrencyById(Long currencyId) {
 		currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
@@ -63,7 +59,6 @@ public class CurrencyServiceImpl implements CurrencyService {
 	}
 
 	@Override
-	@Cacheable(value = "currency", key = "#currencyId")
 	public CurrencyVO getCurrencyById(Long currencyId) {
 		Currency currency = currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
@@ -72,7 +67,6 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "currency", key = "#currencyId")
 	public CurrencyVO updateCurrency(Long currencyId, CurrencyVO currencyVO) {
 		Currency currency = currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
@@ -102,7 +96,6 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "currency", key = "#currencyId")
 	public CurrencyVO activateOrDeactivateById(Long currencyId) {
 		Currency currency = currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));

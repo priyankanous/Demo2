@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +52,6 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "sbuhead", key = "#sbuHeadId")
 	public void deleteSBUHeadById(Long sbuHeadId) {
 		sbuHeadRepository.findById(sbuHeadId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
@@ -64,7 +60,6 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 	}
 
 	@Override
-	@Cacheable(value = "sbuhead", key = "#sbuHeadId")
 	public StrategicBusinessUnitHeadVO getSBUHeadById(Long sbuHeadId) {
 		StrategicBusinessUnitHead sbuHead = sbuHeadRepository.findById(sbuHeadId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
@@ -73,7 +68,6 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 
 	@Override
 	@Transactional
-	@CachePut(value = "sbuhead", key = "#sbuHeadId")
 	public StrategicBusinessUnitHeadVO updateSBUHead(Long sbuHeadId, StrategicBusinessUnitHeadVO sbuHeadVO) {
 		StrategicBusinessUnitHead sbuHead = sbuHeadRepository.findById(sbuHeadId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
@@ -102,7 +96,6 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 
 	@Override
 	@Transactional
-	@CachePut(value = "sbuhead", key = "#sbuHeadId")
 	public StrategicBusinessUnitHeadVO activateOrDeactivateById(Long sbuHeadId) {
 		StrategicBusinessUnitHead sbuHead = sbuHeadRepository.findById(sbuHeadId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));

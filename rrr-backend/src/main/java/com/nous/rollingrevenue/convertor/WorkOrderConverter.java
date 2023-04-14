@@ -17,10 +17,7 @@ public class WorkOrderConverter {
 	public static WorkOrder convertWorkOrderVOToWorkOrder(WorkOrderVO workOrderVO) {
 		WorkOrder workOrder = new WorkOrder();
 		if (workOrderVO != null) {
-			if (workOrderVO.getWorkOrderId() != null) {
-				workOrder.setWorkOrderId(workOrderVO.getWorkOrderId());
-				workOrder.setActive(workOrderVO.isActive());
-			}
+			workOrder.setWorkOrderId(workOrderVO.getWorkOrderId());
 			workOrder.setWorkOrderNumber(workOrderVO.getWorkOrderNumber());
 			workOrder.setWorkOrderEndDate(workOrderVO.getWorkOrderEndDate());
 			workOrder.setAccountName(workOrderVO.getAccountName());

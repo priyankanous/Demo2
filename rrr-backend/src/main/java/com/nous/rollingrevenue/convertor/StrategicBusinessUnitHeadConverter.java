@@ -7,27 +7,28 @@ import com.nous.rollingrevenue.vo.StrategicBusinessUnitHeadVO;
 
 @Component
 public class StrategicBusinessUnitHeadConverter {
-	
+
 	/**
 	 * Convert StrategicBusinessUnitHeadVO to StrategicBusinessHeadUnit
 	 * 
 	 * @param StrategicBusinessUnitHeadVO
 	 * @return StrategicBusinessUnitHead
 	 */
-	
+
 	public static StrategicBusinessUnitHead convertSBUHeadVOToSBUHead(StrategicBusinessUnitHeadVO sbuHeadVO) {
 		StrategicBusinessUnitHead sbuHead = new StrategicBusinessUnitHead();
 		if (sbuHeadVO != null) {
-				sbuHead.setSbuHeadId(sbuHeadVO.getSbuHeadId());
+			sbuHead.setSbuHeadId(sbuHeadVO.getSbuHeadId());
 			sbuHead.setSbuHeadName(sbuHeadVO.getSbuHeadName());
 			sbuHead.setSbuHeadDisplayName(sbuHeadVO.getSbuHeadDisplayName());
-			sbuHead.setStrategicbusinessUnit(StrategicBusinessUnitConverter.convertSBUVOToSBU(sbuHeadVO.getStrategicBusinessUnitVO()));
+			sbuHead.setStrategicbusinessUnit(
+					StrategicBusinessUnitConverter.convertSBUVOToSBU(sbuHeadVO.getStrategicBusinessUnitVO()));
 			sbuHead.setActiveFrom(sbuHeadVO.getActiveFrom());
 			sbuHead.setActiveUntil(sbuHeadVO.getActiveUntil());
 		}
 		return sbuHead;
 	}
-	
+
 	/**
 	 * Convert StrategicBusinessUnitHead to StrategicBusinessHeadUnitVO
 	 * 
@@ -41,13 +42,13 @@ public class StrategicBusinessUnitHeadConverter {
 			sbuHeadVO.setSbuHeadId(sbuHead.getSbuHeadId());
 			sbuHeadVO.setSbuHeadName(sbuHead.getSbuHeadName());
 			sbuHeadVO.setSbuHeadDisplayName(sbuHead.getSbuHeadDisplayName());
-			sbuHeadVO.setStrategicBusinessUnitVO(StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuHead.getStrategicbusinessUnit()));
+			sbuHeadVO.setStrategicBusinessUnitVO(
+					StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuHead.getStrategicbusinessUnit()));
 			sbuHeadVO.setActiveFrom(sbuHead.getActiveFrom());
 			sbuHeadVO.setActiveUntil(sbuHead.getActiveUntil());
 			sbuHeadVO.setActive(sbuHead.isActive());
 		}
 		return sbuHeadVO;
 	}
-
 
 }

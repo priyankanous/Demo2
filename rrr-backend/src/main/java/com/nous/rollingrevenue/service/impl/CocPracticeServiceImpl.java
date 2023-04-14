@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -47,7 +44,6 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 	}
 
 	@Override
-	@Cacheable(value = "cocpractice", key = "#id")
 	public CocPracticeVO getCocPractice(Long id) {
 		Optional<CocPractice> cocOptional = cocpracticeRepository.findById(id);
 
@@ -60,7 +56,6 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "cocpractice", key = "#id")
 	public void deleteCocPractice(Long id) {
 		Optional<CocPractice> cocOptional = cocpracticeRepository.findById(id);
 
@@ -82,7 +77,6 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "cocpractice", key = "#id")
 	public CocPracticeVO updateCocPractice(Long id, CocPracticeVO cocpracticeVO) {
 		CocPractice cocpractice = cocpracticeRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
@@ -109,7 +103,6 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "cocpractice", key = "#id")
 	public CocPracticeVO activateOrDeactivateById(Long id) {
 		CocPractice cocpractice = cocpracticeRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));

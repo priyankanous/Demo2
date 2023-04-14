@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +37,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	@Cacheable(value = "organizations", key = "#id")
 	public OrganizationVO getOrganization(Long id) {
 		Optional<Organization> orgOptional = organizationRepository.findById(id);
 
@@ -53,7 +49,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "organizations", key = "#id")
 	public void deleteOrganization(Long id) {
 		Optional<Organization> orgOptional = organizationRepository.findById(id);
 
@@ -75,7 +70,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "organizations", key = "#id")
 	public OrganizationVO updateOrganization(Long id, OrganizationVO organizationVO) {
 		Organization organization = organizationRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
@@ -100,7 +94,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "organizations", key = "#id")
 	public OrganizationVO activateOrDeactivateById(Long id) {
 		Organization organization = organizationRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));

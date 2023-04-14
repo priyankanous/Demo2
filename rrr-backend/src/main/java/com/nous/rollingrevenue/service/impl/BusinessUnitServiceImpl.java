@@ -6,9 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +43,6 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 	}
 
 	@Override
-	@Cacheable(value = "businessUnitCache", key = "#id")
 	public BusinessUnitVO getBusinessUnitById(Long id) {
 		Optional<BusinessUnit> businessUnitOptional = businessUnitRepository.findById(id);
 		if (businessUnitOptional.isPresent()) {
@@ -58,7 +54,6 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "businessUnitCache", key = "#id") // remove cache entry
 	public void deleteBusinessUnit(Long id) {
 		Optional<BusinessUnit> businessUnitOptional = businessUnitRepository.findById(id);
 
@@ -80,7 +75,6 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "businessUnitCache", key = "#id")
 	public BusinessUnitVO updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO) {
 		BusinessUnit businessUnit = businessUnitRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
@@ -107,7 +101,6 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 	
 	@Override
 	@Transactional
-	@CachePut(value = "businessUnitCache", key = "#id")
 	public BusinessUnitVO activateOrDeactivateById(Long id) {
 		BusinessUnit businessUnit = businessUnitRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));

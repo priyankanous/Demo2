@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +46,6 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "wostatus", key = "#woStatusId")
 	public void deleteWorkOrderStatusById(Long woStatusId) {
 		woStatusRepository.findById(woStatusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
@@ -57,7 +53,6 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 	}
 
 	@Override
-	@Cacheable(value = "wostatus", key = "#woStatusId")
 	public WorkOrderStatusVO getWorkOrderStatusById(Long woStatusId) {
 		WorkOrderStatus woStatus = woStatusRepository.findById(woStatusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
@@ -66,7 +61,6 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "wostatus", key = "#woStatusId")
 	public WorkOrderStatusVO updateWorkOrderStatus(Long woStatusId, WorkOrderStatusVO woStatusVO) {
 		WorkOrderStatus woStatus = woStatusRepository.findById(woStatusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
@@ -91,7 +85,6 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "wostatus", key = "#woStatusId")
 	public WorkOrderStatusVO activateOrDeactivateById(Long woStatusId) {
 		WorkOrderStatus woStatus = woStatusRepository.findById(woStatusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));

@@ -17,10 +17,12 @@ public class StrategicBusinessUnitConverter {
 
 	public static StrategicBusinessUnit convertSBUVOToSBU(StrategicBusinessUnitVO sbuVO) {
 		StrategicBusinessUnit sbu = new StrategicBusinessUnit();
-		sbu.setSbuId(sbuVO.getSbuId());
-		sbu.setSbuName(sbuVO.getSbuName());
-		sbu.setSbuDisplayName(sbuVO.getSbuDisplayName());
-		sbu.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(sbuVO.getBusinessUnitVO()));
+		if (sbuVO != null) {
+			sbu.setSbuId(sbuVO.getSbuId());
+			sbu.setSbuName(sbuVO.getSbuName());
+			sbu.setSbuDisplayName(sbuVO.getSbuDisplayName());
+			sbu.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(sbuVO.getBusinessUnitVO()));
+		}
 		return sbu;
 	}
 

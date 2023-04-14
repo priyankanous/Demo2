@@ -5,9 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -48,7 +45,6 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	@Transactional
-	@CacheEvict(value = "regions", key = "#regionId")
 	public void deleteRegionById(Long regionId) {
 		regionRepository.findById(regionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
@@ -56,7 +52,6 @@ public class RegionServiceImpl implements RegionService {
 	}
 
 	@Override
-	@Cacheable(value = "regions", key = "#regionId")
 	public RegionVO getRegionById(Long regionId) {
 		Region region = regionRepository.findById(regionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
@@ -65,7 +60,6 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "regions", key = "#regionId")
 	public RegionVO updateRegion(Long regionId, RegionVO regionVO) {
 		Region region = regionRepository.findById(regionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
@@ -90,7 +84,6 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	@Transactional
-	@CachePut(value = "regions", key = "#regionId")
 	public RegionVO activateOrDeactivateById(Long regionId) {
 		Region region = regionRepository.findById(regionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));

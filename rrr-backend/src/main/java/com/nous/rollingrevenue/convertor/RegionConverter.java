@@ -7,7 +7,7 @@ import com.nous.rollingrevenue.vo.RegionVO;
 
 @Component
 public class RegionConverter {
-	
+
 	/**
 	 * Convert RegionVO to Region
 	 * 
@@ -18,17 +18,13 @@ public class RegionConverter {
 	public static Region convertRegionVOToRegion(RegionVO regionVO) {
 		Region region = new Region();
 		if (regionVO != null) {
-			if (regionVO.getRegionId() != null) {
-				region.setRegionId(regionVO.getRegionId());
-				region.setActive(regionVO.isActive());
-			}
+			region.setRegionId(regionVO.getRegionId());
 			region.setRegionName(regionVO.getRegionName());
 			region.setRegionDisplayName(regionVO.getRegionDisplayName());
 		}
 		return region;
 	}
-	
-	
+
 	/**
 	 * Convert Region to RegionVO
 	 * 

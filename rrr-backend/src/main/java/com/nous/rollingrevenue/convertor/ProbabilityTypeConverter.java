@@ -7,7 +7,7 @@ import com.nous.rollingrevenue.vo.ProbabilityTypeVO;
 
 @Component
 public class ProbabilityTypeConverter {
-	
+
 	/**
 	 * Convert ProbabilityTypeVO to ProbabilityType
 	 * 
@@ -18,17 +18,13 @@ public class ProbabilityTypeConverter {
 	public static ProbabilityType convertProbabilityTypeVOToProbabilityType(ProbabilityTypeVO probabilityTypeVO) {
 		ProbabilityType probabilityType = new ProbabilityType();
 		if (probabilityTypeVO != null) {
-			if (probabilityTypeVO.getProbabilityTypeId() != null) {
-				probabilityType.setProbabilityTypeId(probabilityTypeVO.getProbabilityTypeId());
-				probabilityType.setActive(probabilityTypeVO.isActive());
-			}
+			probabilityType.setProbabilityTypeId(probabilityTypeVO.getProbabilityTypeId());
 			probabilityType.setProbabilityTypeName(probabilityTypeVO.getProbabilityTypeName());
 			probabilityType.setPercentage(probabilityTypeVO.getPercentage());
 		}
 		return probabilityType;
 	}
-	
-	
+
 	/**
 	 * Convert ProbabilityType to ProbabilityTypeVO
 	 * 

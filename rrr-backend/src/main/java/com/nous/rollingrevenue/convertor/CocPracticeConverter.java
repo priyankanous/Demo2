@@ -19,13 +19,14 @@ public class CocPracticeConverter {
 	 */
 	public static CocPractice convertCocPracticeVOToCocPractice(CocPracticeVO cocpracticeVO) {
 		CocPractice cocpractice = new CocPractice();
+		if (cocpracticeVO != null) {
 		cocpractice.setCocPracticeId(cocpracticeVO.getCocPracticeId());
 		cocpractice.setCocPracticeId(cocpracticeVO.getCocPracticeId());
 		cocpractice.setCocPracticeName(cocpracticeVO.getCocPracticeName());
 		cocpractice.setCocPracticeDisplayName(cocpracticeVO.getCocPracticeDisplayName());
 		cocpractice.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(cocpracticeVO.getBusinessUnitVO()));
+		}
 		return cocpractice;
-
 	}
 
 	/**

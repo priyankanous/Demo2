@@ -7,7 +7,7 @@ import com.nous.rollingrevenue.vo.StatusVO;
 
 @Component
 public class StatusConverter {
-	
+
 	/**
 	 * Convert StatusVO to Status
 	 * 
@@ -18,17 +18,13 @@ public class StatusConverter {
 	public static Status convertStatusVOToStatus(StatusVO statusVO) {
 		Status status = new Status();
 		if (statusVO != null) {
-			if (statusVO.getStatusId() != null) {
-				status.setStatusId(statusVO.getStatusId());
-				status.setActive(statusVO.isActive());
-			}
+			status.setStatusId(statusVO.getStatusId());
 			status.setStatusName(statusVO.getStatusName());
 			status.setStatusDisplayName(statusVO.getStatusDisplayName());
 		}
 		return status;
 	}
-	
-	
+
 	/**
 	 * Convert Status to StatusVO
 	 * 
@@ -46,6 +42,5 @@ public class StatusConverter {
 		}
 		return statusVO;
 	}
-
 
 }
