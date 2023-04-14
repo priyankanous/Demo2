@@ -15,7 +15,6 @@ public class FinancialYearVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long financialYearId;
 
 	@NotBlank(message = "FinancialYearName cannot be null or empty")

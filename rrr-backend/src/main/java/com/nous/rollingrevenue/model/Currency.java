@@ -7,9 +7,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,8 +37,9 @@ public class Currency extends Auditable<String> {
 	@Column(name = "conversion_rate")
 	private BigDecimal conversionRate;
 
-	@Column(name = "financial_year")
-	private String financialYear;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
+	private FinancialYear financialYear;
 
 	@Column(name = "base_currency")
 	private String baseCurrency;
@@ -46,7 +50,7 @@ public class Currency extends Auditable<String> {
 	}
 
 	public Currency(Long currencyId, String currency, String currencyName, String symbol, BigDecimal conversionRate,
-			String financialYear, String baseCurrency) {
+			FinancialYear financialYear, String baseCurrency) {
 		super();
 		this.currencyId = currencyId;
 		this.currency = currency;
@@ -97,11 +101,11 @@ public class Currency extends Auditable<String> {
 		this.conversionRate = conversionRate;
 	}
 
-	public String getFinancialYear() {
+	public FinancialYear getFinancialYear() {
 		return financialYear;
 	}
 
-	public void setFinancialYear(String financialYear) {
+	public void setFinancialYear(FinancialYear financialYear) {
 		this.financialYear = financialYear;
 	}
 

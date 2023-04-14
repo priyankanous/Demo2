@@ -7,7 +7,7 @@ import com.nous.rollingrevenue.vo.CurrencyVO;
 
 @Component
 public class CurrencyConverter {
-	
+
 	/**
 	 * Convert CurrencyVO to Currency
 	 * 
@@ -18,21 +18,17 @@ public class CurrencyConverter {
 	public static Currency convertCurrencyVOToCurrency(CurrencyVO currencyVO) {
 		Currency currency = new Currency();
 		if (currencyVO != null) {
-			if (currencyVO.getCurrencyId() != null) {
-				currency.setCurrencyId(currencyVO.getCurrencyId());
-				currency.setActive(currencyVO.isActive());
-			}
+			currency.setCurrencyId(currencyVO.getCurrencyId());
 			currency.setCurrency(currencyVO.getCurrency());
 			currency.setCurrencyName(currencyVO.getCurrencyName());
 			currency.setSymbol(currencyVO.getSymbol());
 			currency.setConversionRate(currencyVO.getConversionRate());
-			currency.setFinancialYear(currencyVO.getFinancialYear());
+			currency.setFinancialYear(FinancialYearConverter.convertFinancialYearVOToFinancialYear(currencyVO.getFinancialYearVO()));
 			currency.setBaseCurrency(currencyVO.getBaseCurrency());
 		}
 		return currency;
 	}
-	
-	
+
 	/**
 	 * Convert Currency to CurrencyVO
 	 * 
@@ -48,12 +44,11 @@ public class CurrencyConverter {
 			currencyVO.setCurrencyName(currency.getCurrencyName());
 			currencyVO.setSymbol(currency.getSymbol());
 			currencyVO.setConversionRate(currency.getConversionRate());
-			currencyVO.setFinancialYear(currency.getFinancialYear());
+			currencyVO.setFinancialYearVO(FinancialYearConverter.convertFinancialYearToFinancialYearVO(currency.getFinancialYear()));
 			currencyVO.setBaseCurrency(currency.getBaseCurrency());
 			currencyVO.setActive(currency.isActive());
 		}
 		return currencyVO;
 	}
-
 
 }

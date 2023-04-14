@@ -14,7 +14,6 @@ public class CurrencyVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long currencyId;
 
 	@NotBlank(message = "Currency cannot be null or empty")
@@ -28,8 +27,7 @@ public class CurrencyVO implements Serializable {
 
 	private BigDecimal conversionRate;
 
-	@NotBlank(message = "FinancialYear cannot be null or empty")
-	private String financialYear;
+	private FinancialYearVO financialYearVO;
 
 	@NotBlank(message = "BaseCurrency cannot be null or empty")
 	private String baseCurrency;
@@ -41,14 +39,14 @@ public class CurrencyVO implements Serializable {
 	}
 
 	public CurrencyVO(Long currencyId, String currency, String currencyName, String symbol, BigDecimal conversionRate,
-			String financialYear, String baseCurrency, boolean isActive) {
+			FinancialYearVO financialYearVO, String baseCurrency, boolean isActive) {
 		super();
 		this.currencyId = currencyId;
 		this.currency = currency;
 		this.currencyName = currencyName;
 		this.symbol = symbol;
 		this.conversionRate = conversionRate;
-		this.financialYear = financialYear;
+		this.financialYearVO = financialYearVO;
 		this.baseCurrency = baseCurrency;
 		this.isActive = isActive;
 	}
@@ -93,12 +91,12 @@ public class CurrencyVO implements Serializable {
 		this.conversionRate = conversionRate;
 	}
 
-	public String getFinancialYear() {
-		return financialYear;
+	public FinancialYearVO getFinancialYearVO() {
+		return financialYearVO;
 	}
 
-	public void setFinancialYear(String financialYear) {
-		this.financialYear = financialYear;
+	public void setFinancialYearVO(FinancialYearVO financialYearVO) {
+		this.financialYearVO = financialYearVO;
 	}
 
 	public String getBaseCurrency() {
@@ -121,9 +119,9 @@ public class CurrencyVO implements Serializable {
 	@Override
 	public String toString() {
 		return "CurrencyVO [currencyId=" + currencyId + ", currency=" + currency + ", currencyName=" + currencyName
-				+ ", symbol=" + symbol + ", conversionRate=" + conversionRate + ", financialYear=" + financialYear
+				+ ", symbol=" + symbol + ", conversionRate=" + conversionRate + ", financialYearVO=" + financialYearVO
 				+ ", baseCurrency=" + baseCurrency + ", isActive=" + isActive + "]";
 	}
-	
+
 
 }
