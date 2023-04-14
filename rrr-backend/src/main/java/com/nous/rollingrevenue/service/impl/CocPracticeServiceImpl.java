@@ -20,7 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.CocPracticeConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.model.CocPractice;
+import com.nous.rollingrevenue.repository.BusinessUnitRepository;
 import com.nous.rollingrevenue.repository.CocPracticeRepository;
 import com.nous.rollingrevenue.service.CocPracticeService;
 import com.nous.rollingrevenue.vo.CocPracticeVO;
@@ -31,11 +33,16 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 
 	@Autowired
 	CocPracticeRepository cocpracticeRepository;
+	
+	@Autowired
+	BusinessUnitRepository businessUnitRepository;
 
 	@Override
 	@Transactional
 	public CocPracticeVO addCocPractice(CocPracticeVO cocpracticeVO) {
 		CocPractice cocPractice = CocPracticeConverter.convertCocPracticeVOToCocPractice(cocpracticeVO);
+		BusinessUnit businessUnit =  businessUnitRepository.findById(cocpracticeVO.getBusinessUnitVO().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
+		cocPractice.setBusinessUnit(businessUnit);
 		return CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocpracticeRepository.save(cocPractice));
 	}
 
@@ -81,7 +88,8 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		cocpractice.setCocPracticeDisplayName(cocpracticeVO.getCocPracticeDisplayName());
 		cocpractice.setCocPracticeName(cocpracticeVO.getCocPracticeName());
-		cocpractice.setBuDisplayName(cocpracticeVO.getBuDisplayName());
+		BusinessUnit businessUnit =  businessUnitRepository.findById(cocpracticeVO.getBusinessUnitVO().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
+		cocpractice.setBusinessUnit(businessUnit);
 		return CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocpracticeRepository.save(cocpractice));
 	}
 

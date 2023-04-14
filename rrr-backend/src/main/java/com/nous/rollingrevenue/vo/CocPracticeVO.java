@@ -13,7 +13,6 @@ public class CocPracticeVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long cocPracticeId;
 
 	@NotBlank(message = "COCName cannot be null or empty")
@@ -22,8 +21,7 @@ public class CocPracticeVO implements Serializable {
 	@NotBlank(message = "COCDisplayName cannot be null or empty")
 	private String cocPracticeDisplayName;
 
-	@NotBlank(message = "BUDisplayName cannot be null or empty")
-	private String buDisplayName;
+	private BusinessUnitVO businessUnitVO;
 
 	private boolean isActive;
 
@@ -32,12 +30,12 @@ public class CocPracticeVO implements Serializable {
 	}
 
 	public CocPracticeVO(Long cocPracticeId, String cocPracticeName, String cocPracticeDisplayName,
-			String buDisplayName, boolean isActive) {
+			BusinessUnitVO businessUnitVO, boolean isActive) {
 		super();
 		this.cocPracticeId = cocPracticeId;
 		this.cocPracticeName = cocPracticeName;
 		this.cocPracticeDisplayName = cocPracticeDisplayName;
-		this.buDisplayName = buDisplayName;
+		this.businessUnitVO = businessUnitVO;
 		this.isActive = isActive;
 	}
 
@@ -65,12 +63,12 @@ public class CocPracticeVO implements Serializable {
 		this.cocPracticeDisplayName = cocPracticeDisplayName;
 	}
 
-	public String getBuDisplayName() {
-		return buDisplayName;
+	public BusinessUnitVO getBusinessUnitVO() {
+		return businessUnitVO;
 	}
 
-	public void setBuDisplayName(String buDisplayName) {
-		this.buDisplayName = buDisplayName;
+	public void setBusinessUnitVO(BusinessUnitVO businessUnitVO) {
+		this.businessUnitVO = businessUnitVO;
 	}
 
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
@@ -85,9 +83,9 @@ public class CocPracticeVO implements Serializable {
 	@Override
 	public String toString() {
 		return "CocPracticeVO [cocPracticeId=" + cocPracticeId + ", cocPracticeName=" + cocPracticeName
-				+ ", cocPracticeDisplayName=" + cocPracticeDisplayName + ", buDisplayName=" + buDisplayName
+				+ ", cocPracticeDisplayName=" + cocPracticeDisplayName + ", businessUnitVO=" + businessUnitVO
 				+ ", isActive=" + isActive + "]";
 	}
-	
+
 
 }

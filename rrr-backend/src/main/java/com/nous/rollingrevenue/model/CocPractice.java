@@ -5,9 +5,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,20 +29,21 @@ public class CocPractice extends Auditable<String> {
 	@Column(name = "coc_practice_display_name")
 	private String cocPracticeDisplayName;
 
-	@Column(name = "bu_display_name")
-	private String buDisplayName;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
+	private BusinessUnit businessUnit;
 
 	public CocPractice() {
 
 	}
 
 	public CocPractice(Long cocPracticeId, String cocPracticeName, String cocPracticeDisplayName,
-			String buDisplayName) {
+			BusinessUnit businessUnit) {
 		super();
 		this.cocPracticeId = cocPracticeId;
 		this.cocPracticeName = cocPracticeName;
 		this.cocPracticeDisplayName = cocPracticeDisplayName;
-		this.buDisplayName = buDisplayName;
+		this.businessUnit = businessUnit;
 	}
 
 	public Long getCocPracticeId() {
@@ -66,18 +70,18 @@ public class CocPractice extends Auditable<String> {
 		this.cocPracticeDisplayName = cocPracticeDisplayName;
 	}
 
-	public String getBuDisplayName() {
-		return buDisplayName;
+	public BusinessUnit getBusinessUnit() {
+		return businessUnit;
 	}
 
-	public void setBuDisplayName(String buDisplayName) {
-		this.buDisplayName = buDisplayName;
+	public void setBusinessUnit(BusinessUnit businessUnit) {
+		this.businessUnit = businessUnit;
 	}
 
 	@Override
 	public String toString() {
 		return "CocPractice [cocPracticeId=" + cocPracticeId + ", cocPracticeName=" + cocPracticeName
-				+ ", cocPracticeDisplayName=" + cocPracticeDisplayName + ", buDisplayName=" + buDisplayName + "]";
+				+ ", cocPracticeDisplayName=" + cocPracticeDisplayName + ", businessUnit=" + businessUnit + "]";
 	}
 
 }

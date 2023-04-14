@@ -19,17 +19,11 @@ public class CocPracticeConverter {
 	 */
 	public static CocPractice convertCocPracticeVOToCocPractice(CocPracticeVO cocpracticeVO) {
 		CocPractice cocpractice = new CocPractice();
-		if (cocpracticeVO != null) {
-			if (cocpracticeVO.getCocPracticeId() != null) {
-				cocpractice.setCocPracticeId(cocpracticeVO.getCocPracticeId());
-				cocpractice.setActive(cocpracticeVO.isActive());
-			}
-			cocpractice.setCocPracticeId(cocpracticeVO.getCocPracticeId());
-			cocpractice.setCocPracticeName(cocpracticeVO.getCocPracticeName());
-			cocpractice.setCocPracticeDisplayName(cocpracticeVO.getCocPracticeDisplayName());
-			cocpractice.setBuDisplayName(cocpracticeVO.getBuDisplayName());
-		}
-
+		cocpractice.setCocPracticeId(cocpracticeVO.getCocPracticeId());
+		cocpractice.setCocPracticeId(cocpracticeVO.getCocPracticeId());
+		cocpractice.setCocPracticeName(cocpracticeVO.getCocPracticeName());
+		cocpractice.setCocPracticeDisplayName(cocpracticeVO.getCocPracticeDisplayName());
+		cocpractice.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(cocpracticeVO.getBusinessUnitVO()));
 		return cocpractice;
 
 	}
@@ -46,12 +40,10 @@ public class CocPracticeConverter {
 			cocpracticeVO.setCocPracticeId(cocpractice.getCocPracticeId());
 			cocpracticeVO.setCocPracticeName(cocpractice.getCocPracticeName());
 			cocpracticeVO.setCocPracticeDisplayName(cocpractice.getCocPracticeDisplayName());
-			cocpracticeVO.setBuDisplayName(cocpractice.getBuDisplayName());
+			cocpracticeVO.setBusinessUnitVO(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(cocpractice.getBusinessUnit()));
 			cocpracticeVO.setActive(cocpractice.isActive());
 		}
-
 		return cocpracticeVO;
-
 	}
 
 }
