@@ -7,28 +7,23 @@ import com.nous.rollingrevenue.vo.StrategicBusinessUnitVO;
 
 @Component
 public class StrategicBusinessUnitConverter {
-	
+
 	/**
 	 * Convert StrategicBusinessUnitVO to StrategicBusinessUnit
 	 * 
 	 * @param StrategicBusinessUnitVO
 	 * @return StrategicBusinessUnit
 	 */
-	
+
 	public static StrategicBusinessUnit convertSBUVOToSBU(StrategicBusinessUnitVO sbuVO) {
 		StrategicBusinessUnit sbu = new StrategicBusinessUnit();
-		if (sbuVO != null) {
-			if (sbuVO.getSbuId() != null) {
-				sbu.setSbuId(sbuVO.getSbuId());
-				sbu.setActive(sbuVO.isActive());
-			}
-			sbu.setSbuName(sbuVO.getSbuName());
-			sbu.setSbuDisplayName(sbuVO.getSbuDisplayName());
-			sbu.setBuDisplayName(sbuVO.getBuDisplayName());
-		}
+		sbu.setSbuId(sbuVO.getSbuId());
+		sbu.setSbuName(sbuVO.getSbuName());
+		sbu.setSbuDisplayName(sbuVO.getSbuDisplayName());
+		sbu.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(sbuVO.getBusinessUnitVO()));
 		return sbu;
 	}
-	
+
 	/**
 	 * Convert StrategicBusinessUnit to StrategicBusinessUnitVO
 	 * 
@@ -42,7 +37,7 @@ public class StrategicBusinessUnitConverter {
 			sbuVO.setSbuId(sbu.getSbuId());
 			sbuVO.setSbuName(sbu.getSbuName());
 			sbuVO.setSbuDisplayName(sbu.getSbuDisplayName());
-			sbuVO.setBuDisplayName(sbu.getBuDisplayName());
+			sbuVO.setBusinessUnitVO(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(sbu.getBusinessUnit()));
 			sbuVO.setActive(sbu.isActive());
 		}
 		return sbuVO;

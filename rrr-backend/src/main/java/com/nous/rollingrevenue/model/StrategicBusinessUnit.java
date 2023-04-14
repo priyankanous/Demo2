@@ -5,9 +5,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,20 +29,21 @@ public class StrategicBusinessUnit extends Auditable<String> {
 	@Column(name = "sbu_display_name")
 	private String sbuDisplayName;
 
-	@Column(name = "bu_display_name")
-	private String buDisplayName;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
+	private BusinessUnit businessUnit;
 	
 
 	public StrategicBusinessUnit() {
 
 	}
 
-	public StrategicBusinessUnit(Long sbuId, String sbuName, String sbuDisplayName, String buDisplayName) {
+	public StrategicBusinessUnit(Long sbuId, String sbuName, String sbuDisplayName, BusinessUnit businessUnit) {
 		super();
 		this.sbuId = sbuId;
 		this.sbuName = sbuName;
 		this.sbuDisplayName = sbuDisplayName;
-		this.buDisplayName = buDisplayName;
+		this.businessUnit = businessUnit;
 	}
 
 	public Long getSbuId() {
@@ -66,19 +70,18 @@ public class StrategicBusinessUnit extends Auditable<String> {
 		this.sbuDisplayName = sbuDisplayName;
 	}
 
-	public String getBuDisplayName() {
-		return buDisplayName;
+	public BusinessUnit getBusinessUnit() {
+		return businessUnit;
 	}
 
-	public void setBuDisplayName(String buDisplayName) {
-		this.buDisplayName = buDisplayName;
+	public void setBusinessUnit(BusinessUnit businessUnit) {
+		this.businessUnit = businessUnit;
 	}
-
 
 	@Override
 	public String toString() {
 		return "StrategicBusinessUnit [sbuId=" + sbuId + ", sbuName=" + sbuName + ", sbuDisplayName=" + sbuDisplayName
-				+ ", buDisplayName=" + buDisplayName + "]";
+				+ ", businessUnit=" + businessUnit + "]";
 	}
 
 }

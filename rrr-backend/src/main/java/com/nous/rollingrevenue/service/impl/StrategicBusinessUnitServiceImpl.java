@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.model.StrategicBusinessUnit;
+import com.nous.rollingrevenue.repository.BusinessUnitRepository;
 import com.nous.rollingrevenue.repository.StrategicBusinessUnitRepository;
 import com.nous.rollingrevenue.service.StrategicBusinessUnitService;
 import com.nous.rollingrevenue.vo.StrategicBusinessUnitVO;
@@ -30,6 +32,9 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 
 	@Autowired
 	private StrategicBusinessUnitRepository sbuRepository;
+	
+	@Autowired
+	private BusinessUnitRepository businessUnitRepository;
 
 	@Override
 	public List<StrategicBusinessUnitVO> getAllSBU() {
@@ -42,8 +47,10 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 	@Override
 	@Transactional
 	public StrategicBusinessUnitVO saveSBU(StrategicBusinessUnitVO sbuVO) {
-		StrategicBusinessUnit sbu = sbuRepository.save(StrategicBusinessUnitConverter.convertSBUVOToSBU(sbuVO));
-		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbu);
+		StrategicBusinessUnit sbu = StrategicBusinessUnitConverter.convertSBUVOToSBU(sbuVO);
+		BusinessUnit businessUnit =  businessUnitRepository.findById(sbuVO.getBusinessUnitVO().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
+		sbu.setBusinessUnit(businessUnit);
+		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuRepository.save(sbu));
 	}
 
 	@Override
@@ -71,7 +78,8 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
 		sbu.setSbuName(sbuVO.getSbuName());
 		sbu.setSbuDisplayName(sbuVO.getSbuDisplayName());
-		sbu.setBuDisplayName(sbuVO.getBuDisplayName());
+		BusinessUnit businessUnit =  businessUnitRepository.findById(sbuVO.getBusinessUnitVO().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
+		sbu.setBusinessUnit(businessUnit);
 		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuRepository.save(sbu));
 	}
 

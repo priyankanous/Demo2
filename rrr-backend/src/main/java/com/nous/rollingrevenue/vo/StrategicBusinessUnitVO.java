@@ -13,7 +13,6 @@ public class StrategicBusinessUnitVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long sbuId;
 
 	@NotBlank(message = "SBUName cannot be null or empty")
@@ -22,8 +21,7 @@ public class StrategicBusinessUnitVO implements Serializable {
 	@NotBlank(message = "SBUDisplayName cannot be null or empty")
 	private String sbuDisplayName;
 
-	@NotBlank(message = "BUDisplayName cannot be null or empty")
-	private String buDisplayName;
+	private BusinessUnitVO businessUnitVO;
 
 	private boolean isActive;
 
@@ -31,13 +29,13 @@ public class StrategicBusinessUnitVO implements Serializable {
 
 	}
 
-	public StrategicBusinessUnitVO(Long sbuId, String sbuName, String sbuDisplayName, String buDisplayName,
+	public StrategicBusinessUnitVO(Long sbuId, String sbuName, String sbuDisplayName, BusinessUnitVO businessUnitVO,
 			boolean isActive) {
 		super();
 		this.sbuId = sbuId;
 		this.sbuName = sbuName;
 		this.sbuDisplayName = sbuDisplayName;
-		this.buDisplayName = buDisplayName;
+		this.businessUnitVO = businessUnitVO;
 		this.isActive = isActive;
 	}
 
@@ -65,12 +63,12 @@ public class StrategicBusinessUnitVO implements Serializable {
 		this.sbuDisplayName = sbuDisplayName;
 	}
 
-	public String getBuDisplayName() {
-		return buDisplayName;
+	public BusinessUnitVO getBusinessUnitVO() {
+		return businessUnitVO;
 	}
 
-	public void setBuDisplayName(String buDisplayName) {
-		this.buDisplayName = buDisplayName;
+	public void setBusinessUnitVO(BusinessUnitVO businessUnitVO) {
+		this.businessUnitVO = businessUnitVO;
 	}
 
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
@@ -85,7 +83,8 @@ public class StrategicBusinessUnitVO implements Serializable {
 	@Override
 	public String toString() {
 		return "StrategicBusinessUnitVO [sbuId=" + sbuId + ", sbuName=" + sbuName + ", sbuDisplayName=" + sbuDisplayName
-				+ ", buDisplayName=" + buDisplayName + ", isActive=" + isActive + "]";
+				+ ", businessUnitVO=" + businessUnitVO + ", isActive=" + isActive + "]";
 	}
+
 
 }
