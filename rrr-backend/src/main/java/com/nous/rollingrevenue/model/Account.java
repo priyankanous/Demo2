@@ -47,7 +47,9 @@ public class Account extends Auditable<String> {
 		this.accountName = accountName;
 		this.accountOrClientCode = accountOrClientCode;
 		this.location = location;
+		
 	}
+	
 
 	public Long getAccountId() {
 		return accountId;
@@ -84,7 +86,8 @@ public class Account extends Auditable<String> {
 	@Override
 	public String toString() {
 		return "Account [accountId=" + accountId + ", accountName=" + accountName + ", accountOrClientCode="
-				+ accountOrClientCode + ", location=" + location + "]";
+				+ accountOrClientCode + ",  location=" + location + "]";
 	}
 
+	
 }

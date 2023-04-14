@@ -19,7 +19,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.OpportunityConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.Account;
 import com.nous.rollingrevenue.model.Opportunity;
+import com.nous.rollingrevenue.repository.AccountRepository;
 import com.nous.rollingrevenue.repository.OpportunityRepository;
 import com.nous.rollingrevenue.service.OpportunityService;
 import com.nous.rollingrevenue.vo.OpportunityVO;
@@ -30,6 +32,9 @@ public class OpportunityServiceImpl implements OpportunityService {
 
 	@Autowired
 	private OpportunityRepository opportunityRepository;
+	
+	@Autowired
+	AccountRepository accountRepository;
 
 	@Override
 	public List<OpportunityVO> getAllOpportunity() {
@@ -38,13 +43,14 @@ public class OpportunityServiceImpl implements OpportunityService {
 				opportunity -> opportunityVOs.add(OpportunityConverter.convertOpportunityToOpportunityVO(opportunity)));
 		return opportunityVOs;
 	}
-
+	
 	@Override
 	@Transactional
 	public OpportunityVO saveOpportunity(OpportunityVO opportunityVO) {
-		Opportunity opportunity = opportunityRepository
-				.save(OpportunityConverter.convertOpportunityVOToOpportunity(opportunityVO));
-		return OpportunityConverter.convertOpportunityToOpportunityVO(opportunity);
+		Opportunity opportunity = OpportunityConverter.convertOpportunityVOToOpportunity(opportunityVO);
+		Account account =  accountRepository.findById(opportunityVO.getAccountVO().getAccountId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Account not exist"));
+		opportunity.setAccount(account);
+		return OpportunityConverter.convertOpportunityToOpportunityVO(opportunityRepository.save(opportunity));
 	}
 
 	@Override
@@ -64,18 +70,19 @@ public class OpportunityServiceImpl implements OpportunityService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 		return OpportunityConverter.convertOpportunityToOpportunityVO(opportunity);
 	}
-
+	
 	@Override
 	@Transactional
 	@CachePut(value = "opportunity", key = "#opportunityId")
 	public OpportunityVO updateOpportunity(Long opportunityId, OpportunityVO opportunityVO) {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
-		opportunity.setChildOfAccount(opportunityVO.getChildOfAccount());
 		opportunity.setProjectCode(opportunityVO.getProjectCode());
 		opportunity.setOpportunityName(opportunityVO.getOpportunityName());
 		opportunity.setProjectEndDate(opportunityVO.getProjectEndDate());
 		opportunity.setProjectStartDate(opportunityVO.getProjectStartDate());
+		Account account =  accountRepository.findById(opportunityVO.getAccountVO().getAccountId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Account not exist"));
+		opportunity.setAccount(account);
 		return OpportunityConverter.convertOpportunityToOpportunityVO(opportunityRepository.save(opportunity));
 	}
 

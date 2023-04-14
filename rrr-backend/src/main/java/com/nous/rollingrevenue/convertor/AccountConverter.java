@@ -7,7 +7,7 @@ import com.nous.rollingrevenue.vo.AccountVO;
 
 @Component
 public class AccountConverter {
-	
+
 	/**
 	 * Convert AccountVO to Account
 	 * 
@@ -18,18 +18,15 @@ public class AccountConverter {
 	public static Account convertAccountVOToAccount(AccountVO accountVO) {
 		Account account = new Account();
 		if (accountVO != null) {
-			if (accountVO.getAccountId() != null) {
-				account.setAccountId(accountVO.getAccountId());
-				account.setActive(accountVO.isActive());
-			}
+			account.setAccountId(accountVO.getAccountId());
 			account.setAccountName(accountVO.getAccountName());
 			account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
 			account.setLocation(accountVO.getLocation());
+
 		}
 		return account;
 	}
-	
-	
+
 	/**
 	 * Convert Account to AccountVO
 	 * 
@@ -48,6 +45,5 @@ public class AccountConverter {
 		}
 		return accountVO;
 	}
-
 
 }

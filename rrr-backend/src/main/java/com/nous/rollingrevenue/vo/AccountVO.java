@@ -16,7 +16,6 @@ public class AccountVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long accountId;
 
 	@NotBlank(message = "AccountName cannot be null or empty")
@@ -27,14 +26,16 @@ public class AccountVO implements Serializable {
 
 	@NotEmpty(message = "Atleast one Locaiton is required")
 	private Set<String> location = new HashSet<>();
-
+	
 	private boolean isActive;
 
 	public AccountVO() {
 
 	}
 
-	public AccountVO(Long accountId, String accountName, String accountOrClientCode, Set<String> location,
+	public AccountVO(Long accountId, @NotBlank(message = "AccountName cannot be null or empty") String accountName,
+			@NotBlank(message = "AccountOrClientCode cannot be null or empty") String accountOrClientCode,
+			@NotEmpty(message = "Atleast one Locaiton is required") Set<String> location,
 			boolean isActive) {
 		super();
 		this.accountId = accountId;
@@ -43,6 +44,7 @@ public class AccountVO implements Serializable {
 		this.location = location;
 		this.isActive = isActive;
 	}
+
 
 	public Long getAccountId() {
 		return accountId;
@@ -88,8 +90,8 @@ public class AccountVO implements Serializable {
 	@Override
 	public String toString() {
 		return "AccountVO [accountId=" + accountId + ", accountName=" + accountName + ", accountOrClientCode="
-				+ accountOrClientCode + ", location=" + location + ", isActive=" + isActive + "]";
+				+ accountOrClientCode + ", location=" + location + ", isActive="
+				+ isActive + "]";
 	}
-	
 
 }

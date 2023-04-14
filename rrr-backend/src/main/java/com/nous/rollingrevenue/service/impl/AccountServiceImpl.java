@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountRepository accountRepository;
-
+	
 	@Override
 	public List<AccountVO> getAllAccounts() {
 		List<AccountVO> accountVOs = new ArrayList<>();
@@ -38,12 +38,12 @@ public class AccountServiceImpl implements AccountService {
 				.forEach(account -> accountVOs.add(AccountConverter.convertAccountToAccountVO(account)));
 		return accountVOs;
 	}
-
+	
 	@Override
 	@Transactional
 	public AccountVO saveAccount(AccountVO accountVO) {
-		Account account = accountRepository.save(AccountConverter.convertAccountVOToAccount(accountVO));
-		return AccountConverter.convertAccountToAccountVO(account);
+		Account account = AccountConverter.convertAccountVOToAccount(accountVO);
+		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
 	}
 
 	@Override
@@ -73,7 +73,6 @@ public class AccountServiceImpl implements AccountService {
 		account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
 		account.setLocation(accountVO.getLocation());
 		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
-
 	}
 
 	@Override

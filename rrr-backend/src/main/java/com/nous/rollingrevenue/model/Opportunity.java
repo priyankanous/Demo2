@@ -7,9 +7,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,8 +28,9 @@ public class Opportunity extends Auditable<String> {
 	@Column(name = "opportunity_name")
 	private String opportunityName;
 
-	@Column(name = "child_of_account")
-	private String childOfAccount;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
+	private Account account;
 
 	@Column(name = "project_code")
 	private String projectCode;
@@ -36,20 +40,28 @@ public class Opportunity extends Auditable<String> {
 
 	@Column(name = "project_end_date")
 	private LocalDate projectEndDate;
-
+	
 	public Opportunity() {
 
 	}
 
-	public Opportunity(Long opportunityId, String opportunityName, String childOfAccount, String projectCode,
+	public Opportunity(Long opportunityId, String opportunityName, Account account, String projectCode,
 			LocalDate projectStartDate, LocalDate projectEndDate) {
 		super();
 		this.opportunityId = opportunityId;
 		this.opportunityName = opportunityName;
-		this.childOfAccount = childOfAccount;
+		this.account = account;
 		this.projectCode = projectCode;
 		this.projectStartDate = projectStartDate;
 		this.projectEndDate = projectEndDate;
+	}
+	
+	public Account getAccount() {
+		return account;
+	}
+
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public Long getOpportunityId() {
@@ -66,14 +78,6 @@ public class Opportunity extends Auditable<String> {
 
 	public void setOpportunityName(String opportunityName) {
 		this.opportunityName = opportunityName;
-	}
-
-	public String getChildOfAccount() {
-		return childOfAccount;
-	}
-
-	public void setChildOfAccount(String childOfAccount) {
-		this.childOfAccount = childOfAccount;
 	}
 
 	public String getProjectCode() {
@@ -100,12 +104,14 @@ public class Opportunity extends Auditable<String> {
 		this.projectEndDate = projectEndDate;
 	}
 
-
 	@Override
 	public String toString() {
-		return "Opportunity [opportunityId=" + opportunityId + ", opportunityName=" + opportunityName
-				+ ", childOfAccount=" + childOfAccount + ", projectCode=" + projectCode + ", projectStartDate="
-				+ projectStartDate + ", projectEndDate=" + projectEndDate + "]";
+		return "Opportunity [opportunityId=" + opportunityId + ", opportunityName=" + opportunityName + ", account="
+				+ account + ", projectCode=" + projectCode + ", projectStartDate=" + projectStartDate
+				+ ", projectEndDate=" + projectEndDate + "]";
 	}
+
+
+	
 
 }

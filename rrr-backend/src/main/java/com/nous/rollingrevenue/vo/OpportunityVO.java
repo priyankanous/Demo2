@@ -15,14 +15,12 @@ public class OpportunityVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long opportunityId;
 
 	@NotBlank(message = "OpportunityName cannot be null or empty")
 	private String opportunityName;
 
-	@NotBlank(message = "ChildOfAccount cannot be null or empty")
-	private String childOfAccount;
+	private AccountVO accountVO;
 
 	@NotBlank(message = "ProjectCode cannot be null or empty")
 	private String projectCode;
@@ -39,16 +37,27 @@ public class OpportunityVO implements Serializable {
 
 	}
 
-	public OpportunityVO(Long opportunityId, String opportunityName, String childOfAccount, String projectCode,
-			LocalDate projectStartDate, LocalDate projectEndDate, boolean isActive) {
+	public OpportunityVO(Long opportunityId,
+			@NotBlank(message = "OpportunityName cannot be null or empty") String opportunityName, AccountVO accountVO,
+			@NotBlank(message = "ProjectCode cannot be null or empty") String projectCode, LocalDate projectStartDate,
+			LocalDate projectEndDate, boolean isActive) {
 		super();
 		this.opportunityId = opportunityId;
 		this.opportunityName = opportunityName;
-		this.childOfAccount = childOfAccount;
+		this.accountVO = accountVO;
 		this.projectCode = projectCode;
 		this.projectStartDate = projectStartDate;
 		this.projectEndDate = projectEndDate;
 		this.isActive = isActive;
+	}
+
+
+	public AccountVO getAccountVO() {
+		return accountVO;
+	}
+
+	public void setAccountVO(AccountVO accountVO) {
+		this.accountVO = accountVO;
 	}
 
 	public Long getOpportunityId() {
@@ -65,14 +74,6 @@ public class OpportunityVO implements Serializable {
 
 	public void setOpportunityName(String opportunityName) {
 		this.opportunityName = opportunityName;
-	}
-
-	public String getChildOfAccount() {
-		return childOfAccount;
-	}
-
-	public void setChildOfAccount(String childOfAccount) {
-		this.childOfAccount = childOfAccount;
 	}
 
 	public String getProjectCode() {
@@ -110,10 +111,11 @@ public class OpportunityVO implements Serializable {
 
 	@Override
 	public String toString() {
-		return "OpportunityVO [opportunityId=" + opportunityId + ", opportunityName=" + opportunityName
-				+ ", childOfAccount=" + childOfAccount + ", projectCode=" + projectCode + ", projectStartDate="
-				+ projectStartDate + ", projectEndDate=" + projectEndDate + ", isActive=" + isActive + "]";
+		return "OpportunityVO [opportunityId=" + opportunityId + ", opportunityName=" + opportunityName + ", accountVO="
+				+ accountVO + ", projectCode=" + projectCode + ", projectStartDate=" + projectStartDate
+				+ ", projectEndDate=" + projectEndDate + ", isActive=" + isActive + "]";
 	}
-	
+
+
 
 }

@@ -169,8 +169,9 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			}
 			rollingRevenueAccountVO.setStatus(revenueCommonEntry.getStatus());
 
-			List<Opportunity> listOfOpportunities = opportunityRepository
-					.findByChildOfAccount(revenueCommonEntry.getAccount());
+			List<Opportunity> listOfOpportunities = null;
+//			List<Opportunity> listOfOpportunities = opportunityRepository
+//					.findByChildOfAccount(revenueCommonEntry.getAccount());
 			for (Opportunity opportunity : listOfOpportunities) {
 
 				rollingRevenueAccountVO.setMonthlyFinancialYearVO(
