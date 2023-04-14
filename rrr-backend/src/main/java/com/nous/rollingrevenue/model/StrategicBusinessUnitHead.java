@@ -7,9 +7,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,8 +31,9 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 	@Column(name = "sbu_head_display_name")
 	private String sbuHeadDisplayName;
 
-	@Column(name = "sbu_name")
-	private String sbuName;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "sbu_id", referencedColumnName = "sbu_id")
+	private StrategicBusinessUnit strategicbusinessUnit;
 
 	@Column(name = "active_from")
 	private LocalDate activeFrom;
@@ -42,13 +46,13 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 
 	}
 
-	public StrategicBusinessUnitHead(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName, String sbuName,
+	public StrategicBusinessUnitHead(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName, StrategicBusinessUnit strategicbusinessUnit,
 			LocalDate activeFrom, LocalDate activeUntil) {
 		super();
 		this.sbuHeadId = sbuHeadId;
 		this.sbuHeadName = sbuHeadName;
 		this.sbuHeadDisplayName = sbuHeadDisplayName;
-		this.sbuName = sbuName;
+		this.strategicbusinessUnit = strategicbusinessUnit;
 		this.activeFrom = activeFrom;
 		this.activeUntil = activeUntil;
 	}
@@ -77,12 +81,12 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 		this.sbuHeadDisplayName = sbuHeadDisplayName;
 	}
 
-	public String getSbuName() {
-		return sbuName;
+	public StrategicBusinessUnit getStrategicbusinessUnit() {
+		return strategicbusinessUnit;
 	}
 
-	public void setSbuName(String sbuName) {
-		this.sbuName = sbuName;
+	public void setStrategicbusinessUnit(StrategicBusinessUnit strategicbusinessUnit) {
+		this.strategicbusinessUnit = strategicbusinessUnit;
 	}
 
 	public LocalDate getActiveFrom() {
@@ -101,12 +105,12 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 		this.activeUntil = activeUntil;
 	}
 
-
 	@Override
 	public String toString() {
 		return "StrategicBusinessUnitHead [sbuHeadId=" + sbuHeadId + ", sbuHeadName=" + sbuHeadName
-				+ ", sbuHeadDisplayName=" + sbuHeadDisplayName + ", sbuName=" + sbuName + ", activeFrom=" + activeFrom
-				+ ", activeUntil=" + activeUntil + "]";
+				+ ", sbuHeadDisplayName=" + sbuHeadDisplayName + ", strategicbusinessUnit=" + strategicbusinessUnit
+				+ ", activeFrom=" + activeFrom + ", activeUntil=" + activeUntil + "]";
 	}
+
 
 }

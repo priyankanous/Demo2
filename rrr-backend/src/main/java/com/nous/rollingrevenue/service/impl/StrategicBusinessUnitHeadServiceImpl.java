@@ -19,8 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitHeadConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.StrategicBusinessUnit;
 import com.nous.rollingrevenue.model.StrategicBusinessUnitHead;
 import com.nous.rollingrevenue.repository.StrategicBusinessUnitHeadRepository;
+import com.nous.rollingrevenue.repository.StrategicBusinessUnitRepository;
 import com.nous.rollingrevenue.service.StrategicBusinessUnitHeadService;
 import com.nous.rollingrevenue.vo.StrategicBusinessUnitHeadVO;
 
@@ -30,6 +32,9 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 
 	@Autowired
 	private StrategicBusinessUnitHeadRepository sbuHeadRepository;
+	
+	@Autowired
+	private StrategicBusinessUnitRepository sbuRepository;
 
 	@Override
 	public List<StrategicBusinessUnitHeadVO> getAllSBUHead() {
@@ -42,9 +47,10 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 	@Override
 	@Transactional
 	public StrategicBusinessUnitHeadVO saveSBUHead(StrategicBusinessUnitHeadVO sbuHeadVO) {
-		StrategicBusinessUnitHead sbuHead = sbuHeadRepository
-				.save(StrategicBusinessUnitHeadConverter.convertSBUHeadVOToSBUHead(sbuHeadVO));
-		return StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(sbuHead);
+		StrategicBusinessUnitHead sbuHead = StrategicBusinessUnitHeadConverter.convertSBUHeadVOToSBUHead(sbuHeadVO);
+		StrategicBusinessUnit sbu =  sbuRepository.findById(sbuHeadVO.getStrategicBusinessUnitVO().getSbuId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "StrategicBusinessUnit not exist"));
+		sbuHead.setStrategicbusinessUnit(sbu);
+		return StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(sbuHeadRepository.save(sbuHead));
 	}
 
 	@Override
@@ -73,7 +79,8 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
 		sbuHead.setSbuHeadName(sbuHeadVO.getSbuHeadName());
 		sbuHead.setSbuHeadDisplayName(sbuHeadVO.getSbuHeadDisplayName());
-		sbuHead.setSbuName(sbuHeadVO.getSbuName());
+		StrategicBusinessUnit sbu =  sbuRepository.findById(sbuHeadVO.getStrategicBusinessUnitVO().getSbuId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "StrategicBusinessUnit not exist"));
+		sbuHead.setStrategicbusinessUnit(sbu);
 		sbuHead.setActiveFrom(sbuHeadVO.getActiveFrom());
 		sbuHead.setActiveUntil(sbuHeadVO.getActiveUntil());
 		return StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(sbuHeadRepository.save(sbuHead));

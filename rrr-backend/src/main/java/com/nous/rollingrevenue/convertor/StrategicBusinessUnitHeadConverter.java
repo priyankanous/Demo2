@@ -18,13 +18,10 @@ public class StrategicBusinessUnitHeadConverter {
 	public static StrategicBusinessUnitHead convertSBUHeadVOToSBUHead(StrategicBusinessUnitHeadVO sbuHeadVO) {
 		StrategicBusinessUnitHead sbuHead = new StrategicBusinessUnitHead();
 		if (sbuHeadVO != null) {
-			if (sbuHeadVO.getSbuHeadId() != null) {
 				sbuHead.setSbuHeadId(sbuHeadVO.getSbuHeadId());
-				sbuHead.setActive(sbuHeadVO.isActive());
-			}
 			sbuHead.setSbuHeadName(sbuHeadVO.getSbuHeadName());
 			sbuHead.setSbuHeadDisplayName(sbuHeadVO.getSbuHeadDisplayName());
-			sbuHead.setSbuName(sbuHeadVO.getSbuName());
+			sbuHead.setStrategicbusinessUnit(StrategicBusinessUnitConverter.convertSBUVOToSBU(sbuHeadVO.getStrategicBusinessUnitVO()));
 			sbuHead.setActiveFrom(sbuHeadVO.getActiveFrom());
 			sbuHead.setActiveUntil(sbuHeadVO.getActiveUntil());
 		}
@@ -44,12 +41,11 @@ public class StrategicBusinessUnitHeadConverter {
 			sbuHeadVO.setSbuHeadId(sbuHead.getSbuHeadId());
 			sbuHeadVO.setSbuHeadName(sbuHead.getSbuHeadName());
 			sbuHeadVO.setSbuHeadDisplayName(sbuHead.getSbuHeadDisplayName());
-			sbuHeadVO.setSbuName(sbuHead.getSbuName());
+			sbuHeadVO.setStrategicBusinessUnitVO(StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuHead.getStrategicbusinessUnit()));
 			sbuHeadVO.setActiveFrom(sbuHead.getActiveFrom());
 			sbuHeadVO.setActiveUntil(sbuHead.getActiveUntil());
 			sbuHeadVO.setActive(sbuHead.isActive());
 		}
-		System.out.println(sbuHeadVO);
 		return sbuHeadVO;
 	}
 

@@ -15,7 +15,6 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long sbuHeadId;
 
 	@NotBlank(message = "SBUHeadName cannot be null or empty")
@@ -24,8 +23,7 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 	@NotBlank(message = "SBUHeadDisplayName cannot be null or empty")
 	private String sbuHeadDisplayName;
 
-	@NotBlank(message = "SBUName cannot be null or empty")
-	private String sbuName;
+	private StrategicBusinessUnitVO strategicBusinessUnitVO;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate activeFrom;
@@ -39,13 +37,13 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 
 	}
 
-	public StrategicBusinessUnitHeadVO(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName, String sbuName,
+	public StrategicBusinessUnitHeadVO(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName, StrategicBusinessUnitVO strategicBusinessUnitVO,
 			LocalDate activeFrom, LocalDate activeUntil, boolean isActive) {
 		super();
 		this.sbuHeadId = sbuHeadId;
 		this.sbuHeadName = sbuHeadName;
 		this.sbuHeadDisplayName = sbuHeadDisplayName;
-		this.sbuName = sbuName;
+		this.strategicBusinessUnitVO = strategicBusinessUnitVO;
 		this.activeFrom = activeFrom;
 		this.activeUntil = activeUntil;
 		this.isActive = isActive;
@@ -75,12 +73,12 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 		this.sbuHeadDisplayName = sbuHeadDisplayName;
 	}
 
-	public String getSbuName() {
-		return sbuName;
+	public StrategicBusinessUnitVO getStrategicBusinessUnitVO() {
+		return strategicBusinessUnitVO;
 	}
 
-	public void setSbuName(String sbuName) {
-		this.sbuName = sbuName;
+	public void setStrategicBusinessUnitVO(StrategicBusinessUnitVO strategicBusinessUnitVO) {
+		this.strategicBusinessUnitVO = strategicBusinessUnitVO;
 	}
 
 	public LocalDate getActiveFrom() {
@@ -111,9 +109,9 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 	@Override
 	public String toString() {
 		return "StrategicBusinessUnitHeadVO [sbuHeadId=" + sbuHeadId + ", sbuHeadName=" + sbuHeadName
-				+ ", sbuHeadDisplayName=" + sbuHeadDisplayName + ", sbuName=" + sbuName + ", activeFrom=" + activeFrom
-				+ ", activeUntil=" + activeUntil + ", isActive=" + isActive + "]";
+				+ ", sbuHeadDisplayName=" + sbuHeadDisplayName + ", strategicBusinessUnitVO=" + strategicBusinessUnitVO
+				+ ", activeFrom=" + activeFrom + ", activeUntil=" + activeUntil + ", isActive=" + isActive + "]";
 	}
-	
+
 
 }
