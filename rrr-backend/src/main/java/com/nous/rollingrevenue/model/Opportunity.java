@@ -1,6 +1,8 @@
 package com.nous.rollingrevenue.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -13,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -40,13 +43,17 @@ public class Opportunity extends Auditable<String> {
 
 	@Column(name = "project_end_date")
 	private LocalDate projectEndDate;
-	
+
+	@OneToMany(mappedBy = "opportunity")
+	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
+
 	public Opportunity() {
 
 	}
 
 	public Opportunity(Long opportunityId, String opportunityName, Account account, String projectCode,
-			LocalDate projectStartDate, LocalDate projectEndDate) {
+			LocalDate projectStartDate, LocalDate projectEndDate,
+			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.opportunityId = opportunityId;
 		this.opportunityName = opportunityName;
@@ -54,8 +61,9 @@ public class Opportunity extends Auditable<String> {
 		this.projectCode = projectCode;
 		this.projectStartDate = projectStartDate;
 		this.projectEndDate = projectEndDate;
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
-	
+
 	public Account getAccount() {
 		return account;
 	}
@@ -103,6 +111,13 @@ public class Opportunity extends Auditable<String> {
 	public void setProjectEndDate(LocalDate projectEndDate) {
 		this.projectEndDate = projectEndDate;
 	}
-	
+
+	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
+		return rollingRevenueCommonEntry;
+	}
+
+	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
 
 }

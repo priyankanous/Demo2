@@ -1,5 +1,8 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -8,6 +11,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,15 +30,20 @@ public class ProbabilityType extends Auditable<String> {
 	@Column(name = "percentage")
 	private Integer percentage;
 
+	@OneToMany(mappedBy = "probability")
+	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
+
 	public ProbabilityType() {
 
 	}
 
-	public ProbabilityType(Long probabilityTypeId, String probabilityTypeName, Integer percentage) {
+	public ProbabilityType(Long probabilityTypeId, String probabilityTypeName, Integer percentage,
+			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.probabilityTypeId = probabilityTypeId;
 		this.probabilityTypeName = probabilityTypeName;
 		this.percentage = percentage;
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Long getProbabilityTypeId() {
@@ -61,5 +70,12 @@ public class ProbabilityType extends Auditable<String> {
 		this.percentage = percentage;
 	}
 
+	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
+		return rollingRevenueCommonEntry;
+	}
+
+	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
 
 }

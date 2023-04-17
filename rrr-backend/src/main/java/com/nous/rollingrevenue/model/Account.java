@@ -34,28 +34,29 @@ public class Account extends Auditable<String> {
 	private String accountOrClientCode;
 
 	@ManyToMany
-	@JoinTable(name="accounts_to_location",
-	joinColumns = @JoinColumn(name="account_id"),
-	inverseJoinColumns = @JoinColumn(name="location_id"))
+	@JoinTable(name = "accounts_to_location", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "location_id"))
 	private List<Location> locations = new ArrayList<>();
 
 	@OneToMany(mappedBy = "account")
 	private List<Opportunity> opportunities = new ArrayList<>();
 
+	@OneToMany(mappedBy = "account")
+	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
 	public Account() {
 
 	}
 
-	public Account(Long accountId, String accountName, String accountOrClientCode, List<Location> locations, List<Opportunity> opportunities) {
+	public Account(Long accountId, String accountName, String accountOrClientCode, List<Location> locations,
+			List<Opportunity> opportunities, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
 		this.accountOrClientCode = accountOrClientCode;
 		this.locations = locations;
 		this.opportunities = opportunities;
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
-	
 
 	public Long getAccountId() {
 		return accountId;
@@ -88,7 +89,7 @@ public class Account extends Auditable<String> {
 	public void setLocations(List<Location> locations) {
 		this.locations = locations;
 	}
-	
+
 	public List<Opportunity> getOpportunities() {
 		return opportunities;
 	}
@@ -96,5 +97,13 @@ public class Account extends Auditable<String> {
 	public void setOpportunities(List<Opportunity> opportunities) {
 		this.opportunities = opportunities;
 	}
-	
+
+	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
+		return rollingRevenueCommonEntry;
+	}
+
+	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
+
 }

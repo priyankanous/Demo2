@@ -1,5 +1,8 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -8,6 +11,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,17 +29,21 @@ public class BusinessType extends Auditable<String> {
 
 	@Column(name = "business_type_display_name")
 	private String businessTypeDisplayName;
-	
+
+	@OneToMany(mappedBy = "businessType")
+	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
 	public BusinessType() {
 
 	}
 
-	public BusinessType(Long businessTypeId, String businessTypeName, String businessTypeDisplayName) {
+	public BusinessType(Long businessTypeId, String businessTypeName, String businessTypeDisplayName,
+			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.businessTypeId = businessTypeId;
 		this.businessTypeName = businessTypeName;
 		this.businessTypeDisplayName = businessTypeDisplayName;
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Long getBusinessTypeId() {
@@ -62,5 +70,12 @@ public class BusinessType extends Auditable<String> {
 		this.businessTypeDisplayName = businessTypeDisplayName;
 	}
 
+	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
+		return rollingRevenueCommonEntry;
+	}
+
+	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
 
 }

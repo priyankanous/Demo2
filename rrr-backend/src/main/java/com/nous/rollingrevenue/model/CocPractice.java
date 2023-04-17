@@ -1,5 +1,8 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -11,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,17 +37,21 @@ public class CocPractice extends Auditable<String> {
 	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
 	private BusinessUnit businessUnit;
 
+	@OneToMany(mappedBy = "cocPractice")
+	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
+
 	public CocPractice() {
 
 	}
 
 	public CocPractice(Long cocPracticeId, String cocPracticeName, String cocPracticeDisplayName,
-			BusinessUnit businessUnit) {
+			BusinessUnit businessUnit, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.cocPracticeId = cocPracticeId;
 		this.cocPracticeName = cocPracticeName;
 		this.cocPracticeDisplayName = cocPracticeDisplayName;
 		this.businessUnit = businessUnit;
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Long getCocPracticeId() {
@@ -78,5 +86,12 @@ public class CocPractice extends Auditable<String> {
 		this.businessUnit = businessUnit;
 	}
 
+	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
+		return rollingRevenueCommonEntry;
+	}
+
+	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
 
 }

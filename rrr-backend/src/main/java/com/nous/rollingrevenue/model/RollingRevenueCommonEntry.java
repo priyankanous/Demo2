@@ -4,9 +4,12 @@ import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,23 +24,29 @@ public class RollingRevenueCommonEntry {
 	@Column(name = "pricing_type")
 	private String pricingType;
 
-	@Column(name = "business_unit")
-	private String businessUnit;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
+	private BusinessUnit businessUnit;
 
-	@Column(name = "sbu")
-	private String strategicBusinessUnit;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "sbu_id", referencedColumnName = "sbu_id")
+	private StrategicBusinessUnit strategicBusinessUnit;
 
-	@Column(name = "sbu_head")
-	private String strategicBusinessUnitHead;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "sbu_head_id", referencedColumnName = "sbu_head_id")
+	private StrategicBusinessUnitHead strategicBusinessUnitHead;
 
-	@Column(name = "account")
-	private String account;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
+	private Account account;
 
-	@Column(name = "opportunity_name")
-	private String opportunityName;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "opportunity_id", referencedColumnName = "opportunity_id")
+	private Opportunity opportunity;
 
-	@Column(name = "business_type")
-	private String businessType;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "business_type_id", referencedColumnName = "business_type_id")
+	private BusinessType businessType;
 
 	@Column(name = "project_code")
 	private String projectCode;
@@ -48,26 +57,33 @@ public class RollingRevenueCommonEntry {
 	@Column(name = "project_end_date")
 	private LocalDate projectEndDate;
 
-	@Column(name = "probability")
-	private String probability;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "probability_type_id", referencedColumnName = "probability_type_id")
+	private ProbabilityType probability;
 
-	@Column(name = "bdm")
-	private String bdm;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "bdm_id", referencedColumnName = "bdm_id")
+	private BusinessDevelopmentManager bdm;
 
-	@Column(name = "region")
-	private String region;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
+	private Region region;
 
-	@Column(name = "coc_practice")
-	private String cocPractice;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "coc_practice_id", referencedColumnName = "coc_practice_id")
+	private CocPractice cocPractice;
 
-	@Column(name = "location")
-	private String location;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
+	private Location location;
 
-	@Column(name = "currency")
-	private String currency;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "currency_id", referencedColumnName = "currency_id")
+	private Currency currency;
 
-	@Column(name = "work_order")
-	private String workOrder;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "work_order_id", referencedColumnName = "work_order_id")
+	private WorkOrder workOrder;
 
 	@Column(name = "work_order_end_date")
 	private LocalDate workOrderEndDate;
@@ -84,8 +100,9 @@ public class RollingRevenueCommonEntry {
 	@Column(name = "status")
 	private String status;
 
-	@Column(name = "financial_year")
-	private String financialYear;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
+	private FinancialYear financialYear;
 
 	public Long getCommonId() {
 		return commonId;
@@ -103,51 +120,51 @@ public class RollingRevenueCommonEntry {
 		this.pricingType = pricingType;
 	}
 
-	public String getBusinessUnit() {
+	public BusinessUnit getBusinessUnit() {
 		return businessUnit;
 	}
 
-	public void setBusinessUnit(String businessUnit) {
+	public void setBusinessUnit(BusinessUnit businessUnit) {
 		this.businessUnit = businessUnit;
 	}
 
-	public String getStrategicBusinessUnit() {
+	public StrategicBusinessUnit getStrategicBusinessUnit() {
 		return strategicBusinessUnit;
 	}
 
-	public void setStrategicBusinessUnit(String strategicBusinessUnit) {
+	public void setStrategicBusinessUnit(StrategicBusinessUnit strategicBusinessUnit) {
 		this.strategicBusinessUnit = strategicBusinessUnit;
 	}
 
-	public String getStrategicBusinessUnitHead() {
+	public StrategicBusinessUnitHead getStrategicBusinessUnitHead() {
 		return strategicBusinessUnitHead;
 	}
 
-	public void setStrategicBusinessUnitHead(String strategicBusinessUnitHead) {
+	public void setStrategicBusinessUnitHead(StrategicBusinessUnitHead strategicBusinessUnitHead) {
 		this.strategicBusinessUnitHead = strategicBusinessUnitHead;
 	}
 
-	public String getAccount() {
+	public Account getAccount() {
 		return account;
 	}
 
-	public void setAccount(String account) {
+	public void setAccount(Account account) {
 		this.account = account;
 	}
 
-	public String getOpportunityName() {
-		return opportunityName;
+	public Opportunity getOpportunity() {
+		return opportunity;
 	}
 
-	public void setOpportunityName(String opportunityName) {
-		this.opportunityName = opportunityName;
+	public void setOpportunity(Opportunity opportunity) {
+		this.opportunity = opportunity;
 	}
 
-	public String getBusinessType() {
+	public BusinessType getBusinessType() {
 		return businessType;
 	}
 
-	public void setBusinessType(String businessType) {
+	public void setBusinessType(BusinessType businessType) {
 		this.businessType = businessType;
 	}
 
@@ -175,59 +192,59 @@ public class RollingRevenueCommonEntry {
 		this.projectEndDate = projectEndDate;
 	}
 
-	public String getProbability() {
+	public ProbabilityType getProbability() {
 		return probability;
 	}
 
-	public void setProbability(String probability) {
+	public void setProbability(ProbabilityType probability) {
 		this.probability = probability;
 	}
 
-	public String getBdm() {
+	public BusinessDevelopmentManager getBdm() {
 		return bdm;
 	}
 
-	public void setBdm(String bdm) {
+	public void setBdm(BusinessDevelopmentManager bdm) {
 		this.bdm = bdm;
 	}
 
-	public String getRegion() {
+	public Region getRegion() {
 		return region;
 	}
 
-	public void setRegion(String region) {
+	public void setRegion(Region region) {
 		this.region = region;
 	}
 
-	public String getCocPractice() {
+	public CocPractice getCocPractice() {
 		return cocPractice;
 	}
 
-	public void setCocPractice(String cocPractice) {
+	public void setCocPractice(CocPractice cocPractice) {
 		this.cocPractice = cocPractice;
 	}
 
-	public String getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 
-	public String getCurrency() {
+	public Currency getCurrency() {
 		return currency;
 	}
 
-	public void setCurrency(String currency) {
+	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
 
-	public String getWorkOrder() {
+	public WorkOrder getWorkOrder() {
 		return workOrder;
 	}
 
-	public void setWorkOrder(String workOrder) {
+	public void setWorkOrder(WorkOrder workOrder) {
 		this.workOrder = workOrder;
 	}
 
@@ -271,11 +288,11 @@ public class RollingRevenueCommonEntry {
 		this.status = status;
 	}
 
-	public String getFinancialYear() {
+	public FinancialYear getFinancialYear() {
 		return financialYear;
 	}
 
-	public void setFinancialYear(String financialYear) {
+	public void setFinancialYear(FinancialYear financialYear) {
 		this.financialYear = financialYear;
 	}
 

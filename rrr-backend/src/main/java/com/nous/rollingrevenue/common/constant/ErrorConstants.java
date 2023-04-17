@@ -20,4 +20,6 @@ public class ErrorConstants {
 	
 	public static final String RECORD_NOT_EXIST = "Record not exist with Id: ";
 	
+	public static final String RECORD_DOES_NOT_EXIST = "Record doesn't exist for ";
+	
 }

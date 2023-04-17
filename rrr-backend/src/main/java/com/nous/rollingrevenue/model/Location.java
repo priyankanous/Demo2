@@ -37,17 +37,22 @@ public class Location extends Auditable<String> {
 	@OneToMany(mappedBy = "location")
 	private List<HolidayCalendar> holidayCalendar = new ArrayList<>();
 
+	@OneToMany(mappedBy = "location")
+	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
+
 	public Location() {
 
 	}
 
-	public Location(Long locationId, String locationName, String locationDisplayName, List<Account> accounts, List<HolidayCalendar> holidayCalendar) {
+	public Location(Long locationId, String locationName, String locationDisplayName, List<Account> accounts,
+			List<HolidayCalendar> holidayCalendar, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.locationId = locationId;
 		this.locationName = locationName;
 		this.locationDisplayName = locationDisplayName;
 		this.accounts = accounts;
 		this.holidayCalendar = holidayCalendar;
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Long getLocationId() {
@@ -90,5 +95,12 @@ public class Location extends Auditable<String> {
 		this.holidayCalendar = holidayCalendar;
 	}
 
+	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
+		return rollingRevenueCommonEntry;
+	}
+
+	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
 
 }

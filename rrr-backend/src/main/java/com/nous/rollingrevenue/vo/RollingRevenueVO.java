@@ -24,25 +24,25 @@ public class RollingRevenueVO implements Serializable {
 	private String pricingType;
 
 	@NotBlank(message = "Financial Year cannot be null or empty")
-	private String financialYear;
+	private FinancialYearVO financialYear;
 
 	@NotBlank(message = "Business Unit cannot be null or empty")
-	private String businessUnit;
+	private BusinessUnitVO businessUnit;
 
 	@NotBlank(message = "Strategic Business Unit cannot be null or empty")
-	private String strategicBusinessUnit;
+	private StrategicBusinessUnitVO strategicBusinessUnit;
 
 	@NotBlank(message = "Strategic Business Unit Head cannot be null or empty")
-	private String strategicBusinessUnitHead;
+	private StrategicBusinessUnitHeadVO strategicBusinessUnitHead;
 
 	@NotBlank(message = "Account cannot be null or empty")
-	private String account;
+	private AccountVO account;
 
 	@NotBlank(message = "Opportunity Name cannot be null or empty")
-	private String opportunityName;
+	private OpportunityVO opportunityName;
 
 	@NotBlank(message = "Business Type cannot be null or empty")
-	private String businessType;
+	private BusinessTypeVO businessType;
 
 	@NotBlank(message = "Project Code cannot be null or empty")
 	private String projectCode;
@@ -56,23 +56,23 @@ public class RollingRevenueVO implements Serializable {
 	private LocalDate projectEndDate;
 
 	@NotBlank(message = "Probability cannot be null or empty")
-	private String probability;
+	private ProbabilityTypeVO probability;
 
 	@NotBlank(message = "Business Development Manager cannot be null or empty")
-	private String bdm;
+	private BDMVO bdm;
 
 	@NotBlank(message = "Region cannot be null or empty")
-	private String region;
+	private RegionVO region;
 
-	private String cocPractice;
+	private CocPracticeVO cocPractice;
 
 	@NotBlank(message = "Location cannot be null or empty")
-	private String location;
+	private LocationVO location;
 
 	@NotBlank(message = "Currency cannot be null or empty")
-	private String currency;
+	private CurrencyVO currency;
 
-	private String workOrder;
+	private WorkOrderVO workOrder;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate workOrderEndDate;
@@ -111,51 +111,59 @@ public class RollingRevenueVO implements Serializable {
 		this.pricingType = pricingType;
 	}
 
-	public String getBusinessUnit() {
+	public FinancialYearVO getFinancialYear() {
+		return financialYear;
+	}
+
+	public void setFinancialYear(FinancialYearVO financialYear) {
+		this.financialYear = financialYear;
+	}
+
+	public BusinessUnitVO getBusinessUnit() {
 		return businessUnit;
 	}
 
-	public void setBusinessUnit(String businessUnit) {
+	public void setBusinessUnit(BusinessUnitVO businessUnit) {
 		this.businessUnit = businessUnit;
 	}
 
-	public String getStrategicBusinessUnit() {
+	public StrategicBusinessUnitVO getStrategicBusinessUnit() {
 		return strategicBusinessUnit;
 	}
 
-	public void setStrategicBusinessUnit(String strategicBusinessUnit) {
+	public void setStrategicBusinessUnit(StrategicBusinessUnitVO strategicBusinessUnit) {
 		this.strategicBusinessUnit = strategicBusinessUnit;
 	}
 
-	public String getStrategicBusinessUnitHead() {
+	public StrategicBusinessUnitHeadVO getStrategicBusinessUnitHead() {
 		return strategicBusinessUnitHead;
 	}
 
-	public void setStrategicBusinessUnitHead(String strategicBusinessUnitHead) {
+	public void setStrategicBusinessUnitHead(StrategicBusinessUnitHeadVO strategicBusinessUnitHead) {
 		this.strategicBusinessUnitHead = strategicBusinessUnitHead;
 	}
 
-	public String getAccount() {
+	public AccountVO getAccount() {
 		return account;
 	}
 
-	public void setAccount(String account) {
+	public void setAccount(AccountVO account) {
 		this.account = account;
 	}
 
-	public String getOpportunityName() {
+	public OpportunityVO getOpportunityName() {
 		return opportunityName;
 	}
 
-	public void setOpportunityName(String opportunityName) {
+	public void setOpportunityName(OpportunityVO opportunityName) {
 		this.opportunityName = opportunityName;
 	}
 
-	public String getBusinessType() {
+	public BusinessTypeVO getBusinessType() {
 		return businessType;
 	}
 
-	public void setBusinessType(String businessType) {
+	public void setBusinessType(BusinessTypeVO businessType) {
 		this.businessType = businessType;
 	}
 
@@ -183,68 +191,60 @@ public class RollingRevenueVO implements Serializable {
 		this.projectEndDate = projectEndDate;
 	}
 
-	public String getProbability() {
+	public ProbabilityTypeVO getProbability() {
 		return probability;
 	}
 
-	public void setProbability(String probability) {
+	public void setProbability(ProbabilityTypeVO probability) {
 		this.probability = probability;
 	}
 
-	public String getBdm() {
+	public BDMVO getBdm() {
 		return bdm;
 	}
 
-	public void setBdm(String bdm) {
+	public void setBdm(BDMVO bdm) {
 		this.bdm = bdm;
 	}
 
-	public String getRegion() {
+	public RegionVO getRegion() {
 		return region;
 	}
 
-	public void setRegion(String region) {
+	public void setRegion(RegionVO region) {
 		this.region = region;
 	}
 
-	public String getCocPractice() {
+	public CocPracticeVO getCocPractice() {
 		return cocPractice;
 	}
 
-	public void setCocPractice(String cocPractice) {
+	public void setCocPractice(CocPracticeVO cocPractice) {
 		this.cocPractice = cocPractice;
 	}
 
-	public String getLocation() {
+	public LocationVO getLocation() {
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(LocationVO location) {
 		this.location = location;
 	}
 
-	public String getCurrency() {
+	public CurrencyVO getCurrency() {
 		return currency;
 	}
 
-	public void setCurrency(String currency) {
+	public void setCurrency(CurrencyVO currency) {
 		this.currency = currency;
 	}
 
-	public String getWorkOrder() {
+	public WorkOrderVO getWorkOrder() {
 		return workOrder;
 	}
 
-	public void setWorkOrder(String workOrder) {
+	public void setWorkOrder(WorkOrderVO workOrder) {
 		this.workOrder = workOrder;
-	}
-
-	public String getWorkOrderStatus() {
-		return workOrderStatus;
-	}
-
-	public void setWorkOrderStatus(String workOrderStatus) {
-		this.workOrderStatus = workOrderStatus;
 	}
 
 	public LocalDate getWorkOrderEndDate() {
@@ -253,6 +253,14 @@ public class RollingRevenueVO implements Serializable {
 
 	public void setWorkOrderEndDate(LocalDate workOrderEndDate) {
 		this.workOrderEndDate = workOrderEndDate;
+	}
+
+	public String getWorkOrderStatus() {
+		return workOrderStatus;
+	}
+
+	public void setWorkOrderStatus(String workOrderStatus) {
+		this.workOrderStatus = workOrderStatus;
 	}
 
 	public Long getLeaveLossFactor() {
@@ -301,14 +309,6 @@ public class RollingRevenueVO implements Serializable {
 
 	public void setRemarks(Long remarks) {
 		this.remarks = remarks;
-	}
-
-	public String getFinancialYear() {
-		return financialYear;
-	}
-
-	public void setFinancialYear(String financialYear) {
-		this.financialYear = financialYear;
 	}
 
 	public String getStatus() {

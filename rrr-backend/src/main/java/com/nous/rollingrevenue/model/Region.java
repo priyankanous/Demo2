@@ -37,18 +37,23 @@ public class Region extends Auditable<String> {
 	@OneToMany(mappedBy = "region")
 	private List<BDMMeeting> bdmMeetings = new ArrayList<>();
 
+	@OneToMany(mappedBy = "region")
+	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
 	public Region() {
 
 	}
 
-	public Region(Long regionId, String regionName, String regionDisplayName, List<BusinessDevelopmentManager> businessDevlopmentManagers, List<BDMMeeting> bdmMeetings) {
+	public Region(Long regionId, String regionName, String regionDisplayName,
+			List<BusinessDevelopmentManager> businessDevlopmentManagers, List<BDMMeeting> bdmMeetings,
+			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.regionId = regionId;
 		this.regionName = regionName;
 		this.regionDisplayName = regionDisplayName;
 		this.businessDevlopmentManagers = businessDevlopmentManagers;
 		this.bdmMeetings = bdmMeetings;
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Long getRegionId() {
@@ -91,5 +96,12 @@ public class Region extends Auditable<String> {
 		this.bdmMeetings = bdmMeetings;
 	}
 
+	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
+		return rollingRevenueCommonEntry;
+	}
+
+	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
 
 }

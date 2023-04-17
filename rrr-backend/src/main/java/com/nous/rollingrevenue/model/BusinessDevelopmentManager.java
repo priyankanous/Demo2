@@ -41,26 +41,26 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 	private LocalDate activeUntil;
 
 	@ManyToMany
-	@JoinTable(name="business_development_manager_to_business_unit",
-	joinColumns = @JoinColumn(name="bdm_id"),
-	inverseJoinColumns = @JoinColumn(name="bu_id"))
+	@JoinTable(name = "business_development_manager_to_business_unit", joinColumns = @JoinColumn(name = "bdm_id"), inverseJoinColumns = @JoinColumn(name = "bu_id"))
 	private List<BusinessUnit> businessUnits = new ArrayList<>();
 
 	@ManyToMany
-	@JoinTable(name="business_development_manager_to_region",
-	joinColumns = @JoinColumn(name="bdm_id"),
-	inverseJoinColumns = @JoinColumn(name="region_id"))
+	@JoinTable(name = "business_development_manager_to_region", joinColumns = @JoinColumn(name = "bdm_id"), inverseJoinColumns = @JoinColumn(name = "region_id"))
 	private List<Region> regions = new ArrayList<>();
 
 	@OneToMany(mappedBy = "businessDevelopmentManager")
 	private List<BDMMeeting> bdmMeetings = new ArrayList<>();
+
+	@OneToMany(mappedBy = "bdm")
+	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
 	public BusinessDevelopmentManager() {
 
 	}
 
 	public BusinessDevelopmentManager(Long bdmId, String bdmName, String bdmDisplayName, LocalDate activeFrom,
-			LocalDate activeUntil, List<BusinessUnit> businessUnits, List<Region> regions, List<BDMMeeting> bdmMeetings) {
+			LocalDate activeUntil, List<BusinessUnit> businessUnits, List<Region> regions, List<BDMMeeting> bdmMeetings,
+			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.bdmId = bdmId;
 		this.bdmName = bdmName;
@@ -69,6 +69,8 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 		this.activeUntil = activeUntil;
 		this.businessUnits = businessUnits;
 		this.regions = regions;
+		this.bdmMeetings = bdmMeetings;
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Long getBdmId() {
@@ -135,5 +137,12 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 		this.bdmMeetings = bdmMeetings;
 	}
 
+	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
+		return rollingRevenueCommonEntry;
+	}
+
+	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
 
 }

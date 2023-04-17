@@ -36,22 +36,27 @@ public class StrategicBusinessUnit extends Auditable<String> {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
 	private BusinessUnit businessUnit;
-	
+
 	@OneToMany(mappedBy = "strategicbusinessUnit")
 	private List<StrategicBusinessUnitHead> strategicBusinessUnitHeads = new ArrayList<>();
 
+	@OneToMany(mappedBy = "strategicBusinessUnit")
+	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
 	public StrategicBusinessUnit() {
 
 	}
 
-	public StrategicBusinessUnit(Long sbuId, String sbuName, String sbuDisplayName, BusinessUnit businessUnit, List<StrategicBusinessUnitHead> strategicBusinessUnitHeads) {
+	public StrategicBusinessUnit(Long sbuId, String sbuName, String sbuDisplayName, BusinessUnit businessUnit,
+			List<StrategicBusinessUnitHead> strategicBusinessUnitHeads,
+			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.sbuId = sbuId;
 		this.sbuName = sbuName;
 		this.sbuDisplayName = sbuDisplayName;
 		this.businessUnit = businessUnit;
 		this.strategicBusinessUnitHeads = strategicBusinessUnitHeads;
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Long getSbuId() {
@@ -94,5 +99,12 @@ public class StrategicBusinessUnit extends Auditable<String> {
 		this.strategicBusinessUnitHeads = strategicBusinessUnitHeads;
 	}
 
+	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
+		return rollingRevenueCommonEntry;
+	}
+
+	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
 
 }

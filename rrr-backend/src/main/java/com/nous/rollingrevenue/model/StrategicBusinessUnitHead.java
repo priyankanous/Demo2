@@ -1,6 +1,8 @@
 package com.nous.rollingrevenue.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -13,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -41,13 +44,16 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 	@Column(name = "active_until")
 	private LocalDate activeUntil;
 
+	@OneToMany(mappedBy = "strategicBusinessUnitHead")
+	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
 	public StrategicBusinessUnitHead() {
 
 	}
 
-	public StrategicBusinessUnitHead(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName, StrategicBusinessUnit strategicbusinessUnit,
-			LocalDate activeFrom, LocalDate activeUntil) {
+	public StrategicBusinessUnitHead(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName,
+			StrategicBusinessUnit strategicbusinessUnit, LocalDate activeFrom, LocalDate activeUntil,
+			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.sbuHeadId = sbuHeadId;
 		this.sbuHeadName = sbuHeadName;
@@ -55,6 +61,7 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 		this.strategicbusinessUnit = strategicbusinessUnit;
 		this.activeFrom = activeFrom;
 		this.activeUntil = activeUntil;
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Long getSbuHeadId() {
@@ -105,5 +112,12 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 		this.activeUntil = activeUntil;
 	}
 
+	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
+		return rollingRevenueCommonEntry;
+	}
+
+	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
 
 }
