@@ -45,7 +45,7 @@ public class OpportunityServiceImpl implements OpportunityService {
 	@Transactional
 	public OpportunityVO saveOpportunity(OpportunityVO opportunityVO) {
 		Opportunity opportunity = OpportunityConverter.convertOpportunityVOToOpportunity(opportunityVO);
-		Account account =  accountRepository.findById(opportunityVO.getAccountVO().getAccountId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Account not exist"));
+		Account account =  accountRepository.findById(opportunityVO.getAccount().getAccountId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Account not exist"));
 		opportunity.setAccount(account);
 		return OpportunityConverter.convertOpportunityToOpportunityVO(opportunityRepository.save(opportunity));
 	}
@@ -75,7 +75,7 @@ public class OpportunityServiceImpl implements OpportunityService {
 		opportunity.setOpportunityName(opportunityVO.getOpportunityName());
 		opportunity.setProjectEndDate(opportunityVO.getProjectEndDate());
 		opportunity.setProjectStartDate(opportunityVO.getProjectStartDate());
-		Account account =  accountRepository.findById(opportunityVO.getAccountVO().getAccountId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Account not exist"));
+		Account account =  accountRepository.findById(opportunityVO.getAccount().getAccountId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Account not exist"));
 		opportunity.setAccount(account);
 		return OpportunityConverter.convertOpportunityToOpportunityVO(opportunityRepository.save(opportunity));
 	}
@@ -102,5 +102,6 @@ public class OpportunityServiceImpl implements OpportunityService {
 		opportunity.setActive(!opportunity.isActive());
 		return OpportunityConverter.convertOpportunityToOpportunityVO(opportunityRepository.save(opportunity));
 	}
+
 
 }

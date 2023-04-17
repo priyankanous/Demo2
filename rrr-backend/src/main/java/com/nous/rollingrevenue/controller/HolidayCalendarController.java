@@ -81,8 +81,8 @@ public class HolidayCalendarController {
 				holidayCalendarService.activateOrDeactivateById(holidayId));
 	}
 
-	@Operation(summary = "Get Calendar By FinancialYear")
-	@GetMapping(path = "/year/{financialYear}")
+	@Operation(summary = "Get Holiday Calendar By FinancialYear")
+	@GetMapping(path = "/financial-year/{financialYear}")
 	public WSResponse<List<HolidayCalendarVO>> getHolidayCalendarByYear(@PathVariable String financialYear) {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendarService.getHolidayCalendarByFinancialYear(financialYear));
 	}

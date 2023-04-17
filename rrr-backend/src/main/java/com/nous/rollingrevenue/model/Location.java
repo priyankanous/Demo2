@@ -1,5 +1,8 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -8,6 +11,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,15 +31,23 @@ public class Location extends Auditable<String> {
 	@Column(name = "location_display_name")
 	private String locationDisplayName;
 
+	@ManyToMany(mappedBy = "locations")
+	private List<Account> accounts = new ArrayList<>();
+
+	@OneToMany(mappedBy = "location")
+	private List<HolidayCalendar> holidayCalendar = new ArrayList<>();
+
 	public Location() {
 
 	}
 
-	public Location(Long locationId, String locationName, String locationDisplayName) {
+	public Location(Long locationId, String locationName, String locationDisplayName, List<Account> accounts, List<HolidayCalendar> holidayCalendar) {
 		super();
 		this.locationId = locationId;
 		this.locationName = locationName;
 		this.locationDisplayName = locationDisplayName;
+		this.accounts = accounts;
+		this.holidayCalendar = holidayCalendar;
 	}
 
 	public Long getLocationId() {
@@ -61,11 +74,21 @@ public class Location extends Auditable<String> {
 		this.locationDisplayName = locationDisplayName;
 	}
 
-
-	@Override
-	public String toString() {
-		return "Location [locationId=" + locationId + ", locationName=" + locationName + ", locationDisplayName="
-				+ locationDisplayName + "]";
+	public List<Account> getAccounts() {
+		return accounts;
 	}
+
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
+	}
+
+	public List<HolidayCalendar> getHolidayCalendar() {
+		return holidayCalendar;
+	}
+
+	public void setHolidayCalendar(List<HolidayCalendar> holidayCalendar) {
+		this.holidayCalendar = holidayCalendar;
+	}
+
 
 }

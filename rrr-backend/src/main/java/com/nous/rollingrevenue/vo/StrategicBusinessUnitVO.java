@@ -21,7 +21,7 @@ public class StrategicBusinessUnitVO implements Serializable {
 	@NotBlank(message = "SBUDisplayName cannot be null or empty")
 	private String sbuDisplayName;
 
-	private BusinessUnitVO businessUnitVO;
+	private BusinessUnitVO businessUnit;
 
 	private boolean isActive;
 
@@ -29,13 +29,13 @@ public class StrategicBusinessUnitVO implements Serializable {
 
 	}
 
-	public StrategicBusinessUnitVO(Long sbuId, String sbuName, String sbuDisplayName, BusinessUnitVO businessUnitVO,
+	public StrategicBusinessUnitVO(Long sbuId, String sbuName, String sbuDisplayName, BusinessUnitVO businessUnit,
 			boolean isActive) {
 		super();
 		this.sbuId = sbuId;
 		this.sbuName = sbuName;
 		this.sbuDisplayName = sbuDisplayName;
-		this.businessUnitVO = businessUnitVO;
+		this.businessUnit = businessUnit;
 		this.isActive = isActive;
 	}
 
@@ -63,12 +63,12 @@ public class StrategicBusinessUnitVO implements Serializable {
 		this.sbuDisplayName = sbuDisplayName;
 	}
 
-	public BusinessUnitVO getBusinessUnitVO() {
-		return businessUnitVO;
+	public BusinessUnitVO getBusinessUnit() {
+		return businessUnit;
 	}
 
-	public void setBusinessUnitVO(BusinessUnitVO businessUnitVO) {
-		this.businessUnitVO = businessUnitVO;
+	public void setBusinessUnit(BusinessUnitVO businessUnit) {
+		this.businessUnit = businessUnit;
 	}
 
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
@@ -78,12 +78,6 @@ public class StrategicBusinessUnitVO implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	@Override
-	public String toString() {
-		return "StrategicBusinessUnitVO [sbuId=" + sbuId + ", sbuName=" + sbuName + ", sbuDisplayName=" + sbuDisplayName
-				+ ", businessUnitVO=" + businessUnitVO + ", isActive=" + isActive + "]";
 	}
 
 

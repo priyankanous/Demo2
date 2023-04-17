@@ -62,10 +62,5 @@ public class Status extends Auditable<String> {
 		this.statusDisplayName = statusDisplayName;
 	}
 
-	@Override
-	public String toString() {
-		return "Status [statusId=" + statusId + ", statusName=" + statusName + ", statusDisplayName="
-				+ statusDisplayName + "]";
-	}
 
 }

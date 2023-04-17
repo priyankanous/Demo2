@@ -20,7 +20,7 @@ public class OpportunityVO implements Serializable {
 	@NotBlank(message = "OpportunityName cannot be null or empty")
 	private String opportunityName;
 
-	private AccountVO accountVO;
+	private AccountVO account;
 
 	@NotBlank(message = "ProjectCode cannot be null or empty")
 	private String projectCode;
@@ -37,27 +37,16 @@ public class OpportunityVO implements Serializable {
 
 	}
 
-	public OpportunityVO(Long opportunityId,
-			@NotBlank(message = "OpportunityName cannot be null or empty") String opportunityName, AccountVO accountVO,
-			@NotBlank(message = "ProjectCode cannot be null or empty") String projectCode, LocalDate projectStartDate,
-			LocalDate projectEndDate, boolean isActive) {
+	public OpportunityVO(Long opportunityId, String opportunityName, AccountVO account, String projectCode,
+			LocalDate projectStartDate, LocalDate projectEndDate, boolean isActive) {
 		super();
 		this.opportunityId = opportunityId;
 		this.opportunityName = opportunityName;
-		this.accountVO = accountVO;
+		this.account = account;
 		this.projectCode = projectCode;
 		this.projectStartDate = projectStartDate;
 		this.projectEndDate = projectEndDate;
 		this.isActive = isActive;
-	}
-
-
-	public AccountVO getAccountVO() {
-		return accountVO;
-	}
-
-	public void setAccountVO(AccountVO accountVO) {
-		this.accountVO = accountVO;
 	}
 
 	public Long getOpportunityId() {
@@ -100,7 +89,15 @@ public class OpportunityVO implements Serializable {
 		this.projectEndDate = projectEndDate;
 	}
 
-	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	public AccountVO getAccount() {
+		return account;
+	}
+
+	public void setAccount(AccountVO account) {
+		this.account = account;
+	}
+
+	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
 	}
@@ -108,14 +105,6 @@ public class OpportunityVO implements Serializable {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
-	@Override
-	public String toString() {
-		return "OpportunityVO [opportunityId=" + opportunityId + ", opportunityName=" + opportunityName + ", accountVO="
-				+ accountVO + ", projectCode=" + projectCode + ", projectStartDate=" + projectStartDate
-				+ ", projectEndDate=" + projectEndDate + ", isActive=" + isActive + "]";
-	}
-
 
 
 }

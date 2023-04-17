@@ -13,7 +13,6 @@ public class StatusVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long statusId;
 
 	@NotBlank(message = "StatusName cannot be null or empty")
@@ -69,11 +68,5 @@ public class StatusVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "StatusVO [statusId=" + statusId + ", statusName=" + statusName + ", statusDisplayName="
-				+ statusDisplayName + ", isActive=" + isActive + "]";
-	}
-	
 
 }

@@ -1,9 +1,14 @@
 package com.nous.rollingrevenue.convertor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.nous.rollingrevenue.model.Account;
+import com.nous.rollingrevenue.model.Location;
 import com.nous.rollingrevenue.vo.AccountVO;
+import com.nous.rollingrevenue.vo.LocationVO;
 
 @Component
 public class AccountConverter {
@@ -21,8 +26,9 @@ public class AccountConverter {
 			account.setAccountId(accountVO.getAccountId());
 			account.setAccountName(accountVO.getAccountName());
 			account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
-			account.setLocation(accountVO.getLocation());
-
+			List<Location> locations = new ArrayList<>();
+			accountVO.getLocations().stream().forEach(locationVO -> locations.add(LocationConverter.convertLocationVOToLocation(locationVO)));
+			account.setLocations(locations);
 		}
 		return account;
 	}
@@ -40,7 +46,9 @@ public class AccountConverter {
 			accountVO.setAccountId(account.getAccountId());
 			accountVO.setAccountName(account.getAccountName());
 			accountVO.setAccountOrClientCode(account.getAccountOrClientCode());
-			accountVO.setLocation(account.getLocation());
+			List<LocationVO> locationVOs = new ArrayList<>();
+			account.getLocations().stream().forEach(location -> locationVOs.add(LocationConverter.convertLocationToLocationVO(location)));
+			accountVO.setLocations(locationVOs);
 			accountVO.setActive(account.isActive());
 		}
 		return accountVO;

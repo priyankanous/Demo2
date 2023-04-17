@@ -16,7 +16,6 @@ public class HolidayCalendarVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long holidayId;
 
 	@NotEmpty(message = "HolidayName must not be empty")
@@ -28,11 +27,9 @@ public class HolidayCalendarVO implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String holidayDay;
 
-	@NotEmpty(message = "FinancialYear must not be empty")
-	private String financialYear;
+	private FinancialYearVO financialYear;
 	
-	@NotEmpty(message = "Location must not be empty")
-	private String location;
+	private LocationVO location;
 
 	private boolean isActive;
 
@@ -40,8 +37,8 @@ public class HolidayCalendarVO implements Serializable {
 
 	}
 
-	public HolidayCalendarVO(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay, String financialYear,
-			String location, boolean isActive) {
+	public HolidayCalendarVO(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay, FinancialYearVO financialYear,
+			LocationVO location, boolean isActive) {
 		super();
 		this.holidayId = holidayId;
 		this.holidayName = holidayName;
@@ -84,12 +81,20 @@ public class HolidayCalendarVO implements Serializable {
 		this.holidayDay = holidayDay;
 	}
 
-	public String getFinancialYear() {
+	public FinancialYearVO getFinancialYear() {
 		return financialYear;
 	}
 
-	public void setFinancialYear(String financialYear) {
+	public void setFinancialYear(FinancialYearVO financialYear) {
 		this.financialYear = financialYear;
+	}
+
+	public LocationVO getLocation() {
+		return location;
+	}
+
+	public void setLocation(LocationVO location) {
+		this.location = location;
 	}
 
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
@@ -101,20 +106,5 @@ public class HolidayCalendarVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	public String getLocation() {
-		return location;
-	}
-
-	public void setLocation(String location) {
-		this.location = location;
-	}
-
-	@Override
-	public String toString() {
-		return "HolidayCalendarVO [holidayId=" + holidayId + ", holidayName=" + holidayName + ", holidayDate="
-				+ holidayDate + ", holidayDay=" + holidayDay + ", financialYear=" + financialYear + ", location="
-				+ location + ", isActive=" + isActive + "]";
-	}
-	
 
 }

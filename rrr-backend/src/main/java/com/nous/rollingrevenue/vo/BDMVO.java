@@ -2,13 +2,13 @@ package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 
 public class BDMVO implements Serializable {
 
@@ -17,11 +17,12 @@ public class BDMVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long bdmId;
 
+	@NotBlank(message = "BDMName cannot be null or empty")
 	private String bdmName;
 
+	@NotBlank(message = "BDMDisplayName cannot be null or empty")
 	private String bdmDisplayName;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
@@ -30,11 +31,9 @@ public class BDMVO implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate activeUntil;
 
-	@NotEmpty(message = "Atleast one BusinessUnit is required")
-	private Set<String> linkedToBusinessUnit = new HashSet<>();
+	private List<BusinessUnitVO> businessUnits = new ArrayList<>();
 
-	@NotEmpty(message = "Atleast one Region is required")
-	private Set<String> linkedToRegion = new HashSet<>();
+	private List<RegionVO> regions = new ArrayList<>();
 
 	private boolean isActive;
 
@@ -43,15 +42,15 @@ public class BDMVO implements Serializable {
 	}
 
 	public BDMVO(Long bdmId, String bdmName, String bdmDisplayName, LocalDate activeFrom, LocalDate activeUntil,
-			Set<String> linkedToBusinessUnit, Set<String> linkedToRegion, boolean isActive) {
+			List<BusinessUnitVO> businessUnits, List<RegionVO> regions, boolean isActive) {
 		super();
 		this.bdmId = bdmId;
 		this.bdmName = bdmName;
 		this.bdmDisplayName = bdmDisplayName;
 		this.activeFrom = activeFrom;
 		this.activeUntil = activeUntil;
-		this.linkedToBusinessUnit = linkedToBusinessUnit;
-		this.linkedToRegion = linkedToRegion;
+		this.businessUnits = businessUnits;
+		this.regions = regions;
 		this.isActive = isActive;
 	}
 
@@ -95,20 +94,20 @@ public class BDMVO implements Serializable {
 		this.activeUntil = activeUntil;
 	}
 
-	public Set<String> getLinkedToBusinessUnit() {
-		return linkedToBusinessUnit;
+	public List<BusinessUnitVO> getBusinessUnits() {
+		return businessUnits;
 	}
 
-	public void setLinkedToBusinessUnit(Set<String> linkedToBusinessUnit) {
-		this.linkedToBusinessUnit = linkedToBusinessUnit;
+	public void setBusinessUnits(List<BusinessUnitVO> businessUnits) {
+		this.businessUnits = businessUnits;
 	}
 
-	public Set<String> getLinkedToRegion() {
-		return linkedToRegion;
+	public List<RegionVO> getRegions() {
+		return regions;
 	}
 
-	public void setLinkedToRegion(Set<String> linkedToRegion) {
-		this.linkedToRegion = linkedToRegion;
+	public void setRegions(List<RegionVO> regions) {
+		this.regions = regions;
 	}
 
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
@@ -120,12 +119,5 @@ public class BDMVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "BDMVO [bdmId=" + bdmId + ", bdmName=" + bdmName + ", bdmDisplayName=" + bdmDisplayName + ", activeFrom="
-				+ activeFrom + ", activeUntil=" + activeUntil + ", linkedToBusinessUnit=" + linkedToBusinessUnit
-				+ ", linkedToRegion=" + linkedToRegion + ", isActive=" + isActive + "]";
-	}
-	
 
 }

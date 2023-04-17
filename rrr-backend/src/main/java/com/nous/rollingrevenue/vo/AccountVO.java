@@ -1,13 +1,13 @@
 package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
 
 public class AccountVO implements Serializable {
 
@@ -24,27 +24,23 @@ public class AccountVO implements Serializable {
 	@NotBlank(message = "AccountOrClientCode cannot be null or empty")
 	private String accountOrClientCode;
 
-	@NotEmpty(message = "Atleast one Locaiton is required")
-	private Set<String> location = new HashSet<>();
-	
+	private List<LocationVO> locations = new ArrayList<>();
+
 	private boolean isActive;
 
 	public AccountVO() {
 
 	}
 
-	public AccountVO(Long accountId, @NotBlank(message = "AccountName cannot be null or empty") String accountName,
-			@NotBlank(message = "AccountOrClientCode cannot be null or empty") String accountOrClientCode,
-			@NotEmpty(message = "Atleast one Locaiton is required") Set<String> location,
-			boolean isActive) {
+	public AccountVO(Long accountId, String accountName, String accountOrClientCode, Set<String> location,
+			List<LocationVO> locations, boolean isActive) {
 		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
 		this.accountOrClientCode = accountOrClientCode;
-		this.location = location;
+		this.locations = locations;
 		this.isActive = isActive;
 	}
-
 
 	public Long getAccountId() {
 		return accountId;
@@ -70,15 +66,15 @@ public class AccountVO implements Serializable {
 		this.accountOrClientCode = accountOrClientCode;
 	}
 
-	public Set<String> getLocation() {
-		return location;
+	public List<LocationVO> getLocations() {
+		return locations;
 	}
 
-	public void setLocation(Set<String> location) {
-		this.location = location;
+	public void setLocations(List<LocationVO> locations) {
+		this.locations = locations;
 	}
 
-	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
 	}
@@ -87,11 +83,5 @@ public class AccountVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "AccountVO [accountId=" + accountId + ", accountName=" + accountName + ", accountOrClientCode="
-				+ accountOrClientCode + ", location=" + location + ", isActive="
-				+ isActive + "]";
-	}
 
 }

@@ -95,12 +95,5 @@ public class FinancialYearVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "FinancialYearVO [financialYearId=" + financialYearId + ", financialYearName=" + financialYearName
-				+ ", financialYearCustomName=" + financialYearCustomName + ", startingFrom=" + startingFrom
-				+ ", endingOn=" + endingOn + ", isActive=" + isActive + "]";
-	}
-	
 
 }

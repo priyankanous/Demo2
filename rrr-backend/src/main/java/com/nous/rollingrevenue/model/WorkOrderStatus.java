@@ -63,10 +63,4 @@ public class WorkOrderStatus extends Auditable<String> {
 	}
 
 
-	@Override
-	public String toString() {
-		return "WorkOrderStatus [woStatusId=" + woStatusId + ", woStatusName=" + woStatusName + ", woStatusDisplayName="
-				+ woStatusDisplayName + "]";
-	}
-
 }

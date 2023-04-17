@@ -1,9 +1,16 @@
 package com.nous.rollingrevenue.convertor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
+import com.nous.rollingrevenue.model.BusinessUnit;
+import com.nous.rollingrevenue.model.Region;
 import com.nous.rollingrevenue.vo.BDMVO;
+import com.nous.rollingrevenue.vo.BusinessUnitVO;
+import com.nous.rollingrevenue.vo.RegionVO;
 
 @Component
 public class BusinessDevelopmentManagerConverter {
@@ -22,8 +29,12 @@ public class BusinessDevelopmentManagerConverter {
 			bdm.setBdmDisplayName(bdmVO.getBdmDisplayName());
 			bdm.setActiveFrom(bdmVO.getActiveFrom());
 			bdm.setActiveUntil(bdmVO.getActiveUntil());
-			bdm.setLinkedToBusinessUnit(bdmVO.getLinkedToBusinessUnit());
-			bdm.setLinkedToRegion(bdmVO.getLinkedToRegion());
+			List<BusinessUnit> businessUnits=new ArrayList<>();
+			bdmVO.getBusinessUnits().stream().forEach(businessUnitVO -> businessUnits.add(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(businessUnitVO)));
+			bdm.setBusinessUnits(businessUnits);
+			List<Region> regions = new ArrayList<>();
+			bdmVO.getRegions().stream().forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
+			bdm.setRegions(regions);
 		}
 		return bdm;
 	}
@@ -42,8 +53,12 @@ public class BusinessDevelopmentManagerConverter {
 			bdmVO.setBdmDisplayName(bdm.getBdmDisplayName());
 			bdmVO.setActiveFrom(bdm.getActiveFrom());
 			bdmVO.setActiveUntil(bdm.getActiveUntil());
-			bdmVO.setLinkedToBusinessUnit(bdm.getLinkedToBusinessUnit());
-			bdmVO.setLinkedToRegion(bdm.getLinkedToRegion());
+			List<BusinessUnitVO> businessUnitVOs=new ArrayList<>();
+			bdm.getBusinessUnits().stream().forEach(businessUnit -> businessUnitVOs.add(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnit)));
+			bdmVO.setBusinessUnits(businessUnitVOs);
+			List<RegionVO> regionVOs = new ArrayList<>();
+			bdm.getRegions().stream().forEach(region -> regionVOs.add(RegionConverter.convertRegionToRegionVO(region)));
+			bdmVO.setRegions(regionVOs);
 			bdmVO.setActive(bdm.isActive());
 		}
 

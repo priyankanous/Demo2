@@ -322,16 +322,4 @@ public class AnnualTargetEntry extends Auditable<String> {
 	}
 
 
-	@Override
-	public String toString() {
-		return "AnnualTargetEntry [annualTargetEntryId=" + annualTargetEntryId + ", financialYear=" + financialYear
-				+ ", businessUnit=" + businessUnit + ", startegicBusinessUnit=" + startegicBusinessUnit
-				+ ", strategicBusinessUnitHead=" + strategicBusinessUnitHead + ", location=" + location + ", region="
-				+ region + ", account=" + account + ", businessType=" + businessType + ", cocPractice=" + cocPractice
-				+ ", businessDevelopmentManager=" + businessDevelopmentManager + ", Q1FYS=" + Q1FYS + ", Q1FYB=" + Q1FYB
-				+ ", Q1FYT=" + Q1FYT + ", Q2FYS=" + Q2FYS + ", Q2FYB=" + Q2FYB + ", Q2FYT=" + Q2FYT + ", Q3FYS=" + Q3FYS
-				+ ", Q3FYB=" + Q3FYB + ", Q3FYT=" + Q3FYT + ", Q4FYS=" + Q4FYS + ", Q4FYB=" + Q4FYB + ", Q4FYT=" + Q4FYT
-				+ ", FY=" + FY + "]";
-	}
-
 }

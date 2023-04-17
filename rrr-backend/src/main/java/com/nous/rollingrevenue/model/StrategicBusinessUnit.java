@@ -1,5 +1,8 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -11,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,17 +37,21 @@ public class StrategicBusinessUnit extends Auditable<String> {
 	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
 	private BusinessUnit businessUnit;
 	
+	@OneToMany(mappedBy = "strategicbusinessUnit")
+	private List<StrategicBusinessUnitHead> strategicBusinessUnitHeads = new ArrayList<>();
+
 
 	public StrategicBusinessUnit() {
 
 	}
 
-	public StrategicBusinessUnit(Long sbuId, String sbuName, String sbuDisplayName, BusinessUnit businessUnit) {
+	public StrategicBusinessUnit(Long sbuId, String sbuName, String sbuDisplayName, BusinessUnit businessUnit, List<StrategicBusinessUnitHead> strategicBusinessUnitHeads) {
 		super();
 		this.sbuId = sbuId;
 		this.sbuName = sbuName;
 		this.sbuDisplayName = sbuDisplayName;
 		this.businessUnit = businessUnit;
+		this.strategicBusinessUnitHeads = strategicBusinessUnitHeads;
 	}
 
 	public Long getSbuId() {
@@ -78,10 +86,13 @@ public class StrategicBusinessUnit extends Auditable<String> {
 		this.businessUnit = businessUnit;
 	}
 
-	@Override
-	public String toString() {
-		return "StrategicBusinessUnit [sbuId=" + sbuId + ", sbuName=" + sbuName + ", sbuDisplayName=" + sbuDisplayName
-				+ ", businessUnit=" + businessUnit + "]";
+	public List<StrategicBusinessUnitHead> getStrategicBusinessUnitHeads() {
+		return strategicBusinessUnitHeads;
 	}
+
+	public void setStrategicBusinessUnitHeads(List<StrategicBusinessUnitHead> strategicBusinessUnitHeads) {
+		this.strategicBusinessUnitHeads = strategicBusinessUnitHeads;
+	}
+
 
 }

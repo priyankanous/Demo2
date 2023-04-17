@@ -72,11 +72,5 @@ public class OrganizationVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "OrganizationVO [id=" + id + ", orgName=" + orgName + ", orgDisplayName=" + orgDisplayName
-				+ ", isActive=" + isActive + "]";
-	}
-	
 
 }

@@ -15,7 +15,6 @@ public class ProbabilityTypeVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long probabilityTypeId;
 
 	@NotBlank(message = "ProbabilityTypeName cannot be null or empty")
@@ -72,11 +71,5 @@ public class ProbabilityTypeVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "ProbabilityTypeVO [probabilityTypeId=" + probabilityTypeId + ", probabilityTypeName="
-				+ probabilityTypeName + ", percentage=" + percentage + ", isActive=" + isActive + "]";
-	}
-	
 
 }

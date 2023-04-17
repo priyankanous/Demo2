@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,7 +38,7 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 	public GlobalMonthlyLeaveLossFactorVO addLeaveLossFactor(GlobalMonthlyLeaveLossFactorVO leaveLossFactorVO) {
 		GlobalMonthlyLeaveLossFactor leaveLossFactor = LeaveLossFactorConverter
 				.convertLeaveLossFactorVOToLeaveLossFactor(leaveLossFactorVO);
-		FinancialYear financialYear = financialYearRepository.findById(leaveLossFactorVO.getFinancialYearVO().getFinancialYearId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+		FinancialYear financialYear = financialYearRepository.findById(leaveLossFactorVO.getFinancialYear().getFinancialYearId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
 		leaveLossFactor.setFinancialYear(financialYear);
 		return LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(
 				globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor));
@@ -52,7 +53,7 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 		leaveLossFactor.setMonth(leaveLossFactorVO.getMonth());
 		leaveLossFactor.setOffShore(leaveLossFactorVO.getOffShore());
 		leaveLossFactor.setOnSite(leaveLossFactorVO.getOnSite());
-		FinancialYear financialYear = financialYearRepository.findById(leaveLossFactorVO.getFinancialYearVO().getFinancialYearId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+		FinancialYear financialYear = financialYearRepository.findById(leaveLossFactorVO.getFinancialYear().getFinancialYearId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
 		leaveLossFactor.setFinancialYear(financialYear);
 		return LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(
 				globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor));
@@ -101,9 +102,12 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 	@Override
 	public List<GlobalMonthlyLeaveLossFactorVO> getLeaveLossFactorByFinancialYear(String financialYear) {
 		List<GlobalMonthlyLeaveLossFactorVO> leaveLossFactorVOs = new ArrayList<>();
-		globalMonthlyLeaveLossFactorRepository.findByFinancialYear(financialYear).stream().forEach(leaveLossFactor -> {
-			leaveLossFactorVOs.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(leaveLossFactor));
-		});
+		Optional<FinancialYear> findByFinancialYearName = financialYearRepository.findByFinancialYearName(financialYear);
+		if(findByFinancialYearName.isPresent()) {
+			findByFinancialYearName.get().getLeaveLossFactors().stream().forEach(leaveLossFactor -> {
+				leaveLossFactorVOs.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(leaveLossFactor));
+			});
+		}
 		return leaveLossFactorVOs;
 	}
 

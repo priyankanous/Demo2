@@ -1,19 +1,20 @@
 package com.nous.rollingrevenue.model;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.nous.rollingrevenue.model.converter.StringSetToStringConverter;
-
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -32,22 +33,27 @@ public class Account extends Auditable<String> {
 	@Column(name = "account_or_clientcode")
 	private String accountOrClientCode;
 
-	@Column(name = "location")
-	@Convert(converter = StringSetToStringConverter.class)
-	private Set<String> location = new HashSet<>();
+	@ManyToMany
+	@JoinTable(name="accounts_to_location",
+	joinColumns = @JoinColumn(name="account_id"),
+	inverseJoinColumns = @JoinColumn(name="location_id"))
+	private List<Location> locations = new ArrayList<>();
+
+	@OneToMany(mappedBy = "account")
+	private List<Opportunity> opportunities = new ArrayList<>();
 
 
 	public Account() {
 
 	}
 
-	public Account(Long accountId, String accountName, String accountOrClientCode, Set<String> location) {
+	public Account(Long accountId, String accountName, String accountOrClientCode, List<Location> locations, List<Opportunity> opportunities) {
 		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
 		this.accountOrClientCode = accountOrClientCode;
-		this.location = location;
-		
+		this.locations = locations;
+		this.opportunities = opportunities;
 	}
 	
 
@@ -75,19 +81,20 @@ public class Account extends Auditable<String> {
 		this.accountOrClientCode = accountOrClientCode;
 	}
 
-	public Set<String> getLocation() {
-		return location;
+	public List<Location> getLocations() {
+		return locations;
 	}
 
-	public void setLocation(Set<String> location) {
-		this.location = location;
+	public void setLocations(List<Location> locations) {
+		this.locations = locations;
+	}
+	
+	public List<Opportunity> getOpportunities() {
+		return opportunities;
 	}
 
-	@Override
-	public String toString() {
-		return "Account [accountId=" + accountId + ", accountName=" + accountName + ", accountOrClientCode="
-				+ accountOrClientCode + ",  location=" + location + "]";
+	public void setOpportunities(List<Opportunity> opportunities) {
+		this.opportunities = opportunities;
 	}
-
 	
 }

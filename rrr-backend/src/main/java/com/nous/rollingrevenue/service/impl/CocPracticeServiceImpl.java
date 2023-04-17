@@ -38,7 +38,7 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 	@Transactional
 	public CocPracticeVO addCocPractice(CocPracticeVO cocpracticeVO) {
 		CocPractice cocPractice = CocPracticeConverter.convertCocPracticeVOToCocPractice(cocpracticeVO);
-		BusinessUnit businessUnit =  businessUnitRepository.findById(cocpracticeVO.getBusinessUnitVO().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
+		BusinessUnit businessUnit =  businessUnitRepository.findById(cocpracticeVO.getBusinessUnit().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
 		cocPractice.setBusinessUnit(businessUnit);
 		return CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocpracticeRepository.save(cocPractice));
 	}
@@ -82,7 +82,7 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		cocpractice.setCocPracticeDisplayName(cocpracticeVO.getCocPracticeDisplayName());
 		cocpractice.setCocPracticeName(cocpracticeVO.getCocPracticeName());
-		BusinessUnit businessUnit =  businessUnitRepository.findById(cocpracticeVO.getBusinessUnitVO().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
+		BusinessUnit businessUnit =  businessUnitRepository.findById(cocpracticeVO.getBusinessUnit().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
 		cocpractice.setBusinessUnit(businessUnit);
 		return CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocpracticeRepository.save(cocpractice));
 	}

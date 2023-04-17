@@ -27,7 +27,7 @@ public class CurrencyVO implements Serializable {
 
 	private BigDecimal conversionRate;
 
-	private FinancialYearVO financialYearVO;
+	private FinancialYearVO financialYear;
 
 	@NotBlank(message = "BaseCurrency cannot be null or empty")
 	private String baseCurrency;
@@ -39,14 +39,14 @@ public class CurrencyVO implements Serializable {
 	}
 
 	public CurrencyVO(Long currencyId, String currency, String currencyName, String symbol, BigDecimal conversionRate,
-			FinancialYearVO financialYearVO, String baseCurrency, boolean isActive) {
+			FinancialYearVO financialYear, String baseCurrency, boolean isActive) {
 		super();
 		this.currencyId = currencyId;
 		this.currency = currency;
 		this.currencyName = currencyName;
 		this.symbol = symbol;
 		this.conversionRate = conversionRate;
-		this.financialYearVO = financialYearVO;
+		this.financialYear = financialYear;
 		this.baseCurrency = baseCurrency;
 		this.isActive = isActive;
 	}
@@ -91,12 +91,12 @@ public class CurrencyVO implements Serializable {
 		this.conversionRate = conversionRate;
 	}
 
-	public FinancialYearVO getFinancialYearVO() {
-		return financialYearVO;
+	public FinancialYearVO getFinancialYear() {
+		return financialYear;
 	}
 
-	public void setFinancialYearVO(FinancialYearVO financialYearVO) {
-		this.financialYearVO = financialYearVO;
+	public void setFinancialYear(FinancialYearVO financialYear) {
+		this.financialYear = financialYear;
 	}
 
 	public String getBaseCurrency() {
@@ -114,13 +114,6 @@ public class CurrencyVO implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	@Override
-	public String toString() {
-		return "CurrencyVO [currencyId=" + currencyId + ", currency=" + currency + ", currencyName=" + currencyName
-				+ ", symbol=" + symbol + ", conversionRate=" + conversionRate + ", financialYearVO=" + financialYearVO
-				+ ", baseCurrency=" + baseCurrency + ", isActive=" + isActive + "]";
 	}
 
 

@@ -23,7 +23,7 @@ public class OpportunityConverter {
 			opportunity.setProjectCode(opportunityVO.getProjectCode());
 			opportunity.setProjectStartDate(opportunityVO.getProjectStartDate());
 			opportunity.setProjectEndDate(opportunityVO.getProjectEndDate());
-			opportunity.setAccount(AccountConverter.convertAccountVOToAccount(opportunityVO.getAccountVO()));
+			opportunity.setAccount(AccountConverter.convertAccountVOToAccount(opportunityVO.getAccount()));
 		}
 		return opportunity;
 	}
@@ -43,7 +43,7 @@ public class OpportunityConverter {
 			opportunityVO.setProjectCode(opportunity.getProjectCode());
 			opportunityVO.setProjectStartDate(opportunity.getProjectStartDate());
 			opportunityVO.setProjectEndDate(opportunity.getProjectEndDate());
-			opportunityVO.setAccountVO(AccountConverter.convertAccountToAccountVO(opportunity.getAccount()));
+			opportunityVO.setAccount(AccountConverter.convertAccountToAccountVO(opportunity.getAccount()));
 			opportunityVO.setActive(opportunity.isActive());
 		}
 		return opportunityVO;

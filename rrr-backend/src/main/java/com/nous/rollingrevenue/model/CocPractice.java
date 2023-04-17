@@ -78,10 +78,5 @@ public class CocPractice extends Auditable<String> {
 		this.businessUnit = businessUnit;
 	}
 
-	@Override
-	public String toString() {
-		return "CocPractice [cocPracticeId=" + cocPracticeId + ", cocPracticeName=" + cocPracticeName
-				+ ", cocPracticeDisplayName=" + cocPracticeDisplayName + ", businessUnit=" + businessUnit + "]";
-	}
 
 }

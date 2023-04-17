@@ -7,9 +7,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,8 +31,9 @@ public class FortnightlyMeeting extends Auditable<String> {
 	@Column(name = "meeting_day")
 	private String meetingDay;
 
-	@Column(name = "financial_year")
-	private String financialYear;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
+	private FinancialYear financialYear;
 	
 	@Column(name = "meeting_name1")
 	private String meetingName1;
@@ -48,7 +52,7 @@ public class FortnightlyMeeting extends Auditable<String> {
 
 	}
 
-	public FortnightlyMeeting(Long meetingId, LocalDate meetingDate, String meetingDay, String financialYear,
+	public FortnightlyMeeting(Long meetingId, LocalDate meetingDate, String meetingDay, FinancialYear financialYear,
 			String meetingName1, String meetingName2, String meetingName3, String meetingName4) {
 		super();
 		this.meetingId = meetingId;
@@ -85,11 +89,11 @@ public class FortnightlyMeeting extends Auditable<String> {
 		this.meetingDay = meetingDay;
 	}
 
-	public String getFinancialYear() {
+	public FinancialYear getFinancialYear() {
 		return financialYear;
 	}
 
-	public void setFinancialYear(String financialYear) {
+	public void setFinancialYear(FinancialYear financialYear) {
 		this.financialYear = financialYear;
 	}
 
@@ -125,12 +129,5 @@ public class FortnightlyMeeting extends Auditable<String> {
 		this.meetingName4 = meetingName4;
 	}
 
-
-	@Override
-	public String toString() {
-		return "FortnightlyMeeting [meetingId=" + meetingId + ", meetingDate=" + meetingDate + ", meetingDay="
-				+ meetingDay + ", financialYear=" + financialYear + ", meetingName1=" + meetingName1 + ", meetingName2="
-				+ meetingName2 + ", meetingName3=" + meetingName3 + ", meetingName4=" + meetingName4 + "]";
-	}
 
 }

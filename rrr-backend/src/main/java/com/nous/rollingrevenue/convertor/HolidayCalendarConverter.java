@@ -21,8 +21,8 @@ public class HolidayCalendarConverter {
 			holidayCalendar.setHolidayName(holidayCalendarVO.getHolidayName());
 			holidayCalendar.setHolidayDate(holidayCalendarVO.getHolidayDate());
 			holidayCalendar.setHolidayDay(holidayCalendarVO.getHolidayDay());
-			holidayCalendar.setFinancialYear(holidayCalendarVO.getFinancialYear());
-			holidayCalendar.setLocation(holidayCalendarVO.getLocation());
+			holidayCalendar.setFinancialYear(FinancialYearConverter.convertFinancialYearVOToFinancialYear(holidayCalendarVO.getFinancialYear()));
+			holidayCalendar.setLocation(LocationConverter.convertLocationVOToLocation(holidayCalendarVO.getLocation()));
 
 		}
 		return holidayCalendar;
@@ -41,8 +41,8 @@ public class HolidayCalendarConverter {
 			holidayCalendarVO.setHolidayName(holidayCalendar.getHolidayName());
 			holidayCalendarVO.setHolidayDate(holidayCalendar.getHolidayDate());
 			holidayCalendarVO.setHolidayDay(holidayCalendar.getHolidayDay());
-			holidayCalendarVO.setFinancialYear(holidayCalendar.getFinancialYear());
-			holidayCalendarVO.setLocation(holidayCalendar.getLocation());
+			holidayCalendarVO.setFinancialYear(FinancialYearConverter.convertFinancialYearToFinancialYearVO(holidayCalendar.getFinancialYear()));
+			holidayCalendarVO.setLocation(LocationConverter.convertLocationToLocationVO(holidayCalendar.getLocation()));
 			holidayCalendarVO.setActive(holidayCalendar.isActive());
 		}
 		return holidayCalendarVO;

@@ -1,5 +1,8 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -10,7 +13,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,17 +38,29 @@ public class BusinessUnit extends Auditable<String> {
 	@JoinColumn(name = "org_id", referencedColumnName = "org_id")
 	private Organization organization;
 
+	@ManyToMany(mappedBy = "businessUnits")
+	private List<BusinessDevelopmentManager> businessDevlopmentManagers = new ArrayList<>();
+
+	@OneToMany(mappedBy = "businessUnit")
+	private List<StrategicBusinessUnit> strategicBusinessUnits = new ArrayList<>();
+
+	@OneToMany(mappedBy = "businessUnit")
+	private List<CocPractice> cocPractices = new ArrayList<>();
 
 	public BusinessUnit() {
 
 	}
 
-	public BusinessUnit(Long businessUnitId, String businessUnitName, String businessUnitDisplayName, Organization organization) {
+	public BusinessUnit(Long businessUnitId, String businessUnitName, String businessUnitDisplayName,
+			Organization organization, List<BusinessDevelopmentManager> businessDevlopmentManagers, List<StrategicBusinessUnit> strategicBusinessUnits, List<CocPractice> cocPractices) {
 		super();
 		this.businessUnitId = businessUnitId;
 		this.businessUnitName = businessUnitName;
 		this.businessUnitDisplayName = businessUnitDisplayName;
 		this.organization = organization;
+		this.businessDevlopmentManagers = businessDevlopmentManagers;
+		this.strategicBusinessUnits = strategicBusinessUnits;
+		this.cocPractices = cocPractices;
 	}
 
 	public Long getBusinessUnitId() {
@@ -70,7 +87,6 @@ public class BusinessUnit extends Auditable<String> {
 		this.businessUnitDisplayName = businessUnitDisplayName;
 	}
 
-
 	public Organization getOrganization() {
 		return organization;
 	}
@@ -79,10 +95,28 @@ public class BusinessUnit extends Auditable<String> {
 		this.organization = organization;
 	}
 
-	@Override
-	public String toString() {
-		return "BusinessUnit [businessUnitId=" + businessUnitId + ", businessUnitName=" + businessUnitName
-				+ ", businessUnitDisplayName=" + businessUnitDisplayName + ", organization=" + organization + "]";
+	public List<BusinessDevelopmentManager> getBusinessDevlopmentManagers() {
+		return businessDevlopmentManagers;
+	}
+
+	public void setBusinessDevlopmentManagers(List<BusinessDevelopmentManager> businessDevlopmentManagers) {
+		this.businessDevlopmentManagers = businessDevlopmentManagers;
+	}
+
+	public List<StrategicBusinessUnit> getStrategicBusinessUnits() {
+		return strategicBusinessUnits;
+	}
+
+	public void setStrategicBusinessUnits(List<StrategicBusinessUnit> strategicBusinessUnits) {
+		this.strategicBusinessUnits = strategicBusinessUnits;
+	}
+
+	public List<CocPractice> getCocPractices() {
+		return cocPractices;
+	}
+
+	public void setCocPractices(List<CocPractice> cocPractices) {
+		this.cocPractices = cocPractices;
 	}
 
 

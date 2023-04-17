@@ -105,12 +105,5 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 		this.activeUntil = activeUntil;
 	}
 
-	@Override
-	public String toString() {
-		return "StrategicBusinessUnitHead [sbuHeadId=" + sbuHeadId + ", sbuHeadName=" + sbuHeadName
-				+ ", sbuHeadDisplayName=" + sbuHeadDisplayName + ", strategicbusinessUnit=" + strategicbusinessUnit
-				+ ", activeFrom=" + activeFrom + ", activeUntil=" + activeUntil + "]";
-	}
-
 
 }

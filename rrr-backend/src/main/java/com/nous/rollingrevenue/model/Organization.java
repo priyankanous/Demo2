@@ -1,5 +1,8 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -8,6 +11,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,16 +30,20 @@ public class Organization extends Auditable<String> {
 	@Column(name = "org_name")
 	private String orgName;
 
+	@OneToMany(mappedBy = "organization")
+	private List<BusinessUnit> businessUnits = new ArrayList<>();
+
 
 	public Organization() {
 
 	}
 
-	public Organization(Long id, String orgDisplayName, String orgName) {
+	public Organization(Long id, String orgDisplayName, String orgName, List<BusinessUnit> businessUnits) {
 		super();
 		this.id = id;
 		this.orgDisplayName = orgDisplayName;
 		this.orgName = orgName;
+		this.businessUnits = businessUnits;
 	}
 
 	public Long getId() {
@@ -62,9 +70,13 @@ public class Organization extends Auditable<String> {
 		this.orgName = orgName;
 	}
 
-	@Override
-	public String toString() {
-		return "Organization [id=" + id + ", orgDisplayName=" + orgDisplayName + ", orgName=" + orgName + "]";
+	public List<BusinessUnit> getBusinessUnits() {
+		return businessUnits;
 	}
+
+	public void setBusinessUnits(List<BusinessUnit> businessUnits) {
+		this.businessUnits = businessUnits;
+	}
+
 
 }

@@ -16,14 +16,11 @@ public class BDMMeetingVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long bdmMeetingId;
 
-	@NotBlank(message = "BDM Name cannot be null or empty")
-	private String bdmName;
+	private BDMVO businessDevelopmentManager ;
 
-	@NotBlank(message = "Region cannot be null or empty")
-	private String region;
+	private RegionVO region;
 
 	@NotBlank(message = "Meeting Name cannot be null or empty")
 	private String meetingName;
@@ -34,8 +31,7 @@ public class BDMMeetingVO implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm")
 	private LocalTime meetingTime;
 	
-	@NotBlank(message = "FinancialYear Name cannot be null or empty")
-	private String financialYear;
+	private FinancialYearVO financialYear;
 
 	private boolean isActive;
 
@@ -43,11 +39,11 @@ public class BDMMeetingVO implements Serializable {
 
 	}
 
-	public BDMMeetingVO(Long bdmMeetingId, String bdmName, String region, String meetingName, LocalDate meetingDate,
-			LocalTime meetingTime, String financialYear,  boolean isActive) {
+	public BDMMeetingVO(Long bdmMeetingId, BDMVO businessDevelopmentManager, RegionVO region, String meetingName, LocalDate meetingDate,
+			LocalTime meetingTime, FinancialYearVO financialYear,  boolean isActive) {
 		super();
 		this.bdmMeetingId = bdmMeetingId;
-		this.bdmName = bdmName;
+		this.businessDevelopmentManager = businessDevelopmentManager;
 		this.region = region;
 		this.meetingName = meetingName;
 		this.meetingDate = meetingDate;
@@ -62,22 +58,6 @@ public class BDMMeetingVO implements Serializable {
 
 	public void setBdmMeetingId(Long bdmMeetingId) {
 		this.bdmMeetingId = bdmMeetingId;
-	}
-
-	public String getBdmName() {
-		return bdmName;
-	}
-
-	public void setBdmName(String bdmName) {
-		this.bdmName = bdmName;
-	}
-
-	public String getRegion() {
-		return region;
-	}
-
-	public void setRegion(String region) {
-		this.region = region;
 	}
 
 	public String getMeetingName() {
@@ -104,6 +84,30 @@ public class BDMMeetingVO implements Serializable {
 		this.meetingTime = meetingTime;
 	}
 
+	public BDMVO getBusinessDevelopmentManager() {
+		return businessDevelopmentManager;
+	}
+
+	public void setBusinessDevelopmentManager(BDMVO businessDevelopmentManager) {
+		this.businessDevelopmentManager = businessDevelopmentManager;
+	}
+
+	public RegionVO getRegion() {
+		return region;
+	}
+
+	public void setRegion(RegionVO region) {
+		this.region = region;
+	}
+
+	public FinancialYearVO getFinancialYear() {
+		return financialYear;
+	}
+
+	public void setFinancialYear(FinancialYearVO financialYear) {
+		this.financialYear = financialYear;
+	}
+
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
@@ -112,21 +116,5 @@ public class BDMMeetingVO implements Serializable {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
-	public String getFinancialYear() {
-		return financialYear;
-	}
-
-	public void setFinancialYear(String financialYear) {
-		this.financialYear = financialYear;
-	}
-
-	@Override
-	public String toString() {
-		return "BDMMeetingVO [bdmMeetingId=" + bdmMeetingId + ", bdmName=" + bdmName + ", region=" + region
-				+ ", meetingName=" + meetingName + ", meetingDate=" + meetingDate + ", meetingTime=" + meetingTime
-				+ ", financialYear=" + financialYear + ", isActive=" + isActive + "]";
-	}
-	
 
 }

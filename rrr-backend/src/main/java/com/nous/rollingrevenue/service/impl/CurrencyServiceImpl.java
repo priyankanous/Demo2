@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -29,7 +30,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Autowired
 	private CurrencyRepository currencyRepository;
-	
+
 	@Autowired
 	private FinancialYearRepository financialYearRepository;
 
@@ -45,7 +46,9 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@Transactional
 	public CurrencyVO saveCurrency(CurrencyVO currencyVO) {
 		Currency currency = CurrencyConverter.convertCurrencyVOToCurrency(currencyVO);
-		FinancialYear financialYear = financialYearRepository.findById(currencyVO.getFinancialYearVO().getFinancialYearId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+		FinancialYear financialYear = financialYearRepository
+				.findById(currencyVO.getFinancialYear().getFinancialYearId()).orElseThrow(
+						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
 		currency.setFinancialYear(financialYear);
 		return CurrencyConverter.convertCurrencyToCurrencyVO(currencyRepository.save(currency));
 	}
@@ -74,7 +77,9 @@ public class CurrencyServiceImpl implements CurrencyService {
 		currency.setCurrencyName(currencyVO.getCurrencyName());
 		currency.setSymbol(currencyVO.getSymbol());
 		currency.setConversionRate(currencyVO.getConversionRate());
-		FinancialYear financialYear = financialYearRepository.findById(currencyVO.getFinancialYearVO().getFinancialYearId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+		FinancialYear financialYear = financialYearRepository
+				.findById(currencyVO.getFinancialYear().getFinancialYearId()).orElseThrow(
+						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
 		currency.setFinancialYear(financialYear);
 		currency.setBaseCurrency(currencyVO.getBaseCurrency());
 		return CurrencyConverter.convertCurrencyToCurrencyVO(currencyRepository.save(currency));
@@ -103,11 +108,14 @@ public class CurrencyServiceImpl implements CurrencyService {
 		return CurrencyConverter.convertCurrencyToCurrencyVO(currencyRepository.save(currency));
 	}
 
+	@Override
 	public List<CurrencyVO> getCurrencyByFinancialYear(String financialYear) {
 		List<CurrencyVO> currencyVOs = new ArrayList<>();
-		currencyRepository.findByFinancialYear(financialYear).stream().forEach(currency -> {
-			currencyVOs.add(CurrencyConverter.convertCurrencyToCurrencyVO(currency));
-		});
+		Optional<FinancialYear> findByFinancialYearName = financialYearRepository.findByFinancialYearName(financialYear);
+		if(findByFinancialYearName.isPresent()) {
+			findByFinancialYearName.get().getCurrencies().stream().forEach(currency ->  
+				currencyVOs.add(CurrencyConverter.convertCurrencyToCurrencyVO(currency)));
+		}
 		return currencyVOs;
 	}
 

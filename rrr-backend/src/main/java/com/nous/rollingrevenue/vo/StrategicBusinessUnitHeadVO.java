@@ -23,7 +23,7 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 	@NotBlank(message = "SBUHeadDisplayName cannot be null or empty")
 	private String sbuHeadDisplayName;
 
-	private StrategicBusinessUnitVO strategicBusinessUnitVO;
+	private StrategicBusinessUnitVO strategicBusinessUnit;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate activeFrom;
@@ -37,13 +37,13 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 
 	}
 
-	public StrategicBusinessUnitHeadVO(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName, StrategicBusinessUnitVO strategicBusinessUnitVO,
+	public StrategicBusinessUnitHeadVO(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName, StrategicBusinessUnitVO strategicBusinessUnit,
 			LocalDate activeFrom, LocalDate activeUntil, boolean isActive) {
 		super();
 		this.sbuHeadId = sbuHeadId;
 		this.sbuHeadName = sbuHeadName;
 		this.sbuHeadDisplayName = sbuHeadDisplayName;
-		this.strategicBusinessUnitVO = strategicBusinessUnitVO;
+		this.strategicBusinessUnit = strategicBusinessUnit;
 		this.activeFrom = activeFrom;
 		this.activeUntil = activeUntil;
 		this.isActive = isActive;
@@ -73,12 +73,12 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 		this.sbuHeadDisplayName = sbuHeadDisplayName;
 	}
 
-	public StrategicBusinessUnitVO getStrategicBusinessUnitVO() {
-		return strategicBusinessUnitVO;
+	public StrategicBusinessUnitVO getStrategicBusinessUnit() {
+		return strategicBusinessUnit;
 	}
 
-	public void setStrategicBusinessUnitVO(StrategicBusinessUnitVO strategicBusinessUnitVO) {
-		this.strategicBusinessUnitVO = strategicBusinessUnitVO;
+	public void setStrategicBusinessUnit(StrategicBusinessUnitVO strategicBusinessUnit) {
+		this.strategicBusinessUnit = strategicBusinessUnit;
 	}
 
 	public LocalDate getActiveFrom() {
@@ -104,13 +104,6 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	@Override
-	public String toString() {
-		return "StrategicBusinessUnitHeadVO [sbuHeadId=" + sbuHeadId + ", sbuHeadName=" + sbuHeadName
-				+ ", sbuHeadDisplayName=" + sbuHeadDisplayName + ", strategicBusinessUnitVO=" + strategicBusinessUnitVO
-				+ ", activeFrom=" + activeFrom + ", activeUntil=" + activeUntil + ", isActive=" + isActive + "]";
 	}
 
 

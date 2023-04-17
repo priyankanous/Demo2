@@ -20,12 +20,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.nous.rollingrevenue.common.constant.Constants;
+import com.nous.rollingrevenue.model.Account;
 import com.nous.rollingrevenue.model.Currency;
 import com.nous.rollingrevenue.model.HolidayCalendar;
 import com.nous.rollingrevenue.model.Opportunity;
 import com.nous.rollingrevenue.model.ResourcesEntry;
 import com.nous.rollingrevenue.model.RollingRevenueCommonEntry;
 import com.nous.rollingrevenue.model.TandMRevenueEntry;
+import com.nous.rollingrevenue.repository.AccountRepository;
 import com.nous.rollingrevenue.repository.CurrencyRepository;
 import com.nous.rollingrevenue.repository.HolidayCalendarRepository;
 import com.nous.rollingrevenue.repository.OpportunityRepository;
@@ -59,6 +61,9 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 
 	@Autowired
 	private OpportunityRepository opportunityRepository;
+
+	@Autowired
+	private AccountRepository accountRepository;
 
 	@Override
 	public String saveRollingRevenue(RollingRevenueVO rollingRevenueVO) {
@@ -172,6 +177,12 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			List<Opportunity> listOfOpportunities = null;
 //			List<Opportunity> listOfOpportunities = opportunityRepository
 //					.findByChildOfAccount(revenueCommonEntry.getAccount());
+
+			Optional<Account> account =  accountRepository.findByAccountName(revenueCommonEntry.getAccount());
+			if(account.isPresent()) {
+				listOfOpportunities =  account.get().getOpportunities();
+			}
+
 			for (Opportunity opportunity : listOfOpportunities) {
 
 				rollingRevenueAccountVO.setMonthlyFinancialYearVO(

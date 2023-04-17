@@ -15,7 +15,6 @@ public class FortnightlyMeetingVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long meetingId;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
@@ -24,8 +23,7 @@ public class FortnightlyMeetingVO implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private String meetingDay;
 
-	@NotBlank(message = "FinancialYear cannot be null or empty")
-	private String financialYear;
+	private FinancialYearVO financialYear;
 
 	@NotBlank(message = "MeetingName1 cannot be null or empty")
 	private String meetingName1;
@@ -45,7 +43,7 @@ public class FortnightlyMeetingVO implements Serializable {
 
 	}
 
-	public FortnightlyMeetingVO(Long meetingId, LocalDate meetingDate, String meetingDay, String financialYear,
+	public FortnightlyMeetingVO(Long meetingId, LocalDate meetingDate, String meetingDay, FinancialYearVO financialYear,
 			String meetingName1, String meetingName2, String meetingName3, String meetingName4, boolean isActive) {
 		super();
 		this.meetingId = meetingId;
@@ -83,11 +81,11 @@ public class FortnightlyMeetingVO implements Serializable {
 		this.meetingDay = meetingDay;
 	}
 
-	public String getFinancialYear() {
+	public FinancialYearVO getFinancialYear() {
 		return financialYear;
 	}
 
-	public void setFinancialYear(String financialYear) {
+	public void setFinancialYear(FinancialYearVO financialYear) {
 		this.financialYear = financialYear;
 	}
 
@@ -132,12 +130,5 @@ public class FortnightlyMeetingVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "FortnightlyMeetingVO [meetingId=" + meetingId + ", meetingDate=" + meetingDate + ", meetingDay="
-				+ meetingDay + ", financialYear=" + financialYear + ", meetingName1=" + meetingName1 + ", meetingName2="
-				+ meetingName2 + ", meetingName3=" + meetingName3 + ", meetingName4=" + meetingName4 + ", isActive="
-				+ isActive + "]";
-	}
 
 }

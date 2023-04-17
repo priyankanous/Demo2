@@ -1,6 +1,8 @@
 package com.nous.rollingrevenue.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -10,6 +12,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -34,19 +37,40 @@ public class FinancialYear extends Auditable<String> {
 	@Column(name = "ending_on")
 	private LocalDate endingOn;
 
+	@OneToMany(mappedBy = "financialYear")
+	private List<Currency> currencies = new ArrayList<>();
+
+	@OneToMany(mappedBy = "financialYear")
+	private List<GlobalMonthlyLeaveLossFactor> leaveLossFactors = new ArrayList<>();
+
+	@OneToMany(mappedBy = "financialYear")
+	private List<HolidayCalendar> holidayCalendar = new ArrayList<>();
+
+	@OneToMany(mappedBy = "financialYear")
+	private List<BDMMeeting> bdmMeetings = new ArrayList<>();
+
+	@OneToMany(mappedBy = "financialYear")
+	private List<FortnightlyMeeting> fortnightlyMeetings = new ArrayList<>();
 
 	public FinancialYear() {
 
 	}
 
 	public FinancialYear(Long financialYearId, String financialYearName, String financialYearCustomName,
-			LocalDate startingFrom, LocalDate endingOn) {
+			LocalDate startingFrom, LocalDate endingOn, List<Currency> currencies,
+			List<GlobalMonthlyLeaveLossFactor> leaveLossFactors, List<HolidayCalendar> holidayCalendar,
+			List<BDMMeeting> bdmMeetings, List<FortnightlyMeeting> fortnightlyMeetings) {
 		super();
 		this.financialYearId = financialYearId;
 		this.financialYearName = financialYearName;
 		this.financialYearCustomName = financialYearCustomName;
 		this.startingFrom = startingFrom;
 		this.endingOn = endingOn;
+		this.currencies = currencies;
+		this.leaveLossFactors = leaveLossFactors;
+		this.holidayCalendar = holidayCalendar;
+		this.bdmMeetings = bdmMeetings;
+		this.fortnightlyMeetings = fortnightlyMeetings;
 	}
 
 	public Long getFinancialYearId() {
@@ -89,12 +113,45 @@ public class FinancialYear extends Auditable<String> {
 		this.endingOn = endingOn;
 	}
 
-
-	@Override
-	public String toString() {
-		return "FinancialYear [financialYearId=" + financialYearId + ", financialYearName=" + financialYearName
-				+ ", financialYearCustomName=" + financialYearCustomName + ", startingFrom=" + startingFrom
-				+ ", endingOn=" + endingOn + "]";
+	public List<Currency> getCurrencies() {
+		return currencies;
 	}
+
+	public void setCurrencies(List<Currency> currencies) {
+		this.currencies = currencies;
+	}
+
+	public List<GlobalMonthlyLeaveLossFactor> getLeaveLossFactors() {
+		return leaveLossFactors;
+	}
+
+	public void setLeaveLossFactors(List<GlobalMonthlyLeaveLossFactor> leaveLossFactors) {
+		this.leaveLossFactors = leaveLossFactors;
+	}
+
+	public List<HolidayCalendar> getHolidayCalendar() {
+		return holidayCalendar;
+	}
+
+	public void setHolidayCalendar(List<HolidayCalendar> holidayCalendar) {
+		this.holidayCalendar = holidayCalendar;
+	}
+
+	public List<BDMMeeting> getBdmMeetings() {
+		return bdmMeetings;
+	}
+
+	public void setBdmMeetings(List<BDMMeeting> bdmMeetings) {
+		this.bdmMeetings = bdmMeetings;
+	}
+
+	public List<FortnightlyMeeting> getFortnightlyMeetings() {
+		return fortnightlyMeetings;
+	}
+
+	public void setFortnightlyMeetings(List<FortnightlyMeeting> fortnightlyMeetings) {
+		this.fortnightlyMeetings = fortnightlyMeetings;
+	}
+
 
 }

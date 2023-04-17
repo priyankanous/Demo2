@@ -21,7 +21,7 @@ public class BusinessUnitVO implements Serializable {
 	@NotEmpty(message = "business unit display name must not be empty")
 	private String businessUnitDisplayName;
 
-	private OrganizationVO organizationVO;
+	private OrganizationVO organization;
 
 	private boolean isActive;
 
@@ -30,12 +30,12 @@ public class BusinessUnitVO implements Serializable {
 	}
 
 	public BusinessUnitVO(Long businessUnitId, String businessUnitName, String businessUnitDisplayName,
-			OrganizationVO organizationVO, boolean isActive) {
+			OrganizationVO organization, boolean isActive) {
 		super();
 		this.businessUnitId = businessUnitId;
 		this.businessUnitName = businessUnitName;
 		this.businessUnitDisplayName = businessUnitDisplayName;
-		this.organizationVO = organizationVO;
+		this.organization = organization;
 		this.isActive = isActive;
 	}
 
@@ -63,12 +63,12 @@ public class BusinessUnitVO implements Serializable {
 		this.businessUnitDisplayName = businessUnitDisplayName;
 	}
 
-	public OrganizationVO getOrganizationVO() {
-		return organizationVO;
+	public OrganizationVO getOrganization() {
+		return organization;
 	}
 
-	public void setOrganizationVO(OrganizationVO organizationVO) {
-		this.organizationVO = organizationVO;
+	public void setOrganization(OrganizationVO organization) {
+		this.organization = organization;
 	}
 
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
@@ -78,13 +78,6 @@ public class BusinessUnitVO implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	@Override
-	public String toString() {
-		return "BusinessUnitVO [businessUnitId=" + businessUnitId + ", businessUnitName=" + businessUnitName
-				+ ", businessUnitDisplayName=" + businessUnitDisplayName + ", organizationVO=" + organizationVO
-				+ ", isActive=" + isActive + "]";
 	}
 
 

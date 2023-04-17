@@ -21,7 +21,7 @@ public class StrategicBusinessUnitConverter {
 			sbu.setSbuId(sbuVO.getSbuId());
 			sbu.setSbuName(sbuVO.getSbuName());
 			sbu.setSbuDisplayName(sbuVO.getSbuDisplayName());
-			sbu.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(sbuVO.getBusinessUnitVO()));
+			sbu.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(sbuVO.getBusinessUnit()));
 		}
 		return sbu;
 	}
@@ -39,7 +39,7 @@ public class StrategicBusinessUnitConverter {
 			sbuVO.setSbuId(sbu.getSbuId());
 			sbuVO.setSbuName(sbu.getSbuName());
 			sbuVO.setSbuDisplayName(sbu.getSbuDisplayName());
-			sbuVO.setBusinessUnitVO(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(sbu.getBusinessUnit()));
+			sbuVO.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(sbu.getBusinessUnit()));
 			sbuVO.setActive(sbu.isActive());
 		}
 		return sbuVO;

@@ -23,7 +23,7 @@ public class LeaveLossFactorConverter {
 			leaveLossFactor.setOffShore(leaveLossFactorVO.getOffShore());
 			leaveLossFactor.setOnSite(leaveLossFactorVO.getOnSite());
 			leaveLossFactor.setFinancialYear(FinancialYearConverter
-					.convertFinancialYearVOToFinancialYear(leaveLossFactorVO.getFinancialYearVO()));
+					.convertFinancialYearVOToFinancialYear(leaveLossFactorVO.getFinancialYear()));
 		}
 		return leaveLossFactor;
 	}
@@ -42,7 +42,7 @@ public class LeaveLossFactorConverter {
 			leaveLossFactorVO.setMonth(leaveLossFactor.getMonth());
 			leaveLossFactorVO.setOffShore(leaveLossFactor.getOffShore());
 			leaveLossFactorVO.setOnSite(leaveLossFactor.getOnSite());
-			leaveLossFactorVO.setFinancialYearVO(
+			leaveLossFactorVO.setFinancialYear(
 					FinancialYearConverter.convertFinancialYearToFinancialYearVO(leaveLossFactor.getFinancialYear()));
 			leaveLossFactorVO.setActive(leaveLossFactor.isActive());
 		}

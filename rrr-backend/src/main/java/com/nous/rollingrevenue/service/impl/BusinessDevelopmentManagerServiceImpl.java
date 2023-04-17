@@ -16,8 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.BusinessDevelopmentManagerConverter;
+import com.nous.rollingrevenue.convertor.BusinessUnitConverter;
+import com.nous.rollingrevenue.convertor.RegionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
+import com.nous.rollingrevenue.model.BusinessUnit;
+import com.nous.rollingrevenue.model.Region;
 import com.nous.rollingrevenue.repository.BusinessDevelopmentManagerRepository;
 import com.nous.rollingrevenue.service.BusinessDevelopmentManagerService;
 import com.nous.rollingrevenue.vo.BDMVO;
@@ -44,8 +48,13 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 		bdm.setBdmDisplayName(bdmVO.getBdmDisplayName());
 		bdm.setActiveFrom(bdmVO.getActiveFrom());
 		bdm.setActiveUntil(bdmVO.getActiveUntil());
-		bdm.setLinkedToBusinessUnit(bdmVO.getLinkedToBusinessUnit());
-		bdm.setLinkedToRegion(bdmVO.getLinkedToRegion());
+		List<BusinessUnit> businessUnits = new ArrayList<>();
+		bdmVO.getBusinessUnits().stream()
+				.forEach(bdmVo -> businessUnits.add(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(bdmVo)));
+		bdm.setBusinessUnits(businessUnits);
+		List<Region> regions = new ArrayList<>();
+		bdmVO.getRegions().stream().forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
+		bdm.setRegions(regions);
 		return BusinessDevelopmentManagerConverter.convertBdmToBdmVO(businessDevelopmentManagerRepository.save(bdm));
 	}
 
@@ -76,7 +85,7 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 				.forEach(bdm -> bdmVOs.add(BusinessDevelopmentManagerConverter.convertBdmToBdmVO(bdm)));
 		return bdmVOs;
 	}
-	
+
 	@Override
 	public List<BDMVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<BDMVO> bdmVOs = new ArrayList<>();
@@ -90,7 +99,7 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 		}
 		return Collections.emptyList();
 	}
-	
+
 	@Override
 	@Transactional
 	public BDMVO activateOrDeactivateById(Long bdmId) {

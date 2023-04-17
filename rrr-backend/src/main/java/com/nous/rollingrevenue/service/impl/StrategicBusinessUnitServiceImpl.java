@@ -45,7 +45,7 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 	@Transactional
 	public StrategicBusinessUnitVO saveSBU(StrategicBusinessUnitVO sbuVO) {
 		StrategicBusinessUnit sbu = StrategicBusinessUnitConverter.convertSBUVOToSBU(sbuVO);
-		BusinessUnit businessUnit =  businessUnitRepository.findById(sbuVO.getBusinessUnitVO().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
+		BusinessUnit businessUnit =  businessUnitRepository.findById(sbuVO.getBusinessUnit().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
 		sbu.setBusinessUnit(businessUnit);
 		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuRepository.save(sbu));
 	}
@@ -72,7 +72,7 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
 		sbu.setSbuName(sbuVO.getSbuName());
 		sbu.setSbuDisplayName(sbuVO.getSbuDisplayName());
-		BusinessUnit businessUnit =  businessUnitRepository.findById(sbuVO.getBusinessUnitVO().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
+		BusinessUnit businessUnit =  businessUnitRepository.findById(sbuVO.getBusinessUnit().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
 		sbu.setBusinessUnit(businessUnit);
 		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuRepository.save(sbu));
 	}

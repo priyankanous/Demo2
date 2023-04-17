@@ -103,15 +103,6 @@ public class Opportunity extends Auditable<String> {
 	public void setProjectEndDate(LocalDate projectEndDate) {
 		this.projectEndDate = projectEndDate;
 	}
-
-	@Override
-	public String toString() {
-		return "Opportunity [opportunityId=" + opportunityId + ", opportunityName=" + opportunityName + ", account="
-				+ account + ", projectCode=" + projectCode + ", projectStartDate=" + projectStartDate
-				+ ", projectEndDate=" + projectEndDate + "]";
-	}
-
-
 	
 
 }

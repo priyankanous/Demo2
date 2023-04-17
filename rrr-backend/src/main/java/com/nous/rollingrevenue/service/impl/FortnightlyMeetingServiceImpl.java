@@ -6,6 +6,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,24 +49,22 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 	@Transactional
 	public void generateFortnightlyMeetings(FortnightlyMeetingVO fortnightlyMeetingVO) {
 		FinancialYear findByfinancialYear = financialYearRepository
-				.findByFinancialYearName(fortnightlyMeetingVO.getFinancialYear());
+				.findById(fortnightlyMeetingVO.getFinancialYear().getFinancialYearId()).get();
 		if (findByfinancialYear != null) {
 			FinancialYearVO financialYearVO = FinancialYearConverter
 					.convertFinancialYearToFinancialYearVO(findByfinancialYear);
 			List<HolidayCalendarVO> holidayCalendarVOs = holidayCalendarService
-					.getHolidayCalendarByFinancialYear(fortnightlyMeetingVO.getFinancialYear());
+					.getHolidayCalendarByFinancialYear(findByfinancialYear.getFinancialYearName());
 			if (!holidayCalendarVOs.isEmpty()) {
 				LocalDate startDate = fortnightlyMeetingVO.getMeetingDate();
 				LocalDate endDate = financialYearVO.getEndingOn();
-				String financialYear = fortnightlyMeetingVO.getFinancialYear();
-				logger.info("generating recurring dates for start date" + startDate + " end date " + endDate
-						+ "FinancialYear" + financialYear);
+				logger.info("generating recurring dates for start date" + startDate + " end date " + endDate);
 				List<LocalDate> recurringDates = this.generateRecurringDates(startDate, endDate);
 				List<FortnightlyMeeting> fortnightlyMeetings = new ArrayList<>();
 				FortnightlyMeeting fortnightMeeting = new FortnightlyMeeting();
 				fortnightMeeting.setMeetingDate(fortnightlyMeetingVO.getMeetingDate());
 				fortnightMeeting.setMeetingDay(fortnightlyMeetingVO.getMeetingDate().getDayOfWeek().name());
-				fortnightMeeting.setFinancialYear(fortnightlyMeetingVO.getFinancialYear());
+				fortnightMeeting.setFinancialYear(findByfinancialYear);
 				fortnightMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
 				fortnightMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
 				fortnightMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
@@ -80,7 +79,7 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 					FortnightlyMeeting fortnightlyMeeting = new FortnightlyMeeting();
 					fortnightlyMeeting.setMeetingDate(tempDate);
 					fortnightlyMeeting.setMeetingDay(tempDate.getDayOfWeek().name());
-					fortnightlyMeeting.setFinancialYear(financialYear);
+					fortnightlyMeeting.setFinancialYear(findByfinancialYear);
 					fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
 					fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
 					fortnightlyMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
@@ -96,24 +95,25 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 	@Override
 	@Transactional
 	public void updateFortnightlyMeetings(FortnightlyMeetingVO fortnightlyMeetingVO) {
-		List<FortnightlyMeeting> findByFinancialYear = fortnightlyMeetingRepository
-				.findByFinancialYear(fortnightlyMeetingVO.getFinancialYear());
+		List<FortnightlyMeeting> findByFinancialYear = financialYearRepository
+				.findById(fortnightlyMeetingVO.getFinancialYear().getFinancialYearId()).get().getFortnightlyMeetings();
 		if (!findByFinancialYear.isEmpty()) {
 			if (!fortnightlyMeetingVO.getMeetingDate()
-					.equals(findByFinancialYear.stream().filter(fortnightlyMeeting -> fortnightlyMeeting.isActive()==true)
+					.equals(findByFinancialYear.stream()
+							.filter(fortnightlyMeeting -> fortnightlyMeeting.isActive() == true)
 							.sorted(Comparator.comparing(FortnightlyMeeting::getMeetingDate))
 							.map(FortnightlyMeeting::getMeetingDate).findFirst().get())) {
 				findByFinancialYear.stream().map(fortnightlyMeeting -> fortnightlyMeeting.getMeetingId())
 						.forEach(id -> this.activateOrDeactivateById(id));
 				this.generateFortnightlyMeetings(fortnightlyMeetingVO);
 			} else {
-				findByFinancialYear.stream().filter(fortnightlyMeeting -> fortnightlyMeeting.isActive()==true)
-				.forEach(fortnightlyMeeting -> {
-					fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
-					fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
-					fortnightlyMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
-					fortnightlyMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
-				});
+				findByFinancialYear.stream().filter(fortnightlyMeeting -> fortnightlyMeeting.isActive() == true)
+						.forEach(fortnightlyMeeting -> {
+							fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
+							fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
+							fortnightlyMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
+							fortnightlyMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
+						});
 				fortnightlyMeetingRepository.saveAll(findByFinancialYear);
 			}
 		}
@@ -122,9 +122,12 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 	@Override
 	public List<FortnightlyMeetingVO> getFortnightlyMeetingsByFinancialYear(String financialYear) {
 		List<FortnightlyMeetingVO> fortnightlyMeetingVOs = new ArrayList<>();
-		fortnightlyMeetingRepository.findByFinancialYear(financialYear).stream().filter(fortnightlyMeeting -> fortnightlyMeeting.isActive()==true)
-				.forEach(fortnightlyMeeting -> fortnightlyMeetingVOs.add(FortnightlyMeetingConverter
-						.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeeting)));
+		Optional<FinancialYear> findByFinancialYearName = financialYearRepository.findByFinancialYearName(financialYear);
+		if(findByFinancialYearName.isPresent()) {
+			findByFinancialYearName.get().getFortnightlyMeetings().stream().filter(fortnightlyMeeting -> fortnightlyMeeting.isActive()==true)
+			.forEach(fortnightlyMeeting -> fortnightlyMeetingVOs.add(FortnightlyMeetingConverter
+					.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeeting)));
+		}
 		return fortnightlyMeetingVOs;
 	}
 

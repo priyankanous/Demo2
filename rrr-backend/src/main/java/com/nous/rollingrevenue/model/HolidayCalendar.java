@@ -7,9 +7,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -31,11 +34,13 @@ public class HolidayCalendar extends Auditable<String> {
 	@Column(name = "holiday_day")
 	private String holidayDay;
 	
-	@Column(name = "financialyear")
-	private String financialYear;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
+	private FinancialYear financialYear;
 
-	@Column(name = "location")
-	private String location;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
+	private Location location;
 
 
 	public HolidayCalendar() {
@@ -43,7 +48,7 @@ public class HolidayCalendar extends Auditable<String> {
 	}
 
 	public HolidayCalendar(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay,
-			String financialYear, String location) {
+			FinancialYear financialYear, Location location) {
 		super();
 		this.holidayId = holidayId;
 		this.holidayName = holidayName;
@@ -85,27 +90,20 @@ public class HolidayCalendar extends Auditable<String> {
 		this.holidayDay = holidayDay;
 	}
 
-	public String getFinancialYear() {
+	public FinancialYear getFinancialYear() {
 		return financialYear;
 	}
 
-	public void setFinancialYear(String financialYear) {
+	public void setFinancialYear(FinancialYear financialYear) {
 		this.financialYear = financialYear;
 	}
 
-	public String getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(Location location) {
 		this.location = location;
-	}
-
-	@Override
-	public String toString() {
-		return "HolidayCalendar [holidayId=" + holidayId + ", holidayName=" + holidayName + ", holidayDate="
-				+ holidayDate + ", holidayDay=" + holidayDay + ", financialYear=" + financialYear + ", location="
-				+ location + "]";
 	}
 
 

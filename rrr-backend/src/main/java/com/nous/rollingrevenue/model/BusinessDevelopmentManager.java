@@ -1,20 +1,21 @@
 package com.nous.rollingrevenue.model;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.nous.rollingrevenue.model.converter.StringSetToStringConverter;
-
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -39,28 +40,35 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 	@Column(name = "active_until")
 	private LocalDate activeUntil;
 
-	@Column(name = "linked_to_bu")
-	@Convert(converter = StringSetToStringConverter.class)
-	private Set<String> linkedToBusinessUnit = new HashSet<>();
+	@ManyToMany
+	@JoinTable(name="business_development_manager_to_business_unit",
+	joinColumns = @JoinColumn(name="bdm_id"),
+	inverseJoinColumns = @JoinColumn(name="bu_id"))
+	private List<BusinessUnit> businessUnits = new ArrayList<>();
 
-	@Column(name = "linked_to_region")
-	@Convert(converter = StringSetToStringConverter.class)
-	private Set<String> linkedToRegion = new HashSet<>();
+	@ManyToMany
+	@JoinTable(name="business_development_manager_to_region",
+	joinColumns = @JoinColumn(name="bdm_id"),
+	inverseJoinColumns = @JoinColumn(name="region_id"))
+	private List<Region> regions = new ArrayList<>();
+
+	@OneToMany(mappedBy = "businessDevelopmentManager")
+	private List<BDMMeeting> bdmMeetings = new ArrayList<>();
 
 	public BusinessDevelopmentManager() {
 
 	}
 
 	public BusinessDevelopmentManager(Long bdmId, String bdmName, String bdmDisplayName, LocalDate activeFrom,
-			LocalDate activeUntil, Set<String> linkedToBusinessUnit, Set<String> linkedToRegion) {
+			LocalDate activeUntil, List<BusinessUnit> businessUnits, List<Region> regions, List<BDMMeeting> bdmMeetings) {
 		super();
 		this.bdmId = bdmId;
 		this.bdmName = bdmName;
 		this.bdmDisplayName = bdmDisplayName;
 		this.activeFrom = activeFrom;
 		this.activeUntil = activeUntil;
-		this.linkedToBusinessUnit = linkedToBusinessUnit;
-		this.linkedToRegion = linkedToRegion;
+		this.businessUnits = businessUnits;
+		this.regions = regions;
 	}
 
 	public Long getBdmId() {
@@ -103,27 +111,29 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 		this.activeUntil = activeUntil;
 	}
 
-	public Set<String> getLinkedToBusinessUnit() {
-		return linkedToBusinessUnit;
+	public List<BusinessUnit> getBusinessUnits() {
+		return businessUnits;
 	}
 
-	public void setLinkedToBusinessUnit(Set<String> linkedToBusinessUnit) {
-		this.linkedToBusinessUnit = linkedToBusinessUnit;
+	public void setBusinessUnits(List<BusinessUnit> businessUnits) {
+		this.businessUnits = businessUnits;
 	}
 
-	public Set<String> getLinkedToRegion() {
-		return linkedToRegion;
+	public List<Region> getRegions() {
+		return regions;
 	}
 
-	public void setLinkedToRegion(Set<String> linkedToRegion) {
-		this.linkedToRegion = linkedToRegion;
+	public void setRegions(List<Region> regions) {
+		this.regions = regions;
 	}
 
-	@Override
-	public String toString() {
-		return "BusinessDevelopmentManager [bdmId=" + bdmId + ", bdmName=" + bdmName + ", bdmDisplayName="
-				+ bdmDisplayName + ", activeFrom=" + activeFrom + ", activeUntil=" + activeUntil
-				+ ", linkedToBusinessUnit=" + linkedToBusinessUnit + ", linkedToRegion=" + linkedToRegion + "]";
+	public List<BDMMeeting> getBdmMeetings() {
+		return bdmMeetings;
 	}
+
+	public void setBdmMeetings(List<BDMMeeting> bdmMeetings) {
+		this.bdmMeetings = bdmMeetings;
+	}
+
 
 }

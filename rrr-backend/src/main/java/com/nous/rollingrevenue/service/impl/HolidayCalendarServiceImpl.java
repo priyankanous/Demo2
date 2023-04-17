@@ -17,8 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.HolidayCalendarConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.HolidayCalendar;
+import com.nous.rollingrevenue.model.Location;
+import com.nous.rollingrevenue.repository.FinancialYearRepository;
 import com.nous.rollingrevenue.repository.HolidayCalendarRepository;
+import com.nous.rollingrevenue.repository.LocationRepository;
 import com.nous.rollingrevenue.service.HolidayCalendarService;
 import com.nous.rollingrevenue.vo.HolidayCalendarVO;
 
@@ -29,11 +33,24 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 	@Autowired
 	HolidayCalendarRepository holidayCalendarRepository;
 
+	@Autowired
+	FinancialYearRepository financialYearRepository;
+
+	@Autowired
+	LocationRepository locationRepository;
+
 	@Override
 	@Transactional
 	public HolidayCalendarVO addCalendar(HolidayCalendarVO holidayCalendarVO) {
 		HolidayCalendar holidayCalendar = HolidayCalendarConverter
 				.convertHolidayCalendarVOToHolidayCalendar(holidayCalendarVO);
+		FinancialYear financialYear = financialYearRepository
+				.findById(holidayCalendarVO.getFinancialYear().getFinancialYearId()).orElseThrow(
+						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+		holidayCalendar.setFinancialYear(financialYear);
+		Location location = locationRepository.findById(holidayCalendarVO.getLocation().getLocationId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Location not exist"));
+		holidayCalendar.setLocation(location);
 		holidayCalendar.setHolidayDay(holidayCalendar.getHolidayDate().getDayOfWeek().name());
 		return HolidayCalendarConverter
 				.convertHolidayCalendarToHolidayCalendarVO(holidayCalendarRepository.save(holidayCalendar));
@@ -46,8 +63,13 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + holidayId));
 		holidayCalendar.setHolidayName(holidayCalendarVO.getHolidayName());
 		holidayCalendar.setHolidayDate(holidayCalendarVO.getHolidayDate());
-		holidayCalendar.setLocation(holidayCalendarVO.getLocation());
-		holidayCalendar.setFinancialYear(holidayCalendarVO.getFinancialYear());
+		FinancialYear financialYear = financialYearRepository
+				.findById(holidayCalendarVO.getFinancialYear().getFinancialYearId()).orElseThrow(
+						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+		holidayCalendar.setFinancialYear(financialYear);
+		Location location = locationRepository.findById(holidayCalendarVO.getLocation().getLocationId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Location not exist"));
+		holidayCalendar.setLocation(location);
 		holidayCalendar.setHolidayDay(holidayCalendarVO.getHolidayDate().getDayOfWeek().name());
 		return HolidayCalendarConverter
 				.convertHolidayCalendarToHolidayCalendarVO(holidayCalendarRepository.save(holidayCalendar));
@@ -109,10 +131,12 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 	@Override
 	public List<HolidayCalendarVO> getHolidayCalendarByFinancialYear(String financialYear) {
 		List<HolidayCalendarVO> holidayCalendarVOs = new ArrayList<>();
-		holidayCalendarRepository.findByFinancialYear(financialYear).stream().forEach(holidayClaendar -> {
-			holidayCalendarVOs.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(holidayClaendar));
-		});
+		Optional<FinancialYear> findFinancialYearById = financialYearRepository.findByFinancialYearName(financialYear);
+		if(findFinancialYearById.isPresent()) {
+			findFinancialYearById.get().getHolidayCalendar().stream().forEach(holidayClaendar -> {
+				holidayCalendarVOs.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(holidayClaendar));
+			});
+		}
 		return holidayCalendarVOs;
-
 	}
 }

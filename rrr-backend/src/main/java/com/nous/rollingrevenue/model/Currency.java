@@ -117,11 +117,5 @@ public class Currency extends Auditable<String> {
 		this.baseCurrency = baseCurrency;
 	}
 
-	@Override
-	public String toString() {
-		return "Currency [currencyId=" + currencyId + ", currency=" + currency + ", currencyName=" + currencyName
-				+ ", symbol=" + symbol + ", conversionRate=" + conversionRate + ", financialYear=" + financialYear
-				+ ", baseCurrency=" + baseCurrency + "]";
-	}
 
 }

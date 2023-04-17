@@ -21,7 +21,7 @@ public class CocPracticeVO implements Serializable {
 	@NotBlank(message = "COCDisplayName cannot be null or empty")
 	private String cocPracticeDisplayName;
 
-	private BusinessUnitVO businessUnitVO;
+	private BusinessUnitVO businessUnit;
 
 	private boolean isActive;
 
@@ -30,12 +30,12 @@ public class CocPracticeVO implements Serializable {
 	}
 
 	public CocPracticeVO(Long cocPracticeId, String cocPracticeName, String cocPracticeDisplayName,
-			BusinessUnitVO businessUnitVO, boolean isActive) {
+			BusinessUnitVO businessUnit, boolean isActive) {
 		super();
 		this.cocPracticeId = cocPracticeId;
 		this.cocPracticeName = cocPracticeName;
 		this.cocPracticeDisplayName = cocPracticeDisplayName;
-		this.businessUnitVO = businessUnitVO;
+		this.businessUnit = businessUnit;
 		this.isActive = isActive;
 	}
 
@@ -63,12 +63,12 @@ public class CocPracticeVO implements Serializable {
 		this.cocPracticeDisplayName = cocPracticeDisplayName;
 	}
 
-	public BusinessUnitVO getBusinessUnitVO() {
-		return businessUnitVO;
+	public BusinessUnitVO getBusinessUnit() {
+		return businessUnit;
 	}
 
-	public void setBusinessUnitVO(BusinessUnitVO businessUnitVO) {
-		this.businessUnitVO = businessUnitVO;
+	public void setBusinessUnit(BusinessUnitVO businessUnit) {
+		this.businessUnit = businessUnit;
 	}
 
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
@@ -78,13 +78,6 @@ public class CocPracticeVO implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	@Override
-	public String toString() {
-		return "CocPracticeVO [cocPracticeId=" + cocPracticeId + ", cocPracticeName=" + cocPracticeName
-				+ ", cocPracticeDisplayName=" + cocPracticeDisplayName + ", businessUnitVO=" + businessUnitVO
-				+ ", isActive=" + isActive + "]";
 	}
 
 

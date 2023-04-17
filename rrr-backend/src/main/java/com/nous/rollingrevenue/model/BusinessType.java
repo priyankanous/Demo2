@@ -62,10 +62,5 @@ public class BusinessType extends Auditable<String> {
 		this.businessTypeDisplayName = businessTypeDisplayName;
 	}
 
-	@Override
-	public String toString() {
-		return "BusinessType [businessTypeId=" + businessTypeId + ", businessTypeName=" + businessTypeName
-				+ ", businessTypeDisplayName=" + businessTypeDisplayName + "]";
-	}
 
 }

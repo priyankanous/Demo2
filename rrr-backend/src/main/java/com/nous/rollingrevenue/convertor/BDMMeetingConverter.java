@@ -19,12 +19,12 @@ public class BDMMeetingConverter {
 		BDMMeeting bdmMeeting = new BDMMeeting();
 		if (bdmMeetingVO != null) {
 			bdmMeeting.setBdmMeetingId(bdmMeetingVO.getBdmMeetingId());
-			bdmMeeting.setBdmName(bdmMeetingVO.getBdmName());
-			bdmMeeting.setRegion(bdmMeetingVO.getRegion());
+			bdmMeeting.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter.convertBdmVOToBdm(bdmMeetingVO.getBusinessDevelopmentManager()));
+			bdmMeeting.setRegion(RegionConverter.convertRegionVOToRegion(bdmMeetingVO.getRegion()));
 			bdmMeeting.setMeetingName(bdmMeetingVO.getMeetingName());
 			bdmMeeting.setMeetingDate(bdmMeetingVO.getMeetingDate());
 			bdmMeeting.setMeetingTime(bdmMeetingVO.getMeetingTime());
-			bdmMeeting.setFinancialYear(bdmMeetingVO.getFinancialYear());
+			bdmMeeting.setFinancialYear(FinancialYearConverter.convertFinancialYearVOToFinancialYear(bdmMeetingVO.getFinancialYear()));
 		}
 		return bdmMeeting;
 	}
@@ -40,12 +40,12 @@ public class BDMMeetingConverter {
 		BDMMeetingVO bdmMeetingVO = new BDMMeetingVO();
 		if (bdmMeeting != null) {
 			bdmMeetingVO.setBdmMeetingId(bdmMeeting.getBdmMeetingId());
-			bdmMeetingVO.setBdmName(bdmMeeting.getBdmName());
-			bdmMeetingVO.setRegion(bdmMeeting.getRegion());
+			bdmMeetingVO.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter.convertBdmToBdmVO(bdmMeeting.getBusinessDevelopmentManager()));
+			bdmMeetingVO.setRegion(RegionConverter.convertRegionToRegionVO(bdmMeeting.getRegion()));
 			bdmMeetingVO.setMeetingName(bdmMeeting.getMeetingName());
 			bdmMeetingVO.setMeetingDate(bdmMeeting.getMeetingDate());
 			bdmMeetingVO.setMeetingTime(bdmMeeting.getMeetingTime());
-			bdmMeetingVO.setFinancialYear(bdmMeeting.getFinancialYear());
+			bdmMeetingVO.setFinancialYear(FinancialYearConverter.convertFinancialYearToFinancialYearVO(bdmMeeting.getFinancialYear()));
 			bdmMeetingVO.setActive(bdmMeeting.isActive());
 		}
 		return bdmMeetingVO;

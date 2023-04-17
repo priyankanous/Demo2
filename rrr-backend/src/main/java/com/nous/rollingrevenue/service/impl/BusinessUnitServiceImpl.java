@@ -37,7 +37,7 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 	@Transactional
 	public BusinessUnitVO addBusinessUnit(BusinessUnitVO businessUnitVO) {
 		BusinessUnit businessUnit = BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(businessUnitVO);
-		Organization organization =  organizationRepository.findById(businessUnitVO.getOrganizationVO().getId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Organization not exist"));
+		Organization organization =  organizationRepository.findById(businessUnitVO.getOrganization().getId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Organization not exist"));
 		businessUnit.setOrganization(organization);
 		return BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnitRepository.save(businessUnit));
 	}
@@ -80,7 +80,7 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		businessUnit.setBusinessUnitName(businessUnitVO.getBusinessUnitName());
 		businessUnit.setBusinessUnitDisplayName(businessUnitVO.getBusinessUnitDisplayName());
-		Organization organization =  organizationRepository.findById(businessUnitVO.getOrganizationVO().getId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Organization not exist"));
+		Organization organization =  organizationRepository.findById(businessUnitVO.getOrganization().getId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Organization not exist"));
 		businessUnit.setOrganization(organization);
 		return BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnitRepository.save(businessUnit));
 	}

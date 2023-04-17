@@ -8,9 +8,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,11 +26,13 @@ public class BDMMeeting extends Auditable<String> {
 	@Column(name = "bdm_meeting_id")
 	private Long bdmMeetingId;
 	
-	@Column(name = "bdm_name")
-	private String bdmName;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "bdm_id", referencedColumnName = "bdm_id")
+	private BusinessDevelopmentManager businessDevelopmentManager;
 	
-	@Column(name = "region")
-	private String region;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
+	private Region region;
 	
 	@Column(name = "meeting_name")
 	private String meetingName;
@@ -38,19 +43,20 @@ public class BDMMeeting extends Auditable<String> {
 	@Column(name = "meeting_time")
 	private LocalTime meetingTime;
 	
-	@Column(name = "financial_year")
-	private String financialYear;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
+	private FinancialYear financialYear;
 	
 
 	public BDMMeeting() {
 
 	}
 
-	public BDMMeeting(Long bdmMeetingId, String bdmName, String region, String meetingName, LocalDate meetingDate,
-			LocalTime meetingTime, String financialYear) {
+	public BDMMeeting(Long bdmMeetingId, BusinessDevelopmentManager businessDevelopmentManager, Region region, String meetingName, LocalDate meetingDate,
+			LocalTime meetingTime, FinancialYear financialYear) {
 		super();
 		this.bdmMeetingId = bdmMeetingId;
-		this.bdmName = bdmName;
+		this.businessDevelopmentManager = businessDevelopmentManager;
 		this.region = region;
 		this.meetingName = meetingName;
 		this.meetingDate = meetingDate;
@@ -58,13 +64,6 @@ public class BDMMeeting extends Auditable<String> {
 		this.financialYear = financialYear;
 	}
 
-	public String getFinancialYear() {
-		return financialYear;
-	}
-
-	public void setFinancialYear(String financialYear) {
-		this.financialYear = financialYear;
-	}
 
 	public Long getBdmMeetingId() {
 		return bdmMeetingId;
@@ -74,20 +73,28 @@ public class BDMMeeting extends Auditable<String> {
 		this.bdmMeetingId = bdmMeetingId;
 	}
 
-	public String getBdmName() {
-		return bdmName;
+	public BusinessDevelopmentManager getBusinessDevelopmentManager() {
+		return businessDevelopmentManager;
 	}
 
-	public void setBdmName(String bdmName) {
-		this.bdmName = bdmName;
+	public void setBusinessDevelopmentManager(BusinessDevelopmentManager businessDevelopmentManager) {
+		this.businessDevelopmentManager = businessDevelopmentManager;
 	}
 
-	public String getRegion() {
+	public Region getRegion() {
 		return region;
 	}
 
-	public void setRegion(String region) {
+	public void setRegion(Region region) {
 		this.region = region;
+	}
+
+	public FinancialYear getFinancialYear() {
+		return financialYear;
+	}
+
+	public void setFinancialYear(FinancialYear financialYear) {
+		this.financialYear = financialYear;
 	}
 
 	public String getMeetingName() {
@@ -112,13 +119,6 @@ public class BDMMeeting extends Auditable<String> {
 
 	public void setMeetingTime(LocalTime meetingTime) {
 		this.meetingTime = meetingTime;
-	}
-
-	@Override
-	public String toString() {
-		return "BDMMeeting [bdmMeetingId=" + bdmMeetingId + ", bdmName=" + bdmName + ", region=" + region
-				+ ", meetingName=" + meetingName + ", meetingDate=" + meetingDate + ", meetingTime=" + meetingTime
-				+ ", financialYear=" + financialYear + "]";
 	}
 
 

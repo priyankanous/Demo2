@@ -13,7 +13,6 @@ public class PricingTypeVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long pricingTypeId;
 
 	@NotBlank(message = "PricingTypeName cannot be null or empty")
@@ -69,11 +68,5 @@ public class PricingTypeVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "PricingTypeVO [pricingTypeId=" + pricingTypeId + ", pricingTypeName=" + pricingTypeName
-				+ ", pricingTypeDisplayName=" + pricingTypeDisplayName + ", isActive=" + isActive + "]";
-	}
-	
 
 }

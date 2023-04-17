@@ -1,5 +1,8 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -8,6 +11,8 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,16 +31,24 @@ public class Region extends Auditable<String> {
 	@Column(name = "region_display_name")
 	private String regionDisplayName;
 
+	@ManyToMany(mappedBy = "regions")
+	private List<BusinessDevelopmentManager> businessDevlopmentManagers = new ArrayList<>();
+
+	@OneToMany(mappedBy = "region")
+	private List<BDMMeeting> bdmMeetings = new ArrayList<>();
+
 
 	public Region() {
 
 	}
 
-	public Region(Long regionId, String regionName, String regionDisplayName) {
+	public Region(Long regionId, String regionName, String regionDisplayName, List<BusinessDevelopmentManager> businessDevlopmentManagers, List<BDMMeeting> bdmMeetings) {
 		super();
 		this.regionId = regionId;
 		this.regionName = regionName;
 		this.regionDisplayName = regionDisplayName;
+		this.businessDevlopmentManagers = businessDevlopmentManagers;
+		this.bdmMeetings = bdmMeetings;
 	}
 
 	public Long getRegionId() {
@@ -62,10 +75,21 @@ public class Region extends Auditable<String> {
 		this.regionDisplayName = regionDisplayName;
 	}
 
-	@Override
-	public String toString() {
-		return "Region [regionId=" + regionId + ", regionName=" + regionName + ", regionDisplayName="
-				+ regionDisplayName + "]";
+	public List<BusinessDevelopmentManager> getBusinessDevlopmentManagers() {
+		return businessDevlopmentManagers;
 	}
+
+	public void setBusinessDevlopmentManagers(List<BusinessDevelopmentManager> businessDevlopmentManagers) {
+		this.businessDevlopmentManagers = businessDevlopmentManagers;
+	}
+
+	public List<BDMMeeting> getBdmMeetings() {
+		return bdmMeetings;
+	}
+
+	public void setBdmMeetings(List<BDMMeeting> bdmMeetings) {
+		this.bdmMeetings = bdmMeetings;
+	}
+
 
 }

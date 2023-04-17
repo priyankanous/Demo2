@@ -15,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.AccountConverter;
+import com.nous.rollingrevenue.convertor.LocationConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Account;
+import com.nous.rollingrevenue.model.Location;
 import com.nous.rollingrevenue.repository.AccountRepository;
 import com.nous.rollingrevenue.service.AccountService;
 import com.nous.rollingrevenue.vo.AccountVO;
@@ -65,7 +67,9 @@ public class AccountServiceImpl implements AccountService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
 		account.setAccountName(accountVO.getAccountName());
 		account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
-		account.setLocation(accountVO.getLocation());
+		List<Location> locations = new ArrayList<>();
+		accountVO.getLocations().stream().forEach(locationVO -> locations.add(LocationConverter.convertLocationVOToLocation(locationVO)));
+		account.setLocations(locations);
 		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
 	}
 
@@ -91,5 +95,6 @@ public class AccountServiceImpl implements AccountService {
 		account.setActive(!account.isActive());
 		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
 	}
+
 
 }

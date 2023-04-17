@@ -13,7 +13,6 @@ public class BusinessTypeVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long businessTypeId;
 
 	@NotBlank(message = "BusinessTypeName cannot be null or empty")
@@ -70,11 +69,5 @@ public class BusinessTypeVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	@Override
-	public String toString() {
-		return "BusinessTypeVO [businessTypeId=" + businessTypeId + ", businessTypeName=" + businessTypeName
-				+ ", businessTypeDisplayName=" + businessTypeDisplayName + ", isActive=" + isActive + "]";
-	}
-	
 
 }

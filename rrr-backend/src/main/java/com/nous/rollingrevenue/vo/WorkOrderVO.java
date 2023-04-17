@@ -2,8 +2,8 @@ package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
@@ -15,7 +15,6 @@ public class WorkOrderVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long workOrderId;
 
 	private String workOrderNumber;
@@ -25,7 +24,7 @@ public class WorkOrderVO implements Serializable {
 
 	@NotBlank(message = "Status cannot be null or empty")
 	private String workOrderStatus;
-	
+
 	@Column(name = "account_name")
 	private String accountName;
 
@@ -34,12 +33,9 @@ public class WorkOrderVO implements Serializable {
 	public WorkOrderVO() {
 
 	}
-	
-	
 
-	public WorkOrderVO(Long workOrderId, String workOrderNumber, LocalDate workOrderEndDate,
-			@NotBlank(message = "Status cannot be null or empty") String workOrderStatus, String accountName,
-			boolean isActive) {
+	public WorkOrderVO(Long workOrderId, String workOrderNumber, LocalDate workOrderEndDate, String workOrderStatus,
+			String accountName, boolean isActive) {
 		super();
 		this.workOrderId = workOrderId;
 		this.workOrderNumber = workOrderNumber;
@@ -48,8 +44,6 @@ public class WorkOrderVO implements Serializable {
 		this.accountName = accountName;
 		this.isActive = isActive;
 	}
-
-
 
 	public Long getWorkOrderId() {
 		return workOrderId;
@@ -100,12 +94,4 @@ public class WorkOrderVO implements Serializable {
 	}
 
 
-	@Override
-	public String toString() {
-		return "WorkOrderVO [workOrderId=" + workOrderId + ", workOrderNumber=" + workOrderNumber
-				+ ", workOrderEndDate=" + workOrderEndDate + ", workOrderStatus=" + workOrderStatus + ", accountName="
-				+ accountName + ", isActive=" + isActive + "]";
-	}
-
-	
 }

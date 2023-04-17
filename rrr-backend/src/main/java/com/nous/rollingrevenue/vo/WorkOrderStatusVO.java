@@ -13,7 +13,6 @@ public class WorkOrderStatusVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long woStatusId;
 
 	@NotBlank(message = "WOStatusName cannot be null or empty")
@@ -67,12 +66,6 @@ public class WorkOrderStatusVO implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	@Override
-	public String toString() {
-		return "WorkOrderStatusVO [woStatusId=" + woStatusId + ", woStatusName=" + woStatusName
-				+ ", woStatusDisplayName=" + woStatusDisplayName + ", isActive=" + isActive + "]";
 	}
 	
 

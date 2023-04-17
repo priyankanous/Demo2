@@ -62,10 +62,4 @@ public class ProbabilityType extends Auditable<String> {
 	}
 
 
-	@Override
-	public String toString() {
-		return "ProbabilityType [probabilityTypeId=" + probabilityTypeId + ", probabilityTypeName="
-				+ probabilityTypeName + ", percentage=" + percentage + "]";
-	}
-
 }

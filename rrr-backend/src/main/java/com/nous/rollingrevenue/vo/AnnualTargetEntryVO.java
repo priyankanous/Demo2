@@ -14,7 +14,6 @@ public class AnnualTargetEntryVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long annualTargetEntryId;
 
 	@NotBlank(message = "FinancialYear cannot be null or empty")
@@ -312,18 +311,6 @@ public class AnnualTargetEntryVO implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	@Override
-	public String toString() {
-		return "AnnualTargetEntryVO [annualTargetEntryId=" + annualTargetEntryId + ", financialYear=" + financialYear
-				+ ", businessUnit=" + businessUnit + ", startegicBusinessUnit=" + startegicBusinessUnit
-				+ ", strategicBusinessUnitHead=" + strategicBusinessUnitHead + ", location=" + location + ", region="
-				+ region + ", account=" + account + ", businessType=" + businessType + ", cocPractice=" + cocPractice
-				+ ", businessDevelopmentManager=" + businessDevelopmentManager + ", Q1FYB=" + Q1FYB + ", Q1FYS=" + Q1FYS
-				+ ", Q1FYT=" + Q1FYT + ", Q2FYB=" + Q2FYB + ", Q2FYS=" + Q2FYS + ", Q2FYT=" + Q2FYT + ", Q3FYB=" + Q3FYB
-				+ ", Q3FYS=" + Q3FYS + ", Q3FYT=" + Q3FYT + ", Q4FYB=" + Q4FYB + ", Q4FYS=" + Q4FYS + ", Q4FYT=" + Q4FYT
-				+ ", FY=" + FY + ", isActive=" + isActive + "]";
 	}
 	
 

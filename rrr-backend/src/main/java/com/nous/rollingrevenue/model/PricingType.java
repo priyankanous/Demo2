@@ -63,10 +63,4 @@ public class PricingType extends Auditable<String> {
 	}
 
 
-	@Override
-	public String toString() {
-		return "PricingType [pricingTypeId=" + pricingTypeId + ", pricingTypeName=" + pricingTypeName
-				+ ", pricingTypeDisplayName=" + pricingTypeDisplayName + "]";
-	}
-
 }

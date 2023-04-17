@@ -23,7 +23,7 @@ public class CurrencyConverter {
 			currency.setCurrencyName(currencyVO.getCurrencyName());
 			currency.setSymbol(currencyVO.getSymbol());
 			currency.setConversionRate(currencyVO.getConversionRate());
-			currency.setFinancialYear(FinancialYearConverter.convertFinancialYearVOToFinancialYear(currencyVO.getFinancialYearVO()));
+			currency.setFinancialYear(FinancialYearConverter.convertFinancialYearVOToFinancialYear(currencyVO.getFinancialYear()));
 			currency.setBaseCurrency(currencyVO.getBaseCurrency());
 		}
 		return currency;
@@ -44,7 +44,7 @@ public class CurrencyConverter {
 			currencyVO.setCurrencyName(currency.getCurrencyName());
 			currencyVO.setSymbol(currency.getSymbol());
 			currencyVO.setConversionRate(currency.getConversionRate());
-			currencyVO.setFinancialYearVO(FinancialYearConverter.convertFinancialYearToFinancialYearVO(currency.getFinancialYear()));
+			currencyVO.setFinancialYear(FinancialYearConverter.convertFinancialYearToFinancialYearVO(currency.getFinancialYear()));
 			currencyVO.setBaseCurrency(currency.getBaseCurrency());
 			currencyVO.setActive(currency.isActive());
 		}

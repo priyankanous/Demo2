@@ -92,10 +92,4 @@ public class GlobalMonthlyLeaveLossFactor extends Auditable<String> {
 	}
 
 
-	@Override
-	public String toString() {
-		return "GlobalMonthlyLeaveLossFactor [leaveLossFactorId=" + leaveLossFactorId + ", month=" + month
-				+ ", offShore=" + offShore + ", onSite=" + onSite + ", financialYear=" + financialYear + "]";
-	}
-
 }

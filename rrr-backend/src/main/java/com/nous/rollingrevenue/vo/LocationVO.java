@@ -13,7 +13,6 @@ public class LocationVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	private Long locationId;
 
 	@NotEmpty(message = "LocationName must not be empty")
@@ -67,12 +66,6 @@ public class LocationVO implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	@Override
-	public String toString() {
-		return "LocationVO [locationId=" + locationId + ", locationName=" + locationName + ", locationDisplayName="
-				+ locationDisplayName + ", isActive=" + isActive + "]";
 	}
 
 
