@@ -39,7 +39,7 @@ public class RollingRevenueVO implements Serializable {
 	private AccountVO account;
 
 	@NotBlank(message = "Opportunity Name cannot be null or empty")
-	private OpportunityVO opportunityName;
+	private OpportunityVO opportunity;
 
 	@NotBlank(message = "Business Type cannot be null or empty")
 	private BusinessTypeVO businessType;
@@ -151,12 +151,12 @@ public class RollingRevenueVO implements Serializable {
 		this.account = account;
 	}
 
-	public OpportunityVO getOpportunityName() {
-		return opportunityName;
+	public OpportunityVO getOpportunity() {
+		return opportunity;
 	}
 
-	public void setOpportunityName(OpportunityVO opportunityName) {
-		this.opportunityName = opportunityName;
+	public void setOpportunity(OpportunityVO opportunity) {
+		this.opportunity = opportunity;
 	}
 
 	public BusinessTypeVO getBusinessType() {
