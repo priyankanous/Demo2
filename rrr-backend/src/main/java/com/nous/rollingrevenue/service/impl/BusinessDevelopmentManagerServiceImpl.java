@@ -34,14 +34,14 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 
 	@Override
 	@Transactional
-	public BDMVO addBDMDetails(BDMVO bdmVO) {
+	public void addBDMDetails(BDMVO bdmVO) {
 		BusinessDevelopmentManager bdm = BusinessDevelopmentManagerConverter.convertBdmVOToBdm(bdmVO);
-		return BusinessDevelopmentManagerConverter.convertBdmToBdmVO(businessDevelopmentManagerRepository.save(bdm));
+		businessDevelopmentManagerRepository.save(bdm);
 	}
 
 	@Override
 	@Transactional
-	public BDMVO updateBDMDetails(Long bdmId, BDMVO bdmVO) {
+	public void updateBDMDetails(Long bdmId, BDMVO bdmVO) {
 		BusinessDevelopmentManager bdm = businessDevelopmentManagerRepository.findById(bdmId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmId));
 		bdm.setBdmName(bdmVO.getBdmName());
@@ -55,7 +55,7 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 		List<Region> regions = new ArrayList<>();
 		bdmVO.getRegions().stream().forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
 		bdm.setRegions(regions);
-		return BusinessDevelopmentManagerConverter.convertBdmToBdmVO(businessDevelopmentManagerRepository.save(bdm));
+		businessDevelopmentManagerRepository.save(bdm);
 	}
 
 	@Override
@@ -102,11 +102,11 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 
 	@Override
 	@Transactional
-	public BDMVO activateOrDeactivateById(Long bdmId) {
+	public void activateOrDeactivateById(Long bdmId) {
 		BusinessDevelopmentManager bdm = businessDevelopmentManagerRepository.findById(bdmId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmId));
 		bdm.setActive(!bdm.isActive());
-		return BusinessDevelopmentManagerConverter.convertBdmToBdmVO(businessDevelopmentManagerRepository.save(bdm));
+		businessDevelopmentManagerRepository.save(bdm);
 	}
 
 }

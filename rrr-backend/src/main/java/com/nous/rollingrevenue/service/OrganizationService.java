@@ -5,20 +5,16 @@ import java.util.List;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.vo.OrganizationVO;
 
-/**
- * 
- * @author Nous Infosystems
- *
- */
+
 public interface OrganizationService {
 
 	/**
 	 * Add an organization to the database
 	 * 
 	 * @param organizationVO The organization information to add
-	 * @return The newly added organization details
+	 * 
 	 */
-	public OrganizationVO addOrganization(OrganizationVO organizationVO);
+	public void addOrganization(OrganizationVO organizationVO);
 
 	/**
 	 * Get the organization details
@@ -46,9 +42,9 @@ public interface OrganizationService {
 	 * Update an Organization to the database by given Id
 	 * 
 	 * @param organizationId, OrganizationVO
-	 * @return The newly updated Organization details
+	 * 
 	 */
-	public OrganizationVO updateOrganization(Long id, OrganizationVO organizationVO);
+	public void updateOrganization(Long id, OrganizationVO organizationVO);
 
 	public List<OrganizationVO> getPagination(int pagenumber, int pagesize, String sortBy);
 	
@@ -56,6 +52,6 @@ public interface OrganizationService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public OrganizationVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

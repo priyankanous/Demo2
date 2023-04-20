@@ -45,10 +45,10 @@ public class AnnualTargetEntryController {
 
 	@Operation(summary = "Save AnnualTargetEntry")
 	@PostMapping
-	public WSResponse<AnnualTargetEntryVO> saveAnnualTargetEntry(
+	public WSResponse<String> saveAnnualTargetEntry(
 			@RequestBody @Valid AnnualTargetEntryVO annualTargetEntryVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				annualTargetEntryService.saveAnnualTargetEntry(annualTargetEntryVO));
+		annualTargetEntryService.saveAnnualTargetEntry(annualTargetEntryVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get AnnualTargetEntry by Id")
@@ -60,10 +60,10 @@ public class AnnualTargetEntryController {
 
 	@Operation(summary = "Update AnnualTargetEntry by Id")
 	@PutMapping(path = "{annualTargetEntryId}")
-	public WSResponse<AnnualTargetEntryVO> updateAnnualTargetEntry(@PathVariable Long annualTargetEntryId,
+	public WSResponse<String> updateAnnualTargetEntry(@PathVariable Long annualTargetEntryId,
 			@RequestBody @Valid AnnualTargetEntryVO annualTargetEntryVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				annualTargetEntryService.updateAnnualTargetEntry(annualTargetEntryId, annualTargetEntryVO));
+		annualTargetEntryService.updateAnnualTargetEntry(annualTargetEntryId, annualTargetEntryVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete AnnualTargetEntry by Id")
@@ -98,9 +98,9 @@ public class AnnualTargetEntryController {
 
 	@Operation(summary = "Activate or Deactivate AnnualTargetEntry by Id")
 	@PutMapping(path = "/activate-or-deactivate/{annualTargetEntryId}")
-	public WSResponse<AnnualTargetEntryVO> activateOrDeactivateAnnualTargetEntryById(
+	public WSResponse<String> activateOrDeactivateAnnualTargetEntryById(
 			@PathVariable Long annualTargetEntryId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				annualTargetEntryService.activateOrDeactivateById(annualTargetEntryId));
+		annualTargetEntryService.activateOrDeactivateById(annualTargetEntryId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 }

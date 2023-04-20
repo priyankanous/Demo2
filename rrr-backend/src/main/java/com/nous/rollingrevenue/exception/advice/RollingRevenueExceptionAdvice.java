@@ -20,12 +20,6 @@ import com.nous.rollingrevenue.exception.ExcelParserException;
 import com.nous.rollingrevenue.exception.InvalidFileTypeException;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 
-/**
- * Custom Exception handler advice
- * 
- * @author Nous Infosystems
- *
- */
 
 @RestControllerAdvice
 public class RollingRevenueExceptionAdvice {

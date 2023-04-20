@@ -40,8 +40,9 @@ public class CurrencyController {
 
 	@Operation(summary = "Save Currency")
 	@PostMapping
-	public WSResponse<CurrencyVO> saveCurrency(@RequestBody @Valid CurrencyVO currencyVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, currencyService.saveCurrency(currencyVO));
+	public WSResponse<String> saveCurrency(@RequestBody @Valid CurrencyVO currencyVO) {
+		currencyService.saveCurrency(currencyVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get Currency by Id")
@@ -53,10 +54,10 @@ public class CurrencyController {
 
 	@Operation(summary = "Update Currency by Id")
 	@PutMapping(path = "{currencyId}")
-	public WSResponse<CurrencyVO> updateCurrency(@PathVariable Long currencyId,
+	public WSResponse<String> updateCurrency(@PathVariable Long currencyId,
 			@RequestBody @Valid CurrencyVO currencyVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				currencyService.updateCurrency(currencyId, currencyVO));
+		currencyService.updateCurrency(currencyId, currencyVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete Currency by Id")
@@ -77,9 +78,9 @@ public class CurrencyController {
 
 	@Operation(summary = "Activate or Deactivate Currency by Id")
 	@PutMapping(path = "/activate-or-deactivate/{currencyId}")
-	public WSResponse<CurrencyVO> activateOrDeactivateCurrencyById(@PathVariable Long currencyId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				currencyService.activateOrDeactivateById(currencyId));
+	public WSResponse<String> activateOrDeactivateCurrencyById(@PathVariable Long currencyId) {
+		currencyService.activateOrDeactivateById(currencyId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 	
 	@Operation(summary = "Get Currency By FinancialYear")

@@ -133,12 +133,11 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 
 	@Override
 	@Transactional
-	public FortnightlyMeetingVO activateOrDeactivateById(Long id) {
+	public void activateOrDeactivateById(Long id) {
 		FortnightlyMeeting fortnightlyMeeting = fortnightlyMeetingRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		fortnightlyMeeting.setActive(!fortnightlyMeeting.isActive());
-		return FortnightlyMeetingConverter
-				.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeetingRepository.save(fortnightlyMeeting));
+		fortnightlyMeetingRepository.save(fortnightlyMeeting);
 	}
 
 	// Generate Recurring dates of Alternate Friday based on FinancialYear Start and

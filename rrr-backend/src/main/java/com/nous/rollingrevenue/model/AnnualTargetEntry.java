@@ -7,9 +7,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -22,35 +25,45 @@ public class AnnualTargetEntry extends Auditable<String> {
 	@Column(name = "annual_target_entry_id")
 	private Long annualTargetEntryId;
 
-	@Column(name = "financial_year")
-	private String financialYear;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
+	private FinancialYear financialYear;
 
-	@Column(name = "bu")
-	private String businessUnit;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
+	private BusinessUnit businessUnit;
 
-	@Column(name = "sbu")
-	private String startegicBusinessUnit;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "sbu_id", referencedColumnName = "sbu_id")
+	private StrategicBusinessUnit startegicBusinessUnit;
 
-	@Column(name = "sbu_head")
-	private String strategicBusinessUnitHead;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "sbu_head_id", referencedColumnName = "sbu_head_id")
+	private StrategicBusinessUnitHead strategicBusinessUnitHead;
 
-	@Column(name = "location")
-	private String location;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
+	private Location location;
 
-	@Column(name = "region")
-	private String region;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
+	private Region region;
 
-	@Column(name = "account")
-	private String account;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
+	private Account account;
 
-	@Column(name = "business_type")
-	private String businessType;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "business_type_id", referencedColumnName = "business_type_id")
+	private BusinessType businessType;
 
-	@Column(name = "coc_practice")
-	private String cocPractice;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "coc_practice_id", referencedColumnName = "coc_practice_id")
+	private CocPractice cocPractice;
 
-	@Column(name = "bdm")
-	private String businessDevelopmentManager;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "bdm_id", referencedColumnName = "bdm_id")
+	private BusinessDevelopmentManager businessDevelopmentManager;
 
 	@Column(name = "q1fy_s")
 	private BigInteger Q1FYS;
@@ -96,9 +109,9 @@ public class AnnualTargetEntry extends Auditable<String> {
 
 	}
 
-	public AnnualTargetEntry(Long annualTargetEntryId, String financialYear, String businessUnit,
-			String startegicBusinessUnit, String strategicBusinessUnitHead, String location, String region,
-			String account, String businessType, String cocPractice, String businessDevelopmentManager,
+	public AnnualTargetEntry(Long annualTargetEntryId, FinancialYear financialYear, BusinessUnit businessUnit,
+			StrategicBusinessUnit startegicBusinessUnit, StrategicBusinessUnitHead strategicBusinessUnitHead, Location location, Region region,
+			Account account, BusinessType businessType, CocPractice cocPractice, BusinessDevelopmentManager businessDevelopmentManager,
 			BigInteger q1fys, BigInteger q1fyb, BigInteger q1fyt, BigInteger q2fys, BigInteger q2fyb, BigInteger q2fyt,
 			BigInteger q3fys, BigInteger q3fyb, BigInteger q3fyt, BigInteger q4fys, BigInteger q4fyb, BigInteger q4fyt,
 			BigInteger fY) {
@@ -137,83 +150,83 @@ public class AnnualTargetEntry extends Auditable<String> {
 		this.annualTargetEntryId = annualTargetEntryId;
 	}
 
-	public String getFinancialYear() {
+	public FinancialYear getFinancialYear() {
 		return financialYear;
 	}
 
-	public void setFinancialYear(String financialYear) {
+	public void setFinancialYear(FinancialYear financialYear) {
 		this.financialYear = financialYear;
 	}
 
-	public String getBusinessUnit() {
+	public BusinessUnit getBusinessUnit() {
 		return businessUnit;
 	}
 
-	public void setBusinessUnit(String businessUnit) {
+	public void setBusinessUnit(BusinessUnit businessUnit) {
 		this.businessUnit = businessUnit;
 	}
 
-	public String getStartegicBusinessUnit() {
+	public StrategicBusinessUnit getStartegicBusinessUnit() {
 		return startegicBusinessUnit;
 	}
 
-	public void setStartegicBusinessUnit(String startegicBusinessUnit) {
+	public void setStartegicBusinessUnit(StrategicBusinessUnit startegicBusinessUnit) {
 		this.startegicBusinessUnit = startegicBusinessUnit;
 	}
 
-	public String getStrategicBusinessUnitHead() {
+	public StrategicBusinessUnitHead getStrategicBusinessUnitHead() {
 		return strategicBusinessUnitHead;
 	}
 
-	public void setStrategicBusinessUnitHead(String strategicBusinessUnitHead) {
+	public void setStrategicBusinessUnitHead(StrategicBusinessUnitHead strategicBusinessUnitHead) {
 		this.strategicBusinessUnitHead = strategicBusinessUnitHead;
 	}
 
-	public String getLocation() {
+	public Location getLocation() {
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(Location location) {
 		this.location = location;
 	}
 
-	public String getRegion() {
+	public Region getRegion() {
 		return region;
 	}
 
-	public void setRegion(String region) {
+	public void setRegion(Region region) {
 		this.region = region;
 	}
 
-	public String getAccount() {
+	public Account getAccount() {
 		return account;
 	}
 
-	public void setAccount(String account) {
+	public void setAccount(Account account) {
 		this.account = account;
 	}
 
-	public String getBusinessType() {
+	public BusinessType getBusinessType() {
 		return businessType;
 	}
 
-	public void setBusinessType(String businessType) {
+	public void setBusinessType(BusinessType businessType) {
 		this.businessType = businessType;
 	}
 
-	public String getCocPractice() {
+	public CocPractice getCocPractice() {
 		return cocPractice;
 	}
 
-	public void setCocPractice(String cocPractice) {
+	public void setCocPractice(CocPractice cocPractice) {
 		this.cocPractice = cocPractice;
 	}
 
-	public String getBusinessDevelopmentManager() {
+	public BusinessDevelopmentManager getBusinessDevelopmentManager() {
 		return businessDevelopmentManager;
 	}
 
-	public void setBusinessDevelopmentManager(String businessDevelopmentManager) {
+	public void setBusinessDevelopmentManager(BusinessDevelopmentManager businessDevelopmentManager) {
 		this.businessDevelopmentManager = businessDevelopmentManager;
 	}
 

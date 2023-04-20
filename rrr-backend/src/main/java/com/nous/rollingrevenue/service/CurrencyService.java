@@ -20,10 +20,10 @@ public interface CurrencyService {
 	 * Add an Currency to the database
 	 * 
 	 * @param CurrencyVO
-	 * @return The newly added Currency details
+	 * 
 	 */
 	
-	public CurrencyVO saveCurrency(CurrencyVO currencyVO);
+	public void saveCurrency(CurrencyVO currencyVO);
 	
 
 	/**
@@ -51,10 +51,10 @@ public interface CurrencyService {
 	 * Update an Currency to the database by given Id
 	 * 
 	 * @param currencyId, CurrencyVO
-	 * @return The newly updated Currency details
+	 *
 	 */
 
-	public  CurrencyVO updateCurrency(Long currencyId, CurrencyVO currencyVO);
+	public  void updateCurrency(Long currencyId, CurrencyVO currencyVO);
 
 
 	public List<CurrencyVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -63,7 +63,7 @@ public interface CurrencyService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public CurrencyVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 	
 	/**
 	 * Get the Currency details

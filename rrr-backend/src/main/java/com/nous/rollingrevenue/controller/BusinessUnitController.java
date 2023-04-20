@@ -33,16 +33,17 @@ public class BusinessUnitController {
 
 	@Operation(summary = "save business unit")
 	@PostMapping
-	public WSResponse<BusinessUnitVO> saveBusinessUnit(@RequestBody @Valid BusinessUnitVO businessUnitVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, businessUnitService.addBusinessUnit(businessUnitVO));
+	public WSResponse<String> saveBusinessUnit(@RequestBody @Valid BusinessUnitVO businessUnitVO) {
+		businessUnitService.addBusinessUnit(businessUnitVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Update business unit")
 	@PutMapping(path = "{id}")
-	public WSResponse<BusinessUnitVO> updateBusinessUnit(@PathVariable @Valid Long id,
+	public WSResponse<String> updateBusinessUnit(@PathVariable @Valid Long id,
 			@RequestBody @Valid BusinessUnitVO businessUnitVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				businessUnitService.updateBusinessUnit(id, businessUnitVO));
+		businessUnitService.updateBusinessUnit(id, businessUnitVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 
 	}
 
@@ -77,9 +78,9 @@ public class BusinessUnitController {
 
 	@Operation(summary = "Activate or Deactivate BusinessUnit by Id")
 	@PutMapping(path = "/activate-or-deactivate/{id}")
-	public WSResponse<BusinessUnitVO> activateOrDeactivateBusinessUnitById(@PathVariable Long id) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				businessUnitService.activateOrDeactivateById(id));
+	public WSResponse<String> activateOrDeactivateBusinessUnitById(@PathVariable Long id) {
+		businessUnitService.activateOrDeactivateById(id);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

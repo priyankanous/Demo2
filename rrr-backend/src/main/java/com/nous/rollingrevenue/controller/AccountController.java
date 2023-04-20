@@ -40,8 +40,9 @@ public class AccountController {
 
 	@Operation(summary = "Save Account")
 	@PostMapping
-	public WSResponse<AccountVO> saveAccount(@RequestBody @Valid AccountVO accountVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, accountService.saveAccount(accountVO));
+	public WSResponse<String> saveAccount(@RequestBody @Valid AccountVO accountVO) {
+		accountService.saveAccount(accountVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get Account by Id")
@@ -52,9 +53,9 @@ public class AccountController {
 
 	@Operation(summary = "Update Account by Id")
 	@PutMapping(path = "{accountId}")
-	public WSResponse<AccountVO> updateAccount(@PathVariable Long accountId, @RequestBody @Valid AccountVO accountVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				accountService.updateAccount(accountId, accountVO));
+	public WSResponse<String> updateAccount(@PathVariable Long accountId, @RequestBody @Valid AccountVO accountVO) {
+		accountService.updateAccount(accountId, accountVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete Account by Id")
@@ -75,9 +76,9 @@ public class AccountController {
 
 	@Operation(summary = "Activate or Deactivate Account by Id")
 	@PutMapping(path = "/activate-or-deactivate/{accountId}")
-	public WSResponse<AccountVO> activateOrDeactivateAccountById(@PathVariable Long accountId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				accountService.activateOrDeactivateById(accountId));
+	public WSResponse<String> activateOrDeactivateAccountById(@PathVariable Long accountId) {
+		accountService.activateOrDeactivateById(accountId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

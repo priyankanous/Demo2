@@ -11,17 +11,17 @@ public interface LocationService {
 	 * Add an location to the database
 	 * 
 	 * @param LocationVO
-	 * @return The newly added Location details
+	 * 
 	 */
-	public LocationVO addLocation(LocationVO locationVO);
+	public void addLocation(LocationVO locationVO);
 
 	/**
 	 * Update an location to the database
 	 * 
 	 * @param id, locationVO
-	 * @return The newly added location details
+	 * 
 	 */
-	public LocationVO updateLocation(Long id, LocationVO locationVO);
+	public void updateLocation(Long id, LocationVO locationVO);
 
 	/**
 	 * Get the location details
@@ -52,6 +52,6 @@ public interface LocationService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public LocationVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

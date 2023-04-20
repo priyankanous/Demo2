@@ -38,6 +38,9 @@ public class Location extends Auditable<String> {
 	private List<HolidayCalendar> holidayCalendar = new ArrayList<>();
 
 	@OneToMany(mappedBy = "location")
+	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "location")
 	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
 	public Location() {
@@ -45,7 +48,8 @@ public class Location extends Auditable<String> {
 	}
 
 	public Location(Long locationId, String locationName, String locationDisplayName, List<Account> accounts,
-			List<HolidayCalendar> holidayCalendar, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			List<HolidayCalendar> holidayCalendar, List<AnnualTargetEntry> annualTargetEntries,
+			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.locationId = locationId;
 		this.locationName = locationName;
@@ -53,6 +57,7 @@ public class Location extends Auditable<String> {
 		this.accounts = accounts;
 		this.holidayCalendar = holidayCalendar;
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+		this.annualTargetEntries = annualTargetEntries;
 	}
 
 	public Long getLocationId() {
@@ -101,6 +106,14 @@ public class Location extends Auditable<String> {
 
 	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
+
+	public List<AnnualTargetEntry> getAnnualTargetEntries() {
+		return annualTargetEntries;
+	}
+
+	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
+		this.annualTargetEntries = annualTargetEntries;
 	}
 
 }

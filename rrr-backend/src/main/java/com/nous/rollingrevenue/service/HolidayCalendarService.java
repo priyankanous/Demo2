@@ -11,17 +11,17 @@ public interface HolidayCalendarService {
 	 * Add Calendar to the database
 	 * 
 	 * @param HolidayCalendarVO
-	 * @return The newly added HolidayCalendar details
+	 * 
 	 */
-	HolidayCalendarVO addCalendar(HolidayCalendarVO holidayCalendarVO);
+	public void addCalendar(HolidayCalendarVO holidayCalendarVO);
 
 	/**
 	 * Update an holidayCalendar to the database
 	 * 
 	 * @param id, holidayCalendarVO
-	 * @return The newly added holidayCalendar details
+	 *
 	 */
-	public HolidayCalendarVO updateHolidayCalendar(Long id, HolidayCalendarVO holidayCalendarVO);
+	public void updateHolidayCalendar(Long id, HolidayCalendarVO holidayCalendarVO);
 
 	/**
 	 * Get the HolidayCalendar details
@@ -52,8 +52,8 @@ public interface HolidayCalendarService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public HolidayCalendarVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
-	List<HolidayCalendarVO> getHolidayCalendarByFinancialYear(String financialYear);
+	public List<HolidayCalendarVO> getHolidayCalendarByFinancialYear(String financialYear);
 
 }

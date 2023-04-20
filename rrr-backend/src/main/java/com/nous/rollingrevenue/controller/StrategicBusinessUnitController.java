@@ -40,8 +40,9 @@ public class StrategicBusinessUnitController {
 
 	@Operation(summary = "Save SBU")
 	@PostMapping
-	public WSResponse<StrategicBusinessUnitVO> saveSBU(@RequestBody @Valid StrategicBusinessUnitVO sbuVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuService.saveSBU(sbuVO));
+	public WSResponse<String> saveSBU(@RequestBody @Valid StrategicBusinessUnitVO sbuVO) {
+		sbuService.saveSBU(sbuVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get SBU by Id")
@@ -52,9 +53,10 @@ public class StrategicBusinessUnitController {
 
 	@Operation(summary = "Update SBU by Id")
 	@PutMapping(path = "{sbuId}")
-	public WSResponse<StrategicBusinessUnitVO> updateSBU(@PathVariable Long sbuId,
+	public WSResponse<String> updateSBU(@PathVariable Long sbuId,
 			@RequestBody @Valid StrategicBusinessUnitVO sbuVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuService.updateSBU(sbuId, sbuVO));
+		sbuService.updateSBU(sbuId, sbuVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete SBU by Id")
@@ -74,9 +76,9 @@ public class StrategicBusinessUnitController {
 
 	@Operation(summary = "Activate or Deactivate StrategicBusinessUnit by Id")
 	@PutMapping(path = "/activate-or-deactivate/{sbuId}")
-	public WSResponse<StrategicBusinessUnitVO> activateOrDeactivateStrategicBusinessUnitById(@PathVariable Long sbuId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				sbuService.activateOrDeactivateById(sbuId));
+	public WSResponse<String> activateOrDeactivateStrategicBusinessUnitById(@PathVariable Long sbuId) {
+		sbuService.activateOrDeactivateById(sbuId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

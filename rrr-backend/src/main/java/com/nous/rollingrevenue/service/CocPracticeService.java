@@ -19,10 +19,10 @@ public interface CocPracticeService {
 	 * Add an Coc to the database
 	 * 
 	 * @param CocPracticeServiceVO
-	 * @return The newly added CocPractice details
+	 * 
 	 */
 
-	public CocPracticeVO addCocPractice(CocPracticeVO cocpracticeVO);
+	public void addCocPractice(CocPracticeVO cocpracticeVO);
 
 	/**
 	 * Delete an coc record by given Id
@@ -47,10 +47,10 @@ public interface CocPracticeService {
 	 * Update an Coc to the database by given Id
 	 * 
 	 * @param cocId, CocPracticeServiceVO
-	 * @return The newly updated Coc details
+	 * 
 	 */
 
-	public CocPracticeVO updateCocPractice(Long id, CocPracticeVO cocpracticeVO);
+	public void updateCocPractice(Long id, CocPracticeVO cocpracticeVO);
 
 	public List<CocPracticeVO> getPagination(int pagenumber, int pagesize, String sortBy);
 	
@@ -58,7 +58,7 @@ public interface CocPracticeService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public CocPracticeVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 	
 
 }

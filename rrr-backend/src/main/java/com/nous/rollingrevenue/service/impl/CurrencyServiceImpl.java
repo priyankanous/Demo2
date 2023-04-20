@@ -44,13 +44,13 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Override
 	@Transactional
-	public CurrencyVO saveCurrency(CurrencyVO currencyVO) {
+	public void saveCurrency(CurrencyVO currencyVO) {
 		Currency currency = CurrencyConverter.convertCurrencyVOToCurrency(currencyVO);
 		FinancialYear financialYear = financialYearRepository
 				.findById(currencyVO.getFinancialYear().getFinancialYearId()).orElseThrow(
-						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+						() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
 		currency.setFinancialYear(financialYear);
-		return CurrencyConverter.convertCurrencyToCurrencyVO(currencyRepository.save(currency));
+		currencyRepository.save(currency);
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Override
 	@Transactional
-	public CurrencyVO updateCurrency(Long currencyId, CurrencyVO currencyVO) {
+	public void updateCurrency(Long currencyId, CurrencyVO currencyVO) {
 		Currency currency = currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
 		currency.setCurrency(currencyVO.getCurrency());
@@ -79,10 +79,10 @@ public class CurrencyServiceImpl implements CurrencyService {
 		currency.setConversionRate(currencyVO.getConversionRate());
 		FinancialYear financialYear = financialYearRepository
 				.findById(currencyVO.getFinancialYear().getFinancialYearId()).orElseThrow(
-						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+						() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
 		currency.setFinancialYear(financialYear);
 		currency.setBaseCurrency(currencyVO.getBaseCurrency());
-		return CurrencyConverter.convertCurrencyToCurrencyVO(currencyRepository.save(currency));
+		currencyRepository.save(currency);
 	}
 
 	@Override
@@ -101,11 +101,11 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Override
 	@Transactional
-	public CurrencyVO activateOrDeactivateById(Long currencyId) {
+	public void activateOrDeactivateById(Long currencyId) {
 		Currency currency = currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
 		currency.setActive(!currency.isActive());
-		return CurrencyConverter.convertCurrencyToCurrencyVO(currencyRepository.save(currency));
+		currencyRepository.save(currency);
 	}
 
 	@Override

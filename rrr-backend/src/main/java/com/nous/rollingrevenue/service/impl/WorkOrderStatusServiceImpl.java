@@ -38,10 +38,8 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 
 	@Override
 	@Transactional
-	public WorkOrderStatusVO saveWorkOrderStatus(WorkOrderStatusVO woStatusVO) {
-		WorkOrderStatus woStatus = woStatusRepository
-				.save(WorkOrderStatusConverter.convertWorkOrderStatusVOToWorkOrderStatus(woStatusVO));
-		return WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(woStatus);
+	public void saveWorkOrderStatus(WorkOrderStatusVO woStatusVO) {
+		woStatusRepository.save(WorkOrderStatusConverter.convertWorkOrderStatusVOToWorkOrderStatus(woStatusVO));
 	}
 
 	@Override
@@ -61,12 +59,12 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 
 	@Override
 	@Transactional
-	public WorkOrderStatusVO updateWorkOrderStatus(Long woStatusId, WorkOrderStatusVO woStatusVO) {
+	public void updateWorkOrderStatus(Long woStatusId, WorkOrderStatusVO woStatusVO) {
 		WorkOrderStatus woStatus = woStatusRepository.findById(woStatusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
 		woStatus.setWoStatusName(woStatusVO.getWoStatusName());
 		woStatus.setWoStatusDisplayName(woStatusVO.getWoStatusDisplayName());
-		return WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(woStatusRepository.save(woStatus));
+		woStatusRepository.save(woStatus);
 	}
 
 	@Override
@@ -85,11 +83,11 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 
 	@Override
 	@Transactional
-	public WorkOrderStatusVO activateOrDeactivateById(Long woStatusId) {
+	public void activateOrDeactivateById(Long woStatusId) {
 		WorkOrderStatus woStatus = woStatusRepository.findById(woStatusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
 		woStatus.setActive(!woStatus.isActive());
-		return WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(woStatusRepository.save(woStatus));
+		woStatusRepository.save(woStatus);
 	}
 
 }

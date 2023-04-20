@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 
 public class WorkOrderVO implements Serializable {
@@ -25,8 +24,7 @@ public class WorkOrderVO implements Serializable {
 	@NotBlank(message = "Status cannot be null or empty")
 	private String workOrderStatus;
 
-	@Column(name = "account_name")
-	private String accountName;
+	private AccountVO account;
 
 	private boolean isActive;
 
@@ -35,13 +33,13 @@ public class WorkOrderVO implements Serializable {
 	}
 
 	public WorkOrderVO(Long workOrderId, String workOrderNumber, LocalDate workOrderEndDate, String workOrderStatus,
-			String accountName, boolean isActive) {
+			AccountVO account, boolean isActive) {
 		super();
 		this.workOrderId = workOrderId;
 		this.workOrderNumber = workOrderNumber;
 		this.workOrderEndDate = workOrderEndDate;
 		this.workOrderStatus = workOrderStatus;
-		this.accountName = accountName;
+		this.account = account;
 		this.isActive = isActive;
 	}
 
@@ -77,12 +75,12 @@ public class WorkOrderVO implements Serializable {
 		this.workOrderStatus = workOrderStatus;
 	}
 
-	public String getAccountName() {
-		return accountName;
+	public AccountVO getAccount() {
+		return account;
 	}
 
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
+	public void setAccount(AccountVO account) {
+		this.account = account;
 	}
 
 	public boolean isActive() {

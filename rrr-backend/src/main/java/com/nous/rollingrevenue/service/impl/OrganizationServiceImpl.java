@@ -31,9 +31,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	@Transactional
-	public OrganizationVO addOrganization(OrganizationVO organizationVO) {
+	public void addOrganization(OrganizationVO organizationVO) {
 		Organization organization = OrganizationConverter.convertOrganizationVOToOrganization(organizationVO);
-		return OrganizationConverter.convertOrganizationToOrganizationVO(organizationRepository.save(organization));
+		organizationRepository.save(organization);
 	}
 
 	@Override
@@ -70,12 +70,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	@Transactional
-	public OrganizationVO updateOrganization(Long id, OrganizationVO organizationVO) {
+	public void updateOrganization(Long id, OrganizationVO organizationVO) {
 		Organization organization = organizationRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		organization.setOrgName(organizationVO.getOrgName());
 		organization.setOrgDisplayName(organizationVO.getOrgDisplayName());
-		return OrganizationConverter.convertOrganizationToOrganizationVO(organizationRepository.save(organization));
+		organizationRepository.save(organization);
 	}
 
 	@Override
@@ -94,11 +94,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Override
 	@Transactional
-	public OrganizationVO activateOrDeactivateById(Long id) {
+	public void activateOrDeactivateById(Long id) {
 		Organization organization = organizationRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		organization.setActive(!organization.isActive());
-		return OrganizationConverter.convertOrganizationToOrganizationVO(organizationRepository.save(organization));
+		organizationRepository.save(organization);
 	}
 
 }

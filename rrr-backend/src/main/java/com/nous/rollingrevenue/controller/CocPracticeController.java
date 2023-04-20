@@ -36,15 +36,17 @@ public class CocPracticeController {
 	@Operation(summary = "save cocpractice")
 	@Validated
 	@PostMapping
-	public WSResponse<CocPracticeVO> saveCocPractice(@RequestBody @Valid CocPracticeVO cocpracticeVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpracticeService.addCocPractice(cocpracticeVO));
+	public WSResponse<String> saveCocPractice(@RequestBody @Valid CocPracticeVO cocpracticeVO) {
+		cocpracticeService.addCocPractice(cocpracticeVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Update cocpractice")
 	@PutMapping(value = "/{id}")
-	public WSResponse<CocPracticeVO> updateCocPractice(@PathVariable @Valid Long id,
+	public WSResponse<String> updateCocPractice(@PathVariable @Valid Long id,
 			@RequestBody @Valid CocPracticeVO cocpracticeVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, cocpracticeService.updateCocPractice(id, cocpracticeVO));
+		cocpracticeService.updateCocPractice(id, cocpracticeVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 
 	}
 
@@ -79,8 +81,8 @@ public class CocPracticeController {
 
 	@Operation(summary = "Activate or Deactivate CocPractice by Id")
 	@PutMapping(path = "/activate-or-deactivate/{id}")
-	public WSResponse<CocPracticeVO> activateOrDeactivateCocPracticeById(@PathVariable Long id) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				cocpracticeService.activateOrDeactivateById(id));
+	public WSResponse<String> activateOrDeactivateCocPracticeById(@PathVariable Long id) {
+		cocpracticeService.activateOrDeactivateById(id);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 }

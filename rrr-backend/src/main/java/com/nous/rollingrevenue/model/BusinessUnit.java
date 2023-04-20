@@ -48,6 +48,9 @@ public class BusinessUnit extends Auditable<String> {
 	private List<CocPractice> cocPractices = new ArrayList<>();
 
 	@OneToMany(mappedBy = "businessUnit")
+	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "businessUnit")
 	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
 	public BusinessUnit() {
@@ -57,7 +60,7 @@ public class BusinessUnit extends Auditable<String> {
 	public BusinessUnit(Long businessUnitId, String businessUnitName, String businessUnitDisplayName,
 			Organization organization, List<BusinessDevelopmentManager> businessDevlopmentManagers,
 			List<StrategicBusinessUnit> strategicBusinessUnits, List<CocPractice> cocPractices,
-			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			List<AnnualTargetEntry> annualTargetEntries, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.businessUnitId = businessUnitId;
 		this.businessUnitName = businessUnitName;
@@ -67,6 +70,7 @@ public class BusinessUnit extends Auditable<String> {
 		this.strategicBusinessUnits = strategicBusinessUnits;
 		this.cocPractices = cocPractices;
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+		this.annualTargetEntries = annualTargetEntries;
 	}
 
 	public Long getBusinessUnitId() {
@@ -131,6 +135,14 @@ public class BusinessUnit extends Auditable<String> {
 
 	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
+
+	public List<AnnualTargetEntry> getAnnualTargetEntries() {
+		return annualTargetEntries;
+	}
+
+	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
+		this.annualTargetEntries = annualTargetEntries;
 	}
 
 }

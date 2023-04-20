@@ -41,6 +41,12 @@ public class Account extends Auditable<String> {
 	private List<Opportunity> opportunities = new ArrayList<>();
 
 	@OneToMany(mappedBy = "account")
+	private List<WorkOrder> workOrders = new ArrayList<>();
+
+	@OneToMany(mappedBy = "account")
+	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "account")
 	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
 	public Account() {
@@ -48,7 +54,8 @@ public class Account extends Auditable<String> {
 	}
 
 	public Account(Long accountId, String accountName, String accountOrClientCode, List<Location> locations,
-			List<Opportunity> opportunities, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			List<Opportunity> opportunities, List<AnnualTargetEntry> annualTargetEntries, List<WorkOrder> workOrders,
+			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
@@ -56,6 +63,8 @@ public class Account extends Auditable<String> {
 		this.locations = locations;
 		this.opportunities = opportunities;
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+		this.annualTargetEntries = annualTargetEntries;
+		this.workOrders = workOrders;
 	}
 
 	public Long getAccountId() {
@@ -104,6 +113,22 @@ public class Account extends Auditable<String> {
 
 	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
+
+	public List<AnnualTargetEntry> getAnnualTargetEntries() {
+		return annualTargetEntries;
+	}
+
+	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
+		this.annualTargetEntries = annualTargetEntries;
+	}
+
+	public List<WorkOrder> getWorkOrders() {
+		return workOrders;
+	}
+
+	public void setWorkOrders(List<WorkOrder> workOrders) {
+		this.workOrders = workOrders;
 	}
 
 }

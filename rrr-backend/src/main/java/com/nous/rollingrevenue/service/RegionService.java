@@ -19,10 +19,10 @@ public interface RegionService {
 	 * Add an Region to the database
 	 * 
 	 * @param RegionVO
-	 * @return The newly added Region details
+	 * 
 	 */
 	
-	public RegionVO saveRegion(RegionVO regionVO);
+	public void saveRegion(RegionVO regionVO);
 	
 
 	/**
@@ -50,10 +50,10 @@ public interface RegionService {
 	 * Update an Region to the database by given Id
 	 * 
 	 * @param RegionId, RegionVO
-	 * @return The newly updated Region details
+	 * 
 	 */
 
-	public  RegionVO updateRegion(Long regionId, RegionVO regionVO);
+	public  void updateRegion(Long regionId, RegionVO regionVO);
 
 
 	public List<RegionVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -62,6 +62,6 @@ public interface RegionService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public RegionVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

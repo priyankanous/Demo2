@@ -38,12 +38,8 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 
 	@Override
 	@Transactional
-	public FinancialYearVO saveFinancialYear(FinancialYearVO financialYearVO) {
-		FinancialYear financialYear = financialYearRepository
-				.save(FinancialYearConverter.convertFinancialYearVOToFinancialYear(financialYearVO));
-		FinancialYearVO savedFinancialYearVO = FinancialYearConverter
-				.convertFinancialYearToFinancialYearVO(financialYear);
-		return savedFinancialYearVO;
+	public void saveFinancialYear(FinancialYearVO financialYearVO) {
+        financialYearRepository.save(FinancialYearConverter.convertFinancialYearVOToFinancialYear(financialYearVO));
 	}
 
 	@Override
@@ -63,16 +59,14 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 
 	@Override
 	@Transactional
-	public FinancialYearVO updateFinancialYear(Long financialYearId, FinancialYearVO financialYearVO) {
+	public void updateFinancialYear(Long financialYearId, FinancialYearVO financialYearVO) {
 		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
 		financialYear.setFinancialYearName(financialYearVO.getFinancialYearName());
 		financialYear.setFinancialYearCustomName(financialYearVO.getFinancialYearCustomName());
 		financialYear.setStartingFrom(financialYearVO.getStartingFrom());
 		financialYear.setEndingOn(financialYearVO.getEndingOn());
-		FinancialYearVO savedFinancialYearVO = FinancialYearConverter
-				.convertFinancialYearToFinancialYearVO(financialYearRepository.save(financialYear));
-		return savedFinancialYearVO;
+		financialYearRepository.save(financialYear);
 	}
 
 	@Override
@@ -91,12 +85,18 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 
 	@Override
 	@Transactional
-	public FinancialYearVO activateOrDeactivateById(Long financialYearId) {
+	public void activateOrDeactivateById(Long financialYearId) {
 		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
 		financialYear.setActive(!financialYear.isActive());
-		return FinancialYearConverter
-				.convertFinancialYearToFinancialYearVO(financialYearRepository.save(financialYear));
+		financialYearRepository.save(financialYear);
+	}
+
+	@Override
+	public FinancialYearVO getFinancialYearByName(String financialYear) {
+		FinancialYear findFinancialYearByName = financialYearRepository.findByFinancialYearName(financialYear)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYear));
+		return FinancialYearConverter.convertFinancialYearToFinancialYearVO(findFinancialYearByName);
 	}
 
 }

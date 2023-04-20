@@ -40,9 +40,9 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Override
 	@Transactional
-	public AccountVO saveAccount(AccountVO accountVO) {
+	public void saveAccount(AccountVO accountVO) {
 		Account account = AccountConverter.convertAccountVOToAccount(accountVO);
-		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
+		accountRepository.save(account);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	@Transactional
-	public AccountVO updateAccount(Long accountId, AccountVO accountVO) {
+	public void updateAccount(Long accountId, AccountVO accountVO) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
 		account.setAccountName(accountVO.getAccountName());
@@ -70,7 +70,7 @@ public class AccountServiceImpl implements AccountService {
 		List<Location> locations = new ArrayList<>();
 		accountVO.getLocations().stream().forEach(locationVO -> locations.add(LocationConverter.convertLocationVOToLocation(locationVO)));
 		account.setLocations(locations);
-		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
+		accountRepository.save(account);
 	}
 
 	@Override
@@ -89,11 +89,11 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	@Transactional
-	public AccountVO activateOrDeactivateById(Long accountId) {
+	public void activateOrDeactivateById(Long accountId) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
 		account.setActive(!account.isActive());
-		return AccountConverter.convertAccountToAccountVO(accountRepository.save(account));
+		accountRepository.save(account);
 	}
 
 

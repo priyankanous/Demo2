@@ -40,9 +40,9 @@ public class OpportunityController {
 
 	@Operation(summary = "Save Opportunity")
 	@PostMapping
-	public WSResponse<OpportunityVO> saveOpportunity(@RequestBody @Valid OpportunityVO opportunityVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				opportunityService.saveOpportunity(opportunityVO));
+	public WSResponse<String> saveOpportunity(@RequestBody @Valid OpportunityVO opportunityVO) {
+		opportunityService.saveOpportunity(opportunityVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get Opportunity by Id")
@@ -54,10 +54,10 @@ public class OpportunityController {
 
 	@Operation(summary = "Update Opportunity by Id")
 	@PutMapping(path = "{opportunityId}")
-	public WSResponse<OpportunityVO> updateOpportunity(@PathVariable Long opportunityId,
+	public WSResponse<String> updateOpportunity(@PathVariable Long opportunityId,
 			@RequestBody @Valid OpportunityVO opportunityVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				opportunityService.updateOpportunity(opportunityId, opportunityVO));
+		opportunityService.updateOpportunity(opportunityId, opportunityVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete Opportunity by Id")
@@ -78,8 +78,8 @@ public class OpportunityController {
 
 	@Operation(summary = "Activate or Deactivate Opportunity by Id")
 	@PutMapping(path = "/activate-or-deactivate/{opportunityId}")
-	public WSResponse<OpportunityVO> activateOrDeactivateOpportunityById(@PathVariable Long opportunityId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				opportunityService.activateOrDeactivateById(opportunityId));
+	public WSResponse<String> activateOrDeactivateOpportunityById(@PathVariable Long opportunityId) {
+		opportunityService.activateOrDeactivateById(opportunityId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 }

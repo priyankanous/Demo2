@@ -20,10 +20,10 @@ public interface FinancialYearService {
 	 * Add an FinancialYear to the database
 	 * 
 	 * @param FinancialYearVO
-	 * @return The newly added FinancialYear details
+	 * 
 	 */
 	
-	public FinancialYearVO saveFinancialYear(FinancialYearVO financialYearVO);
+	public void saveFinancialYear(FinancialYearVO financialYearVO);
 	
 
 	/**
@@ -51,10 +51,10 @@ public interface FinancialYearService {
 	 * Update an FinancialYear to the database by given Id
 	 * 
 	 * @param financialYearId, FinancialYearVO
-	 * @return The newly updated FinancialYear details
+	 *
 	 */
 
-	public  FinancialYearVO updateFinancialYear(Long financialYearId, FinancialYearVO financialYearVO);
+	public  void updateFinancialYear(Long financialYearId, FinancialYearVO financialYearVO);
 
 
 	public List<FinancialYearVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -63,7 +63,9 @@ public interface FinancialYearService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public FinancialYearVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
+	
+	public FinancialYearVO getFinancialYearByName(String financialYear);
 
 
 }

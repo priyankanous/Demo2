@@ -18,8 +18,28 @@ import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.AnnualTargetEntryConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.helper.ExcelHelper;
+import com.nous.rollingrevenue.model.Account;
 import com.nous.rollingrevenue.model.AnnualTargetEntry;
+import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
+import com.nous.rollingrevenue.model.BusinessType;
+import com.nous.rollingrevenue.model.BusinessUnit;
+import com.nous.rollingrevenue.model.CocPractice;
+import com.nous.rollingrevenue.model.FinancialYear;
+import com.nous.rollingrevenue.model.Location;
+import com.nous.rollingrevenue.model.Region;
+import com.nous.rollingrevenue.model.StrategicBusinessUnit;
+import com.nous.rollingrevenue.model.StrategicBusinessUnitHead;
+import com.nous.rollingrevenue.repository.AccountRepository;
 import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
+import com.nous.rollingrevenue.repository.BusinessDevelopmentManagerRepository;
+import com.nous.rollingrevenue.repository.BusinessTypeRepository;
+import com.nous.rollingrevenue.repository.BusinessUnitRepository;
+import com.nous.rollingrevenue.repository.CocPracticeRepository;
+import com.nous.rollingrevenue.repository.FinancialYearRepository;
+import com.nous.rollingrevenue.repository.LocationRepository;
+import com.nous.rollingrevenue.repository.RegionRepository;
+import com.nous.rollingrevenue.repository.StrategicBusinessUnitHeadRepository;
+import com.nous.rollingrevenue.repository.StrategicBusinessUnitRepository;
 import com.nous.rollingrevenue.service.AnnualTargetEntryService;
 import com.nous.rollingrevenue.vo.AnnualTargetEntryVO;
 
@@ -29,6 +49,39 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 
 	@Autowired
 	private AnnualTargetEntryRepository annualTargetEntryRepository;
+	
+	@Autowired
+	private FinancialYearRepository financialYearRepository;
+	
+	@Autowired
+	private BusinessUnitRepository businessUnitRepository;
+	
+	@Autowired
+	private StrategicBusinessUnitRepository sbuRepository;
+	
+	@Autowired
+	private StrategicBusinessUnitHeadRepository sbuHeadRepository;
+	
+	@Autowired
+	private LocationRepository locationRepository;
+	
+	@Autowired
+	private RegionRepository regionRepository;
+	
+	@Autowired
+	private AccountRepository accountRepository;
+	
+	@Autowired
+	private BusinessTypeRepository businessTypeRepository;
+	
+	@Autowired
+	private CocPracticeRepository cocPracticeRepository;
+	
+	@Autowired
+	private BusinessDevelopmentManagerRepository bdmRepository;
+	
+	@Autowired
+	private ExcelHelper excelHelper;
 
 	@Override
 	public List<AnnualTargetEntryVO> getAllAnnualTargetEntry() {
@@ -40,10 +93,9 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 
 	@Override
 	@Transactional
-	public AnnualTargetEntryVO saveAnnualTargetEntry(AnnualTargetEntryVO annualTargetEntryVO) {
-		AnnualTargetEntry annualTargetEntry = annualTargetEntryRepository
+	public void saveAnnualTargetEntry(AnnualTargetEntryVO annualTargetEntryVO) {
+		annualTargetEntryRepository
 				.save(AnnualTargetEntryConverter.convertAnnualTargetEntryVOToAnnualTargetEntry(annualTargetEntryVO));
-		return AnnualTargetEntryConverter.convertAnnualTargetEntryToAnnualTargetEntryVO(annualTargetEntry);
 	}
 
 	@Override
@@ -63,20 +115,41 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 
 	@Override
 	@Transactional
-	public AnnualTargetEntryVO updateAnnualTargetEntry(Long annualTargetEntryId,
+	public void updateAnnualTargetEntry(Long annualTargetEntryId,
 			AnnualTargetEntryVO annualTargetEntryVO) {
 		AnnualTargetEntry annualTargetEntry = annualTargetEntryRepository.findById(annualTargetEntryId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + annualTargetEntryId));
-		annualTargetEntry.setFinancialYear(annualTargetEntryVO.getFinancialYear());
-		annualTargetEntry.setBusinessUnit(annualTargetEntryVO.getBusinessUnit());
-		annualTargetEntry.setStartegicBusinessUnit(annualTargetEntryVO.getStartegicBusinessUnit());
-		annualTargetEntry.setStrategicBusinessUnitHead(annualTargetEntryVO.getStrategicBusinessUnitHead());
-		annualTargetEntry.setLocation(annualTargetEntryVO.getLocation());
-		annualTargetEntry.setRegion(annualTargetEntryVO.getRegion());
-		annualTargetEntry.setAccount(annualTargetEntryVO.getAccount());
-		annualTargetEntry.setBusinessType(annualTargetEntryVO.getBusinessType());
-		annualTargetEntry.setCocPractice(annualTargetEntryVO.getCocPractice());
-		annualTargetEntry.setBusinessDevelopmentManager(annualTargetEntryVO.getBusinessDevelopmentManager());
+		FinancialYear financialYear = financialYearRepository
+				.findById(annualTargetEntryVO.getFinancialYear().getFinancialYearId()).orElseThrow(
+						() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
+		annualTargetEntry.setFinancialYear(financialYear);
+		BusinessUnit businessUnit = businessUnitRepository.findById(annualTargetEntryVO.getBusinessUnit().getBusinessUnitId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessUnit"));
+		annualTargetEntry.setBusinessUnit(businessUnit);
+		StrategicBusinessUnit sbu = sbuRepository.findById(annualTargetEntryVO.getStartegicBusinessUnit().getSbuId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "StrategicBusinessUnit"));
+		annualTargetEntry.setStartegicBusinessUnit(sbu);
+		StrategicBusinessUnitHead sbuHead = sbuHeadRepository.findById(annualTargetEntryVO.getStrategicBusinessUnitHead().getSbuHeadId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "StrategicBusinessUnitHead"));
+		annualTargetEntry.setStrategicBusinessUnitHead(sbuHead);
+		Location location = locationRepository.findById(annualTargetEntryVO.getLocation().getLocationId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Location"));
+		annualTargetEntry.setLocation(location);
+		Region region = regionRepository.findById(annualTargetEntryVO.getRegion().getRegionId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Region"));
+		annualTargetEntry.setRegion(region);
+		Account account = accountRepository.findById(annualTargetEntryVO.getAccount().getAccountId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Account"));
+		annualTargetEntry.setAccount(account);
+		BusinessType businessType = businessTypeRepository.findById(annualTargetEntryVO.getBusinessType().getBusinessTypeId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessType"));
+		annualTargetEntry.setBusinessType(businessType);
+		CocPractice cocPractice = cocPracticeRepository.findById(annualTargetEntryVO.getCocPractice().getCocPracticeId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "CocPractice"));
+		annualTargetEntry.setCocPractice(cocPractice);
+		BusinessDevelopmentManager bdm = bdmRepository.findById(annualTargetEntryVO.getBusinessDevelopmentManager().getBdmId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessDevelopmentManager"));
+		annualTargetEntry.setBusinessDevelopmentManager(bdm);
 		annualTargetEntry.setQ1FYB(annualTargetEntryVO.getQ1FYB());
 		annualTargetEntry.setQ1FYS(annualTargetEntryVO.getQ1FYS());
 		annualTargetEntry.setQ1FYT(annualTargetEntryVO.getQ1FYT());
@@ -90,14 +163,13 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 		annualTargetEntry.setQ4FYS(annualTargetEntryVO.getQ4FYS());
 		annualTargetEntry.setQ4FYT(annualTargetEntryVO.getQ4FYT());
 		annualTargetEntry.setFY(annualTargetEntryVO.getFY());
-		return AnnualTargetEntryConverter
-				.convertAnnualTargetEntryToAnnualTargetEntryVO(annualTargetEntryRepository.save(annualTargetEntry));
+		annualTargetEntryRepository.save(annualTargetEntry);
 	}
 
 	@Override
 	@Transactional
 	public void saveExcelDataOfAnnualTargetEntry(MultipartFile file, String financialYear) {
-		List<AnnualTargetEntryVO> annualTargetEntryVOs = ExcelHelper.convertExceltoListOfAnnualTargetEntry(file,
+		List<AnnualTargetEntryVO> annualTargetEntryVOs = excelHelper.convertExceltoListOfAnnualTargetEntry(file,
 				financialYear);
 		List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
 		annualTargetEntryVOs.stream().forEach(annualTargetEntryVO -> annualTargetEntries
@@ -121,11 +193,10 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 
 	@Override
 	@Transactional
-	public AnnualTargetEntryVO activateOrDeactivateById(Long id) {
+	public void activateOrDeactivateById(Long id) {
 		AnnualTargetEntry annualTargetEntry = annualTargetEntryRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		annualTargetEntry.setActive(!annualTargetEntry.isActive());
-		return AnnualTargetEntryConverter
-				.convertAnnualTargetEntryToAnnualTargetEntryVO(annualTargetEntryRepository.save(annualTargetEntry));
+		annualTargetEntryRepository.save(annualTargetEntry);
 	}
 }

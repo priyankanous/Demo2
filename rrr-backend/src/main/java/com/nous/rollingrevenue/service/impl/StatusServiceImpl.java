@@ -38,9 +38,8 @@ public class StatusServiceImpl implements StatusService {
 
 	@Override
 	@Transactional
-	public StatusVO saveStatus(StatusVO statusVO) {
-		Status status = statusRepository.save(StatusConverter.convertStatusVOToStatus(statusVO));
-		return StatusConverter.convertStatusToStatusVO(status);
+	public void saveStatus(StatusVO statusVO) {
+		statusRepository.save(StatusConverter.convertStatusVOToStatus(statusVO));
 	}
 
 	@Override
@@ -60,12 +59,12 @@ public class StatusServiceImpl implements StatusService {
 
 	@Override
 	@Transactional
-	public StatusVO updateStatus(Long statusId, StatusVO statusVO) {
+	public void updateStatus(Long statusId, StatusVO statusVO) {
 		Status status = statusRepository.findById(statusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
 		status.setStatusName(statusVO.getStatusName());
 		status.setStatusDisplayName(statusVO.getStatusDisplayName());
-		return StatusConverter.convertStatusToStatusVO(statusRepository.save(status));
+		statusRepository.save(status);
 	}
 
 	@Override
@@ -84,11 +83,11 @@ public class StatusServiceImpl implements StatusService {
 
 	@Override
 	@Transactional
-	public StatusVO activateOrDeactivateById(Long statusId) {
+	public void activateOrDeactivateById(Long statusId) {
 		Status status = statusRepository.findById(statusId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
 		status.setActive(!status.isActive());
-		return StatusConverter.convertStatusToStatusVO(statusRepository.save(status));
+		statusRepository.save(status);
 	}
 
 }

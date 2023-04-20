@@ -21,7 +21,7 @@ public interface WorkOrderService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public WorkOrderVO activateOrDeactivateByWorkOrderNumber(Long id);
+	public void activateOrDeactivateWorkOrderById(Long id);
 
 	/**
 	 * Get WorkOrder By AccountName

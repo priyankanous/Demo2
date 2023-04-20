@@ -19,11 +19,9 @@ public interface BusinessTypeService {
 	/**
 	 * Add an business type to the database
 	 * 
-	 * @param BusinessTypeVO
-	 * @return The newly added BusinessType details
 	 */
 	
-	public BusinessTypeVO saveBusinessType(BusinessTypeVO businessTypeVO);
+	public void saveBusinessType(BusinessTypeVO businessTypeVO);
 	
 
 	/**
@@ -51,10 +49,10 @@ public interface BusinessTypeService {
 	 * Update an BusinessType to the database by given Id
 	 * 
 	 * @param businessTypeId, BusinessTypeVO
-	 * @return The newly updated BusinessType details
+	 * 
 	 */
 
-	public  BusinessTypeVO updateBusinessType(Long businessTypeId, BusinessTypeVO businessTypeVO);
+	public  void updateBusinessType(Long businessTypeId, BusinessTypeVO businessTypeVO);
 
 
 	public List<BusinessTypeVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -63,6 +61,6 @@ public interface BusinessTypeService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public BusinessTypeVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

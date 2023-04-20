@@ -40,9 +40,9 @@ public class PricingTypeController {
 
 	@Operation(summary = "Save PricingType")
 	@PostMapping
-	public WSResponse<PricingTypeVO> savePricingType(@RequestBody @Valid PricingTypeVO pricingTypeVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				pricingTypeService.savePricingType(pricingTypeVO));
+	public WSResponse<String> savePricingType(@RequestBody @Valid PricingTypeVO pricingTypeVO) {
+		pricingTypeService.savePricingType(pricingTypeVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get PricingType by Id")
@@ -54,10 +54,10 @@ public class PricingTypeController {
 
 	@Operation(summary = "Update PricingType by Id")
 	@PutMapping(path = "{pricingTypeId}")
-	public WSResponse<PricingTypeVO> updatePricingType(@PathVariable Long pricingTypeId,
+	public WSResponse<String> updatePricingType(@PathVariable Long pricingTypeId,
 			@RequestBody @Valid PricingTypeVO pricingTypeVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				pricingTypeService.updatePricingType(pricingTypeId, pricingTypeVO));
+		pricingTypeService.updatePricingType(pricingTypeId, pricingTypeVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete PricingType by Id")
@@ -78,8 +78,8 @@ public class PricingTypeController {
 
 	@Operation(summary = "Activate or Deactivate PricingType by Id")
 	@PutMapping(path = "/activate-or-deactivate/{pricingTypeId}")
-	public WSResponse<PricingTypeVO> activateOrDeactivatePricingTypeById(@PathVariable Long pricingTypeId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				pricingTypeService.activateOrDeactivateById(pricingTypeId));
+	public WSResponse<String> activateOrDeactivatePricingTypeById(@PathVariable Long pricingTypeId) {
+		pricingTypeService.activateOrDeactivateById(pricingTypeId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 }

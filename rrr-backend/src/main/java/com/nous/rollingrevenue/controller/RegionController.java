@@ -40,8 +40,9 @@ public class RegionController {
 
 	@Operation(summary = "Save Region")
 	@PostMapping
-	public WSResponse<RegionVO> saveRegion(@RequestBody @Valid RegionVO regionVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, regionService.saveRegion(regionVO));
+	public WSResponse<String> saveRegion(@RequestBody @Valid RegionVO regionVO) {
+		regionService.saveRegion(regionVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get Region by Id")
@@ -52,9 +53,9 @@ public class RegionController {
 
 	@Operation(summary = "Update Region by Id")
 	@PutMapping(path = "{regionId}")
-	public WSResponse<RegionVO> updateRegion(@PathVariable Long regionId, @RequestBody @Valid RegionVO regionVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				regionService.updateRegion(regionId, regionVO));
+	public WSResponse<String> updateRegion(@PathVariable Long regionId, @RequestBody @Valid RegionVO regionVO) {
+		regionService.updateRegion(regionId, regionVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete Region by Id")
@@ -75,9 +76,9 @@ public class RegionController {
 
 	@Operation(summary = "Activate or Deactivate Region by Id")
 	@PutMapping(path = "/activate-or-deactivate/{regionId}")
-	public WSResponse<RegionVO> activateOrDeactivateRegionById(@PathVariable Long regionId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				regionService.activateOrDeactivateById(regionId));
+	public WSResponse<String> activateOrDeactivateRegionById(@PathVariable Long regionId) {
+		regionService.activateOrDeactivateById(regionId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

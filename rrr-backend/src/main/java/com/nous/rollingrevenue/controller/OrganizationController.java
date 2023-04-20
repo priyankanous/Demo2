@@ -24,11 +24,6 @@ import com.nous.rollingrevenue.vo.OrganizationVO;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
-/**
- *
- * @author Nous Infosystems
- */
-
 @Validated
 @RestController
 @RequestMapping("/api/v1/organization")
@@ -41,16 +36,17 @@ public class OrganizationController {
 	@Operation(summary = "save organization")
 	@Validated
 	@PostMapping
-	public WSResponse<OrganizationVO> saveOrganization(@RequestBody @Valid OrganizationVO organizationVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, organizationService.addOrganization(organizationVO));
+	public WSResponse<String> saveOrganization(@RequestBody @Valid OrganizationVO organizationVO) {
+		organizationService.addOrganization(organizationVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Update organization")
 	@PutMapping(value = "{id}")
-	public WSResponse<OrganizationVO> updateOrganization(@PathVariable @Valid Long id,
+	public WSResponse<String> updateOrganization(@PathVariable @Valid Long id,
 			@RequestBody @Valid OrganizationVO organizationVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				organizationService.updateOrganization(id, organizationVO));
+		organizationService.updateOrganization(id, organizationVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get ogranization by Id")
@@ -84,9 +80,9 @@ public class OrganizationController {
 
 	@Operation(summary = "Activate or Deactivate Organization by Id")
 	@PutMapping(path = "/activate-or-deactivate/{id}")
-	public WSResponse<OrganizationVO> activateOrDeactivateOrganizationById(@PathVariable Long id) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				organizationService.activateOrDeactivateById(id));
+	public WSResponse<String> activateOrDeactivateOrganizationById(@PathVariable Long id) {
+		organizationService.activateOrDeactivateById(id);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

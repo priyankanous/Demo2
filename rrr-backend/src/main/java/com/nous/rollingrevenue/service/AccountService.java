@@ -20,10 +20,9 @@ public interface AccountService {
 	 * Add an Account to the database
 	 * 
 	 * @param AccountVO
-	 * @return The newly added Account details
 	 */
 	
-	public AccountVO saveAccount(AccountVO accountVO);
+	public void saveAccount(AccountVO accountVO);
 	
 
 	/**
@@ -51,10 +50,10 @@ public interface AccountService {
 	 * Update an Account to the database by given Id
 	 * 
 	 * @param accountId, AccountVO
-	 * @return The newly updated Account details
+	 * 
 	 */
 
-	public  AccountVO updateAccount(Long accountId, AccountVO accountVO);
+	public void updateAccount(Long accountId, AccountVO accountVO);
 
 
 	public List<AccountVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -63,6 +62,6 @@ public interface AccountService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public AccountVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

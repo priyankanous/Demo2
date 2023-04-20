@@ -38,10 +38,8 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 
 	@Override
 	@Transactional
-	public BusinessTypeVO saveBusinessType(BusinessTypeVO businessTypeVO) {
-		BusinessType businessType = businessTypeRepository
-				.save(BusinessTypeConverter.convertBusinessTypeVOToBusinessType(businessTypeVO));
-		return BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(businessType);
+	public void saveBusinessType(BusinessTypeVO businessTypeVO) {
+		businessTypeRepository.save(BusinessTypeConverter.convertBusinessTypeVOToBusinessType(businessTypeVO));
 	}
 
 	@Override
@@ -61,12 +59,12 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 
 	@Override
 	@Transactional
-	public BusinessTypeVO updateBusinessType(Long businessTypeId, BusinessTypeVO businessTypeVO) {
+	public void updateBusinessType(Long businessTypeId, BusinessTypeVO businessTypeVO) {
 		BusinessType businessType = businessTypeRepository.findById(businessTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
 		businessType.setBusinessTypeName(businessTypeVO.getBusinessTypeName());
 		businessType.setBusinessTypeDisplayName(businessTypeVO.getBusinessTypeDisplayName());
-		return BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(businessTypeRepository.save(businessType));
+		businessTypeRepository.save(businessType);
 	}
 
 	@Override
@@ -85,11 +83,11 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 	
 	@Override
 	@Transactional
-	public BusinessTypeVO activateOrDeactivateById(Long businessTypeId) {
+	public void activateOrDeactivateById(Long businessTypeId) {
 		BusinessType businessType = businessTypeRepository.findById(businessTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
 		businessType.setActive(!businessType.isActive());
-		return BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(businessTypeRepository.save(businessType));
+		businessTypeRepository.save(businessType);
 	}
 
 }

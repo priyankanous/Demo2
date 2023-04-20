@@ -9,9 +9,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -34,8 +37,9 @@ public class WorkOrder extends Auditable<String> {
 	@Column(name = "work_order_status")
 	private String woStatus;
 
-	@Column(name = "account_name")
-	private String accountName;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
+	private Account account;
 
 	@Column(name = "is_active")
 	private boolean isActive = Boolean.TRUE;
@@ -48,13 +52,13 @@ public class WorkOrder extends Auditable<String> {
 	}
 
 	public WorkOrder(Long workOrderId, String workOrderNumber, LocalDate workOrderEndDate, String woStatus,
-			String accountName, boolean isActive, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			Account account, boolean isActive, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.workOrderId = workOrderId;
 		this.workOrderNumber = workOrderNumber;
 		this.workOrderEndDate = workOrderEndDate;
 		this.woStatus = woStatus;
-		this.accountName = accountName;
+		this.account = account;
 		this.isActive = isActive;
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
@@ -91,12 +95,12 @@ public class WorkOrder extends Auditable<String> {
 		this.woStatus = woStatus;
 	}
 
-	public String getAccountName() {
-		return accountName;
+	public Account getAccount() {
+		return account;
 	}
 
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
+	public void setAccount(Account account) {
+		this.account = account;
 	}
 
 	public boolean isActive() {

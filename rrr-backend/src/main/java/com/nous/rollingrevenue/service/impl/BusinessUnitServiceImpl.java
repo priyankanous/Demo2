@@ -35,11 +35,11 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 
 	@Override
 	@Transactional
-	public BusinessUnitVO addBusinessUnit(BusinessUnitVO businessUnitVO) {
+	public void addBusinessUnit(BusinessUnitVO businessUnitVO) {
 		BusinessUnit businessUnit = BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(businessUnitVO);
-		Organization organization =  organizationRepository.findById(businessUnitVO.getOrganization().getId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Organization not exist"));
+		Organization organization =  organizationRepository.findById(businessUnitVO.getOrganization().getId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Organization"));
 		businessUnit.setOrganization(organization);
-		return BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnitRepository.save(businessUnit));
+		businessUnitRepository.save(businessUnit);
 	}
 
 	@Override
@@ -75,14 +75,14 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 
 	@Override
 	@Transactional
-	public BusinessUnitVO updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO) {
+	public void updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO) {
 		BusinessUnit businessUnit = businessUnitRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		businessUnit.setBusinessUnitName(businessUnitVO.getBusinessUnitName());
 		businessUnit.setBusinessUnitDisplayName(businessUnitVO.getBusinessUnitDisplayName());
-		Organization organization =  organizationRepository.findById(businessUnitVO.getOrganization().getId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Organization not exist"));
+		Organization organization =  organizationRepository.findById(businessUnitVO.getOrganization().getId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Organization"));
 		businessUnit.setOrganization(organization);
-		return BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnitRepository.save(businessUnit));
+		businessUnitRepository.save(businessUnit);
 	}
 
 	@Override
@@ -101,11 +101,11 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 	
 	@Override
 	@Transactional
-	public BusinessUnitVO activateOrDeactivateById(Long id) {
+	public void activateOrDeactivateById(Long id) {
 		BusinessUnit businessUnit = businessUnitRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		businessUnit.setActive(!businessUnit.isActive());
-		return BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnitRepository.save(businessUnit));
+		businessUnitRepository.save(businessUnit);
 	}
 
 }

@@ -33,15 +33,16 @@ public class BusinessDevelopmentManagerController {
 
 	@Operation(summary = "save BDM")
 	@PostMapping
-	public WSResponse<BDMVO> saveBDM(@RequestBody @Valid BDMVO bdmVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, businessDevelopmentManagerService.addBDMDetails(bdmVO));
+	public WSResponse<String> saveBDM(@RequestBody @Valid BDMVO bdmVO) {
+		businessDevelopmentManagerService.addBDMDetails(bdmVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Update BDM")
 	@PutMapping(path = "{bdmId}")
-	public WSResponse<BDMVO> updateBDM(@PathVariable @Valid Long bdmId, @RequestBody @Valid BDMVO bdmVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				businessDevelopmentManagerService.updateBDMDetails(bdmId, bdmVO));
+	public WSResponse<String> updateBDM(@PathVariable @Valid Long bdmId, @RequestBody @Valid BDMVO bdmVO) {
+		businessDevelopmentManagerService.updateBDMDetails(bdmId, bdmVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get BDM by Id")
@@ -75,9 +76,9 @@ public class BusinessDevelopmentManagerController {
 
 	@Operation(summary = "Activate or Deactivate BusinessDevelopmentManager by Id")
 	@PutMapping(path = "/activate-or-deactivate/{bdmId}")
-	public WSResponse<BDMVO> activateOrDeactivateBusinessDevelopmentManagerById(@PathVariable Long bdmId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				businessDevelopmentManagerService.activateOrDeactivateById(bdmId));
+	public WSResponse<String> activateOrDeactivateBusinessDevelopmentManagerById(@PathVariable Long bdmId) {
+		businessDevelopmentManagerService.activateOrDeactivateById(bdmId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }
