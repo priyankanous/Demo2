@@ -134,9 +134,9 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			rollingRevenueCommonEntry
 					.setAccount(accountRepository.findById(rollingRevenueVO.getAccount().getAccountId()).orElseThrow(
 							() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Account")));
-			rollingRevenueCommonEntry.setOpportunity(opportunityRepository
-					.findById(rollingRevenueVO.getOpportunityName().getOpportunityId()).orElseThrow(
-							() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Opportunity")));
+
+			rollingRevenueCommonEntry = conditionTocheckOpportunityName(rollingRevenueVO, rollingRevenueCommonEntry);
+
 			rollingRevenueCommonEntry.setBusinessType(
 					businessTypeRepository.findById(rollingRevenueVO.getBusinessType().getBusinessTypeId()).orElseThrow(
 							() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessType")));
@@ -199,6 +199,15 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 					set.add(entry);
 				}
 			}
+
+			Optional<FinancialYear> findByFinancialYearName = financialYearRepository
+					.findByFinancialYearName(rollingRevenueVO.getFinancialYear().getFinancialYearName());
+			if (findByFinancialYearName.isPresent()) {
+				List<Currency> currencies = findByFinancialYearName.get().getCurrencies();
+				Currency currency = currencies.stream().filter(cur -> cur.isBaseCurrency() == true).findFirst().get();
+				rollingRevenueCommonEntry.setCurrency(currency);
+			}
+
 			RollingRevenueCommonEntry commonEntry = rollingRevenueCommonRepository.save(rollingRevenueCommonEntry);
 			tmMRevenueEntry.setCommonEntry(commonEntry);
 			tmMRevenueEntry.setResourcesEntries(set);
@@ -206,6 +215,54 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			return "Sucessfully record saved";
 		}
 		return "Please enter valid Pricing Type";
+	}
+
+	private RollingRevenueCommonEntry saveOrFetchOpportunities(RollingRevenueVO rollingRevenueVO, boolean flag,
+			RollingRevenueCommonEntry rollingRevenueCommonEntry) {
+		Opportunity opportunity = new Opportunity();
+		if (flag) {
+			Optional<Opportunity> oppOptional = opportunityRepository
+					.findById(rollingRevenueVO.getOpportunity().getOpportunityId());
+			opportunity = oppOptional.get();
+			rollingRevenueCommonEntry.setOpportunity(opportunity);
+			rollingRevenueCommonEntry.setProjectCode(opportunity.getProjectCode());
+			rollingRevenueCommonEntry.setProjectStartDate(opportunity.getProjectStartDate());
+			rollingRevenueCommonEntry.setProjectEndDate(opportunity.getProjectEndDate());
+		} else {
+			opportunity.setAccount(accountRepository.findById(rollingRevenueVO.getAccount().getAccountId())
+					.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Account")));
+			opportunity.setOpportunityName(rollingRevenueVO.getOpportunity().getOpportunityName());
+			opportunity.setProjectCode(rollingRevenueVO.getProjectCode());
+			opportunity.setProjectStartDate(rollingRevenueVO.getProjectStartDate());
+			opportunity.setProjectEndDate(rollingRevenueVO.getProjectEndDate());
+			opportunityRepository.save(opportunity);
+
+			rollingRevenueCommonEntry.setOpportunity(opportunity);
+			rollingRevenueCommonEntry.setProjectCode(rollingRevenueVO.getProjectCode());
+			rollingRevenueCommonEntry.setProjectStartDate(rollingRevenueVO.getProjectStartDate());
+			rollingRevenueCommonEntry.setProjectEndDate(rollingRevenueVO.getProjectEndDate());
+		}
+		return rollingRevenueCommonEntry;
+	}
+
+	private RollingRevenueCommonEntry conditionTocheckOpportunityName(RollingRevenueVO rollingRevenueVO,
+			RollingRevenueCommonEntry rollingRevenueCommonEntry) {
+		List<Opportunity> listOfOpportunities = null;
+		boolean flag = false;
+		Optional<Account> account = accountRepository.findByAccountName(rollingRevenueVO.getAccount().getAccountName());
+		if (account.isPresent()) {
+			listOfOpportunities = account.get().getOpportunities();
+			for (Opportunity opportunity : listOfOpportunities) {
+				if (rollingRevenueVO.getOpportunity() != null
+						&& rollingRevenueVO.getOpportunity().getOpportunityName() != null
+						&& opportunity.getOpportunityName()
+								.equalsIgnoreCase(rollingRevenueVO.getOpportunity().getOpportunityName())) {
+					flag = true;
+				}
+			}
+		}
+
+		return saveOrFetchOpportunities(rollingRevenueVO, flag, rollingRevenueCommonEntry);
 	}
 
 	private BigDecimal calculatingBillingRate(RollingRevenueVO rollingRevenueVO) {

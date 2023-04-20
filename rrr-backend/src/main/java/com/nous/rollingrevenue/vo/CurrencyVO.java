@@ -29,8 +29,7 @@ public class CurrencyVO implements Serializable {
 
 	private FinancialYearVO financialYear;
 
-	@NotBlank(message = "BaseCurrency cannot be null or empty")
-	private String baseCurrency;
+	private boolean baseCurrency;
 
 	private boolean isActive;
 
@@ -38,8 +37,10 @@ public class CurrencyVO implements Serializable {
 
 	}
 
-	public CurrencyVO(Long currencyId, String currency, String currencyName, String symbol, BigDecimal conversionRate,
-			FinancialYearVO financialYear, String baseCurrency, boolean isActive) {
+	public CurrencyVO(Long currencyId, @NotBlank(message = "Currency cannot be null or empty") String currency,
+			@NotBlank(message = "CurrencyName cannot be null or empty") String currencyName,
+			@NotBlank(message = "Symbol cannot be null or empty") String symbol, BigDecimal conversionRate,
+			FinancialYearVO financialYear, boolean baseCurrency, boolean isActive) {
 		super();
 		this.currencyId = currencyId;
 		this.currency = currency;
@@ -99,15 +100,15 @@ public class CurrencyVO implements Serializable {
 		this.financialYear = financialYear;
 	}
 
-	public String getBaseCurrency() {
+	public boolean isBaseCurrency() {
 		return baseCurrency;
 	}
 
-	public void setBaseCurrency(String baseCurrency) {
+	public void setBaseCurrency(boolean baseCurrency) {
 		this.baseCurrency = baseCurrency;
 	}
 
-	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
 	}
@@ -115,6 +116,5 @@ public class CurrencyVO implements Serializable {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
 
 }

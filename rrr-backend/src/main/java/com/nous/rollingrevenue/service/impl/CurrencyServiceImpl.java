@@ -81,7 +81,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 				.findById(currencyVO.getFinancialYear().getFinancialYearId()).orElseThrow(
 						() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
 		currency.setFinancialYear(financialYear);
-		currency.setBaseCurrency(currencyVO.getBaseCurrency());
+		currency.setBaseCurrency(currencyVO.isBaseCurrency());
 		currencyRepository.save(currency);
 	}
 
@@ -111,10 +111,11 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@Override
 	public List<CurrencyVO> getCurrencyByFinancialYear(String financialYear) {
 		List<CurrencyVO> currencyVOs = new ArrayList<>();
-		Optional<FinancialYear> findByFinancialYearName = financialYearRepository.findByFinancialYearName(financialYear);
-		if(findByFinancialYearName.isPresent()) {
-			findByFinancialYearName.get().getCurrencies().stream().forEach(currency ->  
-				currencyVOs.add(CurrencyConverter.convertCurrencyToCurrencyVO(currency)));
+		Optional<FinancialYear> findByFinancialYearName = financialYearRepository
+				.findByFinancialYearName(financialYear);
+		if (findByFinancialYearName.isPresent()) {
+			findByFinancialYearName.get().getCurrencies().stream()
+					.forEach(currency -> currencyVOs.add(CurrencyConverter.convertCurrencyToCurrencyVO(currency)));
 		}
 		return currencyVOs;
 	}

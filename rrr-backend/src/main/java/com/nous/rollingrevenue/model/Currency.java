@@ -45,7 +45,7 @@ public class Currency extends Auditable<String> {
 	private FinancialYear financialYear;
 
 	@Column(name = "base_currency")
-	private String baseCurrency;
+	private boolean baseCurrency;
 
 	@OneToMany(mappedBy = "currency")
 	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
@@ -55,7 +55,7 @@ public class Currency extends Auditable<String> {
 	}
 
 	public Currency(Long currencyId, String currency, String currencyName, String symbol, BigDecimal conversionRate,
-			FinancialYear financialYear, String baseCurrency,
+			FinancialYear financialYear, boolean baseCurrency,
 			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.currencyId = currencyId;
@@ -116,11 +116,11 @@ public class Currency extends Auditable<String> {
 		this.financialYear = financialYear;
 	}
 
-	public String getBaseCurrency() {
+	public boolean isBaseCurrency() {
 		return baseCurrency;
 	}
 
-	public void setBaseCurrency(String baseCurrency) {
+	public void setBaseCurrency(boolean baseCurrency) {
 		this.baseCurrency = baseCurrency;
 	}
 
