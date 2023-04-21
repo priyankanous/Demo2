@@ -11,4 +11,6 @@ import com.nous.rollingrevenue.model.Account;
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
 	Optional<Account> findByAccountName(String accountName);
+
+	Optional<Account> findById(Long accountId);
 }

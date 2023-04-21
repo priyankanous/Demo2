@@ -82,4 +82,11 @@ public class OpportunityController {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				opportunityService.activateOrDeactivateById(opportunityId));
 	}
+	
+	@Operation(summary = "Get Opportunity by AccountId")
+	@GetMapping(path = "/account/{accountId}")
+	public WSResponse<List<OpportunityVO>> getOpportunityByAccountId(@PathVariable Long accountId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				opportunityService.getOpportunityByAccountId(accountId));
+	}
 }

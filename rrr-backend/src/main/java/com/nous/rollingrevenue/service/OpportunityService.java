@@ -65,5 +65,16 @@ public interface OpportunityService {
 	 */
 	public OpportunityVO activateOrDeactivateById(Long id);
 
+	
+	/**
+	 * Get the Opportunity details by given AccountId 
+	 * 
+	 * @param  accountId The accountId for retrieving the details of opportunities
+	 * @return The Opportunity details matching the account id. Throws
+	 *         {@link RecordNotFoundException} if no match is found
+	 */
+
+	List<OpportunityVO> getOpportunityByAccountId(Long accountId);
+
 
 }

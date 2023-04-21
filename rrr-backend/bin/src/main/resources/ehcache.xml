@@ -1,0 +1,126 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.ehcache.org/v3"
+	xmlns:jsr107="http://www.ehcache.org/v3/jsr107"
+	xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd
+						http://www.ehcache.org/v3/jsr107 http://www.ehcache.org/schema/ehcache-107-ext-3.0.xsd">
+	
+	<cache-template name="default">
+		<expiry>
+			<ttl unit="seconds">30</ttl>
+		</expiry>
+		<listeners>
+			<listener>
+				<class>com.nous.rollingrevenue.config.CacheEventLogger</class>
+				<event-firing-mode>ASYNCHRONOUS</event-firing-mode>
+				<event-ordering-mode>UNORDERED</event-ordering-mode>
+				<events-to-fire-on>CREATED</events-to-fire-on>
+				<events-to-fire-on>EXPIRED</events-to-fire-on>
+                <events-to-fire-on>EVICTED</events-to-fire-on>
+			</listener>
+		</listeners>
+		<resources>
+			<heap unit="entries">2</heap>
+			<offheap unit="MB">10</offheap>
+		</resources>
+	</cache-template>
+	
+	<cache alias="regions" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.RegionVO</value-type>
+	</cache>
+	
+	<cache alias="sbu" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.StrategicBusinessUnitVO</value-type>
+	</cache>
+	
+	<cache alias="sbuhead" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.StrategicBusinessUnitHeadVO</value-type>
+	</cache>
+	
+	<cache alias="probabilitytype" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.ProbabilityTypeVO</value-type>
+	</cache>
+	
+	<cache alias="businesstype" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.BusinessTypeVO</value-type>
+	</cache>
+	
+	<cache alias="pricingtype" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.PricingTypeVO</value-type>
+	</cache>
+	
+	<cache alias="status" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.StatusVO</value-type>
+	</cache>
+	
+	<cache alias="wostatus" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.WorkOrderStatusVO</value-type>
+	</cache>
+	
+	<cache alias="businessUnitCache" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.BusinessUnitVO</value-type>
+	</cache>
+	
+	<cache alias="bdm" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.BDMVO</value-type>
+	</cache>
+
+    <cache alias="organizations" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.OrganizationVO</value-type>
+	</cache>
+
+    <cache alias="cocpractice" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.CocPracticeVO</value-type>
+	</cache>
+    
+	<cache alias="lossfactor" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.GlobalMonthlyLeaveLossFactorVO</value-type>
+	</cache>
+	
+	<cache alias="financialyear" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.FinancialYearVO</value-type>
+	</cache>
+	
+	<cache alias="currency" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.CurrencyVO</value-type>
+	</cache>
+	
+	<cache alias="annualtargetentry" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.AnnualTargetEntryVO</value-type>
+	</cache>
+	
+	<cache alias="opportunity" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.OpportunityVO</value-type>
+	</cache>
+	
+	<cache alias="accounts" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.AccountVO</value-type>
+	</cache>
+    
+    <cache alias="location" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.LocationVO</value-type>
+	</cache>
+
+    <cache alias="holidaycalendar" uses-template="default">
+		<key-type>java.lang.Long</key-type>
+		<value-type>com.nous.rollingrevenue.vo.HolidayCalendarVO</value-type>
+	</cache>
+</config>
