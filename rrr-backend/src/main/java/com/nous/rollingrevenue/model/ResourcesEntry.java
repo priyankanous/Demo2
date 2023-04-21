@@ -47,6 +47,10 @@ public class ResourcesEntry extends Auditable<String> {
 	@JoinColumn(name = "tm_revenue_id")
 	private TandMRevenueEntry tmRevenueEntry;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "opportunity_id")
+	private Opportunity opportunity;
+
 	public Long getResourceId() {
 		return resourceId;
 	}
@@ -109,6 +113,14 @@ public class ResourcesEntry extends Auditable<String> {
 
 	public void setTmRevenueEntry(TandMRevenueEntry tmRevenueEntry) {
 		this.tmRevenueEntry = tmRevenueEntry;
+	}
+
+	public Opportunity getOpportunity() {
+		return opportunity;
+	}
+
+	public void setOpportunity(Opportunity opportunity) {
+		this.opportunity = opportunity;
 	}
 
 }

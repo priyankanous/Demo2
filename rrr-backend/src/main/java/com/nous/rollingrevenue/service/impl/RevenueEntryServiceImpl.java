@@ -47,10 +47,12 @@ import com.nous.rollingrevenue.repository.StrategicBusinessUnitRepository;
 import com.nous.rollingrevenue.repository.TandMRevenueRepository;
 import com.nous.rollingrevenue.repository.WorkOrderRepository;
 import com.nous.rollingrevenue.service.RevenueEntryService;
+import com.nous.rollingrevenue.vo.EntryResourcesVO;
 import com.nous.rollingrevenue.vo.MonthlyFinancialYearVO;
 import com.nous.rollingrevenue.vo.ProjectCodesVO;
 import com.nous.rollingrevenue.vo.ResourcesDetailsVO;
 import com.nous.rollingrevenue.vo.RollingRevenueAccountVO;
+import com.nous.rollingrevenue.vo.RollingRevenueOpportunityVO;
 import com.nous.rollingrevenue.vo.RollingRevenueVO;
 
 @Service
@@ -206,6 +208,7 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 					resourcesEntry.setLeaveLossFactor(resourcesDetailsVO.getLeaveLossFactor());
 					resourcesEntry.setBillingRate(calculatingBillingRate(rollingRevenueVO).longValue());
 					resourcesEntry.setTmRevenueEntry(revenueEntry);
+					resourcesEntry.setOpportunity(rollingRevenueCommonEntry.getOpportunity());
 					list.add(resourcesEntry);
 				}
 			}
@@ -336,7 +339,10 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 				projectCodesVO.setLeaveLossFactor(tmRevenueEntry.getLeaveLossFactor());
 				projectCodeList.add(projectCodesVO);
 
-				monthlyFinancialYearVO = monthlyBillingSeparation(tmRevenueEntry, revenueCommonEntry, opportunity);
+				monthlyFinancialYearVO = monthlyBillingSeparation(
+						revenueCommonEntry.getFinancialYear().getFinancialYearName(), opportunity.getProjectStartDate(),
+						opportunity.getProjectEndDate(), tmRevenueEntry.getBillingRateType(),
+						tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources());
 				list.add(monthlyFinancialYearVO);
 			}
 			rollingRevenueAccountVO.setProjectCodeList(projectCodeList);
@@ -403,10 +409,8 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 		return financialYearVO;
 	}
 
-	private List<String> getListOfMonthsBetweenDates(Opportunity opportunity) {
+	private List<String> getListOfMonthsBetweenDates(LocalDate startDate, LocalDate endDate) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
-		LocalDate startDate = opportunity.getProjectStartDate();
-		LocalDate endDate = opportunity.getProjectEndDate();
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
 				.collect(Collectors.toList());
@@ -439,7 +443,7 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 	}
 
 	private double convertBillingTypeToMonthly(String billingType, String financialYearName, int monthNumber,
-			String monthName, Long billingRate, Long noOfResources, Long leaveLossFact, String year) {
+			String monthName, Long billingRate, Long leaveLossFact, String year) {
 		double cal = 0;
 		int daysInMonth = weekDaysInMonth(YearMonth.of(Integer.parseInt(year), monthNumber));
 		Long monthlyHolidaysCount = getMonthlyHolidaysCount(financialYearName, monthName);
@@ -477,12 +481,11 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 		return monthlyFinancialYearVO;
 	}
 
-	private MonthlyFinancialYearVO monthlyBillingSeparation(TandMRevenueEntry tmRevenueEntry,
-			RollingRevenueCommonEntry revenueCommonEntry, Opportunity opportunity) {
+	private MonthlyFinancialYearVO monthlyBillingSeparation(String financialYear, LocalDate startDate,
+			LocalDate endDate, String billingRateType, Long billingRate, Long leaveLossFactor) {
 		MonthlyFinancialYearVO monthlyFinancialYearVO = new MonthlyFinancialYearVO();
-		String financialYear = revenueCommonEntry.getFinancialYear().getFinancialYearName();
 		String[] finaYear = financialYear.split("-");
-		List<String> projectMonthAndYear = getListOfMonthsBetweenDates(opportunity);
+		List<String> projectMonthAndYear = getListOfMonthsBetweenDates(startDate, endDate);
 
 		double monthlyBillRate = 0;
 
@@ -494,65 +497,56 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 				switch (split[0]) {
 
 				case "April":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear, 4,
-							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[0]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 4, split[0],
+							billingRate, leaveLossFactor, finaYear[0]);
 					monthlyFinancialYearVO.setApril(monthlyBillRate);
 					break;
 
 				case "May":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear, 5,
-							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[0]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 5, split[0],
+							billingRate, leaveLossFactor, finaYear[0]);
 					monthlyFinancialYearVO.setMay(monthlyBillRate);
 					break;
 
 				case "June":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear, 6,
-							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[0]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 6, split[0],
+							billingRate, leaveLossFactor, finaYear[0]);
 					monthlyFinancialYearVO.setJune(monthlyBillRate);
 					break;
 
 				case "July":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear, 7,
-							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[0]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 7, split[0],
+							billingRate, leaveLossFactor, finaYear[0]);
 					monthlyFinancialYearVO.setJuly(monthlyBillRate);
 					break;
 
 				case "August":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear, 8,
-							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[0]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 8, split[0],
+							billingRate, leaveLossFactor, finaYear[0]);
 					monthlyFinancialYearVO.setAugust(monthlyBillRate);
 					break;
 
 				case "September":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear, 9,
-							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[0]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 9, split[0],
+							billingRate, leaveLossFactor, finaYear[0]);
 					monthlyFinancialYearVO.setSeptember(monthlyBillRate);
 					break;
 
 				case "October":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear,
-							10, split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[0]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 10, split[0],
+							billingRate, leaveLossFactor, finaYear[0]);
 					monthlyFinancialYearVO.setOctober(monthlyBillRate);
 					break;
 
 				case "November":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear,
-							11, split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[0]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 11, split[0],
+							billingRate, leaveLossFactor, finaYear[0]);
 					monthlyFinancialYearVO.setNovember(monthlyBillRate);
 					break;
 
 				case "December":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear,
-							12, split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[0]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 12, split[0],
+							billingRate, leaveLossFactor, finaYear[0]);
 					monthlyFinancialYearVO.setDecember(monthlyBillRate);
 					break;
 
@@ -563,23 +557,20 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 				switch (split[0]) {
 
 				case "January":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear, 4,
-							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[1]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 4, split[0],
+							billingRate, leaveLossFactor, finaYear[1]);
 					monthlyFinancialYearVO.setJanuary(monthlyBillRate);
 					break;
 
 				case "February":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear, 5,
-							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[1]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 5, split[0],
+							billingRate, leaveLossFactor, finaYear[1]);
 					monthlyFinancialYearVO.setFebruary(monthlyBillRate);
 					break;
 
 				case "March":
-					monthlyBillRate = convertBillingTypeToMonthly(tmRevenueEntry.getBillingRateType(), financialYear, 6,
-							split[0], tmRevenueEntry.getBillingRate(), revenueCommonEntry.getNoOfResources(),
-							tmRevenueEntry.getLeaveLossFactor(), finaYear[1]);
+					monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, 6, split[0],
+							billingRate, leaveLossFactor, finaYear[1]);
 					monthlyFinancialYearVO.setMarch(monthlyBillRate);
 					break;
 
@@ -588,6 +579,61 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			}
 		}
 		return monthlyFinancialYearVO;
+	}
+
+	@Override
+	public RollingRevenueOpportunityVO getRevenueByOpportunityLevel(Long id) {
+		RollingRevenueOpportunityVO rollingRevenueOpportunityVO = new RollingRevenueOpportunityVO();
+		List<EntryResourcesVO> resourcesList = new ArrayList<>();
+		EntryResourcesVO resourceVO = new EntryResourcesVO();
+		TandMRevenueEntry tmRevenueEntry = null;
+		RollingRevenueCommonEntry revenueCommonEntry = null;
+		List<MonthlyFinancialYearVO> list = new ArrayList<>();
+		MonthlyFinancialYearVO monthlyFinancialYearVO = null;
+		Optional<Opportunity> findById = opportunityRepository.findById(id);
+		if (findById.isPresent()) {
+			Opportunity opportunity = findById.get();
+			rollingRevenueOpportunityVO.setProjectCodeId(opportunity.getOpportunityId());
+			rollingRevenueOpportunityVO.setProjectCode(opportunity.getProjectCode());
+			rollingRevenueOpportunityVO.setOpportunityName(opportunity.getOpportunityName());
+
+			List<ResourcesEntry> resourcesEntries = opportunity.getResourcesEntries();
+			if (!resourcesEntries.isEmpty()) {
+				for (ResourcesEntry resourcesEntry : resourcesEntries) {
+					tmRevenueEntry = resourcesEntry.getTmRevenueEntry();
+					revenueCommonEntry = tmRevenueEntry.getCommonEntry();
+
+					resourceVO.setStartDate(resourcesEntry.getResourceStartDate());
+					resourceVO.setEndDate(resourcesEntry.getResourceEndDate());
+					resourceVO.setWorkOrderNumber(null);
+					resourceVO.setResourceName(resourcesEntry.getResourceName());
+					resourceVO.setBillingRate(resourcesEntry.getBillingRate());
+					// TODO: Need to set Allocation and save from SAVE API
+					resourceVO.setAllocation(100l);
+					resourceVO.setLeaveLossFactor(resourcesEntry.getLeaveLossFactor());
+					resourcesList.add(resourceVO);
+
+					monthlyFinancialYearVO = monthlyBillingSeparation(
+							revenueCommonEntry.getFinancialYear().getFinancialYearName(),
+							resourcesEntry.getResourceStartDate(), resourcesEntry.getResourceEndDate(),
+							tmRevenueEntry.getBillingRateType(), resourcesEntry.getBillingRate(),
+							revenueCommonEntry.getNoOfResources());
+					list.add(monthlyFinancialYearVO);
+				}
+			}
+
+			rollingRevenueOpportunityVO.setPricingType(revenueCommonEntry.getPricingType());
+			rollingRevenueOpportunityVO.setCocPractice(revenueCommonEntry.getCocPractice().getCocPracticeDisplayName());
+			rollingRevenueOpportunityVO.setNoOfResources(revenueCommonEntry.getNoOfResources());
+			rollingRevenueOpportunityVO.setLeaveLossFactor(tmRevenueEntry.getLeaveLossFactor());
+
+			rollingRevenueOpportunityVO.setResourcesList(resourcesList);
+
+			monthlyFinancialYearVO = calculatingMultipleProjectRevenueDetails(list);
+
+			rollingRevenueOpportunityVO.setMonthlyFinancialYearVO(setQuarterlyDetails(monthlyFinancialYearVO));
+		}
+		return rollingRevenueOpportunityVO;
 	}
 
 }

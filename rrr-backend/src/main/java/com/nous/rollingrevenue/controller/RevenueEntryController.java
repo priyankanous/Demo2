@@ -14,6 +14,7 @@ import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
 import com.nous.rollingrevenue.service.RevenueEntryService;
 import com.nous.rollingrevenue.vo.RollingRevenueAccountVO;
+import com.nous.rollingrevenue.vo.RollingRevenueOpportunityVO;
 import com.nous.rollingrevenue.vo.RollingRevenueVO;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,9 +36,15 @@ public class RevenueEntryController {
 	}
 
 	@Operation(summary = "Get rolling revenue details by account level")
-	@GetMapping(path = "{id}")
+	@GetMapping(path = "/account/{id}")
 	public WSResponse<RollingRevenueAccountVO> getRollingRevenueByAccountLevel(@PathVariable @Valid Long id) {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, revenueEntryService.getRevenueByAccountLevel(id));
+	}
+
+	@Operation(summary = "Get rolling revenue details by opportunity level")
+	@GetMapping(path = "/opportunity/{id}")
+	public WSResponse<RollingRevenueOpportunityVO> getRollingRevenueByOpportunityLevel(@PathVariable @Valid Long id) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, revenueEntryService.getRevenueByOpportunityLevel(id));
 	}
 
 }
