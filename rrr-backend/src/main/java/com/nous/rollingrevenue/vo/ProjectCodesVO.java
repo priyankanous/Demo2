@@ -17,7 +17,7 @@ public class ProjectCodesVO implements Serializable {
 
 	private String pricingType;
 
-	private String practice;
+//	private String practice;
 
 	private String cocPractice;
 
@@ -57,13 +57,13 @@ public class ProjectCodesVO implements Serializable {
 		this.pricingType = pricingType;
 	}
 
-	public String getPractice() {
-		return practice;
-	}
-
-	public void setPractice(String practice) {
-		this.practice = practice;
-	}
+//	public String getPractice() {
+//		return practice;
+//	}
+//
+//	public void setPractice(String practice) {
+//		this.practice = practice;
+//	}
 
 	public String getCocPractice() {
 		return cocPractice;

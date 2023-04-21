@@ -1,11 +1,14 @@
 package com.nous.rollingrevenue.model;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,11 +19,12 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "TM_revenue_entry")
-public class TandMRevenueEntry {
+@EntityListeners(AuditingEntityListener.class)
+public class TandMRevenueEntry extends Auditable<String> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "tm_revenue_id")
 	private Long tmRevenueId;
 
 	@Column(name = "leave_loss_factor")
@@ -36,8 +40,8 @@ public class TandMRevenueEntry {
 	@JoinColumn(name = "common_entry_id")
 	private RollingRevenueCommonEntry commonEntry;
 
-	@OneToMany(mappedBy = "tmRevenueEntry", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<ResourcesEntry> resourcesEntries;
+	@OneToMany(mappedBy = "tmRevenueEntry")
+	private List<ResourcesEntry> resourcesEntries = new ArrayList<>();
 
 	public Long getTmRevenueId() {
 		return tmRevenueId;
@@ -79,11 +83,11 @@ public class TandMRevenueEntry {
 		this.commonEntry = commonEntry;
 	}
 
-	public Set<ResourcesEntry> getResourcesEntries() {
+	public List<ResourcesEntry> getResourcesEntries() {
 		return resourcesEntries;
 	}
 
-	public void setResourcesEntries(Set<ResourcesEntry> resourcesEntries) {
+	public void setResourcesEntries(List<ResourcesEntry> resourcesEntries) {
 		this.resourcesEntries = resourcesEntries;
 	}
 
