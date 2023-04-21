@@ -33,15 +33,17 @@ public class LocationController {
 
 	@Operation(summary = "save location")
 	@PostMapping
-	public WSResponse<LocationVO> saveLocation(@RequestBody @Valid LocationVO locationVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, locationService.addLocation(locationVO));
+	public WSResponse<String> saveLocation(@RequestBody @Valid LocationVO locationVO) {
+		locationService.addLocation(locationVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Update Location by Id")
 	@PutMapping(path = "{locationId}")
-	public WSResponse<LocationVO> updateLocation(@PathVariable @Valid Long locationId,
+	public WSResponse<String> updateLocation(@PathVariable @Valid Long locationId,
 			@RequestBody @Valid LocationVO locationVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, locationService.updateLocation(locationId, locationVO));
+		locationService.updateLocation(locationId, locationVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get Location by Id")
@@ -75,9 +77,9 @@ public class LocationController {
 
 	@Operation(summary = "Activate or Deactivate Location by Id")
 	@PutMapping(path = "/activate-or-deactivate/{locationId}")
-	public WSResponse<LocationVO> activateOrDeactivateLocationById(@PathVariable Long locationId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				locationService.activateOrDeactivateById(locationId));
+	public WSResponse<String> activateOrDeactivateLocationById(@PathVariable Long locationId) {
+		locationService.activateOrDeactivateById(locationId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

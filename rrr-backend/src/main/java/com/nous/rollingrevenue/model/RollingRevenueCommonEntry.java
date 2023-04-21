@@ -2,8 +2,11 @@ package com.nous.rollingrevenue.model;
 
 import java.time.LocalDate;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,11 +17,12 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "rolling_revenue_common_entry")
-public class RollingRevenueCommonEntry {
+@EntityListeners(AuditingEntityListener.class)
+public class RollingRevenueCommonEntry extends Auditable<String> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id")
+	@Column(name = "common_id")
 	private Long commonId;
 
 	@Column(name = "pricing_type")
@@ -95,7 +99,7 @@ public class RollingRevenueCommonEntry {
 	private Long noOfResources;
 
 	@Column(name = "remarks")
-	private Long remarks;
+	private String remarks;
 
 	@Column(name = "status")
 	private String status;
@@ -272,11 +276,11 @@ public class RollingRevenueCommonEntry {
 		this.noOfResources = noOfResources;
 	}
 
-	public Long getRemarks() {
+	public String getRemarks() {
 		return remarks;
 	}
 
-	public void setRemarks(Long remarks) {
+	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
 

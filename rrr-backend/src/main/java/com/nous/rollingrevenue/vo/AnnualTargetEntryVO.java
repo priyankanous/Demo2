@@ -5,8 +5,6 @@ import java.math.BigInteger;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.validation.constraints.NotBlank;
-
 public class AnnualTargetEntryVO implements Serializable {
 
 	/**
@@ -16,35 +14,25 @@ public class AnnualTargetEntryVO implements Serializable {
 
 	private Long annualTargetEntryId;
 
-	@NotBlank(message = "FinancialYear cannot be null or empty")
-	private String financialYear;
+	private FinancialYearVO financialYear;
 
-	@NotBlank(message = "BusinessUnit cannot be null or empty")
-	private String businessUnit;
+	private BusinessUnitVO businessUnit;
 
-	@NotBlank(message = "StartegicBusinessUnit cannot be null or empty")
-	private String startegicBusinessUnit;
+	private StrategicBusinessUnitVO startegicBusinessUnit;
 
-	@NotBlank(message = "StrategicBusinessUnitHead cannot be null or empty")
-	private String strategicBusinessUnitHead;
+	private StrategicBusinessUnitHeadVO strategicBusinessUnitHead;
 
-	@NotBlank(message = "Location cannot be null or empty")
-	private String location;
+	private LocationVO location;
 
-	@NotBlank(message = "Region cannot be null or empty")
-	private String region;
+	private RegionVO region;
 
-	@NotBlank(message = "Account cannot be null or empty")
-	private String account;
+	private AccountVO account;
 
-	@NotBlank(message = "BusinessTypeName cannot be null or empty")
-	private String businessType;
+	private BusinessTypeVO businessType;
 
-	@NotBlank(message = "COCPractice cannot be null or empty")
-	private String cocPractice;
+	private CocPracticeVO cocPractice;
 
-	@NotBlank(message = "BusinessDevelopmentManager cannot be null or empty")
-	private String businessDevelopmentManager;
+	private BDMVO businessDevelopmentManager;
 
 	private BigInteger Q1FYB;
 
@@ -78,9 +66,9 @@ public class AnnualTargetEntryVO implements Serializable {
 
 	}
 
-	public AnnualTargetEntryVO(Long annualTargetEntryId, String financialYear, String businessUnit,
-			String startegicBusinessUnit, String strategicBusinessUnitHead, String location, String region,
-			String account, String businessType, String cocPractice, String businessDevelopmentManager,
+	public AnnualTargetEntryVO(Long annualTargetEntryId, FinancialYearVO financialYear, BusinessUnitVO businessUnit,
+			StrategicBusinessUnitVO startegicBusinessUnit, StrategicBusinessUnitHeadVO strategicBusinessUnitHead, LocationVO location, RegionVO region,
+			AccountVO account, BusinessTypeVO businessType, CocPracticeVO cocPractice, BDMVO businessDevelopmentManager,
 			BigInteger q1fyb, BigInteger q1fys, BigInteger q1fyt, BigInteger q2fyb, BigInteger q2fys, BigInteger q2fyt,
 			BigInteger q3fyb, BigInteger q3fys, BigInteger q3fyt, BigInteger q4fyb, BigInteger q4fys, BigInteger q4fyt,
 			BigInteger fY, boolean isActive) {
@@ -120,83 +108,83 @@ public class AnnualTargetEntryVO implements Serializable {
 		this.annualTargetEntryId = annualTargetEntryId;
 	}
 
-	public String getFinancialYear() {
+	public FinancialYearVO getFinancialYear() {
 		return financialYear;
 	}
 
-	public void setFinancialYear(String financialYear) {
+	public void setFinancialYear(FinancialYearVO financialYear) {
 		this.financialYear = financialYear;
 	}
 
-	public String getBusinessUnit() {
+	public BusinessUnitVO getBusinessUnit() {
 		return businessUnit;
 	}
 
-	public void setBusinessUnit(String businessUnit) {
+	public void setBusinessUnit(BusinessUnitVO businessUnit) {
 		this.businessUnit = businessUnit;
 	}
 
-	public String getStartegicBusinessUnit() {
+	public StrategicBusinessUnitVO getStartegicBusinessUnit() {
 		return startegicBusinessUnit;
 	}
 
-	public void setStartegicBusinessUnit(String startegicBusinessUnit) {
+	public void setStartegicBusinessUnit(StrategicBusinessUnitVO startegicBusinessUnit) {
 		this.startegicBusinessUnit = startegicBusinessUnit;
 	}
 
-	public String getStrategicBusinessUnitHead() {
+	public StrategicBusinessUnitHeadVO getStrategicBusinessUnitHead() {
 		return strategicBusinessUnitHead;
 	}
 
-	public void setStrategicBusinessUnitHead(String strategicBusinessUnitHead) {
+	public void setStrategicBusinessUnitHead(StrategicBusinessUnitHeadVO strategicBusinessUnitHead) {
 		this.strategicBusinessUnitHead = strategicBusinessUnitHead;
 	}
 
-	public String getLocation() {
+	public LocationVO getLocation() {
 		return location;
 	}
 
-	public void setLocation(String location) {
+	public void setLocation(LocationVO location) {
 		this.location = location;
 	}
 
-	public String getRegion() {
+	public RegionVO getRegion() {
 		return region;
 	}
 
-	public void setRegion(String region) {
+	public void setRegion(RegionVO region) {
 		this.region = region;
 	}
 
-	public String getAccount() {
+	public AccountVO getAccount() {
 		return account;
 	}
 
-	public void setAccount(String account) {
+	public void setAccount(AccountVO account) {
 		this.account = account;
 	}
 
-	public String getBusinessType() {
+	public BusinessTypeVO getBusinessType() {
 		return businessType;
 	}
 
-	public void setBusinessType(String businessType) {
+	public void setBusinessType(BusinessTypeVO businessType) {
 		this.businessType = businessType;
 	}
 
-	public String getCocPractice() {
+	public CocPracticeVO getCocPractice() {
 		return cocPractice;
 	}
 
-	public void setCocPractice(String cocPractice) {
+	public void setCocPractice(CocPracticeVO cocPractice) {
 		this.cocPractice = cocPractice;
 	}
 
-	public String getBusinessDevelopmentManager() {
+	public BDMVO getBusinessDevelopmentManager() {
 		return businessDevelopmentManager;
 	}
 
-	public void setBusinessDevelopmentManager(String businessDevelopmentManager) {
+	public void setBusinessDevelopmentManager(BDMVO businessDevelopmentManager) {
 		this.businessDevelopmentManager = businessDevelopmentManager;
 	}
 

@@ -29,7 +29,7 @@ public interface FortnightlyMeetingService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public FortnightlyMeetingVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 	
 
 }

@@ -35,18 +35,17 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 
 	@Override
 	@Transactional
-	public GlobalMonthlyLeaveLossFactorVO addLeaveLossFactor(GlobalMonthlyLeaveLossFactorVO leaveLossFactorVO) {
+	public void addLeaveLossFactor(GlobalMonthlyLeaveLossFactorVO leaveLossFactorVO) {
 		GlobalMonthlyLeaveLossFactor leaveLossFactor = LeaveLossFactorConverter
 				.convertLeaveLossFactorVOToLeaveLossFactor(leaveLossFactorVO);
 		FinancialYear financialYear = financialYearRepository.findById(leaveLossFactorVO.getFinancialYear().getFinancialYearId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
 		leaveLossFactor.setFinancialYear(financialYear);
-		return LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(
-				globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor));
+		globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor);
 	}
 
 	@Override
 	@Transactional
-	public GlobalMonthlyLeaveLossFactorVO updateLeaveLossFactor(Long id,
+	public void updateLeaveLossFactor(Long id,
 			GlobalMonthlyLeaveLossFactorVO leaveLossFactorVO) {
 		GlobalMonthlyLeaveLossFactor leaveLossFactor = globalMonthlyLeaveLossFactorRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
@@ -55,8 +54,7 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 		leaveLossFactor.setOnSite(leaveLossFactorVO.getOnSite());
 		FinancialYear financialYear = financialYearRepository.findById(leaveLossFactorVO.getFinancialYear().getFinancialYearId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
 		leaveLossFactor.setFinancialYear(financialYear);
-		return LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(
-				globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor));
+		globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor);
 	}
 
 	@Override
@@ -113,12 +111,11 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 
 	@Override
 	@Transactional
-	public GlobalMonthlyLeaveLossFactorVO activateOrDeactivateById(Long id) {
+	public void activateOrDeactivateById(Long id) {
 		GlobalMonthlyLeaveLossFactor leaveLossFactor = globalMonthlyLeaveLossFactorRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		leaveLossFactor.setActive(!leaveLossFactor.isActive());
-		return LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(
-				globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor));
+		globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor);
 	}
 
 }

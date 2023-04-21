@@ -36,6 +36,8 @@ public class RollingRevenueAccountVO implements Serializable {
 
 	private MonthlyFinancialYearVO monthlyFinancialYearVO;
 
+	private String financialYearName;
+
 	public String getBusinessUnit() {
 		return businessUnit;
 	}
@@ -138,6 +140,14 @@ public class RollingRevenueAccountVO implements Serializable {
 
 	public void setMonthlyFinancialYearVO(MonthlyFinancialYearVO monthlyFinancialYearVO) {
 		this.monthlyFinancialYearVO = monthlyFinancialYearVO;
+	}
+
+	public String getFinancialYearName() {
+		return financialYearName;
+	}
+
+	public void setFinancialYearName(String financialYearName) {
+		this.financialYearName = financialYearName;
 	}
 
 }

@@ -40,41 +40,40 @@ public class BDMMeetingServiceImpl implements BDMMeetingService {
 
 	@Override
 	@Transactional
-	public BDMMeetingVO saveBDMMeeting(BDMMeetingVO bdmMeetingVO) {
-		BDMMeeting bdmMeeting = bdmMeetingRepository
-				.save(BDMMeetingConverter.convertBDMMeetingVOToBDMMeeting(bdmMeetingVO));
+	public void saveBDMMeeting(BDMMeetingVO bdmMeetingVO) {
+		BDMMeeting bdmMeeting = BDMMeetingConverter.convertBDMMeetingVOToBDMMeeting(bdmMeetingVO);
 		BusinessDevelopmentManager bdm = bdmRepository.findById(bdmMeetingVO.getBusinessDevelopmentManager().getBdmId()).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessDevelopmentManager not exist"));
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessDevelopmentManager"));
 		bdmMeeting.setBusinessDevelopmentManager(bdm);
 		Region region = regionRepository.findById(bdmMeetingVO.getRegion().getRegionId()).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Region not exist"));
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Region"));
 		bdmMeeting.setRegion(region);
 		FinancialYear financialYear = financialYearRepository
 				.findById(bdmMeetingVO.getFinancialYear().getFinancialYearId()).orElseThrow(
-						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+						() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
 		bdmMeeting.setFinancialYear(financialYear);
-		return BDMMeetingConverter.convertBDMMeetingToBDMMeetingVO(bdmMeeting);
+		bdmMeetingRepository.save(bdmMeeting);
 	}
 
 	@Override
 	@Transactional
-	public BDMMeetingVO updateBDMMeeting(Long bdmMeetingId, BDMMeetingVO bdmMeetingVO) {
+	public void updateBDMMeeting(Long bdmMeetingId, BDMMeetingVO bdmMeetingVO) {
 		BDMMeeting bdmMeeting = bdmMeetingRepository.findById(bdmMeetingId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmMeetingId));
 		BusinessDevelopmentManager bdm = bdmRepository.findById(bdmMeetingVO.getBusinessDevelopmentManager().getBdmId()).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessDevelopmentManager not exist"));
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessDevelopmentManager"));
 		bdmMeeting.setBusinessDevelopmentManager(bdm);
 		Region region = regionRepository.findById(bdmMeetingVO.getRegion().getRegionId()).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Region not exist"));
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Region"));
 		bdmMeeting.setRegion(region);
 		bdmMeeting.setMeetingName(bdmMeetingVO.getMeetingName());
 		bdmMeeting.setMeetingDate(bdmMeetingVO.getMeetingDate());
 		bdmMeeting.setMeetingTime(bdmMeetingVO.getMeetingTime());
 		FinancialYear financialYear = financialYearRepository
 				.findById(bdmMeetingVO.getFinancialYear().getFinancialYearId()).orElseThrow(
-						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
+						() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
 		bdmMeeting.setFinancialYear(financialYear);
-		return BDMMeetingConverter.convertBDMMeetingToBDMMeetingVO(bdmMeetingRepository.save(bdmMeeting));
+		bdmMeetingRepository.save(bdmMeeting);
 	}
 
 	@Override
@@ -99,11 +98,11 @@ public class BDMMeetingServiceImpl implements BDMMeetingService {
 
 	@Override
 	@Transactional
-	public BDMMeetingVO activateOrDeactivateById(Long bdmMeetingid) {
+	public void activateOrDeactivateById(Long bdmMeetingid) {
 		BDMMeeting bdmMeeting = bdmMeetingRepository.findById(bdmMeetingid)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmMeetingid));
 		bdmMeeting.setActive(!bdmMeeting.isActive());
-		return BDMMeetingConverter.convertBDMMeetingToBDMMeetingVO(bdmMeetingRepository.save(bdmMeeting));
+		bdmMeetingRepository.save(bdmMeeting);
 	}
 
 }

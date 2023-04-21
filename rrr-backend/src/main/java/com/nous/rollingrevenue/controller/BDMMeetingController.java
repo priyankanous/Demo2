@@ -32,9 +32,9 @@ public class BDMMeetingController {
 
 	@Operation(summary = "Save BDMMeeting")
 	@PostMapping
-	public WSResponse<BDMMeetingVO> saveBDMMeeting(@RequestBody @Valid BDMMeetingVO bdmAccountVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				bdmMeetingService.saveBDMMeeting(bdmAccountVO));
+	public WSResponse<String> saveBDMMeeting(@RequestBody @Valid BDMMeetingVO bdmAccountVO) {
+		bdmMeetingService.saveBDMMeeting(bdmAccountVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete BDMMeeting by Id")
@@ -46,10 +46,10 @@ public class BDMMeetingController {
 
 	@Operation(summary = "Update BDMMeeting by Id")
 	@PutMapping(path = "{bdmMeetingId}")
-	public WSResponse<BDMMeetingVO> updateBDMMeeting(@PathVariable Long bdmMeetingId,
+	public WSResponse<String> updateBDMMeeting(@PathVariable Long bdmMeetingId,
 			@RequestBody @Valid BDMMeetingVO bdmMeetingVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				bdmMeetingService.updateBDMMeeting(bdmMeetingId, bdmMeetingVO));
+		bdmMeetingService.updateBDMMeeting(bdmMeetingId, bdmMeetingVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get BDMMeetings By FinancialYear")
@@ -61,9 +61,9 @@ public class BDMMeetingController {
 	
 	@Operation(summary = "Activate or Deactivate BDMMeeting by Id")
 	@PutMapping(path = "/activate-or-deactivate/{bdmMeetingId}")
-	public WSResponse<BDMMeetingVO> activateOrDeactivateBDMMeetingById(@PathVariable Long bdmMeetingId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				bdmMeetingService.activateOrDeactivateById(bdmMeetingId));
+	public WSResponse<String> activateOrDeactivateBDMMeetingById(@PathVariable Long bdmMeetingId) {
+		bdmMeetingService.activateOrDeactivateById(bdmMeetingId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

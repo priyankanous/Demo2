@@ -43,11 +43,11 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 
 	@Override
 	@Transactional
-	public StrategicBusinessUnitHeadVO saveSBUHead(StrategicBusinessUnitHeadVO sbuHeadVO) {
+	public void saveSBUHead(StrategicBusinessUnitHeadVO sbuHeadVO) {
 		StrategicBusinessUnitHead sbuHead = StrategicBusinessUnitHeadConverter.convertSBUHeadVOToSBUHead(sbuHeadVO);
 		StrategicBusinessUnit sbu =  sbuRepository.findById(sbuHeadVO.getStrategicBusinessUnit().getSbuId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "StrategicBusinessUnit not exist"));
 		sbuHead.setStrategicbusinessUnit(sbu);
-		return StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(sbuHeadRepository.save(sbuHead));
+		sbuHeadRepository.save(sbuHead);
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 
 	@Override
 	@Transactional
-	public StrategicBusinessUnitHeadVO updateSBUHead(Long sbuHeadId, StrategicBusinessUnitHeadVO sbuHeadVO) {
+	public void updateSBUHead(Long sbuHeadId, StrategicBusinessUnitHeadVO sbuHeadVO) {
 		StrategicBusinessUnitHead sbuHead = sbuHeadRepository.findById(sbuHeadId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
 		sbuHead.setSbuHeadName(sbuHeadVO.getSbuHeadName());
@@ -77,7 +77,7 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 		sbuHead.setStrategicbusinessUnit(sbu);
 		sbuHead.setActiveFrom(sbuHeadVO.getActiveFrom());
 		sbuHead.setActiveUntil(sbuHeadVO.getActiveUntil());
-		return StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(sbuHeadRepository.save(sbuHead));
+		sbuHeadRepository.save(sbuHead);
 	}
 
 	@Override
@@ -96,11 +96,11 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 
 	@Override
 	@Transactional
-	public StrategicBusinessUnitHeadVO activateOrDeactivateById(Long sbuHeadId) {
+	public void activateOrDeactivateById(Long sbuHeadId) {
 		StrategicBusinessUnitHead sbuHead = sbuHeadRepository.findById(sbuHeadId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
 		sbuHead.setActive(!sbuHead.isActive());
-		return StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(sbuHeadRepository.save(sbuHead));
+		sbuHeadRepository.save(sbuHead);
 	}
 
 }

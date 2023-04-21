@@ -41,7 +41,7 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 
 	@Override
 	@Transactional
-	public HolidayCalendarVO addCalendar(HolidayCalendarVO holidayCalendarVO) {
+	public void addCalendar(HolidayCalendarVO holidayCalendarVO) {
 		HolidayCalendar holidayCalendar = HolidayCalendarConverter
 				.convertHolidayCalendarVOToHolidayCalendar(holidayCalendarVO);
 		FinancialYear financialYear = financialYearRepository
@@ -52,13 +52,12 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Location not exist"));
 		holidayCalendar.setLocation(location);
 		holidayCalendar.setHolidayDay(holidayCalendar.getHolidayDate().getDayOfWeek().name());
-		return HolidayCalendarConverter
-				.convertHolidayCalendarToHolidayCalendarVO(holidayCalendarRepository.save(holidayCalendar));
+		holidayCalendarRepository.save(holidayCalendar);
 	}
 
 	@Override
 	@Transactional
-	public HolidayCalendarVO updateHolidayCalendar(Long holidayId, HolidayCalendarVO holidayCalendarVO) {
+	public void updateHolidayCalendar(Long holidayId, HolidayCalendarVO holidayCalendarVO) {
 		HolidayCalendar holidayCalendar = holidayCalendarRepository.findById(holidayId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + holidayId));
 		holidayCalendar.setHolidayName(holidayCalendarVO.getHolidayName());
@@ -71,8 +70,7 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Location not exist"));
 		holidayCalendar.setLocation(location);
 		holidayCalendar.setHolidayDay(holidayCalendarVO.getHolidayDate().getDayOfWeek().name());
-		return HolidayCalendarConverter
-				.convertHolidayCalendarToHolidayCalendarVO(holidayCalendarRepository.save(holidayCalendar));
+		holidayCalendarRepository.save(holidayCalendar);
 	}
 
 	@Override
@@ -120,12 +118,11 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 
 	@Override
 	@Transactional
-	public HolidayCalendarVO activateOrDeactivateById(Long holidayId) {
+	public void activateOrDeactivateById(Long holidayId) {
 		HolidayCalendar holidayCalendar = holidayCalendarRepository.findById(holidayId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + holidayId));
 		holidayCalendar.setActive(!holidayCalendar.isActive());
-		return HolidayCalendarConverter
-				.convertHolidayCalendarToHolidayCalendarVO(holidayCalendarRepository.save(holidayCalendar));
+		holidayCalendarRepository.save(holidayCalendar);
 	}
 
 	@Override

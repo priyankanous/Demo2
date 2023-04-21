@@ -40,9 +40,9 @@ public class StrategicBusinessUnitHeadController {
 
 	@Operation(summary = "Save SBUHead")
 	@PostMapping
-	public WSResponse<StrategicBusinessUnitHeadVO> saveSBUHead(
-			@RequestBody @Valid StrategicBusinessUnitHeadVO sbuHeadVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuHeadService.saveSBUHead(sbuHeadVO));
+	public WSResponse<String> saveSBUHead(@RequestBody @Valid StrategicBusinessUnitHeadVO sbuHeadVO) {
+		sbuHeadService.saveSBUHead(sbuHeadVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get SBUHead by Id")
@@ -53,10 +53,10 @@ public class StrategicBusinessUnitHeadController {
 
 	@Operation(summary = "Update SBUHead by Id")
 	@PutMapping(path = "{sbuHeadId}")
-	public WSResponse<StrategicBusinessUnitHeadVO> updateSBUHead(@PathVariable Long sbuHeadId,
+	public WSResponse<String> updateSBUHead(@PathVariable Long sbuHeadId,
 			@RequestBody @Valid StrategicBusinessUnitHeadVO sbuHeadVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				sbuHeadService.updateSBUHead(sbuHeadId, sbuHeadVO));
+		sbuHeadService.updateSBUHead(sbuHeadId, sbuHeadVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete SBUHead by Id")
@@ -77,10 +77,9 @@ public class StrategicBusinessUnitHeadController {
 
 	@Operation(summary = "Activate or Deactivate StrategicBusinessUnitHead by Id")
 	@PutMapping(path = "/activate-or-deactivate/{sbuHeadId}")
-	public WSResponse<StrategicBusinessUnitHeadVO> activateOrDeactivateStrategicBusinessUnitHeadById(
-			@PathVariable Long sbuHeadId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				sbuHeadService.activateOrDeactivateById(sbuHeadId));
+	public WSResponse<String> activateOrDeactivateStrategicBusinessUnitHeadById(@PathVariable Long sbuHeadId) {
+		sbuHeadService.activateOrDeactivateById(sbuHeadId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

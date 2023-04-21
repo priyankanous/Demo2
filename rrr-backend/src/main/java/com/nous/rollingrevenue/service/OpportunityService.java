@@ -20,10 +20,10 @@ public interface OpportunityService {
 	 * Add an Opportunity to the database
 	 * 
 	 * @param OpportunityVO
-	 * @return The newly added Opportunity details
+	 *
 	 */
 	
-	public OpportunityVO saveOpportunity(OpportunityVO opportunityVO);
+	public void saveOpportunity(OpportunityVO opportunityVO);
 	
 
 	/**
@@ -51,10 +51,10 @@ public interface OpportunityService {
 	 * Update an Opportunity to the database by given Id
 	 * 
 	 * @param opportunityId, OpportunityVO
-	 * @return The newly updated Opportunity details
+	 * 
 	 */
 
-	public  OpportunityVO updateOpportunity(Long opportunityId, OpportunityVO opportunityVO);
+	public  void updateOpportunity(Long opportunityId, OpportunityVO opportunityVO);
 
 
 	public List<OpportunityVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -63,7 +63,7 @@ public interface OpportunityService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public OpportunityVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 	
 	/**

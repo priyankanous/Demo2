@@ -38,9 +38,8 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	@Transactional
-	public RegionVO saveRegion(RegionVO regionVO) {
-		Region region = regionRepository.save(RegionConverter.convertRegionVOToRegion(regionVO));
-		return RegionConverter.convertRegionToRegionVO(region);
+	public void saveRegion(RegionVO regionVO) {
+		regionRepository.save(RegionConverter.convertRegionVOToRegion(regionVO));
 	}
 
 	@Override
@@ -60,12 +59,12 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	@Transactional
-	public RegionVO updateRegion(Long regionId, RegionVO regionVO) {
+	public void updateRegion(Long regionId, RegionVO regionVO) {
 		Region region = regionRepository.findById(regionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
 		region.setRegionName(regionVO.getRegionName());
 		region.setRegionDisplayName(regionVO.getRegionDisplayName());
-		return RegionConverter.convertRegionToRegionVO(regionRepository.save(region));
+		regionRepository.save(region);
 	}
 
 	@Override
@@ -84,11 +83,11 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	@Transactional
-	public RegionVO activateOrDeactivateById(Long regionId) {
+	public void activateOrDeactivateById(Long regionId) {
 		Region region = regionRepository.findById(regionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
 		region.setActive(!region.isActive());
-		return RegionConverter.convertRegionToRegionVO(regionRepository.save(region));
+		regionRepository.save(region);
 	}
 
 }

@@ -40,9 +40,9 @@ public class FinancialYearController {
 
 	@Operation(summary = "Save FinancialYear")
 	@PostMapping
-	public WSResponse<FinancialYearVO> saveFinancialYear(@RequestBody @Valid FinancialYearVO financialYearVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				financialYearService.saveFinancialYear(financialYearVO));
+	public WSResponse<String> saveFinancialYear(@RequestBody @Valid FinancialYearVO financialYearVO) {
+		financialYearService.saveFinancialYear(financialYearVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get FinancialYear by Id")
@@ -54,10 +54,10 @@ public class FinancialYearController {
 
 	@Operation(summary = "Update FinancialYear by Id")
 	@PutMapping(path = "{financialYearId}")
-	public WSResponse<FinancialYearVO> updateFinancialYear(@PathVariable Long financialYearId,
+	public WSResponse<String> updateFinancialYear(@PathVariable Long financialYearId,
 			@RequestBody @Valid FinancialYearVO financialYearVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				financialYearService.updateFinancialYear(financialYearId, financialYearVO));
+		financialYearService.updateFinancialYear(financialYearId, financialYearVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete FinancialYear by Id")
@@ -78,9 +78,9 @@ public class FinancialYearController {
 
 	@Operation(summary = "Activate or Deactivate FinancialYear by Id")
 	@PutMapping(path = "/activate-or-deactivate/{financialYearId}")
-	public WSResponse<FinancialYearVO> activateOrDeactivateFinancialYearById(@PathVariable Long financialYearId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				financialYearService.activateOrDeactivateById(financialYearId));
+	public WSResponse<String> activateOrDeactivateFinancialYearById(@PathVariable Long financialYearId) {
+		financialYearService.activateOrDeactivateById(financialYearId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

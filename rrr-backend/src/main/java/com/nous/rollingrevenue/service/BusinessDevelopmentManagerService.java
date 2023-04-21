@@ -11,17 +11,17 @@ public interface BusinessDevelopmentManagerService {
 	 * Add an Business Development Manager to the database
 	 * 
 	 * @param bdm
-	 * @return The newly added Business Development Manager details
+	 * 
 	 */
-	public BDMVO addBDMDetails(BDMVO bdmvo);
+	public void addBDMDetails(BDMVO bdmvo);
 
 	/**
 	 * Update an Business Development Manager to the database
 	 * 
 	 * @param bdmId, bdmVO
-	 * @return updated Business Development Manager details
+	 * 
 	 */
-	public BDMVO updateBDMDetails(Long bdmId, BDMVO bdmVO);
+	public void updateBDMDetails(Long bdmId, BDMVO bdmVO);
 
 	/**
 	 * Get the Business Development Manager details By Id
@@ -52,6 +52,6 @@ public interface BusinessDevelopmentManagerService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public BDMVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

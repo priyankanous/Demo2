@@ -38,10 +38,8 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 
 	@Override
 	@Transactional
-	public PricingTypeVO savePricingType(PricingTypeVO pricingTypeVO) {
-		PricingType pricingType = pricingTypeRepository
-				.save(PricingTypeConverter.convertPricingTypeVOToPricingType(pricingTypeVO));
-		return PricingTypeConverter.convertPricingTypeToPricingTypeVO(pricingType);
+	public void savePricingType(PricingTypeVO pricingTypeVO) {
+		pricingTypeRepository.save(PricingTypeConverter.convertPricingTypeVOToPricingType(pricingTypeVO));
 	}
 
 	@Override
@@ -62,12 +60,12 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 
 	@Override
 	@Transactional
-	public PricingTypeVO updatePricingType(Long pricingTypeId, PricingTypeVO pricingTypeVO) {
+	public void updatePricingType(Long pricingTypeId, PricingTypeVO pricingTypeVO) {
 		PricingType pricingType = pricingTypeRepository.findById(pricingTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
 		pricingType.setPricingTypeName(pricingTypeVO.getPricingTypeName());
 		pricingType.setPricingTypeDisplayName(pricingTypeVO.getPricingTypeDisplayName());
-		return PricingTypeConverter.convertPricingTypeToPricingTypeVO(pricingTypeRepository.save(pricingType));
+		pricingTypeRepository.save(pricingType);
 	}
 	
 	@Override
@@ -86,11 +84,11 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 	
 	@Override
 	@Transactional
-	public PricingTypeVO activateOrDeactivateById(Long pricingTypeId) {
+	public void activateOrDeactivateById(Long pricingTypeId) {
 		PricingType pricingType = pricingTypeRepository.findById(pricingTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
 		pricingType.setActive(!pricingType.isActive());
-		return PricingTypeConverter.convertPricingTypeToPricingTypeVO(pricingTypeRepository.save(pricingType));
+		pricingTypeRepository.save(pricingType);
 	}
 
 }

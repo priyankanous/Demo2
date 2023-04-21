@@ -11,17 +11,17 @@ public interface GlobalMonthlyLeaveLossFactorService {
 	 * Add an Global monthly leave loss factor to the database
 	 * 
 	 * @param leaveLossFactorVO
-	 * @return The newly added Global monthly leave loss factor details
+	 * 
 	 */
-	public GlobalMonthlyLeaveLossFactorVO addLeaveLossFactor(GlobalMonthlyLeaveLossFactorVO leaveLossFactorVO);
+	public void addLeaveLossFactor(GlobalMonthlyLeaveLossFactorVO leaveLossFactorVO);
 
 	/**
 	 * Update an Global monthly leave loss factor to the database
 	 * 
 	 * @param leaveLossFactorVO
-	 * @return updated Global monthly leave loss factor details
+	 * 
 	 */
-	public GlobalMonthlyLeaveLossFactorVO updateLeaveLossFactor(Long id, GlobalMonthlyLeaveLossFactorVO factorVO);
+	public void updateLeaveLossFactor(Long id, GlobalMonthlyLeaveLossFactorVO factorVO);
 
 	/**
 	 * Get the Global monthly leave loss factor details
@@ -61,6 +61,6 @@ public interface GlobalMonthlyLeaveLossFactorService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public GlobalMonthlyLeaveLossFactorVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

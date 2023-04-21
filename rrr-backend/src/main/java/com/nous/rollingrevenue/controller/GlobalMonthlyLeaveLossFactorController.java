@@ -33,18 +33,18 @@ public class GlobalMonthlyLeaveLossFactorController {
 
 	@Operation(summary = "save leave loss factor")
 	@PostMapping
-	public WSResponse<GlobalMonthlyLeaveLossFactorVO> saveLeaveLossFactor(
+	public WSResponse<String> saveLeaveLossFactor(
 			@RequestBody @Valid GlobalMonthlyLeaveLossFactorVO factorVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				globalMonthlyLeaveLossFactorService.addLeaveLossFactor(factorVO));
+		globalMonthlyLeaveLossFactorService.addLeaveLossFactor(factorVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Update leave loss factor")
 	@PutMapping(path = "{id}")
-	public WSResponse<GlobalMonthlyLeaveLossFactorVO> updateLeaveLossFactor(@PathVariable @Valid Long id,
+	public WSResponse<String> updateLeaveLossFactor(@PathVariable @Valid Long id,
 			@RequestBody @Valid GlobalMonthlyLeaveLossFactorVO factorVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				globalMonthlyLeaveLossFactorService.updateLeaveLossFactor(id, factorVO));
+		globalMonthlyLeaveLossFactorService.updateLeaveLossFactor(id, factorVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get leave loss factor by Id")
@@ -88,10 +88,10 @@ public class GlobalMonthlyLeaveLossFactorController {
 
 	@Operation(summary = "Activate or Deactivate GlobalMonthlyLeaveLossFactor by Id")
 	@PutMapping(path = "/activate-or-deactivate/{leaveLossFactorId}")
-	public WSResponse<GlobalMonthlyLeaveLossFactorVO> activateOrDeactivateGlobalMonthlyLeaveLossFactorById(
+	public WSResponse<String> activateOrDeactivateGlobalMonthlyLeaveLossFactorById(
 			@PathVariable Long leaveLossFactorId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				globalMonthlyLeaveLossFactorService.activateOrDeactivateById(leaveLossFactorId));
+		globalMonthlyLeaveLossFactorService.activateOrDeactivateById(leaveLossFactorId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

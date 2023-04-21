@@ -43,11 +43,11 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 
 	@Override
 	@Transactional
-	public StrategicBusinessUnitVO saveSBU(StrategicBusinessUnitVO sbuVO) {
+	public void saveSBU(StrategicBusinessUnitVO sbuVO) {
 		StrategicBusinessUnit sbu = StrategicBusinessUnitConverter.convertSBUVOToSBU(sbuVO);
 		BusinessUnit businessUnit =  businessUnitRepository.findById(sbuVO.getBusinessUnit().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
 		sbu.setBusinessUnit(businessUnit);
-		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuRepository.save(sbu));
+		sbuRepository.save(sbu);
 	}
 
 	@Override
@@ -67,14 +67,14 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 
 	@Override
 	@Transactional
-	public StrategicBusinessUnitVO updateSBU(Long sbuId, StrategicBusinessUnitVO sbuVO) {
+	public void updateSBU(Long sbuId, StrategicBusinessUnitVO sbuVO) {
 		StrategicBusinessUnit sbu = sbuRepository.findById(sbuId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
 		sbu.setSbuName(sbuVO.getSbuName());
 		sbu.setSbuDisplayName(sbuVO.getSbuDisplayName());
 		BusinessUnit businessUnit =  businessUnitRepository.findById(sbuVO.getBusinessUnit().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "BusinessUnit not exist"));
 		sbu.setBusinessUnit(businessUnit);
-		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuRepository.save(sbu));
+		sbuRepository.save(sbu);
 	}
 
 	@Override
@@ -93,11 +93,11 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 
 	@Override
 	@Transactional
-	public StrategicBusinessUnitVO activateOrDeactivateById(Long sbuId) {
+	public void activateOrDeactivateById(Long sbuId) {
 		StrategicBusinessUnit sbu = sbuRepository.findById(sbuId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
 		sbu.setActive(!sbu.isActive());
-		return StrategicBusinessUnitConverter.convertSBUToSBUVO(sbuRepository.save(sbu));
+		sbuRepository.save(sbu);
 	}
 
 }

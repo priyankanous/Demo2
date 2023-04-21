@@ -11,9 +11,9 @@ public interface BusinessUnitService {
 	 * Add an business unit to the database
 	 * 
 	 * @param businessUnitVO
-	 * @return The newly added businessUnit details
+	 * 
 	 */
-	public BusinessUnitVO addBusinessUnit(BusinessUnitVO businessUnitVO);
+	public void addBusinessUnit(BusinessUnitVO businessUnitVO);
 
 	/**
 	 * Get the business unit details
@@ -42,9 +42,9 @@ public interface BusinessUnitService {
 	 * Update an business unit to the database
 	 * 
 	 * @param businessUnitVO
-	 * @return updated businessUnit details
+	 * 
 	 */
-	public BusinessUnitVO updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO);
+	public void updateBusinessUnit(Long id, BusinessUnitVO businessUnitVO);
 
 	public List<BusinessUnitVO> getPagination(int pagenumber, int pagesize, String sortBy);
 	
@@ -52,6 +52,6 @@ public interface BusinessUnitService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public BusinessUnitVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

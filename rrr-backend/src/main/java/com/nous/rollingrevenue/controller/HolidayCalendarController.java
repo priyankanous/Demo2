@@ -33,16 +33,17 @@ public class HolidayCalendarController {
 
 	@Operation(summary = "Save Calendar")
 	@PostMapping
-	public WSResponse<HolidayCalendarVO> saveCalendar(@RequestBody @Valid HolidayCalendarVO holidayCalendarVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS, holidayCalendarService.addCalendar(holidayCalendarVO));
+	public WSResponse<String> saveHolidayCalendar(@RequestBody @Valid HolidayCalendarVO holidayCalendarVO) {
+		holidayCalendarService.addCalendar(holidayCalendarVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Update Calendar by Id")
 	@PutMapping(path = "{holidayId}")
-	public WSResponse<HolidayCalendarVO> updateLocation(@PathVariable @Valid Long holidayId,
+	public WSResponse<String> updateHolidayCalendar(@PathVariable @Valid Long holidayId,
 			@RequestBody @Valid HolidayCalendarVO holidayCalendarVO) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				holidayCalendarService.updateHolidayCalendar(holidayId, holidayCalendarVO));
+		holidayCalendarService.updateHolidayCalendar(holidayId, holidayCalendarVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get Calendar by Id")
@@ -76,9 +77,9 @@ public class HolidayCalendarController {
 
 	@Operation(summary = "Activate or Deactivate HolidayCalendar by Id")
 	@PutMapping(path = "/activate-or-deactivate/{holidayId}")
-	public WSResponse<HolidayCalendarVO> activateOrDeactivateHolidayCalendarById(@PathVariable Long holidayId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				holidayCalendarService.activateOrDeactivateById(holidayId));
+	public WSResponse<String> activateOrDeactivateHolidayCalendarById(@PathVariable Long holidayId) {
+		holidayCalendarService.activateOrDeactivateById(holidayId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get Holiday Calendar By FinancialYear")

@@ -25,7 +25,7 @@ public class Constants {
 	
 	public static final String YES = "Yes";
 	
-	public static final String HOURLY = "Hourly";
+	public static final String HOURLY = "Hour";
 	public static final String DAILY = "Daily";
 	public static final String MONTHLY = "Monthly";
 	public static final String QUARTERLY = "Quarterly";

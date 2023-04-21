@@ -20,7 +20,7 @@ public class ResourcesDetailsVO implements Serializable {
 	private Long resourceId;
 
 	@NotNull(message = "Employee Id cannot be null or empty")
-	private Long EmployeeId;
+	private Long employeeId;
 
 	@NotBlank(message = "Resource Name cannot be null or empty")
 	private String resourceName;
@@ -45,11 +45,11 @@ public class ResourcesDetailsVO implements Serializable {
 	}
 
 	public Long getEmployeeId() {
-		return EmployeeId;
+		return employeeId;
 	}
 
 	public void setEmployeeId(Long employeeId) {
-		EmployeeId = employeeId;
+		this.employeeId = employeeId;
 	}
 
 	public String getResourceName() {

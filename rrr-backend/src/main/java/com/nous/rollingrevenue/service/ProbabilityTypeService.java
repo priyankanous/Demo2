@@ -20,10 +20,10 @@ public interface ProbabilityTypeService {
 	 * Add an ProbabilityType to the database
 	 * 
 	 * @param ProbabilityTypeVO
-	 * @return The newly added ProbabilityType details
+	 * 
 	 */
 	
-	public ProbabilityTypeVO saveProbabilityType(ProbabilityTypeVO probabilityTypeVO);
+	public void saveProbabilityType(ProbabilityTypeVO probabilityTypeVO);
 	
 
 	/**
@@ -51,10 +51,10 @@ public interface ProbabilityTypeService {
 	 * Update an ProbabilityType to the database by given Id
 	 * 
 	 * @param probabilityTypeId, ProbabilityTypeVO
-	 * @return The newly updated ProbabilityType details
+	 * 
 	 */
 
-	public  ProbabilityTypeVO updateProbabilityType(Long probabilityTypeId, ProbabilityTypeVO probabilityTypeVO);
+	public  void updateProbabilityType(Long probabilityTypeId, ProbabilityTypeVO probabilityTypeVO);
 
 
 	public List<ProbabilityTypeVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -63,6 +63,6 @@ public interface ProbabilityTypeService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public ProbabilityTypeVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

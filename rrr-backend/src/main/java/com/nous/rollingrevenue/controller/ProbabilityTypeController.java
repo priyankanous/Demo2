@@ -40,9 +40,9 @@ public class ProbabilityTypeController {
 
 	@Operation(summary = "Save ProbabilityType")
 	@PostMapping
-	public WSResponse<ProbabilityTypeVO> saveProbabilityType(@RequestBody @Valid ProbabilityTypeVO probabilityTypeVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				probabilityTypeService.saveProbabilityType(probabilityTypeVO));
+	public WSResponse<String> saveProbabilityType(@RequestBody @Valid ProbabilityTypeVO probabilityTypeVO) {
+		probabilityTypeService.saveProbabilityType(probabilityTypeVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get ProbabilityType by Id")
@@ -54,10 +54,10 @@ public class ProbabilityTypeController {
 
 	@Operation(summary = "Update ProbabilityType by Id")
 	@PutMapping(path = "{probabilityTypeId}")
-	public WSResponse<ProbabilityTypeVO> updateProbabilityType(@PathVariable Long probabilityTypeId,
+	public WSResponse<String> updateProbabilityType(@PathVariable Long probabilityTypeId,
 			@RequestBody @Valid ProbabilityTypeVO probabilityTypeVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				probabilityTypeService.updateProbabilityType(probabilityTypeId, probabilityTypeVO));
+		probabilityTypeService.updateProbabilityType(probabilityTypeId, probabilityTypeVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete ProbabilityType by Id")
@@ -78,9 +78,9 @@ public class ProbabilityTypeController {
 
 	@Operation(summary = "Activate or Deactivate ProbabilityType by Id")
 	@PutMapping(path = "/activate-or-deactivate/{probabilityTypeId}")
-	public WSResponse<ProbabilityTypeVO> activateOrDeactivateProbabilityTypeById(@PathVariable Long probabilityTypeId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				probabilityTypeService.activateOrDeactivateById(probabilityTypeId));
+	public WSResponse<String> activateOrDeactivateProbabilityTypeById(@PathVariable Long probabilityTypeId) {
+		probabilityTypeService.activateOrDeactivateById(probabilityTypeId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

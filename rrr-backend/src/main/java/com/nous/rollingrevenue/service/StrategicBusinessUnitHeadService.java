@@ -18,10 +18,10 @@ public interface StrategicBusinessUnitHeadService {
 	 * Add an SBUHead to the database
 	 * 
 	 * @param StrategicBusinessUnitHeadVO
-	 * @return The newly added StrategicBusinessUnitHead details
+	 * 
 	 */
 	
-	public StrategicBusinessUnitHeadVO saveSBUHead(StrategicBusinessUnitHeadVO sbuHeadVO);
+	public void saveSBUHead(StrategicBusinessUnitHeadVO sbuHeadVO);
 	
 	/**
 	 * Delete an SBUHead record by given Id
@@ -46,10 +46,10 @@ public interface StrategicBusinessUnitHeadService {
 	 * Update an SBUHead to the database by given Id
 	 * 
 	 * @param sbuHeadId, StrategicBusinessUnitHeadVO
-	 * @return The newly updated SBUHead details
+	 *
 	 */
 
-	public  StrategicBusinessUnitHeadVO updateSBUHead(Long sbuHeadId, StrategicBusinessUnitHeadVO sbuHeadVO);
+	public void updateSBUHead(Long sbuHeadId, StrategicBusinessUnitHeadVO sbuHeadVO);
 
 	public  List<StrategicBusinessUnitHeadVO> getPagination(int pagenumber, int pagesize, String sortBy);
 	
@@ -57,6 +57,6 @@ public interface StrategicBusinessUnitHeadService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public StrategicBusinessUnitHeadVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

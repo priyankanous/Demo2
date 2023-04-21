@@ -20,7 +20,7 @@ public class WorkOrderConverter {
 			workOrder.setWorkOrderId(workOrderVO.getWorkOrderId());
 			workOrder.setWorkOrderNumber(workOrderVO.getWorkOrderNumber());
 			workOrder.setWorkOrderEndDate(workOrderVO.getWorkOrderEndDate());
-			workOrder.setAccountName(workOrderVO.getAccountName());
+			workOrder.setAccount(AccountConverter.convertAccountVOToAccount(workOrderVO.getAccount()));
 			workOrder.setWoStatus(workOrderVO.getWorkOrderStatus());
 
 		}
@@ -40,7 +40,7 @@ public class WorkOrderConverter {
 			workOrderVO.setWorkOrderId(workOrder.getWorkOrderId());
 			workOrderVO.setWorkOrderNumber(workOrder.getWorkOrderNumber());
 			workOrderVO.setWorkOrderEndDate(workOrder.getWorkOrderEndDate());
-			workOrderVO.setAccountName(workOrder.getAccountName());
+			workOrderVO.setAccount(AccountConverter.convertAccountToAccountVO(workOrder.getAccount()));
 			workOrderVO.setWorkOrderStatus(workOrder.getWoStatus());
 			workOrderVO.setActive(workOrder.isActive());
 

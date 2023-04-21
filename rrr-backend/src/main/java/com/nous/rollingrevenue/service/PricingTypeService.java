@@ -20,10 +20,10 @@ public interface PricingTypeService {
 	 * Add an PricingType to the database
 	 * 
 	 * @param PricingTypeVO
-	 * @return The newly added PricingType details
+	 * 
 	 */
 	
-	public PricingTypeVO savePricingType(PricingTypeVO pricingTypeVO);
+	public void savePricingType(PricingTypeVO pricingTypeVO);
 	
 
 	/**
@@ -51,10 +51,10 @@ public interface PricingTypeService {
 	 * Update an PricingType to the database by given Id
 	 * 
 	 * @param pricingTypeId, PricingTypeVO
-	 * @return The newly updated PricingType details
+	 * 
 	 */
 
-	public  PricingTypeVO updatePricingType(Long pricingTypeId, PricingTypeVO pricingTypeVO);
+	public void updatePricingType(Long pricingTypeId, PricingTypeVO pricingTypeVO);
 
 
 	public List<PricingTypeVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -63,7 +63,7 @@ public interface PricingTypeService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public PricingTypeVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 
 }

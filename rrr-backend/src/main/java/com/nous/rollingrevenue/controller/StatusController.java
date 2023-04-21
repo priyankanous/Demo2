@@ -40,8 +40,9 @@ public class StatusController {
 
 	@Operation(summary = "Save Status")
 	@PostMapping
-	public WSResponse<StatusVO> saveStatus(@RequestBody @Valid StatusVO statusVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, statusService.saveStatus(statusVO));
+	public WSResponse<String> saveStatus(@RequestBody @Valid StatusVO statusVO) {
+		statusService.saveStatus(statusVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get Status by Id")
@@ -52,9 +53,9 @@ public class StatusController {
 
 	@Operation(summary = "Update Status by Id")
 	@PutMapping(path = "{statusId}")
-	public WSResponse<StatusVO> updateStatus(@PathVariable Long statusId, @RequestBody @Valid StatusVO statusVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				statusService.updateStatus(statusId, statusVO));
+	public WSResponse<String> updateStatus(@PathVariable Long statusId, @RequestBody @Valid StatusVO statusVO) {
+		statusService.updateStatus(statusId, statusVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete Status by Id")
@@ -75,9 +76,9 @@ public class StatusController {
 
 	@Operation(summary = "Activate or Deactivate Status by Id")
 	@PutMapping(path = "/activate-or-deactivate/{statusId}")
-	public WSResponse<StatusVO> activateOrDeactivateStatusById(@PathVariable Long statusId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				statusService.activateOrDeactivateById(statusId));
+	public WSResponse<String> activateOrDeactivateStatusById(@PathVariable Long statusId) {
+		statusService.activateOrDeactivateById(statusId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

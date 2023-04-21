@@ -20,10 +20,10 @@ public interface StatusService {
 	 * Add an Status to the database
 	 * 
 	 * @param StatusVO
-	 * @return The newly added Status details
+	 * 
 	 */
 	
-	public StatusVO saveStatus(StatusVO statusVO);
+	public void saveStatus(StatusVO statusVO);
 	
 
 	/**
@@ -51,10 +51,10 @@ public interface StatusService {
 	 * Update an Status to the database by given Id
 	 * 
 	 * @param statusId, StatusVO
-	 * @return The newly updated Status details
+	 * 
 	 */
 
-	public  StatusVO updateStatus(Long statusId, StatusVO statusVO);
+	public void updateStatus(Long statusId, StatusVO statusVO);
 
 
 	public List<StatusVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -63,6 +63,6 @@ public interface StatusService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public StatusVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

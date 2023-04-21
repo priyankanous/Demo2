@@ -23,53 +23,39 @@ public class RollingRevenueVO implements Serializable {
 	@NotBlank(message = "Pricing Type cannot be null or empty")
 	private String pricingType;
 
-	@NotBlank(message = "Financial Year cannot be null or empty")
 	private FinancialYearVO financialYear;
 
-	@NotBlank(message = "Business Unit cannot be null or empty")
 	private BusinessUnitVO businessUnit;
 
-	@NotBlank(message = "Strategic Business Unit cannot be null or empty")
 	private StrategicBusinessUnitVO strategicBusinessUnit;
 
-	@NotBlank(message = "Strategic Business Unit Head cannot be null or empty")
 	private StrategicBusinessUnitHeadVO strategicBusinessUnitHead;
 
-	@NotBlank(message = "Account cannot be null or empty")
 	private AccountVO account;
 
-	@NotBlank(message = "Opportunity Name cannot be null or empty")
 	private OpportunityVO opportunity;
 
-	@NotBlank(message = "Business Type cannot be null or empty")
 	private BusinessTypeVO businessType;
 
 	@NotBlank(message = "Project Code cannot be null or empty")
 	private String projectCode;
 
-	@NotBlank(message = "Project Start Date cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectStartDate;
 
-	@NotBlank(message = "Project End Date cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectEndDate;
 
-	@NotBlank(message = "Probability cannot be null or empty")
 	private ProbabilityTypeVO probability;
 
-	@NotBlank(message = "Business Development Manager cannot be null or empty")
 	private BDMVO bdm;
 
-	@NotBlank(message = "Region cannot be null or empty")
 	private RegionVO region;
 
 	private CocPracticeVO cocPractice;
 
-	@NotBlank(message = "Location cannot be null or empty")
 	private LocationVO location;
 
-	@NotBlank(message = "Currency cannot be null or empty")
 	private CurrencyVO currency;
 
 	private WorkOrderVO workOrder;
@@ -91,7 +77,7 @@ public class RollingRevenueVO implements Serializable {
 
 	private List<ResourcesDetailsVO> resourcesList;
 
-	private Long remarks;
+	private String remarks;
 
 	private String status;
 
@@ -303,11 +289,11 @@ public class RollingRevenueVO implements Serializable {
 		this.resourcesList = resourcesList;
 	}
 
-	public Long getRemarks() {
+	public String getRemarks() {
 		return remarks;
 	}
 
-	public void setRemarks(Long remarks) {
+	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
 

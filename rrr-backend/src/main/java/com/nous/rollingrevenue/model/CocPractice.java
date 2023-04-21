@@ -38,6 +38,9 @@ public class CocPractice extends Auditable<String> {
 	private BusinessUnit businessUnit;
 
 	@OneToMany(mappedBy = "cocPractice")
+	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "cocPractice")
 	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
 	public CocPractice() {
@@ -45,13 +48,15 @@ public class CocPractice extends Auditable<String> {
 	}
 
 	public CocPractice(Long cocPracticeId, String cocPracticeName, String cocPracticeDisplayName,
-			BusinessUnit businessUnit, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			BusinessUnit businessUnit, List<AnnualTargetEntry> annualTargetEntries,
+			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.cocPracticeId = cocPracticeId;
 		this.cocPracticeName = cocPracticeName;
 		this.cocPracticeDisplayName = cocPracticeDisplayName;
 		this.businessUnit = businessUnit;
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+		this.annualTargetEntries = annualTargetEntries;
 	}
 
 	public Long getCocPracticeId() {
@@ -92,6 +97,14 @@ public class CocPractice extends Auditable<String> {
 
 	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
+
+	public List<AnnualTargetEntry> getAnnualTargetEntries() {
+		return annualTargetEntries;
+	}
+
+	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
+		this.annualTargetEntries = annualTargetEntries;
 	}
 
 }

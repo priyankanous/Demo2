@@ -33,17 +33,21 @@ public class BusinessType extends Auditable<String> {
 	@OneToMany(mappedBy = "businessType")
 	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
 
+	@OneToMany(mappedBy = "businessType")
+	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
 	public BusinessType() {
 
 	}
 
 	public BusinessType(Long businessTypeId, String businessTypeName, String businessTypeDisplayName,
-			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			List<AnnualTargetEntry> annualTargetEntries, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		super();
 		this.businessTypeId = businessTypeId;
 		this.businessTypeName = businessTypeName;
 		this.businessTypeDisplayName = businessTypeDisplayName;
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+		this.annualTargetEntries = annualTargetEntries;
 	}
 
 	public Long getBusinessTypeId() {
@@ -76,6 +80,14 @@ public class BusinessType extends Auditable<String> {
 
 	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
 		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
+	}
+
+	public List<AnnualTargetEntry> getAnnualTargetEntries() {
+		return annualTargetEntries;
+	}
+
+	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
+		this.annualTargetEntries = annualTargetEntries;
 	}
 
 }

@@ -31,19 +31,19 @@ public class LocationServiceImpl implements LocationService {
 
 	@Override
 	@Transactional
-	public LocationVO addLocation(LocationVO locationVO) {
+	public void addLocation(LocationVO locationVO) {
 		Location location = LocationConverter.convertLocationVOToLocation(locationVO);
-		return LocationConverter.convertLocationToLocationVO(locationRepository.save(location));
+		locationRepository.save(location);
 	}
 
 	@Override
 	@Transactional
-	public LocationVO updateLocation(Long locationId, LocationVO locationVO) {
+	public void updateLocation(Long locationId, LocationVO locationVO) {
 		Location location = locationRepository.findById(locationId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + locationId));
 		location.setLocationName(locationVO.getLocationName());
 		location.setLocationDisplayName(locationVO.getLocationDisplayName());
-		return LocationConverter.convertLocationToLocationVO(locationRepository.save(location));
+		locationRepository.save(location);
 	}
 
 	@Override
@@ -91,10 +91,10 @@ public class LocationServiceImpl implements LocationService {
 
 	@Override
 	@Transactional
-	public LocationVO activateOrDeactivateById(Long locationId) {
+	public void activateOrDeactivateById(Long locationId) {
 		Location location = locationRepository.findById(locationId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + locationId));
 		location.setActive(!location.isActive());
-		return LocationConverter.convertLocationToLocationVO(locationRepository.save(location));
+		locationRepository.save(location);
 	}
 }

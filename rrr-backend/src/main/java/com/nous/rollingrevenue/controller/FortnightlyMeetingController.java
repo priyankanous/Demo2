@@ -56,9 +56,9 @@ public class FortnightlyMeetingController {
 
 	@Operation(summary = "Activate or Deactivate Fortnightly Meeting by Id")
 	@PutMapping(path = "/activate-or-deactivate/{id}")
-	public WSResponse<FortnightlyMeetingVO> activateOrDeactivateFortnightlyMeetingById(@PathVariable Long id) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				fortnightlyMeetingService.activateOrDeactivateById(id));
+	public WSResponse<String> activateOrDeactivateFortnightlyMeetingById(@PathVariable Long id) {
+		fortnightlyMeetingService.activateOrDeactivateById(id);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

@@ -38,10 +38,8 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 
 	@Override
 	@Transactional
-	public ProbabilityTypeVO saveProbabilityType(ProbabilityTypeVO probabilityTypeVO) {
-		ProbabilityType probabilityType = probabilityTypeRepository
-				.save(ProbabilityTypeConverter.convertProbabilityTypeVOToProbabilityType(probabilityTypeVO));
-		return ProbabilityTypeConverter.convertProbabilityTypeToProbabilityTypeVO(probabilityType);
+	public void saveProbabilityType(ProbabilityTypeVO probabilityTypeVO) {
+		probabilityTypeRepository.save(ProbabilityTypeConverter.convertProbabilityTypeVOToProbabilityType(probabilityTypeVO));
 	}
 
 	@Override
@@ -61,13 +59,12 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 
 	@Override
 	@Transactional
-	public ProbabilityTypeVO updateProbabilityType(Long probabilityTypeId, ProbabilityTypeVO probabilityTypeVO) {
+	public void updateProbabilityType(Long probabilityTypeId, ProbabilityTypeVO probabilityTypeVO) {
 		ProbabilityType probabilityType = probabilityTypeRepository.findById(probabilityTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
 		probabilityType.setProbabilityTypeName(probabilityTypeVO.getProbabilityTypeName());
 		probabilityType.setPercentage(probabilityTypeVO.getPercentage());
-		return ProbabilityTypeConverter
-				.convertProbabilityTypeToProbabilityTypeVO(probabilityTypeRepository.save(probabilityType));
+		probabilityTypeRepository.save(probabilityType);
 	}
 
 	@Override
@@ -86,12 +83,11 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 
 	@Override
 	@Transactional
-	public ProbabilityTypeVO activateOrDeactivateById(Long probabilityTypeId) {
+	public void activateOrDeactivateById(Long probabilityTypeId) {
 		ProbabilityType probabilityType = probabilityTypeRepository.findById(probabilityTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
 		probabilityType.setActive(!probabilityType.isActive());
-		return ProbabilityTypeConverter
-				.convertProbabilityTypeToProbabilityTypeVO(probabilityTypeRepository.save(probabilityType));
+		probabilityTypeRepository.save(probabilityType);
 	}
 
 }

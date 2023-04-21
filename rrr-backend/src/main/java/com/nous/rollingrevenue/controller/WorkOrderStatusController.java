@@ -40,9 +40,9 @@ public class WorkOrderStatusController {
 
 	@Operation(summary = "Save WorkOrderStatus")
 	@PostMapping
-	public WSResponse<WorkOrderStatusVO> saveWorkOrderStatus(@RequestBody @Valid WorkOrderStatusVO woStatusVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				woStatusService.saveWorkOrderStatus(woStatusVO));
+	public WSResponse<String> saveWorkOrderStatus(@RequestBody @Valid WorkOrderStatusVO woStatusVO) {
+		woStatusService.saveWorkOrderStatus(woStatusVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get WorkOrderStatus by Id")
@@ -54,10 +54,10 @@ public class WorkOrderStatusController {
 
 	@Operation(summary = "Update WorkOrderStatus by Id")
 	@PutMapping(path = "{woStatusId}")
-	public WSResponse<WorkOrderStatusVO> updateWorkOrderStatus(@PathVariable Long woStatusId,
+	public WSResponse<String> updateWorkOrderStatus(@PathVariable Long woStatusId,
 			@RequestBody @Valid WorkOrderStatusVO woStatusVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				woStatusService.updateWorkOrderStatus(woStatusId, woStatusVO));
+		woStatusService.updateWorkOrderStatus(woStatusId, woStatusVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete WorkOrderStatus by Id")
@@ -78,9 +78,9 @@ public class WorkOrderStatusController {
 
 	@Operation(summary = "Activate or Deactivate WorkOrderStatus by Id")
 	@PutMapping(path = "/activate-or-deactivate/{woStatusId}")
-	public WSResponse<WorkOrderStatusVO> activateOrDeactivateWorkOrderStatusById(@PathVariable Long woStatusId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				woStatusService.activateOrDeactivateById(woStatusId));
+	public WSResponse<String> activateOrDeactivateWorkOrderStatusById(@PathVariable Long woStatusId) {
+		woStatusService.activateOrDeactivateById(woStatusId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }

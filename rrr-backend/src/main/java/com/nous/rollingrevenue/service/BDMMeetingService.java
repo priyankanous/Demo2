@@ -11,19 +11,19 @@ public interface BDMMeetingService {
 	 * Add an BDMMeeting to the database
 	 * 
 	 * @param BDMMeetingVO
-	 * @return The newly added BDMMeeting details
+	 * 
 	 */
 	
-	public BDMMeetingVO saveBDMMeeting(BDMMeetingVO bdmMeetingVO);
+	public void saveBDMMeeting(BDMMeetingVO bdmMeetingVO);
 	
 	/**
 	 * Update an BDMMeeting to the database by given Id
 	 * 
 	 * @param bdmMeetingId, BDMMeetingVO
-	 * @return The newly updated BDMMeeting details
+	 * 
 	 */
 
-	public  BDMMeetingVO updateBDMMeeting(Long bdmMeetingId, BDMMeetingVO bdmMeetingVO);
+	public  void updateBDMMeeting(Long bdmMeetingId, BDMMeetingVO bdmMeetingVO);
 	
 	/**
 	 * Delete an BDMMeeting record by given Id
@@ -47,6 +47,6 @@ public interface BDMMeetingService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public BDMMeetingVO activateOrDeactivateById(Long bdmMeetingid);
+	public void activateOrDeactivateById(Long bdmMeetingid);
 
 }

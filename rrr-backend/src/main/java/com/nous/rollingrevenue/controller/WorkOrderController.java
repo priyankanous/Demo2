@@ -47,12 +47,12 @@ public class WorkOrderController {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 	
-	@Operation(summary = "Activate or Deactivate WorkOrder by WorkOrderNumber")
-	@PutMapping(path = "/activate-or-deactivate/{workOrderNumber}")
-	public WSResponse<WorkOrderVO> activateOrDeactivateWorkOrderNumber(
-			@PathVariable Long workOrderNumber) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				workOrderService.activateOrDeactivateByWorkOrderNumber(workOrderNumber));
+	@Operation(summary = "Activate or Deactivate WorkOrder by WorkOrderId")
+	@PutMapping(path = "/activate-or-deactivate/{workOrderId}")
+	public WSResponse<String> activateOrDeactivateWorkOrderById(
+			@PathVariable Long workOrderId) {
+		workOrderService.activateOrDeactivateWorkOrderById(workOrderId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 	
 	

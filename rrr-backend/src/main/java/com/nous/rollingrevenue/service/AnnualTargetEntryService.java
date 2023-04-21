@@ -21,10 +21,10 @@ public interface AnnualTargetEntryService {
 	 * Add an AnnualTargetEntry to the database
 	 * 
 	 * @param AnnualTargetEntryVO
-	 * @return The newly added AnnualTargetEntry details
+	 * 
 	 */
 
-	public AnnualTargetEntryVO saveAnnualTargetEntry(AnnualTargetEntryVO annualTargetEntryVO);
+	public void saveAnnualTargetEntry(AnnualTargetEntryVO annualTargetEntryVO);
 
 	/**
 	 * Delete an AnnualTargetEntry record by given Id
@@ -51,10 +51,10 @@ public interface AnnualTargetEntryService {
 	 * Update an AnnualTargetEntry to the database by given Id
 	 * 
 	 * @param AnnualTargetEntryId, AnnualTargetEntryVO
-	 * @return The newly updated AnnualTargetEntry details
+	 * 
 	 */
 
-	public AnnualTargetEntryVO updateAnnualTargetEntry(Long annualTargetEntryId,
+	public void updateAnnualTargetEntry(Long annualTargetEntryId,
 			AnnualTargetEntryVO annualTargetEntryVO);
 
 	/**
@@ -63,7 +63,6 @@ public interface AnnualTargetEntryService {
 	 * @param MultipartFile Contains AnnualTargetEntries
 	 * 
 	 */
-
 	public void saveExcelDataOfAnnualTargetEntry(MultipartFile file, String financialYear);
 
 	public List<AnnualTargetEntryVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -72,6 +71,6 @@ public interface AnnualTargetEntryService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public AnnualTargetEntryVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

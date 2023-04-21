@@ -20,10 +20,10 @@ public interface WorkOrderStatusService {
 	 * Add an WorkOrderStatus to the database
 	 * 
 	 * @param WorkOrderStatusVO
-	 * @return The newly added WorkOrderStatus details
+	 * 
 	 */
 	
-	public WorkOrderStatusVO saveWorkOrderStatus(WorkOrderStatusVO woStatusVO);
+	public void saveWorkOrderStatus(WorkOrderStatusVO woStatusVO);
 	
 
 	/**
@@ -51,10 +51,10 @@ public interface WorkOrderStatusService {
 	 * Update an WorkOrderStatus to the database by given Id
 	 * 
 	 * @param woStatusId, WorkOrderStatusVO
-	 * @return The newly updated WorkOrderStatus details
+	 * 
 	 */
 
-	public  WorkOrderStatusVO updateWorkOrderStatus(Long woStatusId, WorkOrderStatusVO woStatusVO);
+	public void updateWorkOrderStatus(Long woStatusId, WorkOrderStatusVO woStatusVO);
 
 
 	public List<WorkOrderStatusVO> getPagination(int pagenumber, int pagesize, String sortBy);
@@ -63,6 +63,6 @@ public interface WorkOrderStatusService {
 	 * Activate or Deactivate the record
 	 * @param id
 	 */
-	public WorkOrderStatusVO activateOrDeactivateById(Long id);
+	public void activateOrDeactivateById(Long id);
 
 }

@@ -2,8 +2,11 @@ package com.nous.rollingrevenue.model;
 
 import java.time.LocalDate;
 
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +17,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "resources_entry")
-public class ResourcesEntry {
+@EntityListeners(AuditingEntityListener.class)
+public class ResourcesEntry extends Auditable<String> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +26,7 @@ public class ResourcesEntry {
 	private Long resourceId;
 
 	@Column(name = "employee_id")
-	private Long EmployeeId;
+	private Long employeeId;
 
 	@Column(name = "resource_name")
 	private String resourceName;
@@ -39,8 +43,8 @@ public class ResourcesEntry {
 	@Column(name = "billing_rate")
 	private Long billingRate;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "tm_revenue_id", nullable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "tm_revenue_id")
 	private TandMRevenueEntry tmRevenueEntry;
 
 	public Long getResourceId() {
@@ -52,11 +56,11 @@ public class ResourcesEntry {
 	}
 
 	public Long getEmployeeId() {
-		return EmployeeId;
+		return employeeId;
 	}
 
 	public void setEmployeeId(Long employeeId) {
-		EmployeeId = employeeId;
+		this.employeeId = employeeId;
 	}
 
 	public String getResourceName() {

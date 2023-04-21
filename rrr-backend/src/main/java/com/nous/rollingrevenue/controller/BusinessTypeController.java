@@ -40,9 +40,9 @@ public class BusinessTypeController {
 
 	@Operation(summary = "Save BusinessType")
 	@PostMapping
-	public WSResponse<BusinessTypeVO> saveBusinessType(@RequestBody @Valid BusinessTypeVO businessTypeVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				businessTypeService.saveBusinessType(businessTypeVO));
+	public WSResponse<String> saveBusinessType(@RequestBody @Valid BusinessTypeVO businessTypeVO) {
+		businessTypeService.saveBusinessType(businessTypeVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Get BusinessType by Id")
@@ -54,10 +54,10 @@ public class BusinessTypeController {
 
 	@Operation(summary = "Update BusinessType by Id")
 	@PutMapping(path = "{businessTypeId}")
-	public WSResponse<BusinessTypeVO> updateBusinessType(@PathVariable Long businessTypeId,
+	public WSResponse<String> updateBusinessType(@PathVariable Long businessTypeId,
 			@RequestBody @Valid BusinessTypeVO businessTypeVO) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				businessTypeService.updateBusinessType(businessTypeId, businessTypeVO));
+		businessTypeService.updateBusinessType(businessTypeId, businessTypeVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Delete BusinessType by Id")
@@ -78,9 +78,9 @@ public class BusinessTypeController {
 
 	@Operation(summary = "Activate or Deactivate BusinessType by Id")
 	@PutMapping(path = "/activate-or-deactivate/{businessTypeId}")
-	public WSResponse<BusinessTypeVO> activateOrDeactivateBusinessTypeById(@PathVariable Long businessTypeId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				businessTypeService.activateOrDeactivateById(businessTypeId));
+	public WSResponse<String> activateOrDeactivateBusinessTypeById(@PathVariable Long businessTypeId) {
+		businessTypeService.activateOrDeactivateById(businessTypeId);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 }
