@@ -62,5 +62,14 @@ public interface GlobalMonthlyLeaveLossFactorService {
 	 * @param id
 	 */
 	public void activateOrDeactivateById(Long id);
+	
+	/**
+	 * Get the list of global leave loss factor details
+	 * 
+	 * @param List<globalLeaveLossFactor>
+	 * @return 
+	 *         
+	 */
+	void saveListOfGlobalLeaveLossFactor(List<GlobalMonthlyLeaveLossFactorVO> globalMonthlyLeaveLossFactorVO);
 
 }

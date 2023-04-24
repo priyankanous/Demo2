@@ -93,5 +93,12 @@ public class GlobalMonthlyLeaveLossFactorController {
 		globalMonthlyLeaveLossFactorService.activateOrDeactivateById(leaveLossFactorId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
+	
+	@Operation(summary = "Save List of Global Monthly Leave loss Factor")
+	@PostMapping(path = "/save-all")
+	public WSResponse<String> saveListOfGlobalLeaveLossFactor(@RequestBody @Valid List<GlobalMonthlyLeaveLossFactorVO> globalMonthlyLeaveLossFactorVOs) {
+		globalMonthlyLeaveLossFactorService.saveListOfGlobalLeaveLossFactor(globalMonthlyLeaveLossFactorVOs);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
+	}
 
 }

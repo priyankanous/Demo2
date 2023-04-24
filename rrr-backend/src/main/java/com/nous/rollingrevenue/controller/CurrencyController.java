@@ -90,5 +90,12 @@ public class CurrencyController {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
 				currencyService.getCurrencyByFinancialYear(year));
 	}
+	
+	@Operation(summary = "Save List of Currency")
+	@PostMapping(path = "/save-all")
+	public WSResponse<String> saveListOfCurrency(@RequestBody @Valid List<CurrencyVO> currencyVOs) {
+		currencyService.saveListOfCurrency(currencyVOs);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
+	}
 
 }

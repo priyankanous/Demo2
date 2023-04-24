@@ -73,6 +73,16 @@ public interface CurrencyService {
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
 	public List<CurrencyVO> getCurrencyByFinancialYear(String financialYear);
+	
+	
 
+	/**
+	 * Get the list of Currencies details
+	 * 
+	 * @param List<Currencies>
+	 * @return 
+	 *         
+	 */
+	public void saveListOfCurrency(List<CurrencyVO> currencyVO);
 
 }

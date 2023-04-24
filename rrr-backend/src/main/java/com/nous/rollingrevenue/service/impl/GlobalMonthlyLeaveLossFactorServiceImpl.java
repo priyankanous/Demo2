@@ -118,4 +118,13 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 		globalMonthlyLeaveLossFactorRepository.save(leaveLossFactor);
 	}
 
+	@Override
+	@Transactional
+	public void saveListOfGlobalLeaveLossFactor(List<GlobalMonthlyLeaveLossFactorVO> globalMonthlyLeaveLossFactorVOs) {
+		List<GlobalMonthlyLeaveLossFactor> leaveLossFactor = new ArrayList<>();
+		globalMonthlyLeaveLossFactorVOs.stream()
+		.forEach(globalMonthlyLeaveLossFactorVO -> leaveLossFactor.add(LeaveLossFactorConverter.convertLeaveLossFactorVOToLeaveLossFactor(globalMonthlyLeaveLossFactorVO)));
+		globalMonthlyLeaveLossFactorRepository.saveAll(leaveLossFactor);
+		
+	}
 }

@@ -119,5 +119,14 @@ public class CurrencyServiceImpl implements CurrencyService {
 		}
 		return currencyVOs;
 	}
-
+	
+	@Override
+	@Transactional
+	public void saveListOfCurrency(List<CurrencyVO> currencyVOs) {
+		List<Currency> currencies = new ArrayList<>();
+		currencyVOs.stream()
+		.forEach(currencyVO -> currencies.add(CurrencyConverter.convertCurrencyVOToCurrency(currencyVO)));
+		currencyRepository.saveAll(currencies);
+		
+	}
 }
