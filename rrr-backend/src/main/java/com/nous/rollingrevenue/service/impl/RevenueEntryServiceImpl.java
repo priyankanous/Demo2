@@ -51,6 +51,7 @@ import com.nous.rollingrevenue.vo.EntryResourcesVO;
 import com.nous.rollingrevenue.vo.MonthlyFinancialYearVO;
 import com.nous.rollingrevenue.vo.ProjectCodesVO;
 import com.nous.rollingrevenue.vo.ResourcesDetailsVO;
+import com.nous.rollingrevenue.vo.ResourcesEntryVO;
 import com.nous.rollingrevenue.vo.RollingRevenueAccountVO;
 import com.nous.rollingrevenue.vo.RollingRevenueOpportunityVO;
 import com.nous.rollingrevenue.vo.RollingRevenueVO;
@@ -585,7 +586,7 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 	public RollingRevenueOpportunityVO getRevenueByOpportunityLevel(Long id) {
 		RollingRevenueOpportunityVO rollingRevenueOpportunityVO = new RollingRevenueOpportunityVO();
 		List<EntryResourcesVO> resourcesList = new ArrayList<>();
-		EntryResourcesVO resourceVO = new EntryResourcesVO();
+
 		TandMRevenueEntry tmRevenueEntry = null;
 		RollingRevenueCommonEntry revenueCommonEntry = null;
 		List<MonthlyFinancialYearVO> list = new ArrayList<>();
@@ -600,6 +601,7 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			List<ResourcesEntry> resourcesEntries = opportunity.getResourcesEntries();
 			if (!resourcesEntries.isEmpty()) {
 				for (ResourcesEntry resourcesEntry : resourcesEntries) {
+					EntryResourcesVO resourceVO = new EntryResourcesVO();
 					tmRevenueEntry = resourcesEntry.getTmRevenueEntry();
 					revenueCommonEntry = tmRevenueEntry.getCommonEntry();
 
@@ -634,6 +636,35 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			rollingRevenueOpportunityVO.setMonthlyFinancialYearVO(setQuarterlyDetails(monthlyFinancialYearVO));
 		}
 		return rollingRevenueOpportunityVO;
+	}
+
+	@Override
+	public ResourcesEntryVO getRevenueByResourceLevel(Long id) {
+		ResourcesEntryVO resourcesEntryVO = new ResourcesEntryVO();
+		TandMRevenueEntry tmRevenueEntry = null;
+		RollingRevenueCommonEntry revenueCommonEntry = null;
+		Optional<ResourcesEntry> optional = resourceEntryRepository.findById(id);
+		if (optional.isPresent()) {
+			ResourcesEntry resourcesEntry = optional.get();
+			tmRevenueEntry = resourcesEntry.getTmRevenueEntry();
+			revenueCommonEntry = tmRevenueEntry.getCommonEntry();
+			resourcesEntryVO.setStartDate(resourcesEntry.getResourceStartDate());
+			resourcesEntryVO.setEndDate(resourcesEntry.getResourceEndDate());
+			resourcesEntryVO.setWorkOrderNumber(null);
+			resourcesEntryVO.setResourceName(resourcesEntry.getResourceName());
+			resourcesEntryVO.setBillingRate(resourcesEntry.getBillingRate());
+			// TODO: Need to set Allocation and save from SAVE API
+			resourcesEntryVO.setAllocation(90l);
+			resourcesEntryVO.setLeaveLossFactor(resourcesEntry.getLeaveLossFactor());
+
+			MonthlyFinancialYearVO monthlyFinancialYearVO = monthlyBillingSeparation(
+					revenueCommonEntry.getFinancialYear().getFinancialYearName(), resourcesEntry.getResourceStartDate(),
+					resourcesEntry.getResourceEndDate(), tmRevenueEntry.getBillingRateType(),
+					resourcesEntry.getBillingRate(), revenueCommonEntry.getNoOfResources());
+
+			resourcesEntryVO.setMonthlyFinancialYearVO(monthlyFinancialYearVO);
+		}
+		return resourcesEntryVO;
 	}
 
 }
