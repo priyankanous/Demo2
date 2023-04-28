@@ -36,6 +36,8 @@ public class ResourcesDetailsVO implements Serializable {
 
 	private Long billingRate;
 
+	private Long allocation;
+
 	public Long getResourceId() {
 		return resourceId;
 	}
@@ -90,6 +92,14 @@ public class ResourcesDetailsVO implements Serializable {
 
 	public void setBillingRate(Long billingRate) {
 		this.billingRate = billingRate;
+	}
+
+	public Long getAllocation() {
+		return allocation;
+	}
+
+	public void setAllocation(Long allocation) {
+		this.allocation = allocation;
 	}
 
 }

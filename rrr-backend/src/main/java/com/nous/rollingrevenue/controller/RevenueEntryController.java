@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
 import com.nous.rollingrevenue.service.RevenueEntryService;
+import com.nous.rollingrevenue.vo.ResourcesEntryVO;
 import com.nous.rollingrevenue.vo.RollingRevenueAccountVO;
 import com.nous.rollingrevenue.vo.RollingRevenueOpportunityVO;
 import com.nous.rollingrevenue.vo.RollingRevenueVO;
@@ -45,6 +46,12 @@ public class RevenueEntryController {
 	@GetMapping(path = "/opportunity/{id}")
 	public WSResponse<RollingRevenueOpportunityVO> getRollingRevenueByOpportunityLevel(@PathVariable @Valid Long id) {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS, revenueEntryService.getRevenueByOpportunityLevel(id));
+	}
+
+	@Operation(summary = "Get rolling revenue details by resource level")
+	@GetMapping(path = "/resource/{id}")
+	public WSResponse<ResourcesEntryVO> getRollingRevenueByResourceLevel(@PathVariable @Valid Long id) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, revenueEntryService.getRevenueByResourceLevel(id));
 	}
 
 }
