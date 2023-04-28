@@ -14,14 +14,8 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 	Optional<Account> findByAccountName(String accountName);
 
 	Optional<Account> findById(Long accountId);
-<<<<<<< Updated upstream
 
 	@Query("SELECT a FROM Account a WHERE REPLACE(LOWER(a.accountName), ' ', '') LIKE TRIM(LOWER(concat(?1, '%')))")
 	Optional<Account> findByAccountNameIgnoringCaseAndIgnoreWhiteSpaces(String accountName);
 
-=======
-	
-	@Query("SELECT a FROM Account a WHERE REPLACE(LOWER(a.accountName), ' ', '') LIKE TRIM(LOWER(concat(?1, '%')))")
-	Optional<Account> findByAccountNameIgnoringCaseAndIgnoreWhiteSpaces(String accountName);
->>>>>>> Stashed changes
 }

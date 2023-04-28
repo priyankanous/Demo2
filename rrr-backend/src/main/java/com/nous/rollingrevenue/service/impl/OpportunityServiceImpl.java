@@ -33,8 +33,6 @@ public class OpportunityServiceImpl implements OpportunityService {
 	@Autowired
 	AccountRepository accountRepository;
 
-	private Opportunity opportunity;
-
 	@Override
 	public List<OpportunityVO> getAllOpportunity() {
 		List<OpportunityVO> opportunityVOs = new ArrayList<>();

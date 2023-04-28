@@ -20,10 +20,12 @@ import jakarta.persistence.Temporal;
 public abstract class Auditable<U> {
 
 	@CreatedBy
+	@Column(name = "created_by" , updatable = false)
 	protected U createdBy;
 
 	@CreatedDate
 	@Temporal(TIMESTAMP)
+	@Column(name = "created_date" , updatable = false)
 	protected LocalDateTime createdDate;
 
 	@LastModifiedBy
