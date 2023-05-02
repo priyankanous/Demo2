@@ -41,7 +41,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 	@Autowired
 	private RevenueResourceEntryRepository revenueResourceEntryRepository;
-	
+
 	@Autowired
 	private MilestoneEntryRepository milestoneEntryRepository;
 
@@ -132,27 +132,27 @@ public class RevenueServiceImpl implements RevenueService {
 		revenueEntry.setStatus(fpRevenueEntry.getStatus());
 
 		RevenueEntry savedRevenueEntry = revenueEntryRespository.save(revenueEntry);
-		
+
 		List<MilestoneEntryVO> milestoneEntriesVO = fpRevenueEntry.getMilestones();
-		
-		for(MilestoneEntryVO milestoneEntryVO : milestoneEntriesVO) {
-			
+
+		for (MilestoneEntryVO milestoneEntryVO : milestoneEntriesVO) {
+
 			MilestoneEntry milestoneEntry = new MilestoneEntry();
-			
+
 			milestoneEntry.setMilestoneNumber(milestoneEntryVO.getMilestoneNumber());
 			milestoneEntry.setMilestoneBillingDate(milestoneEntryVO.getMilestoneBillingDate());
 			milestoneEntry.setMilestoneRevenue(milestoneEntryVO.getMilestoneRevenue());
 			milestoneEntry.setMilestoneResourceCount(milestoneEntryVO.getMilestoneResourceCount());
 			milestoneEntry.setRevenueEntry(savedRevenueEntry);
 			MilestoneEntry savedMilestoneEntry = milestoneEntryRepository.save(milestoneEntry);
-			
+
 			List<RevenueResourceEntryVO> revenueResourceEntriesVO = milestoneEntryVO.getRevenueResourceEntries();
-			
-			if(!revenueResourceEntriesVO.isEmpty()) {
-				for(RevenueResourceEntryVO revenueResourceEntryVO: revenueResourceEntriesVO) {
-					
+
+			if (!revenueResourceEntriesVO.isEmpty()) {
+				for (RevenueResourceEntryVO revenueResourceEntryVO : revenueResourceEntriesVO) {
+
 					RevenueResourceEntry revenueResourceEntry = new RevenueResourceEntry();
-					
+
 					revenueResourceEntry.setStrategicBusinessUnit(StrategicBusinessUnitConverter
 							.convertSBUVOToSBU(revenueResourceEntryVO.getStrategicBusinessUnit()));
 					revenueResourceEntry.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter
@@ -172,13 +172,12 @@ public class RevenueServiceImpl implements RevenueService {
 							.convertBusinessTypeVOToBusinessType(revenueResourceEntryVO.getBusinessType()));
 					revenueResourceEntry.setAllocation(revenueResourceEntryVO.getAllocation());
 					revenueResourceEntry.setMilestoneEntry(savedMilestoneEntry);
+					revenueResourceEntryRepository.save(revenueResourceEntry);
 				}
 			}
-			
-		}
-		
-	}
-	
 
+		}
+
+	}
 
 }
