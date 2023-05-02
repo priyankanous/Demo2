@@ -52,6 +52,7 @@ import com.nous.rollingrevenue.vo.ProjectCodesVO;
 import com.nous.rollingrevenue.vo.ResourcesDetailsVO;
 import com.nous.rollingrevenue.vo.ResourcesEntryVO;
 import com.nous.rollingrevenue.vo.RollingRevenueAccountVO;
+import com.nous.rollingrevenue.vo.RollingRevenueDetailsVO;
 import com.nous.rollingrevenue.vo.RollingRevenueOpportunityVO;
 import com.nous.rollingrevenue.vo.RollingRevenueVO;
 
@@ -660,6 +661,11 @@ public class RevenueEntryServiceImpl implements RevenueEntryService {
 			resourcesEntryVO.setMonthlyFinancialYearVO(monthlyFinancialYearVO);
 		}
 		return resourcesEntryVO;
+	}
+
+	@Override
+	public List<RollingRevenueDetailsVO> getRollingRevenueDetailsList() {
+		return null;
 	}
 
 }

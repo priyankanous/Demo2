@@ -1,8 +1,11 @@
 package com.nous.rollingrevenue.service;
 
+import java.util.List;
+
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.vo.ResourcesEntryVO;
 import com.nous.rollingrevenue.vo.RollingRevenueAccountVO;
+import com.nous.rollingrevenue.vo.RollingRevenueDetailsVO;
 import com.nous.rollingrevenue.vo.RollingRevenueOpportunityVO;
 import com.nous.rollingrevenue.vo.RollingRevenueVO;
 
@@ -47,5 +50,13 @@ public interface RevenueEntryService {
 	 *         found
 	 */
 	public ResourcesEntryVO getRevenueByResourceLevel(Long id);
+
+	/**
+	 * Get the Rolling Revenue Details List
+	 * 
+	 * @return The Rolling Revenue Details matching the Rolling Revenue. Throws
+	 *         {@link RecordNotFoundException} if no match is found
+	 */
+	public List<RollingRevenueDetailsVO> getRollingRevenueDetailsList();
 
 }
