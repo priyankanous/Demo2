@@ -2,9 +2,11 @@ package com.nous.rollingrevenue.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.convertor.AccountConverter;
 import com.nous.rollingrevenue.convertor.BusinessDevelopmentManagerConverter;
@@ -22,9 +24,11 @@ import com.nous.rollingrevenue.convertor.StrategicBusinessUnitConverter;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitHeadConverter;
 import com.nous.rollingrevenue.convertor.WorkOrderConverter;
 import com.nous.rollingrevenue.model.MilestoneEntry;
+import com.nous.rollingrevenue.model.Opportunity;
 import com.nous.rollingrevenue.model.RevenueEntry;
 import com.nous.rollingrevenue.model.RevenueResourceEntry;
 import com.nous.rollingrevenue.repository.MilestoneEntryRepository;
+import com.nous.rollingrevenue.repository.OpportunityRepository;
 import com.nous.rollingrevenue.repository.RevenueEntryRespository;
 import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
 import com.nous.rollingrevenue.service.RevenueService;
@@ -34,6 +38,7 @@ import com.nous.rollingrevenue.vo.RevenueResourceEntryVO;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
 
 @Service
+@Transactional(readOnly = true)
 public class RevenueServiceImpl implements RevenueService {
 
 	@Autowired
@@ -45,14 +50,25 @@ public class RevenueServiceImpl implements RevenueService {
 	@Autowired
 	private MilestoneEntryRepository milestoneEntryRepository;
 
+	@Autowired
+	private OpportunityRepository opportunityRepository;
+
 	@Override
+	@Transactional
 	public void saveTandMRevenueEntry(TandMRevenueEntryVO tmRevenueEntry) {
 
 		RevenueEntry revenueEntry = new RevenueEntry();
 
 		revenueEntry.setAccount(AccountConverter.convertAccountVOToAccount(tmRevenueEntry.getAccount()));
-		revenueEntry.setOpportunity(
-				OpportunityConverter.convertOpportunityVOToOpportunity(tmRevenueEntry.getOpportunity()));
+
+		Opportunity opportunity = OpportunityConverter
+				.convertOpportunityVOToOpportunity(tmRevenueEntry.getOpportunity());
+
+		if (Objects.isNull(opportunity.getOpportunityId())) {
+			opportunity = opportunityRepository.save(opportunity);
+		}
+		revenueEntry.setOpportunity(opportunity);
+
 		revenueEntry.setBusinessDevelopmentManager(
 				BusinessDevelopmentManagerConverter.convertBdmVOToBdm(tmRevenueEntry.getBusinessDevelopmentManager()));
 		revenueEntry.setCurrency(CurrencyConverter.convertCurrencyVOToCurrency(tmRevenueEntry.getCurrency()));
@@ -110,13 +126,21 @@ public class RevenueServiceImpl implements RevenueService {
 	}
 
 	@Override
+	@Transactional
 	public void saveFPRevenueEntry(FPRevenueEntryVO fpRevenueEntry) {
 
 		RevenueEntry revenueEntry = new RevenueEntry();
 
 		revenueEntry.setAccount(AccountConverter.convertAccountVOToAccount(fpRevenueEntry.getAccount()));
-		revenueEntry.setOpportunity(
-				OpportunityConverter.convertOpportunityVOToOpportunity(fpRevenueEntry.getOpportunity()));
+
+		Opportunity opportunity = OpportunityConverter
+				.convertOpportunityVOToOpportunity(fpRevenueEntry.getOpportunity());
+
+		if (Objects.isNull(opportunity.getOpportunityId())) {
+			opportunity = opportunityRepository.save(opportunity);
+		}
+
+		revenueEntry.setOpportunity(opportunity);
 		revenueEntry.setBusinessDevelopmentManager(
 				BusinessDevelopmentManagerConverter.convertBdmVOToBdm(fpRevenueEntry.getBusinessDevelopmentManager()));
 		revenueEntry.setCurrency(CurrencyConverter.convertCurrencyVOToCurrency(fpRevenueEntry.getCurrency()));
