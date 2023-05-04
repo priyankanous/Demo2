@@ -208,6 +208,7 @@ public class RevenueServiceImpl implements RevenueService {
 							.convertBusinessTypeVOToBusinessType(revenueResourceEntryVO.getBusinessType()));
 					revenueResourceEntry.setAllocation(revenueResourceEntryVO.getAllocation());
 					revenueResourceEntry.setMilestoneEntry(savedMilestoneEntry);
+					revenueResourceEntry.setRevenueEntry(savedRevenueEntry);
 					revenueResourceEntryRepository.save(revenueResourceEntry);
 				}
 			}
