@@ -1,13 +1,18 @@
 package com.nous.rollingrevenue.service.impl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.AccountConverter;
 import com.nous.rollingrevenue.convertor.BusinessDevelopmentManagerConverter;
 import com.nous.rollingrevenue.convertor.BusinessTypeConverter;
@@ -23,10 +28,13 @@ import com.nous.rollingrevenue.convertor.RegionConverter;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitConverter;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitHeadConverter;
 import com.nous.rollingrevenue.convertor.WorkOrderConverter;
+import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.MilestoneEntry;
 import com.nous.rollingrevenue.model.Opportunity;
 import com.nous.rollingrevenue.model.RevenueEntry;
 import com.nous.rollingrevenue.model.RevenueResourceEntry;
+import com.nous.rollingrevenue.repository.FinancialYearRepository;
 import com.nous.rollingrevenue.repository.MilestoneEntryRepository;
 import com.nous.rollingrevenue.repository.OpportunityRepository;
 import com.nous.rollingrevenue.repository.RevenueEntryRespository;
@@ -34,6 +42,7 @@ import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
 import com.nous.rollingrevenue.service.RevenueService;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.MilestoneEntryVO;
+import com.nous.rollingrevenue.vo.RevenueEntryResponse;
 import com.nous.rollingrevenue.vo.RevenueResourceEntryVO;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
 
@@ -52,6 +61,9 @@ public class RevenueServiceImpl implements RevenueService {
 
 	@Autowired
 	private OpportunityRepository opportunityRepository;
+
+	@Autowired
+	private FinancialYearRepository financialYearRepository;
 
 	@Override
 	@Transactional
@@ -202,6 +214,47 @@ public class RevenueServiceImpl implements RevenueService {
 
 		}
 
+	}
+
+	@Override
+	public Set<RevenueEntryResponse> getRevenueEntries(String financialYearName) {
+		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(financialYearName).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
+		LocalDate financialYearStartingFrom = financialYear.getStartingFrom();
+		LocalDate financialYearEndingOn = financialYear.getEndingOn();
+
+		Set<RevenueEntryResponse> revenueEntriesResponse = new HashSet<>();
+
+		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository.findAll();
+
+		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
+
+			RevenueEntry revenueEntry = revenueResourceEntry.getRevenueEntry();
+
+			RevenueEntryResponse revenueEntryResponse = new RevenueEntryResponse();
+
+			revenueEntryResponse.setBusinessUnit(revenueResourceEntry.getBusinessUnit().getBusinessUnitName());
+			revenueEntryResponse.setStrategicBusinessUnit(revenueResourceEntry.getStrategicBusinessUnit().getSbuName());
+			revenueEntryResponse
+					.setStrategicBusinessUnitHead(revenueResourceEntry.getStrategicBusinessUnitHead().getSbuHeadName());
+			revenueEntryResponse
+					.setBusinessDevelopmentManager(revenueEntry.getBusinessDevelopmentManager().getBdmName());
+			revenueEntryResponse.setBusinessType(revenueResourceEntry.getBusinessType().getBusinessTypeName());
+			revenueEntryResponse.setAccount(revenueEntry.getAccount().getAccountName());
+			revenueEntryResponse.setRegion(revenueEntry.getRegion().getRegionName());
+			revenueEntryResponse.setLocation(revenueResourceEntry.getLocation().getLocationName());
+			revenueEntryResponse.setProbabilityType(revenueEntry.getProbabilityType().getProbabilityTypeName());
+			revenueEntryResponse.setCocPractice(
+					Constants.NON_COC_BASED.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())
+							? Constants.NO
+							: Constants.YES);
+			revenueEntryResponse.setStatus(revenueEntry.getStatus());
+
+			revenueEntriesResponse.add(revenueEntryResponse);
+
+		}
+
+		return revenueEntriesResponse;
 	}
 
 }
