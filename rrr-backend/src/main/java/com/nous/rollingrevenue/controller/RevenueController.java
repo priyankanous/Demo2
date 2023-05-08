@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -44,9 +45,9 @@ public class RevenueController {
 
 	@Operation(summary = "Get All RevenueEntries")
 	@GetMapping(path = "{financialYearName}")
-	public WSResponse<RevenueEntryResponse> getAllRevenueEntries(@PathVariable String financialYearName) {
+	public WSResponse<RevenueEntryResponse> getAllRevenueEntries(@PathVariable String financialYearName, @RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				revenueService.getRevenueEntries(financialYearName));
+				revenueService.getRevenueEntries(financialYearName, isDisplayAdditionalQuarter));
 	}
 
 }

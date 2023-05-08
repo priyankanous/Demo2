@@ -4,15 +4,20 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -228,13 +233,10 @@ public class RevenueServiceImpl implements RevenueService {
 	}
 
 	@Override
-	public RevenueEntryResponse getRevenueEntries(String financialYearName) {
+	public RevenueEntryResponse getRevenueEntries(String financialYearName, boolean isDisplayAdditionalQuarter) {
 
 		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(financialYearName).orElseThrow(
 				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
-
-		LocalDate financialYearStartingFrom = financialYear.getStartingFrom();
-		LocalDate financialYearEndingOn = financialYear.getEndingOn();
 
 		Set<RevenueEntryVO> revenueEntriesVO = new HashSet<>();
 		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
@@ -251,8 +253,8 @@ public class RevenueServiceImpl implements RevenueService {
 			if (entry.getKey()) {
 
 				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
-				financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYearStartingFrom,
-						financialYearEndingOn, financialYear);
+				financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYear,
+						isDisplayAdditionalQuarter);
 
 			}
 		}
@@ -297,95 +299,122 @@ public class RevenueServiceImpl implements RevenueService {
 	}
 
 	private FinancialYearRevenue calculateFPRevenue(List<RevenueResourceEntry> revenueFPResourceEntries,
-			LocalDate financialYearStartingFrom, LocalDate financialYearEndingOn, FinancialYear financialYear) {
+			FinancialYear financialYear, boolean isDisplayAdditionalQuarter) {
 
 		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
+		Map<String, BigInteger> fyRevenue = new LinkedHashMap<>();
 
-		List<RevenueResourceEntry> fyRevenueEntries = revenueFPResourceEntries.stream().filter(
-				fpEntry -> !fpEntry.getMilestoneEntry().getMilestoneBillingDate().isBefore(financialYearStartingFrom)
-						&& fpEntry.getMilestoneEntry().getMilestoneBillingDate().isBefore(financialYearEndingOn))
-				.collect(Collectors.toList());
+		LocalDate fyStartDate = LocalDate.of(financialYear.getStartingFrom().getYear(), 4, 1);
+		LocalDate fyEndDate = LocalDate.of(financialYear.getEndingOn().getYear(), 3, 31);
+		if (isDisplayAdditionalQuarter) {
+			fyEndDate = LocalDate.of(financialYear.getEndingOn().getYear(), 6, 30);
+		}
+
+		List<RevenueResourceEntry> fyRevenueEntries = this
+				.filterRevenueEntriesByStartDateAndEndDate(revenueFPResourceEntries, fyStartDate, fyEndDate);
+
+		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
+
+		listOfMonthsBetweenFinancialYear = this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyEndDate,
+				isDisplayAdditionalQuarter);
+
+		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
 
 		for (RevenueResourceEntry revenueFPResourceEntry : fyRevenueEntries) {
 
-			BigInteger resourceFPRevenue = revenueFPResourceEntry.getRevenue();
-			List<Currency> currencies = financialYear.getCurrencies();
-			Optional<Currency> baseCurrencyOfFinancialYear = currencies.stream()
-					.filter(currency -> currency.isBaseCurrency() == true).findFirst();
-
-			if (baseCurrencyOfFinancialYear.isPresent()) {
-				Currency baseCurrency = baseCurrencyOfFinancialYear.get();
-				if (!(baseCurrency.getCurrencyName()
-						.equals(revenueFPResourceEntry.getRevenueEntry().getCurrency().getCurrencyName()))) {
-					Currency resourceCurrencyType = currencies.stream().filter(currency -> revenueFPResourceEntry
-							.getRevenueEntry().getCurrency().getCurrencyName().equals(currency.getCurrencyName()))
-							.findFirst().get();
-					resourceFPRevenue = new BigDecimal(resourceFPRevenue)
-							.divide(resourceCurrencyType.getConversionRate(), RoundingMode.HALF_UP).toBigInteger();
-				}
-			}
+			BigInteger resourceFPRevenue = this.getResourceFPRevenueInFYBaseCurrency(revenueFPResourceEntry,
+					financialYear);
 
 			MilestoneEntry milestoneEntry = revenueFPResourceEntry.getMilestoneEntry();
 
-			LocalDate milestoneBillingDate = milestoneEntry.getMilestoneBillingDate();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yy", Locale.ENGLISH);
 
-			switch (milestoneBillingDate.getMonth().toString()) {
+			String milestoneBillingDate = formatter.format(milestoneEntry.getMilestoneBillingDate());
 
-			case "APRIL":
-				financialYearRevenue.setApril(financialYearRevenue.getApril().add(resourceFPRevenue));
-				break;
-
-			case "MAY":
-				financialYearRevenue.setMay(financialYearRevenue.getMay().add(resourceFPRevenue));
-				break;
-
-			case "JUNE":
-				financialYearRevenue.setJune(financialYearRevenue.getJune().add(resourceFPRevenue));
-				break;
-
-			case "JULY":
-				financialYearRevenue.setJuly(financialYearRevenue.getJuly().add(resourceFPRevenue));
-				break;
-
-			case "AUGUST":
-				financialYearRevenue.setAugust(financialYearRevenue.getAugust().add(resourceFPRevenue));
-				break;
-
-			case "SEPTEMBER":
-				financialYearRevenue.setSeptember(financialYearRevenue.getSeptember().add(resourceFPRevenue));
-				break;
-
-			case "OCTOBER":
-				financialYearRevenue.setOctober(financialYearRevenue.getOctober().add(resourceFPRevenue));
-				break;
-
-			case "NOVEMBER":
-				financialYearRevenue.setNovember(financialYearRevenue.getNovember().add(resourceFPRevenue));
-				break;
-
-			case "DECEMBER":
-				financialYearRevenue.setDecember(financialYearRevenue.getDecember().add(resourceFPRevenue));
-				break;
-
-			case "JANUARY":
-				financialYearRevenue.setJanuary(financialYearRevenue.getJanuary().add(resourceFPRevenue));
-				break;
-
-			case "FEBRUARY":
-				financialYearRevenue.setFebruary(financialYearRevenue.getFebruary().add(resourceFPRevenue));
-				break;
-
-			case "MARCH":
-				financialYearRevenue.setMarch(financialYearRevenue.getMarch().add(resourceFPRevenue));
-				break;
-
-			default:
-				break;
+			if (fyRevenue.containsKey(milestoneBillingDate)) {
+				fyRevenue.put(milestoneBillingDate, fyRevenue.get(milestoneBillingDate).add(resourceFPRevenue));
 			}
+
+			financialYearRevenue.setDataMap(fyRevenue);
 		}
 
 		return financialYearRevenue;
 
+	}
+
+	private List<String> getListOfMonthsBetweenDates(LocalDate startDate, LocalDate endDate) {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yy", Locale.ENGLISH);
+		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
+				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
+				.collect(Collectors.toList());
+	}
+
+	private List<RevenueResourceEntry> filterRevenueEntriesByStartDateAndEndDate(
+			List<RevenueResourceEntry> revenueFPResourceEntries, LocalDate fyStartDate, LocalDate fyEndDate) {
+		return revenueFPResourceEntries.stream()
+				.filter(fpEntry -> !fpEntry.getMilestoneEntry().getMilestoneBillingDate().isBefore(fyStartDate)
+						&& fpEntry.getMilestoneEntry().getMilestoneBillingDate().isBefore(fyEndDate))
+				.collect(Collectors.toList());
+	}
+
+	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyEndDate,
+			boolean isDisplayAdditionalQuarter) {
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+
+		listOfMonthsBetweenFinancialYear.add(3, "q1FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(4, "q1FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(5, "q1FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(9, "q2FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(10, "q2FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(11, "q2FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(15, "q3FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(16, "q3FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(17, "q3FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(21, "q4FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(22, "q4FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(23, "q4FYT " + year);
+
+		if (isDisplayAdditionalQuarter) {
+			listOfMonthsBetweenFinancialYear.add(27, "q5FYB " + year);
+			listOfMonthsBetweenFinancialYear.add(28, "q5FYS " + year);
+			listOfMonthsBetweenFinancialYear.add(29, "q5FYT " + year);
+			listOfMonthsBetweenFinancialYear.add("FYB " + year);
+			listOfMonthsBetweenFinancialYear.add("FYS " + year);
+			listOfMonthsBetweenFinancialYear.add("FYT " + year);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + year);
+		} else {
+			listOfMonthsBetweenFinancialYear.add(24, "FYB " + year);
+			listOfMonthsBetweenFinancialYear.add(25, "FYS " + year);
+			listOfMonthsBetweenFinancialYear.add(26, "FYT " + year);
+			listOfMonthsBetweenFinancialYear.add(27, "DiFF-FY " + year);
+		}
+		return listOfMonthsBetweenFinancialYear;
+
+	}
+
+	private BigInteger getResourceFPRevenueInFYBaseCurrency(RevenueResourceEntry revenueFPResourceEntry,
+			FinancialYear financialYear) {
+		BigInteger resourceFPRevenue = revenueFPResourceEntry.getRevenue();
+		List<Currency> currencies = financialYear.getCurrencies();
+		Optional<Currency> baseCurrencyOfFinancialYear = currencies.stream()
+				.filter(currency -> currency.isBaseCurrency() == true).findFirst();
+
+		if (baseCurrencyOfFinancialYear.isPresent()) {
+			Currency baseCurrency = baseCurrencyOfFinancialYear.get();
+			if (!(baseCurrency.getCurrencyName()
+					.equals(revenueFPResourceEntry.getRevenueEntry().getCurrency().getCurrencyName()))) {
+				Currency resourceCurrencyType = currencies.stream().filter(currency -> revenueFPResourceEntry
+						.getRevenueEntry().getCurrency().getCurrencyName().equals(currency.getCurrencyName()))
+						.findFirst().get();
+				resourceFPRevenue = new BigDecimal(resourceFPRevenue)
+						.divide(resourceCurrencyType.getConversionRate(), RoundingMode.HALF_UP).toBigInteger();
+			}
+		}
+		return resourceFPRevenue;
 	}
 
 }

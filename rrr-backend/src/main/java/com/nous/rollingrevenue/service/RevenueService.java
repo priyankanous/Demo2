@@ -10,6 +10,6 @@ public interface RevenueService {
 	
 	public void saveFPRevenueEntry(FPRevenueEntryVO fpRevenueEntry);
 
-	public RevenueEntryResponse getRevenueEntries(String financialYearName);
+	public RevenueEntryResponse getRevenueEntries(String financialYearName, boolean isDisplayAdditionalQuarter);
 
 }
