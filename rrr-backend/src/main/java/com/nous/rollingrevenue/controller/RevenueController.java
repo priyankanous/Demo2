@@ -1,7 +1,5 @@
 package com.nous.rollingrevenue.controller;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -46,7 +44,7 @@ public class RevenueController {
 
 	@Operation(summary = "Get All RevenueEntries")
 	@GetMapping(path = "{financialYearName}")
-	public WSResponse<Set<RevenueEntryResponse>> getAllRevenueEntries(@PathVariable String financialYearName) {
+	public WSResponse<RevenueEntryResponse> getAllRevenueEntries(@PathVariable String financialYearName) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				revenueService.getRevenueEntries(financialYearName));
 	}

@@ -140,7 +140,7 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 		fortnightlyMeetingRepository.save(fortnightlyMeeting);
 	}
 
-	// Generate Recurring dates of Alternate Friday based on FinancialYear Start and
+	// Generate Recurring dates of Alternate Friday based on Start date and
 	// End Date
 	private List<LocalDate> generateRecurringDates(LocalDate startDate, LocalDate endDate) {
 		List<LocalDate> recurringDates = new ArrayList<>();

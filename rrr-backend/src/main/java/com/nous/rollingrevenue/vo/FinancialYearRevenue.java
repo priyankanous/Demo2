@@ -10,59 +10,59 @@ public class FinancialYearRevenue implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private BigInteger april;
+	private BigInteger april = BigInteger.ZERO;
 
-	private BigInteger may;
+	private BigInteger may = BigInteger.ZERO;
 
-	private BigInteger june;
+	private BigInteger june = BigInteger.ZERO;
 
-	private BigInteger q1FYA;
+	private BigInteger q1FYA = BigInteger.ZERO;
 
-	private BigInteger q1FYB;
+	private BigInteger q1FYB = BigInteger.ZERO;
 
-	private BigInteger q1FYP;
+	private BigInteger q1FYP = BigInteger.ZERO;
 
-	private BigInteger july;
+	private BigInteger july = BigInteger.ZERO;
 
-	private BigInteger august;
+	private BigInteger august = BigInteger.ZERO;
 
-	private BigInteger september;
+	private BigInteger september = BigInteger.ZERO;
 
-	private BigInteger q2FYA;
+	private BigInteger q2FYA = BigInteger.ZERO;
 
-	private BigInteger q2FYB;
+	private BigInteger q2FYB = BigInteger.ZERO;
 
-	private BigInteger q2FYP;
+	private BigInteger q2FYP = BigInteger.ZERO;
 
-	private BigInteger october;
+	private BigInteger october = BigInteger.ZERO;
 
-	private BigInteger november;
+	private BigInteger november = BigInteger.ZERO;
 
-	private BigInteger december;
+	private BigInteger december = BigInteger.ZERO;
 
-	private BigInteger q3FYA;
+	private BigInteger q3FYA = BigInteger.ZERO;
 
-	private BigInteger q3FYB;
+	private BigInteger q3FYB = BigInteger.ZERO;
 
-	private BigInteger q3FYP;
+	private BigInteger q3FYP = BigInteger.ZERO;
 
-	private BigInteger january;
+	private BigInteger january = BigInteger.ZERO;
 
-	private BigInteger february;
+	private BigInteger february = BigInteger.ZERO;
 
-	private BigInteger march;
+	private BigInteger march = BigInteger.ZERO;
 
-	private BigInteger q4FYA;
+	private BigInteger q4FYA = BigInteger.ZERO;
 
-	private BigInteger q4FYB;
+	private BigInteger q4FYB = BigInteger.ZERO;
 
-	private BigInteger q4FYP;
+	private BigInteger q4FYP = BigInteger.ZERO;
 
-	private BigInteger fyP;
+	private BigInteger fyP = BigInteger.ZERO;
 
-	private BigInteger fyB;
+	private BigInteger fyB = BigInteger.ZERO;
 
-	private BigInteger diffFY;
+	private BigInteger diffFY = BigInteger.ZERO;
 
 	public FinancialYearRevenue() {
 	
