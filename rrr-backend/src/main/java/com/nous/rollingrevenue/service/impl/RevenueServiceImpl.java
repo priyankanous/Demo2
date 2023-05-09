@@ -313,7 +313,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 		LocalDate fyStartDate = LocalDate.of(financialYearStartingFrom.getYear(), 4, 1);
 		LocalDate fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 3, 31);
-		
+
 		if (isDisplayAdditionalQuarter) {
 			fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 6, 30);
 			financialYearEndingOn = fyEndDate;
@@ -359,10 +359,13 @@ public class RevenueServiceImpl implements RevenueService {
 	}
 
 	private List<RevenueResourceEntry> filterRevenueEntriesByStartDateAndEndDate(
-			List<RevenueResourceEntry> revenueFPResourceEntries, LocalDate financialYearStartingFrom, LocalDate financialYearEndingOn) {
+			List<RevenueResourceEntry> revenueFPResourceEntries, LocalDate financialYearStartingFrom,
+			LocalDate financialYearEndingOn) {
 		return revenueFPResourceEntries.stream()
-				.filter(fpEntry -> !fpEntry.getMilestoneEntry().getMilestoneBillingDate().isBefore(financialYearStartingFrom.minusDays(1))
-						&& fpEntry.getMilestoneEntry().getMilestoneBillingDate().isBefore(financialYearEndingOn.plusDays(1)))
+				.filter(fpEntry -> !fpEntry.getMilestoneEntry().getMilestoneBillingDate()
+						.isBefore(financialYearStartingFrom.minusDays(1))
+						&& fpEntry.getMilestoneEntry().getMilestoneBillingDate()
+								.isBefore(financialYearEndingOn.plusDays(1)))
 				.collect(Collectors.toList());
 	}
 
@@ -468,11 +471,25 @@ public class RevenueServiceImpl implements RevenueService {
 				for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
 					response.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeDisplayName());
 					if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
-						response.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOffShore());
-						resourceResponse.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOffShore());
+						if ("T&M".equalsIgnoreCase(response.getPricingType())) {
+							response.setLeaveLossFactor(
+									String.valueOf(revenueResourceEntry.getLeaveLossFactor().getOffShore()));
+							resourceResponse.setLeaveLossFactor(
+									String.valueOf(revenueResourceEntry.getLeaveLossFactor().getOffShore()));
+						} else {
+							response.setLeaveLossFactor("Not Applicable");
+							resourceResponse.setLeaveLossFactor("Not Applicable");
+						}
 					} else {
-						response.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOnSite());
-						resourceResponse.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOnSite());
+						if ("T&M".equalsIgnoreCase(response.getPricingType())) {
+							response.setLeaveLossFactor(
+									String.valueOf(revenueResourceEntry.getLeaveLossFactor().getOnSite()));
+							resourceResponse.setLeaveLossFactor(
+									String.valueOf(revenueResourceEntry.getLeaveLossFactor().getOnSite()));
+						} else {
+							response.setLeaveLossFactor("Not Applicable");
+							resourceResponse.setLeaveLossFactor("Not Applicable");
+						}
 					}
 
 					if ("T&M".equalsIgnoreCase(response.getPricingType())) {

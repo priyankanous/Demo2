@@ -27,7 +27,7 @@ public class OpportunityEntryResponse implements Serializable {
 
 	private Integer noOfResources;
 
-	private Long leaveLossFactor;
+	private String leaveLossFactor;
 
 	private List<ResourcesEntryResponse> resourcesList;
 
@@ -99,11 +99,11 @@ public class OpportunityEntryResponse implements Serializable {
 		this.noOfResources = noOfResources;
 	}
 
-	public Long getLeaveLossFactor() {
+	public String getLeaveLossFactor() {
 		return leaveLossFactor;
 	}
 
-	public void setLeaveLossFactor(Long leaveLossFactor) {
+	public void setLeaveLossFactor(String leaveLossFactor) {
 		this.leaveLossFactor = leaveLossFactor;
 	}
 

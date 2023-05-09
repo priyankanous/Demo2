@@ -25,7 +25,7 @@ public class ResourcesEntryResponse implements Serializable {
 
 	private Integer allocation;
 
-	private Long leaveLossFactor;
+	private String leaveLossFactor;
 
 	public LocalDate getStartDate() {
 		return startDate;
@@ -67,11 +67,11 @@ public class ResourcesEntryResponse implements Serializable {
 		this.resourceName = resourceName;
 	}
 
-	public Long getLeaveLossFactor() {
+	public String getLeaveLossFactor() {
 		return leaveLossFactor;
 	}
 
-	public void setLeaveLossFactor(Long leaveLossFactor) {
+	public void setLeaveLossFactor(String leaveLossFactor) {
 		this.leaveLossFactor = leaveLossFactor;
 	}
 
