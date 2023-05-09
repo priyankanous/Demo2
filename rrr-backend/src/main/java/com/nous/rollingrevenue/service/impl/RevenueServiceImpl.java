@@ -55,7 +55,10 @@ import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
 import com.nous.rollingrevenue.service.RevenueService;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.FinancialYearRevenue;
+import com.nous.rollingrevenue.vo.MileStoneEntryResponse;
 import com.nous.rollingrevenue.vo.MilestoneEntryVO;
+import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
+import com.nous.rollingrevenue.vo.ResourcesEntryResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryVO;
 import com.nous.rollingrevenue.vo.RevenueResourceEntryVO;
@@ -415,6 +418,81 @@ public class RevenueServiceImpl implements RevenueService {
 			}
 		}
 		return resourceFPRevenue;
+	}
+
+	@Override
+	public OpportunityEntryResponse getOpportunities(Long oppId) {
+		OpportunityEntryResponse response = new OpportunityEntryResponse();
+		Optional<Opportunity> optional = opportunityRepository.findById(oppId);
+		List<RevenueResourceEntry> revenueResourceEntryList = null;
+
+		List<ResourcesEntryResponse> resourceResponseList = new ArrayList<>();
+		ResourcesEntryResponse resourceResponse = new ResourcesEntryResponse();
+
+		List<MileStoneEntryResponse> mileStoneList = new ArrayList<>();
+		MileStoneEntryResponse mileStoneEntryResponse = new MileStoneEntryResponse();
+
+		if (optional.isPresent()) {
+			Opportunity opportunity = optional.get();
+			List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
+
+			response.setProjectCodeId(opportunity.getOpportunityId());
+			response.setProjectCode(opportunity.getProjectCode());
+			response.setOpportunityName(opportunity.getOpportunityName());
+			response.setProjectStartDate(opportunity.getProjectStartDate());
+			response.setProjectEndDate(opportunity.getProjectEndDate());
+
+			if (!revenueEntryList.isEmpty()) {
+				for (RevenueEntry revenueEntry : revenueEntryList) {
+					revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
+					response.setPricingType(revenueEntry.getPricingType());
+					response.setNoOfResources(revenueEntry.getResourceCount());
+					resourceResponse.setWorkOrderNumber(revenueEntry.getWorkOrder().getWorkOrderNumber());
+					mileStoneEntryResponse.setWorkOrderNumber(revenueEntry.getWorkOrder().getWorkOrderNumber());
+				}
+			}
+			if (!revenueResourceEntryList.isEmpty()) {
+				for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+					response.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeDisplayName());
+					if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
+						response.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOffShore());
+						resourceResponse.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOffShore());
+					} else {
+						response.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOnSite());
+						resourceResponse.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOnSite());
+					}
+
+					if ("T&M".equalsIgnoreCase(response.getPricingType())) {
+						ResourcesEntryResponse resourceEntryResponse = new ResourcesEntryResponse();
+						resourceEntryResponse.setStartDate(revenueResourceEntry.getResourceStartDate());
+						resourceEntryResponse.setEndDate(revenueResourceEntry.getResourceEndDate());
+						resourceEntryResponse.setWorkOrderNumber(resourceResponse.getWorkOrderNumber());
+						resourceEntryResponse.setEmployeeId(revenueResourceEntry.getEmployeeId());
+						resourceEntryResponse.setResourceName(revenueResourceEntry.getResourceName());
+						resourceEntryResponse.setBillingRate(revenueResourceEntry.getBillingRate());
+						resourceEntryResponse.setAllocation(revenueResourceEntry.getAllocation());
+						resourceEntryResponse.setLeaveLossFactor(resourceResponse.getLeaveLossFactor());
+
+						resourceResponseList.add(resourceEntryResponse);
+					} else {
+						MilestoneEntry milestoneEntry = revenueResourceEntry.getMilestoneEntry();
+						MileStoneEntryResponse mileStoneResponse = new MileStoneEntryResponse();
+						mileStoneResponse.setStartDate(revenueResourceEntry.getResourceStartDate());
+						mileStoneResponse.setEndDate(revenueResourceEntry.getResourceEndDate());
+						mileStoneResponse.setMilestoneNumber(milestoneEntry.getMilestoneNumber());
+						mileStoneResponse.setWorkOrderNumber(mileStoneEntryResponse.getWorkOrderNumber());
+						mileStoneResponse.setResourceName(revenueResourceEntry.getResourceName());
+						mileStoneResponse.setAllocation(revenueResourceEntry.getAllocation());
+						mileStoneResponse.setMilestoneBillingDate(milestoneEntry.getMilestoneBillingDate());
+						mileStoneResponse.setMilestoneRevenue(milestoneEntry.getMilestoneRevenue());
+						mileStoneList.add(mileStoneResponse);
+					}
+				}
+			}
+		}
+		response.setResourcesList(resourceResponseList);
+		response.setMileStoneList(mileStoneList);
+		return response;
 	}
 
 }
