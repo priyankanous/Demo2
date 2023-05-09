@@ -50,6 +50,9 @@ public class Opportunity extends Auditable<String> {
 	@OneToMany(mappedBy = "opportunity")
 	private List<ResourcesEntry> resourcesEntries = new ArrayList<>();
 
+	@OneToMany(mappedBy = "opportunity")
+	private List<RevenueEntry> revenueEntry = new ArrayList<>();
+
 	public Opportunity() {
 
 	}
@@ -129,6 +132,14 @@ public class Opportunity extends Auditable<String> {
 
 	public void setResourcesEntries(List<ResourcesEntry> resourcesEntries) {
 		this.resourcesEntries = resourcesEntries;
+	}
+
+	public List<RevenueEntry> getRevenueEntry() {
+		return revenueEntry;
+	}
+
+	public void setRevenueEntry(List<RevenueEntry> revenueEntry) {
+		this.revenueEntry = revenueEntry;
 	}
 
 }

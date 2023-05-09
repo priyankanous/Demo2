@@ -1,5 +1,8 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;
@@ -11,64 +14,68 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "revenue_entry")
 @EntityListeners(AuditingEntityListener.class)
 public class RevenueEntry extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "revenue_entry_id")
 	private Long revenueEntryId;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
 	private Account account;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "opportunity_id", referencedColumnName = "opportunity_id")
 	private Opportunity opportunity;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "bdm_id", referencedColumnName = "bdm_id")
 	private BusinessDevelopmentManager businessDevelopmentManager;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "currency_id", referencedColumnName = "currency_id")
 	private Currency currency;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "probability_type_id", referencedColumnName = "probability_type_id")
 	private ProbabilityType probabilityType;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
 	private Region region;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "work_order_id", referencedColumnName = "work_order_id")
 	private WorkOrder workOrder;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
 	private FinancialYear financialYear;
-	
+
 	@Column(name = "resource_count")
 	private Integer resourceCount;
-	
+
 	@Column(name = "milestone_count")
 	private Integer milestoneCount;
-	
+
 	@Column(name = "pricingType")
 	private String pricingType;
-	
+
 	@Column(name = "remarks")
 	private String remarks;
-	
+
 	@Column(name = "status")
 	private String status;
+
+	@OneToMany(mappedBy = "revenueEntry")
+	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
 
 	public RevenueEntry() {
 
@@ -207,5 +214,12 @@ public class RevenueEntry extends Auditable<String> {
 		this.status = status;
 	}
 
+	public List<RevenueResourceEntry> getRevenueResourceEntry() {
+		return revenueResourceEntry;
+	}
+
+	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
+		this.revenueResourceEntry = revenueResourceEntry;
+	}
 
 }

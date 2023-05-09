@@ -20,68 +20,68 @@ import jakarta.persistence.Table;
 @Table(name = "revenue_resource_entry")
 @EntityListeners(AuditingEntityListener.class)
 public class RevenueResourceEntry extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "revenue_resource_entry_id")
 	private Long revenueResourceEntryId;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "sbu_id", referencedColumnName = "sbu_id")
 	private StrategicBusinessUnit strategicBusinessUnit;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "sbu_head_id", referencedColumnName = "sbu_head_id")
 	private StrategicBusinessUnitHead strategicBusinessUnitHead;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
 	private BusinessUnit businessUnit;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	private Location location;
-	
+
 	@Column(name = "resource_name")
 	private String resourceName;
-	
+
 	@Column(name = "employee_id")
 	private String employeeId;
-	
+
 	@Column(name = "resource_start_date")
 	private LocalDate resourceStartDate;
-	
+
 	@Column(name = "resource_end_date")
 	private LocalDate resourceEndDate;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "business_type_id", referencedColumnName = "business_type_id")
 	private BusinessType businessType;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "coc_practice_id", referencedColumnName = "coc_practice_id")
 	private CocPractice cocPractice;
-	
+
 	@Column(name = "billing_rate_type")
 	private String billingRateType;
-	
+
 	@Column(name = "billing_rate")
 	private BigInteger billingRate;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "leave_loss_factor_id", referencedColumnName = "leave_loss_factor_id")
 	private GlobalMonthlyLeaveLossFactor leaveLossFactor;
-	
+
 	@Column(name = "revenue")
 	private BigInteger revenue;
-	
+
 	@Column(name = "allocation")
 	private Integer allocation;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "revenue_entry_id", referencedColumnName = "revenue_entry_id")
 	private RevenueEntry revenueEntry;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "milestone_entry_id", referencedColumnName = "milestone_entry_id")
 	private MilestoneEntry milestoneEntry;
@@ -116,7 +116,6 @@ public class RevenueResourceEntry extends Auditable<String> {
 		this.revenueEntry = revenueEntry;
 		this.milestoneEntry = milestoneEntry;
 	}
-	
 
 	public Long getRevenueResourceEntryId() {
 		return revenueResourceEntryId;
@@ -261,6 +260,5 @@ public class RevenueResourceEntry extends Auditable<String> {
 	public void setMilestoneEntry(MilestoneEntry milestoneEntry) {
 		this.milestoneEntry = milestoneEntry;
 	}
-
 
 }
