@@ -56,12 +56,13 @@ import com.nous.rollingrevenue.service.RevenueService;
 import com.nous.rollingrevenue.vo.FPResourceEntryVO;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.FinancialYearRevenue;
+import com.nous.rollingrevenue.vo.FinancialYearTMRevenue;
 import com.nous.rollingrevenue.vo.MilestoneEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
 import com.nous.rollingrevenue.vo.OpportunityEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
-import com.nous.rollingrevenue.vo.ResourceEntryResponse;
 import com.nous.rollingrevenue.vo.ResourceEntryRequest;
+import com.nous.rollingrevenue.vo.ResourceEntryResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryVO;
 import com.nous.rollingrevenue.vo.RevenueResourceEntryVO;
@@ -86,6 +87,9 @@ public class RevenueServiceImpl implements RevenueService {
 
 	@Autowired
 	private FinancialYearRepository financialYearRepository;
+
+	@Autowired
+	private RevenueServiceTMCalculation tmCalculation;
 
 	@Override
 	@Transactional
@@ -247,6 +251,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 		Set<RevenueEntryVO> revenueEntriesVO = new HashSet<>();
 		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
+		FinancialYearTMRevenue financialYearTMRevenue = new FinancialYearTMRevenue();
 		RevenueEntryResponse revenueEntryResponse = new RevenueEntryResponse();
 
 		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository.findAll();
@@ -258,14 +263,24 @@ public class RevenueServiceImpl implements RevenueService {
 
 		for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
 			if (entry.getKey()) {
-
 				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
 				financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYear,
 						isDisplayAdditionalQuarter);
-
+			} else {
+				List<RevenueResourceEntry> revenueEntryList = entry.getValue();
+				financialYearTMRevenue = tmCalculation.calculateTMRevenue(revenueEntryList, financialYear,
+						isDisplayAdditionalQuarter);
 			}
-
 		}
+
+		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
+		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
+		for (String key : dataMap.keySet()) {
+			if (map.containsKey(key)) {
+				map.put(key, map.get(key).add(dataMap.get(key)));
+			}
+		}
+		financialYearRevenue.setDataMap(map);
 
 		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
 
@@ -341,7 +356,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 			MilestoneEntry milestoneEntry = revenueFPResourceEntry.getMilestoneEntry();
 
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yy", Locale.ENGLISH);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
 
 			String milestoneBillingDate = formatter.format(milestoneEntry.getMilestoneBillingDate());
 
@@ -356,7 +371,7 @@ public class RevenueServiceImpl implements RevenueService {
 	}
 
 	private List<String> getListOfMonthsBetweenDates(LocalDate startDate, LocalDate endDate) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM-yy", Locale.ENGLISH);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
 				.collect(Collectors.toList());
@@ -375,7 +390,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyEndDate,
 			boolean isDisplayAdditionalQuarter) {
-		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yyyy", Locale.ENGLISH);
 		String year = yearFormatter.format(fyEndDate);
 		int additionalQuarterYear = Integer.parseInt(year) + 1;
 
@@ -479,8 +494,7 @@ public class RevenueServiceImpl implements RevenueService {
 				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
 				financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYear,
 						isDisplayAdditionalQuarter);
-			}
-			else {
+			} else {
 				// Add T&M
 			}
 
