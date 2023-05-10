@@ -15,14 +15,18 @@ public class RevenueEntryResponse implements Serializable {
 
 	private FinancialYearRevenue financialYearRevenue;
 
+	private String financialYearName;
+
 	public RevenueEntryResponse() {
 
 	}
 
-	public RevenueEntryResponse(Set<RevenueEntryVO> revenueEntries, FinancialYearRevenue financialYearRevenue) {
+	public RevenueEntryResponse(Set<RevenueEntryVO> revenueEntries, FinancialYearRevenue financialYearRevenue,
+			String financialYearName) {
 		super();
 		this.revenueEntries = revenueEntries;
 		this.financialYearRevenue = financialYearRevenue;
+		this.financialYearName = financialYearName;
 	}
 
 	public Set<RevenueEntryVO> getRevenueEntries() {
@@ -39,6 +43,14 @@ public class RevenueEntryResponse implements Serializable {
 
 	public void setFinancialYearRevenue(FinancialYearRevenue financialYearRevenue) {
 		this.financialYearRevenue = financialYearRevenue;
+	}
+
+	public String getFinancialYearName() {
+		return financialYearName;
+	}
+
+	public void setFinancialYearName(String financialYearName) {
+		this.financialYearName = financialYearName;
 	}
 
 }

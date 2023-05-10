@@ -16,6 +16,9 @@ import com.nous.rollingrevenue.common.rest.WSResponse;
 import com.nous.rollingrevenue.service.RevenueService;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
+import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
+import com.nous.rollingrevenue.vo.ResourceEntryResponse;
+import com.nous.rollingrevenue.vo.ResourceEntryRequest;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
 
@@ -46,15 +49,28 @@ public class RevenueController {
 
 	@Operation(summary = "Get All RevenueEntries")
 	@GetMapping(path = "{financialYearName}")
-	public WSResponse<RevenueEntryResponse> getAllRevenueEntries(@PathVariable String financialYearName, @RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
+	public WSResponse<RevenueEntryResponse> getAllRevenueEntries(@PathVariable String financialYearName,
+			@RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				revenueService.getRevenueEntries(financialYearName, isDisplayAdditionalQuarter));
 	}
 
-	@Operation(summary = "Get All Opportunities")
-	@GetMapping(path = "/opportunity/{oppId}")
-	public WSResponse<OpportunityEntryResponse> getAllOpportunities(@PathVariable Long oppId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, revenueService.getOpportunities(oppId));
+	@Operation(summary = "Get Opportunities")
+	@PostMapping(path = "/opportunity")
+	public WSResponse<OpportunityEntryResponse> getOpportunities(
+			@RequestBody @Valid OpportunityRevenueRequest opportunityRevenueRequest,
+			@RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				revenueService.getOpportunities(opportunityRevenueRequest, isDisplayAdditionalQuarter));
+	}
+
+	@Operation(summary = "Get Resources")
+	@PostMapping(path = "/resources")
+	public WSResponse<ResourceEntryResponse> getResources(
+			@RequestBody @Valid ResourceEntryRequest resourceRevenueRequest,
+			@RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				revenueService.getResourcesByOpportunity(resourceRevenueRequest, isDisplayAdditionalQuarter));
 	}
 
 }

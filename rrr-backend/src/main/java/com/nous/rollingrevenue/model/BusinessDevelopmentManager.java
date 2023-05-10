@@ -19,7 +19,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "buiness_development_manager")
+@Table(name = "business_development_manager")
 @EntityListeners(AuditingEntityListener.class)
 public class BusinessDevelopmentManager extends Auditable<String> {
 

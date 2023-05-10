@@ -53,15 +53,19 @@ import com.nous.rollingrevenue.repository.OpportunityRepository;
 import com.nous.rollingrevenue.repository.RevenueEntryRespository;
 import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
 import com.nous.rollingrevenue.service.RevenueService;
+import com.nous.rollingrevenue.vo.FPResourceEntryVO;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.FinancialYearRevenue;
-import com.nous.rollingrevenue.vo.MileStoneEntryResponse;
 import com.nous.rollingrevenue.vo.MilestoneEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
-import com.nous.rollingrevenue.vo.ResourcesEntryResponse;
+import com.nous.rollingrevenue.vo.OpportunityEntryVO;
+import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
+import com.nous.rollingrevenue.vo.ResourceEntryResponse;
+import com.nous.rollingrevenue.vo.ResourceEntryRequest;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryVO;
 import com.nous.rollingrevenue.vo.RevenueResourceEntryVO;
+import com.nous.rollingrevenue.vo.TandMResourceEntryVO;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
 
 @Service
@@ -291,6 +295,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 		revenueEntryResponse.setRevenueEntries(revenueEntriesVO);
 		revenueEntryResponse.setFinancialYearRevenue(financialYearRevenue);
+		revenueEntryResponse.setFinancialYearName(financialYearName);
 
 		return revenueEntryResponse;
 	}
@@ -344,9 +349,8 @@ public class RevenueServiceImpl implements RevenueService {
 				fyRevenue.put(milestoneBillingDate, fyRevenue.get(milestoneBillingDate).add(resourceFPRevenue));
 			}
 
-			financialYearRevenue.setDataMap(fyRevenue);
 		}
-
+		financialYearRevenue.setDataMap(fyRevenue);
 		return financialYearRevenue;
 
 	}
@@ -437,92 +441,177 @@ public class RevenueServiceImpl implements RevenueService {
 	}
 
 	@Override
-	public OpportunityEntryResponse getOpportunities(Long oppId) {
-		OpportunityEntryResponse response = new OpportunityEntryResponse();
-		Optional<Opportunity> optional = opportunityRepository.findById(oppId);
-		List<RevenueResourceEntry> revenueResourceEntryList = null;
+	public OpportunityEntryResponse getOpportunities(OpportunityRevenueRequest opportunityRevenueRequest,
+			boolean isDisplayAdditionalQuarter) {
 
-		List<ResourcesEntryResponse> resourceResponseList = new ArrayList<>();
-		ResourcesEntryResponse resourceResponse = new ResourcesEntryResponse();
+		Set<OpportunityEntryVO> opportunityEntriesVO = new HashSet<>();
+		OpportunityEntryResponse opportunityEntryResponse = new OpportunityEntryResponse();
+		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
 
-		List<MileStoneEntryResponse> mileStoneList = new ArrayList<>();
-		MileStoneEntryResponse mileStoneEntryResponse = new MileStoneEntryResponse();
+		FinancialYear financialYear = financialYearRepository
+				.findByFinancialYearName(opportunityRevenueRequest.getFinancialYearName())
+				.orElseThrow(() -> new RecordNotFoundException(
+						ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
 
-		if (optional.isPresent()) {
-			Opportunity opportunity = optional.get();
-			List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
+		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository
+				.getOpportunities(opportunityRevenueRequest);
 
-			response.setProjectCodeId(opportunity.getOpportunityId());
-			response.setProjectCode(opportunity.getProjectCode());
-			response.setOpportunityName(opportunity.getOpportunityName());
-			response.setProjectStartDate(opportunity.getProjectStartDate());
-			response.setProjectEndDate(opportunity.getProjectEndDate());
-
-			if (!revenueEntryList.isEmpty()) {
-				for (RevenueEntry revenueEntry : revenueEntryList) {
-					revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
-					response.setPricingType(revenueEntry.getPricingType());
-					response.setNoOfResources(revenueEntry.getResourceCount());
-					resourceResponse.setWorkOrderNumber(revenueEntry.getWorkOrder().getWorkOrderNumber());
-					mileStoneEntryResponse.setWorkOrderNumber(revenueEntry.getWorkOrder().getWorkOrderNumber());
-				}
-			}
-			if (!revenueResourceEntryList.isEmpty()) {
-				for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
-					response.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeDisplayName());
-					if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
-						if ("T&M".equalsIgnoreCase(response.getPricingType())) {
-							response.setLeaveLossFactor(
-									String.valueOf(revenueResourceEntry.getLeaveLossFactor().getOffShore()));
-							resourceResponse.setLeaveLossFactor(
-									String.valueOf(revenueResourceEntry.getLeaveLossFactor().getOffShore()));
-						} else {
-							response.setLeaveLossFactor("Not Applicable");
-							resourceResponse.setLeaveLossFactor("Not Applicable");
-						}
-					} else {
-						if ("T&M".equalsIgnoreCase(response.getPricingType())) {
-							response.setLeaveLossFactor(
-									String.valueOf(revenueResourceEntry.getLeaveLossFactor().getOnSite()));
-							resourceResponse.setLeaveLossFactor(
-									String.valueOf(revenueResourceEntry.getLeaveLossFactor().getOnSite()));
-						} else {
-							response.setLeaveLossFactor("Not Applicable");
-							resourceResponse.setLeaveLossFactor("Not Applicable");
-						}
-					}
-
-					if ("T&M".equalsIgnoreCase(response.getPricingType())) {
-						ResourcesEntryResponse resourceEntryResponse = new ResourcesEntryResponse();
-						resourceEntryResponse.setStartDate(revenueResourceEntry.getResourceStartDate());
-						resourceEntryResponse.setEndDate(revenueResourceEntry.getResourceEndDate());
-						resourceEntryResponse.setWorkOrderNumber(resourceResponse.getWorkOrderNumber());
-						resourceEntryResponse.setEmployeeId(revenueResourceEntry.getEmployeeId());
-						resourceEntryResponse.setResourceName(revenueResourceEntry.getResourceName());
-						resourceEntryResponse.setBillingRate(revenueResourceEntry.getBillingRate());
-						resourceEntryResponse.setAllocation(revenueResourceEntry.getAllocation());
-						resourceEntryResponse.setLeaveLossFactor(resourceResponse.getLeaveLossFactor());
-
-						resourceResponseList.add(resourceEntryResponse);
-					} else {
-						MilestoneEntry milestoneEntry = revenueResourceEntry.getMilestoneEntry();
-						MileStoneEntryResponse mileStoneResponse = new MileStoneEntryResponse();
-						mileStoneResponse.setStartDate(revenueResourceEntry.getResourceStartDate());
-						mileStoneResponse.setEndDate(revenueResourceEntry.getResourceEndDate());
-						mileStoneResponse.setMilestoneNumber(milestoneEntry.getMilestoneNumber());
-						mileStoneResponse.setWorkOrderNumber(mileStoneEntryResponse.getWorkOrderNumber());
-						mileStoneResponse.setResourceName(revenueResourceEntry.getResourceName());
-						mileStoneResponse.setAllocation(revenueResourceEntry.getAllocation());
-						mileStoneResponse.setMilestoneBillingDate(milestoneEntry.getMilestoneBillingDate());
-						mileStoneResponse.setMilestoneRevenue(milestoneEntry.getMilestoneRevenue());
-						mileStoneList.add(mileStoneResponse);
-					}
-				}
-			}
+		if (Constants.NO.equals(opportunityRevenueRequest.getCocPractice())) {
+			revenueResourceEntries = revenueResourceEntries.stream()
+					.filter(revenueResourceEntry -> Constants.NON_COC_BASED
+							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName()))
+					.collect(Collectors.toList());
+		} else {
+			revenueResourceEntries = revenueResourceEntries.stream()
+					.filter(revenueResourceEntry -> (!Constants.NON_COC_BASED
+							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())))
+					.collect(Collectors.toList());
 		}
-		response.setResourcesList(resourceResponseList);
-		response.setMileStoneList(mileStoneList);
-		return response;
+
+		Map<Boolean, List<RevenueResourceEntry>> partitionResourceEntriesByPricingType = this
+				.getPartitionResourceEntriesByPricingType(revenueResourceEntries);
+
+		Set<Entry<Boolean, List<RevenueResourceEntry>>> entrySet = partitionResourceEntriesByPricingType.entrySet();
+
+		for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
+			if (entry.getKey()) {
+
+				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
+				financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYear,
+						isDisplayAdditionalQuarter);
+			}
+			else {
+				// Add T&M
+			}
+
+		}
+
+		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
+
+			OpportunityEntryVO opportunityEntryVO = new OpportunityEntryVO();
+
+			opportunityEntryVO.setProjectCode(revenueResourceEntry.getRevenueEntry().getOpportunity().getProjectCode());
+			opportunityEntryVO
+					.setOpportunityName(revenueResourceEntry.getRevenueEntry().getOpportunity().getOpportunityName());
+			opportunityEntryVO
+					.setProjectStartDate(revenueResourceEntry.getRevenueEntry().getOpportunity().getProjectStartDate());
+			opportunityEntryVO
+					.setProjectEndDate(revenueResourceEntry.getRevenueEntry().getOpportunity().getProjectEndDate());
+			opportunityEntryVO.setPricingType(revenueResourceEntry.getRevenueEntry().getPricingType());
+			opportunityEntryVO.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeName());
+
+			opportunityEntryVO.setNoOfResources(
+					this.getNoOfResourcesForOpportunity(opportunityRevenueRequest, opportunityEntryVO));
+
+			opportunityEntriesVO.add(opportunityEntryVO);
+		}
+
+		opportunityEntryResponse.setOpportunities(opportunityEntriesVO);
+		opportunityEntryResponse.setFinancialYearRevenue(financialYearRevenue);
+		opportunityEntryResponse.setFinancialYearName(opportunityRevenueRequest.getFinancialYearName());
+
+		return opportunityEntryResponse;
+	}
+
+	private int getNoOfResourcesForOpportunity(OpportunityRevenueRequest opportunityRevenueRequest,
+			OpportunityEntryVO opportunityEntryVO) {
+
+		ResourceEntryRequest resourceEntryRequest = new ResourceEntryRequest();
+		resourceEntryRequest.setBusinessUnit(opportunityRevenueRequest.getBusinessUnit());
+		resourceEntryRequest.setStrategicBusinessUnit(opportunityRevenueRequest.getStrategicBusinessUnit());
+		resourceEntryRequest.setStrategicBusinessUnitHead(opportunityRevenueRequest.getStrategicBusinessUnitHead());
+		resourceEntryRequest.setBusinessDevelopmentManager(opportunityRevenueRequest.getBusinessDevelopmentManager());
+		resourceEntryRequest.setBusinessType(opportunityRevenueRequest.getBusinessType());
+		resourceEntryRequest.setAccount(opportunityRevenueRequest.getAccount());
+		resourceEntryRequest.setRegion(opportunityRevenueRequest.getRegion());
+		resourceEntryRequest.setLocation(opportunityRevenueRequest.getLocation());
+		resourceEntryRequest.setProbabilityType(opportunityRevenueRequest.getProbabilityType());
+		resourceEntryRequest.setStatus(opportunityRevenueRequest.getStatus());
+		resourceEntryRequest.setFinancialYearName(opportunityRevenueRequest.getFinancialYearName());
+		resourceEntryRequest.setProjectCode(opportunityEntryVO.getProjectCode());
+		resourceEntryRequest.setOpportunityName(opportunityEntryVO.getOpportunityName());
+		resourceEntryRequest.setProjectStartDate(opportunityEntryVO.getProjectStartDate());
+		resourceEntryRequest.setProjectEndDate(opportunityEntryVO.getProjectEndDate());
+		resourceEntryRequest.setPricingType(opportunityEntryVO.getPricingType());
+		resourceEntryRequest.setCocPractice(opportunityEntryVO.getCocPractice());
+
+		List<RevenueResourceEntry> opportunityResources = revenueResourceEntryRepository
+				.getResourcesByOpportunity(resourceEntryRequest);
+
+		return opportunityResources.size();
+
+	}
+
+	@Override
+	public ResourceEntryResponse getResourcesByOpportunity(ResourceEntryRequest resourceEntryRequest,
+			boolean isDisplayAdditionalQuarter) {
+
+		List<TandMResourceEntryVO> tmResourceEntriesVO = new ArrayList<>();
+		List<FPResourceEntryVO> fpResourceEntriesVO = new ArrayList<>();
+		ResourceEntryResponse resourceEntryResponse = new ResourceEntryResponse();
+		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
+
+		FinancialYear financialYear = financialYearRepository
+				.findByFinancialYearName(resourceEntryRequest.getFinancialYearName())
+				.orElseThrow(() -> new RecordNotFoundException(
+						ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
+
+		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository
+				.getResourcesByOpportunity(resourceEntryRequest);
+
+		if (Constants.PRICING_TYPE_FP.equals(resourceEntryRequest.getPricingType())) {
+
+			financialYearRevenue = this.calculateFPRevenue(revenueResourceEntries, financialYear,
+					isDisplayAdditionalQuarter);
+
+			for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
+
+				FPResourceEntryVO fpResourceEntry = new FPResourceEntryVO();
+				fpResourceEntry.setResourceStartDate(revenueResourceEntry.getResourceStartDate());
+				fpResourceEntry.setResourceEndDate(revenueResourceEntry.getResourceEndDate());
+				fpResourceEntry.setMilestoneNumber(revenueResourceEntry.getMilestoneEntry().getMilestoneNumber());
+				fpResourceEntry
+						.setWorkOrderNumber(revenueResourceEntry.getRevenueEntry().getWorkOrder().getWorkOrderNumber());
+				fpResourceEntry.setEmployeeId(revenueResourceEntry.getEmployeeId());
+				fpResourceEntry.setResourceName(revenueResourceEntry.getResourceName());
+				fpResourceEntry
+						.setMilestoneBillingDate(revenueResourceEntry.getMilestoneEntry().getMilestoneBillingDate());
+				fpResourceEntry.setRevenue(revenueResourceEntry.getRevenue());
+				fpResourceEntry.setLeaveLossFactor(Constants.NOT_APPLICABLE);
+
+				fpResourceEntriesVO.add(fpResourceEntry);
+			}
+			resourceEntryResponse.setFpResourceEntries(fpResourceEntriesVO);
+
+		} else {
+
+			// ADD T&M calculation and billing rate changes and test leave loss factor logic
+
+			for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
+
+				TandMResourceEntryVO tmResourceEntry = new TandMResourceEntryVO();
+				tmResourceEntry.setResourceStartDate(revenueResourceEntry.getResourceStartDate());
+				tmResourceEntry.setResourceEndDate(revenueResourceEntry.getResourceEndDate());
+				tmResourceEntry
+						.setWorkOrderNumber(revenueResourceEntry.getRevenueEntry().getWorkOrder().getWorkOrderNumber());
+				tmResourceEntry.setEmployeeId(revenueResourceEntry.getEmployeeId());
+				tmResourceEntry.setResourceName(revenueResourceEntry.getResourceName());
+				tmResourceEntry.setBillingRate(revenueResourceEntry.getBillingRate());// Add billing rate conversion and
+																						// test leave loss factor logic
+				tmResourceEntry.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOnSite() == null
+						? revenueResourceEntry.getLeaveLossFactor().getOffShore().toString()
+						: revenueResourceEntry.getLeaveLossFactor().getOnSite().toString());
+
+				tmResourceEntriesVO.add(tmResourceEntry);
+			}
+			resourceEntryResponse.setTmResourceEntries(tmResourceEntriesVO);
+		}
+
+		resourceEntryResponse.setFinancialYearRevenue(financialYearRevenue);
+		resourceEntryResponse.setFinancialYearName(resourceEntryRequest.getFinancialYearName());
+
+		return resourceEntryResponse;
+
 	}
 
 }

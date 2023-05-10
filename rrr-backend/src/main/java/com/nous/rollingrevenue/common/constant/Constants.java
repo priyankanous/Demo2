@@ -1,12 +1,6 @@
-/**
- * 
- */
+
 package com.nous.rollingrevenue.common.constant;
 
-/**
- * @author Nous Infosystems
- *
- */
 public class Constants {
 
 	public static final String REG_SUCC_EMAIL_SUB = "You registered sucessfully";
@@ -34,5 +28,7 @@ public class Constants {
 	public static final String QUARTERLY = "Quarterly";
 
 	public static final String HALF_ANNUALLY = "Half Annually";
+
+	public static final String NOT_APPLICABLE = "Not Applicable";
 
 }
