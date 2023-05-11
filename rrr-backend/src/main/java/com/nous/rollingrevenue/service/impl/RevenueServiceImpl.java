@@ -91,6 +91,9 @@ public class RevenueServiceImpl implements RevenueService {
 	@Autowired
 	private RevenueServiceTMCalculation tmCalculation;
 
+	@Autowired
+	private RevenueServiceTMCalculation revenueServiceTMCalculation;
+
 	@Override
 	@Transactional
 	public void saveTandMRevenueEntry(TandMRevenueEntryVO tmRevenueEntry) {
@@ -344,7 +347,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
 
-		listOfMonthsBetweenFinancialYear = this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyEndDate,
+		listOfMonthsBetweenFinancialYear = this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate,
 				isDisplayAdditionalQuarter);
 
 		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
@@ -365,6 +368,7 @@ public class RevenueServiceImpl implements RevenueService {
 			}
 
 		}
+		revenueServiceTMCalculation.setQuarterlyDetails(fyRevenue, isDisplayAdditionalQuarter);
 		financialYearRevenue.setDataMap(fyRevenue);
 		return financialYearRevenue;
 
@@ -390,7 +394,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyEndDate,
 			boolean isDisplayAdditionalQuarter) {
-		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yyyy", Locale.ENGLISH);
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
 		String year = yearFormatter.format(fyEndDate);
 		int additionalQuarterYear = Integer.parseInt(year) + 1;
 
@@ -409,26 +413,26 @@ public class RevenueServiceImpl implements RevenueService {
 		listOfMonthsBetweenFinancialYear.add(19, "q3FYS " + year);
 		listOfMonthsBetweenFinancialYear.add(20, "q3FYT " + year);
 
-		listOfMonthsBetweenFinancialYear.add(24, "q4FYP " + year);
-		listOfMonthsBetweenFinancialYear.add(25, "q4FYB " + year);
-		listOfMonthsBetweenFinancialYear.add(26, "q4FYS " + year);
-		listOfMonthsBetweenFinancialYear.add(27, "q4FYT " + year);
+		listOfMonthsBetweenFinancialYear.add(24, "q4FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(25, "q4FYB " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(26, "q4FYS " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(27, "q4FYT " + additionalQuarterYear);
 
 		if (isDisplayAdditionalQuarter) {
-			listOfMonthsBetweenFinancialYear.add(31, "q1FYP " + additionalQuarterYear);
-			listOfMonthsBetweenFinancialYear.add(32, "q1FYB " + additionalQuarterYear);
-			listOfMonthsBetweenFinancialYear.add(33, "q1FYS " + additionalQuarterYear);
-			listOfMonthsBetweenFinancialYear.add(34, "q1FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(31, "q5FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(32, "q5FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(33, "q5FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(34, "q5FYT " + additionalQuarterYear);
 
-			listOfMonthsBetweenFinancialYear.add("FYB " + year);
-			listOfMonthsBetweenFinancialYear.add("FYS " + year);
-			listOfMonthsBetweenFinancialYear.add("FYT " + year);
-			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + year);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
 		} else {
-			listOfMonthsBetweenFinancialYear.add("FYB " + year);
-			listOfMonthsBetweenFinancialYear.add("FYS " + year);
-			listOfMonthsBetweenFinancialYear.add("FYT " + year);
-			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + year);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
 		}
 		return listOfMonthsBetweenFinancialYear;
 

@@ -20,9 +20,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.nous.rollingrevenue.common.constant.Constants;
+import com.nous.rollingrevenue.common.constant.ErrorConstants;
+import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.Currency;
 import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.HolidayCalendar;
 import com.nous.rollingrevenue.model.RevenueResourceEntry;
+import com.nous.rollingrevenue.repository.CurrencyRepository;
 import com.nous.rollingrevenue.repository.FinancialYearRepository;
 import com.nous.rollingrevenue.vo.FinancialYearTMRevenue;
 
@@ -31,6 +35,9 @@ public class RevenueServiceTMCalculation {
 
 	@Autowired
 	private FinancialYearRepository financialYearRepository;
+
+	@Autowired
+	private CurrencyRepository currencyRepository;
 
 	public FinancialYearTMRevenue calculateTMRevenue(List<RevenueResourceEntry> revenueEntryList,
 			FinancialYear financialYear, boolean isDisplayAdditionalQuarter) {
@@ -50,7 +57,7 @@ public class RevenueServiceTMCalculation {
 		}
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-		listOfMonthsBetweenFinancialYear = this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyEndDate,
+		listOfMonthsBetweenFinancialYear = this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate,
 				isDisplayAdditionalQuarter);
 		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
 
@@ -61,12 +68,76 @@ public class RevenueServiceTMCalculation {
 			} else {
 				leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor().getOnSite();
 			}
+
+			BigInteger billingRate = calculatingBillingRate(financialYear,
+					revenueTMResourceEntry.getRevenueEntry().getCurrency().getCurrencyId(),
+					revenueTMResourceEntry.getBillingRate());
 			monthlyBillingSeparation(financialYearName, revenueTMResourceEntry.getResourceStartDate(),
 					revenueTMResourceEntry.getResourceEndDate(), revenueTMResourceEntry.getBillingRateType(),
-					revenueTMResourceEntry.getBillingRate(), leaveLossFactor, isDisplayAdditionalQuarter, fyRevenue);
+					billingRate, leaveLossFactor, isDisplayAdditionalQuarter, fyRevenue);
 		}
+
+		setQuarterlyDetails(fyRevenue, isDisplayAdditionalQuarter);
 		financialYearTMRevenue.setDataMap(fyRevenue);
 		return financialYearTMRevenue;
+	}
+
+	private BigInteger calculatingBillingRate(FinancialYear financialYear, long currencyId, BigInteger billingRate) {
+		BigDecimal conversionRateValue = getConversionRateValue(financialYear, currencyId);
+		return billingRate.divide(conversionRateValue.toBigInteger());
+	}
+
+	private BigDecimal getConversionRateValue(FinancialYear financialYear, long currencyId) {
+		List<Currency> currencyList = financialYear.getCurrencies();
+		Currency currency = currencyRepository.findById(currencyId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Currency"));
+
+		return currencyList.stream().filter(c -> currency.getCurrencyName().equalsIgnoreCase(c.getCurrencyName()))
+				.map(Currency::getConversionRate).findFirst().orElse(null);
+	}
+
+	public Map<String, BigInteger> setQuarterlyDetails(Map<String, BigInteger> fyRevenue,
+			boolean isDisplayAdditionalQuarter) {
+		int bigInteger = 0;
+		for (String key : fyRevenue.keySet()) {
+			if (key.contains("April") || key.contains("May") || key.contains("June") || key.contains("q1FYP")) {
+				bigInteger = bigInteger + fyRevenue.get(key).intValue();
+				if (key.contains("q1FYP")) {
+					fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(bigInteger)));
+					bigInteger = 0;
+				}
+			} else if (key.contains("July") || key.contains("August") || key.contains("September")
+					|| key.contains("q2FYP")) {
+				bigInteger = bigInteger + fyRevenue.get(key).intValue();
+				if (key.contains("q2FYP")) {
+					fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(bigInteger)));
+					bigInteger = 0;
+				}
+			} else if (key.contains("October") || key.contains("November") || key.contains("December")
+					|| key.contains("q3FYP")) {
+				bigInteger = bigInteger + fyRevenue.get(key).intValue();
+				if (key.contains("q3FYP")) {
+					fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(bigInteger)));
+					bigInteger = 0;
+				}
+			} else if (key.contains("January") || key.contains("February") || key.contains("March")
+					|| key.contains("q4FYP")) {
+				bigInteger = bigInteger + fyRevenue.get(key).intValue();
+				if (key.contains("q4FYP")) {
+					fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(bigInteger)));
+					bigInteger = 0;
+				}
+			} else if (isDisplayAdditionalQuarter) {
+				if (key.contains("April") || key.contains("May") || key.contains("June") || key.contains("q5FYP")) {
+					bigInteger = bigInteger + fyRevenue.get(key).intValue();
+					if (key.contains("q5FYP")) {
+						fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(bigInteger)));
+						bigInteger = 0;
+					}
+				}
+			}
+		}
+		return fyRevenue;
 	}
 
 	private List<String> getListOfMonthsBetweenDates(LocalDate startDate, LocalDate endDate) {
@@ -97,26 +168,26 @@ public class RevenueServiceTMCalculation {
 		listOfMonthsBetweenFinancialYear.add(19, "q3FYS " + year);
 		listOfMonthsBetweenFinancialYear.add(20, "q3FYT " + year);
 
-		listOfMonthsBetweenFinancialYear.add(24, "q4FYP " + year);
-		listOfMonthsBetweenFinancialYear.add(25, "q4FYB " + year);
-		listOfMonthsBetweenFinancialYear.add(26, "q4FYS " + year);
-		listOfMonthsBetweenFinancialYear.add(27, "q4FYT " + year);
+		listOfMonthsBetweenFinancialYear.add(24, "q4FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(25, "q4FYB " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(26, "q4FYS " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(27, "q4FYT " + additionalQuarterYear);
 
 		if (isDisplayAdditionalQuarter) {
-			listOfMonthsBetweenFinancialYear.add(31, "q1FYP " + additionalQuarterYear);
-			listOfMonthsBetweenFinancialYear.add(32, "q1FYB " + additionalQuarterYear);
-			listOfMonthsBetweenFinancialYear.add(33, "q1FYS " + additionalQuarterYear);
-			listOfMonthsBetweenFinancialYear.add(34, "q1FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(31, "q5FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(32, "q5FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(33, "q5FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(34, "q5FYT " + additionalQuarterYear);
 
-			listOfMonthsBetweenFinancialYear.add("FYB " + year);
-			listOfMonthsBetweenFinancialYear.add("FYS " + year);
-			listOfMonthsBetweenFinancialYear.add("FYT " + year);
-			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + year);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
 		} else {
-			listOfMonthsBetweenFinancialYear.add("FYB " + year);
-			listOfMonthsBetweenFinancialYear.add("FYS " + year);
-			listOfMonthsBetweenFinancialYear.add("FYT " + year);
-			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + year);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
 		}
 		return listOfMonthsBetweenFinancialYear;
 
