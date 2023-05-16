@@ -466,7 +466,7 @@ public class RevenueServiceImpl implements RevenueService {
 		Set<OpportunityEntryVO> opportunityEntriesVO = new HashSet<>();
 		OpportunityEntryResponse opportunityEntryResponse = new OpportunityEntryResponse();
 		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
-
+		FinancialYearTMRevenue financialYearTMRevenue = new FinancialYearTMRevenue();
 		FinancialYear financialYear = financialYearRepository
 				.findByFinancialYearName(opportunityRevenueRequest.getFinancialYearName())
 				.orElseThrow(() -> new RecordNotFoundException(
@@ -499,10 +499,21 @@ public class RevenueServiceImpl implements RevenueService {
 				financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYear,
 						isDisplayAdditionalQuarter);
 			} else {
-				// Add T&M
+				List<RevenueResourceEntry> revenueEntryList = entry.getValue();
+				financialYearTMRevenue = tmCalculation.calculateTMRevenue(revenueEntryList, financialYear,
+						isDisplayAdditionalQuarter);
 			}
 
 		}
+
+		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
+		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
+		for (String key : dataMap.keySet()) {
+			if (map.containsKey(key)) {
+				map.put(key, map.get(key).add(dataMap.get(key)));
+			}
+		}
+		financialYearRevenue.setDataMap(map);
 
 		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
 
@@ -568,6 +579,7 @@ public class RevenueServiceImpl implements RevenueService {
 		List<FPResourceEntryVO> fpResourceEntriesVO = new ArrayList<>();
 		ResourceEntryResponse resourceEntryResponse = new ResourceEntryResponse();
 		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
+		FinancialYearTMRevenue financialYearTMRevenue = new FinancialYearTMRevenue();
 
 		FinancialYear financialYear = financialYearRepository
 				.findByFinancialYearName(resourceEntryRequest.getFinancialYearName())
@@ -603,7 +615,8 @@ public class RevenueServiceImpl implements RevenueService {
 
 		} else {
 
-			// ADD T&M calculation and billing rate changes and test leave loss factor logic
+			financialYearTMRevenue = tmCalculation.calculateTMRevenue(revenueResourceEntries, financialYear,
+					isDisplayAdditionalQuarter);
 
 			for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
 
@@ -624,6 +637,15 @@ public class RevenueServiceImpl implements RevenueService {
 			}
 			resourceEntryResponse.setTmResourceEntries(tmResourceEntriesVO);
 		}
+
+		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
+		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
+		for (String key : dataMap.keySet()) {
+			if (map.containsKey(key)) {
+				map.put(key, map.get(key).add(dataMap.get(key)));
+			}
+		}
+		financialYearRevenue.setDataMap(map);
 
 		resourceEntryResponse.setFinancialYearRevenue(financialYearRevenue);
 		resourceEntryResponse.setFinancialYearName(resourceEntryRequest.getFinancialYearName());
