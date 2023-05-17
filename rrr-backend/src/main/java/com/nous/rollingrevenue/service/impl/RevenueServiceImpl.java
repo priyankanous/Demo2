@@ -291,15 +291,15 @@ public class RevenueServiceImpl implements RevenueService {
 
 			RevenueEntryVO revenueEntryVO = new RevenueEntryVO();
 
-			revenueEntryVO.setBusinessUnit(revenueResourceEntry.getBusinessUnit().getBusinessUnitName());
-			revenueEntryVO.setStrategicBusinessUnit(revenueResourceEntry.getStrategicBusinessUnit().getSbuName());
+			revenueEntryVO.setBusinessUnit(revenueResourceEntry.getBusinessUnit().getBusinessUnitDisplayName());
+			revenueEntryVO.setStrategicBusinessUnit(revenueResourceEntry.getStrategicBusinessUnit().getSbuDisplayName());
 			revenueEntryVO
-					.setStrategicBusinessUnitHead(revenueResourceEntry.getStrategicBusinessUnitHead().getSbuHeadName());
-			revenueEntryVO.setBusinessDevelopmentManager(revenueEntry.getBusinessDevelopmentManager().getBdmName());
-			revenueEntryVO.setBusinessType(revenueResourceEntry.getBusinessType().getBusinessTypeName());
+					.setStrategicBusinessUnitHead(revenueResourceEntry.getStrategicBusinessUnitHead().getSbuHeadDisplayName());
+			revenueEntryVO.setBusinessDevelopmentManager(revenueEntry.getBusinessDevelopmentManager().getBdmDisplayName());
+			revenueEntryVO.setBusinessType(revenueResourceEntry.getBusinessType().getBusinessTypeDisplayName());
 			revenueEntryVO.setAccount(revenueEntry.getAccount().getAccountName());
-			revenueEntryVO.setRegion(revenueEntry.getRegion().getRegionName());
-			revenueEntryVO.setLocation(revenueResourceEntry.getLocation().getLocationName());
+			revenueEntryVO.setRegion(revenueEntry.getRegion().getRegionDisplayName());
+			revenueEntryVO.setLocation(revenueResourceEntry.getLocation().getLocationDisplayName());
 			revenueEntryVO.setProbabilityType(revenueEntry.getProbabilityType().getProbabilityTypeName());
 			revenueEntryVO.setCocPractice(
 					Constants.NON_COC_BASED.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())
