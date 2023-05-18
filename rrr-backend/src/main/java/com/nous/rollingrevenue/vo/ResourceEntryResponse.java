@@ -17,6 +17,8 @@ public class ResourceEntryResponse implements Serializable {
 
 	private FinancialYearRevenue financialYearRevenue;
 
+	private FinancialYearTMRevenue financialYearTMRevenue;
+
 	private String financialYearName;
 
 	public ResourceEntryResponse() {
@@ -63,6 +65,14 @@ public class ResourceEntryResponse implements Serializable {
 
 	public void setFinancialYearName(String financialYearName) {
 		this.financialYearName = financialYearName;
+	}
+
+	public FinancialYearTMRevenue getFinancialYearTMRevenue() {
+		return financialYearTMRevenue;
+	}
+
+	public void setFinancialYearTMRevenue(FinancialYearTMRevenue financialYearTMRevenue) {
+		this.financialYearTMRevenue = financialYearTMRevenue;
 	}
 
 }

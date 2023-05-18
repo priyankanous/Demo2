@@ -612,6 +612,7 @@ public class RevenueServiceImpl implements RevenueService {
 				fpResourceEntriesVO.add(fpResourceEntry);
 			}
 			resourceEntryResponse.setFpResourceEntries(fpResourceEntriesVO);
+			resourceEntryResponse.setFinancialYearRevenue(financialYearRevenue);
 
 		} else {
 
@@ -636,18 +637,18 @@ public class RevenueServiceImpl implements RevenueService {
 				tmResourceEntriesVO.add(tmResourceEntry);
 			}
 			resourceEntryResponse.setTmResourceEntries(tmResourceEntriesVO);
+			resourceEntryResponse.setFinancialYearTMRevenue(financialYearTMRevenue);
 		}
 
-		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
-		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
-		for (String key : dataMap.keySet()) {
-			if (map.containsKey(key)) {
-				map.put(key, map.get(key).add(dataMap.get(key)));
-			}
-		}
-		financialYearRevenue.setDataMap(map);
+//		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
+//		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
+//		for (String key : dataMap.keySet()) {
+//			if (map.containsKey(key)) {
+//				map.put(key, map.get(key).add(dataMap.get(key)));
+//			}
+//		}
+//		financialYearRevenue.setDataMap(map);
 
-		resourceEntryResponse.setFinancialYearRevenue(financialYearRevenue);
 		resourceEntryResponse.setFinancialYearName(resourceEntryRequest.getFinancialYearName());
 
 		return resourceEntryResponse;
