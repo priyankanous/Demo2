@@ -3,8 +3,10 @@ package com.nous.rollingrevenue.service;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
-import com.nous.rollingrevenue.vo.ResourceEntryResponse;
 import com.nous.rollingrevenue.vo.ResourceEntryRequest;
+import com.nous.rollingrevenue.vo.ResourceEntryResponse;
+import com.nous.rollingrevenue.vo.ResourceRevenueRequest;
+import com.nous.rollingrevenue.vo.ResourceRevenueResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
 
@@ -19,7 +21,10 @@ public interface RevenueService {
 	public OpportunityEntryResponse getOpportunities(OpportunityRevenueRequest opportunityRevenueRequest,
 			boolean isDisplayAdditionalQuarter);
 
-	public ResourceEntryResponse getResourcesByOpportunity(ResourceEntryRequest resourceRevenueRequest,
+	public ResourceEntryResponse getResourcesByOpportunity(ResourceEntryRequest resourceEntryRequest,
+			boolean isDisplayAdditionalQuarter);
+
+	public ResourceRevenueResponse getResourceRevenue(ResourceRevenueRequest resourceRevenueRequest,
 			boolean isDisplayAdditionalQuarter);
 
 }

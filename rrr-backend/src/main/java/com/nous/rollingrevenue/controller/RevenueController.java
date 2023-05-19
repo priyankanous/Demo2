@@ -17,8 +17,10 @@ import com.nous.rollingrevenue.service.RevenueService;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
-import com.nous.rollingrevenue.vo.ResourceEntryResponse;
 import com.nous.rollingrevenue.vo.ResourceEntryRequest;
+import com.nous.rollingrevenue.vo.ResourceEntryResponse;
+import com.nous.rollingrevenue.vo.ResourceRevenueRequest;
+import com.nous.rollingrevenue.vo.ResourceRevenueResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
 
@@ -66,11 +68,19 @@ public class RevenueController {
 
 	@Operation(summary = "Get Resources")
 	@PostMapping(path = "/resources")
-	public WSResponse<ResourceEntryResponse> getResources(
-			@RequestBody @Valid ResourceEntryRequest resourceRevenueRequest,
+	public WSResponse<ResourceEntryResponse> getResources(@RequestBody @Valid ResourceEntryRequest resourceEntryRequest,
 			@RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				revenueService.getResourcesByOpportunity(resourceRevenueRequest, isDisplayAdditionalQuarter));
+				revenueService.getResourcesByOpportunity(resourceEntryRequest, isDisplayAdditionalQuarter));
+	}
+
+	@Operation(summary = "Get Resources Revenue")
+	@PostMapping(path = "/resourcerevenue")
+	public WSResponse<ResourceRevenueResponse> getResourceRevenue(
+			@RequestBody @Valid ResourceRevenueRequest resourceRevenueRequest,
+			@RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				revenueService.getResourceRevenue(resourceRevenueRequest, isDisplayAdditionalQuarter));
 	}
 
 }

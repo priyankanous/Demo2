@@ -82,7 +82,7 @@ public class RevenueServiceTMCalculation {
 		return financialYearTMRevenue;
 	}
 
-	private BigInteger calculatingBillingRate(FinancialYear financialYear, long currencyId, BigInteger billingRate) {
+	public BigInteger calculatingBillingRate(FinancialYear financialYear, long currencyId, BigInteger billingRate) {
 		BigDecimal conversionRateValue = getConversionRateValue(financialYear, currencyId);
 		return billingRate.divide(conversionRateValue.toBigInteger());
 	}
@@ -193,7 +193,7 @@ public class RevenueServiceTMCalculation {
 
 	}
 
-	private Map<String, BigInteger> monthlyBillingSeparation(String financialYear, LocalDate startDate,
+	public Map<String, BigInteger> monthlyBillingSeparation(String financialYear, LocalDate startDate,
 			LocalDate endDate, String billingRateType, BigInteger billingRate, Long leaveLossFactor,
 			boolean isDisplayAdditionalQuarter, Map<String, BigInteger> fyRevenue) {
 		List<String> projectMonthAndYear = getListOfMonthsBetweenDates(startDate, endDate);

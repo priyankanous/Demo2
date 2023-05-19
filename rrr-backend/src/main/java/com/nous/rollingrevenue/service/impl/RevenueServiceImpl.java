@@ -63,6 +63,8 @@ import com.nous.rollingrevenue.vo.OpportunityEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
 import com.nous.rollingrevenue.vo.ResourceEntryRequest;
 import com.nous.rollingrevenue.vo.ResourceEntryResponse;
+import com.nous.rollingrevenue.vo.ResourceRevenueRequest;
+import com.nous.rollingrevenue.vo.ResourceRevenueResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryVO;
 import com.nous.rollingrevenue.vo.RevenueResourceEntryVO;
@@ -292,10 +294,12 @@ public class RevenueServiceImpl implements RevenueService {
 			RevenueEntryVO revenueEntryVO = new RevenueEntryVO();
 
 			revenueEntryVO.setBusinessUnit(revenueResourceEntry.getBusinessUnit().getBusinessUnitDisplayName());
-			revenueEntryVO.setStrategicBusinessUnit(revenueResourceEntry.getStrategicBusinessUnit().getSbuDisplayName());
 			revenueEntryVO
-					.setStrategicBusinessUnitHead(revenueResourceEntry.getStrategicBusinessUnitHead().getSbuHeadDisplayName());
-			revenueEntryVO.setBusinessDevelopmentManager(revenueEntry.getBusinessDevelopmentManager().getBdmDisplayName());
+					.setStrategicBusinessUnit(revenueResourceEntry.getStrategicBusinessUnit().getSbuDisplayName());
+			revenueEntryVO.setStrategicBusinessUnitHead(
+					revenueResourceEntry.getStrategicBusinessUnitHead().getSbuHeadDisplayName());
+			revenueEntryVO
+					.setBusinessDevelopmentManager(revenueEntry.getBusinessDevelopmentManager().getBdmDisplayName());
 			revenueEntryVO.setBusinessType(revenueResourceEntry.getBusinessType().getBusinessTypeDisplayName());
 			revenueEntryVO.setAccount(revenueEntry.getAccount().getAccountName());
 			revenueEntryVO.setRegion(revenueEntry.getRegion().getRegionDisplayName());
@@ -653,6 +657,81 @@ public class RevenueServiceImpl implements RevenueService {
 
 		return resourceEntryResponse;
 
+	}
+
+	@Override
+	public ResourceRevenueResponse getResourceRevenue(ResourceRevenueRequest resourceRevenueRequest,
+			boolean isDisplayAdditionalQuarter) {
+		ResourceRevenueResponse resourceRevenueResponse = new ResourceRevenueResponse();
+		FinancialYearTMRevenue financialYearTMRevenue = new FinancialYearTMRevenue();
+		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
+		Map<String, BigInteger> fyRevenue = new LinkedHashMap<>();
+
+		FinancialYear financialYear = financialYearRepository
+				.findByFinancialYearName(resourceRevenueRequest.getFinancialYearName())
+				.orElseThrow(() -> new RecordNotFoundException(
+						ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
+
+		RevenueResourceEntry revenueResourceEntry = revenueResourceEntryRepository
+				.getResourcesRevenue(resourceRevenueRequest);
+
+		LocalDate financialYearStartingFrom = financialYear.getStartingFrom();
+		LocalDate financialYearEndingOn = financialYear.getEndingOn();
+		String financialYearName = financialYear.getFinancialYearName();
+		resourceRevenueResponse.setFinancialYearName(financialYearName);
+
+		LocalDate fyStartDate = LocalDate.of(financialYearStartingFrom.getYear(), 4, 1);
+		LocalDate fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 3, 31);
+
+		if (isDisplayAdditionalQuarter) {
+			fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 6, 30);
+			financialYearEndingOn = fyEndDate;
+		}
+
+		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
+		listOfMonthsBetweenFinancialYear = this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate,
+				isDisplayAdditionalQuarter);
+		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
+
+		if (revenueResourceEntry != null)
+			if (Constants.PRICING_TYPE_FP.equals(resourceRevenueRequest.getPricingType())) {
+				BigInteger resourceFPRevenue = this.getResourceFPRevenueInFYBaseCurrency(revenueResourceEntry,
+						financialYear);
+
+				MilestoneEntry milestoneEntry = revenueResourceEntry.getMilestoneEntry();
+
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
+
+				String milestoneBillingDate = formatter.format(milestoneEntry.getMilestoneBillingDate());
+
+				if (fyRevenue.containsKey(milestoneBillingDate)) {
+					fyRevenue.put(milestoneBillingDate, fyRevenue.get(milestoneBillingDate).add(resourceFPRevenue));
+				}
+				revenueServiceTMCalculation.setQuarterlyDetails(fyRevenue, isDisplayAdditionalQuarter);
+				financialYearRevenue.setDataMap(fyRevenue);
+				resourceRevenueResponse.setFinancialYearRevenue(financialYearRevenue);
+
+			} else {
+				long leaveLossFactor = 0;
+				if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
+					leaveLossFactor = revenueResourceEntry.getLeaveLossFactor().getOffShore();
+				} else {
+					leaveLossFactor = revenueResourceEntry.getLeaveLossFactor().getOnSite();
+				}
+
+				BigInteger billingRate = revenueServiceTMCalculation.calculatingBillingRate(financialYear,
+						revenueResourceEntry.getRevenueEntry().getCurrency().getCurrencyId(),
+						revenueResourceEntry.getBillingRate());
+				revenueServiceTMCalculation.monthlyBillingSeparation(financialYearName,
+						revenueResourceEntry.getResourceStartDate(), revenueResourceEntry.getResourceEndDate(),
+						revenueResourceEntry.getBillingRateType(), billingRate, leaveLossFactor,
+						isDisplayAdditionalQuarter, fyRevenue);
+
+				revenueServiceTMCalculation.setQuarterlyDetails(fyRevenue, isDisplayAdditionalQuarter);
+				financialYearTMRevenue.setDataMap(fyRevenue);
+				resourceRevenueResponse.setFinancialYearTMRevenue(financialYearTMRevenue);
+			}
+		return resourceRevenueResponse;
 	}
 
 }
