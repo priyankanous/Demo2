@@ -10,6 +10,8 @@ public class RevenueEntryVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private Long revenueEntryId;
+
 	private String businessUnit;
 
 	private String strategicBusinessUnit;
@@ -164,6 +166,14 @@ public class RevenueEntryVO implements Serializable {
 				&& Objects.equals(status, other.status)
 				&& Objects.equals(strategicBusinessUnit, other.strategicBusinessUnit)
 				&& Objects.equals(strategicBusinessUnitHead, other.strategicBusinessUnitHead);
+	}
+
+	public Long getRevenueEntryId() {
+		return revenueEntryId;
+	}
+
+	public void setRevenueEntryId(Long revenueEntryId) {
+		this.revenueEntryId = revenueEntryId;
 	}
 
 }

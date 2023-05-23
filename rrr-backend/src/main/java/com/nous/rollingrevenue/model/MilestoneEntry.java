@@ -2,6 +2,8 @@ package com.nous.rollingrevenue.model;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -14,33 +16,37 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "milestone_entry")
 @EntityListeners(AuditingEntityListener.class)
 public class MilestoneEntry extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "milestone_entry_id")
 	private Long milestoneEntryId;
-	
+
 	@Column(name = "milestone_number")
 	private String milestoneNumber;
-	
+
 	@Column(name = "milestone_billing_date")
 	private LocalDate milestoneBillingDate;
-	
+
 	@Column(name = "milestone_revenue")
 	private BigInteger milestoneRevenue;
-	
+
 	@Column(name = "milestone_resource_count")
 	private Integer milestoneResourceCount;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "revenue_entry_id", referencedColumnName = "revenue_entry_id")
 	private RevenueEntry revenueEntry;
+
+	@OneToMany(mappedBy = "milestoneEntry")
+	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
 
 	public MilestoneEntry() {
 
@@ -105,5 +111,12 @@ public class MilestoneEntry extends Auditable<String> {
 		this.revenueEntry = revenueEntry;
 	}
 
+	public List<RevenueResourceEntry> getRevenueResourceEntry() {
+		return revenueResourceEntry;
+	}
+
+	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
+		this.revenueResourceEntry = revenueResourceEntry;
+	}
 
 }

@@ -77,6 +77,9 @@ public class RevenueEntry extends Auditable<String> {
 	@OneToMany(mappedBy = "revenueEntry")
 	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
 
+	@OneToMany(mappedBy = "revenueEntry")
+	private List<MilestoneEntry> milestoneEntry = new ArrayList<>();
+
 	public RevenueEntry() {
 
 	}
@@ -220,6 +223,14 @@ public class RevenueEntry extends Auditable<String> {
 
 	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
 		this.revenueResourceEntry = revenueResourceEntry;
+	}
+
+	public List<MilestoneEntry> getMilestoneEntry() {
+		return milestoneEntry;
+	}
+
+	public void setMilestoneEntry(List<MilestoneEntry> milestoneEntry) {
+		this.milestoneEntry = milestoneEntry;
 	}
 
 }
