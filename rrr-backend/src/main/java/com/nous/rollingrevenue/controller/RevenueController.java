@@ -92,4 +92,12 @@ public class RevenueController {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
+	@Operation(summary = "Update TandMRevenueEntry")
+	@PutMapping(path = "/TandM/{revenueEntryId}")
+	public WSResponse<String> updateTandMRevenueEntry(@PathVariable @Valid Long revenueEntryId,
+			@RequestBody @Valid TandMRevenueEntryVO tandMRevenueEntryVO) {
+		revenueService.updateTandMRevenueEntry(revenueEntryId, tandMRevenueEntryVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
+
+	}
 }

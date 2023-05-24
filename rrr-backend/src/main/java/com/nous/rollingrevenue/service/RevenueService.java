@@ -10,8 +10,6 @@ import com.nous.rollingrevenue.vo.ResourceRevenueResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
 
-import jakarta.validation.Valid;
-
 public interface RevenueService {
 
 	public void saveTandMRevenueEntry(TandMRevenueEntryVO tmRevenueEntry);
@@ -30,5 +28,7 @@ public interface RevenueService {
 			boolean isDisplayAdditionalQuarter);
 
 	public void updateFPRevenueEntry(Long revenueEntryId, FPRevenueEntryVO fpRevenueEntry);
+
+	public void updateTandMRevenueEntry(Long revenueEntryId, TandMRevenueEntryVO tandMRevenueEntry);
 
 }

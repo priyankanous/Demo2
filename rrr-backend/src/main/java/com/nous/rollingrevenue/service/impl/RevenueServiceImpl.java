@@ -125,7 +125,6 @@ public class RevenueServiceImpl implements RevenueService {
 		revenueEntry.setPricingType(tmRevenueEntry.getPricingType());
 		revenueEntry.setRemarks(tmRevenueEntry.getRemarks());
 		revenueEntry.setStatus(tmRevenueEntry.getStatus());
-
 		RevenueEntry savedRevenueEntry = revenueEntryRespository.save(revenueEntry);
 
 		List<RevenueResourceEntryVO> revenueResourceEntriesVO = tmRevenueEntry.getRevenueResourceEntries();
@@ -829,4 +828,60 @@ public class RevenueServiceImpl implements RevenueService {
 		}
 	}
 
+	@Override
+	@Transactional
+	public void updateTandMRevenueEntry(Long revenueEntryId, TandMRevenueEntryVO tandMRevenueEntry) {
+		RevenueEntry revenueEntry = revenueEntryRespository.findById(revenueEntryId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + revenueEntryId));
+		Opportunity opportunity = OpportunityConverter
+				.convertOpportunityVOToOpportunity(tandMRevenueEntry.getOpportunity());
+		revenueEntry.setAccount(AccountConverter.convertAccountVOToAccount(tandMRevenueEntry.getAccount()));
+		if (Objects.isNull(opportunity.getOpportunityId())) {
+			opportunity = opportunityRepository.save(opportunity);
+		}
+		revenueEntry.setOpportunity(opportunity);
+		revenueEntry.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter
+				.convertBdmVOToBdm(tandMRevenueEntry.getBusinessDevelopmentManager()));
+		revenueEntry.setCurrency(CurrencyConverter.convertCurrencyVOToCurrency(tandMRevenueEntry.getCurrency()));
+		revenueEntry.setProbabilityType(ProbabilityTypeConverter
+				.convertProbabilityTypeVOToProbabilityType(tandMRevenueEntry.getProbabilityType()));
+		revenueEntry.setRegion(RegionConverter.convertRegionVOToRegion(tandMRevenueEntry.getRegion()));
+		revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(tandMRevenueEntry.getWorkOrder()));
+		revenueEntry.setFinancialYear(
+				FinancialYearConverter.convertFinancialYearVOToFinancialYear(tandMRevenueEntry.getFinancialYear()));
+		revenueEntry.setPricingType(tandMRevenueEntry.getPricingType());
+		revenueEntry.setRemarks(tandMRevenueEntry.getRemarks());
+		revenueEntry.setStatus(tandMRevenueEntry.getStatus());
+		RevenueEntry savedRevenueEntry = revenueEntryRespository.save(revenueEntry);
+		List<RevenueResourceEntryVO> revenueResourceEntriesVO = tandMRevenueEntry.getRevenueResourceEntries();
+		List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
+		if (!revenueResourceEntriesVO.isEmpty()) {
+			for (RevenueResourceEntryVO revenueResourceEntryVO : revenueResourceEntriesVO) {
+				for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+					if (revenueResourceEntry.getRevenueResourceEntryId() == revenueResourceEntryVO
+							.getRevenueResourceEntryId()) {
+						revenueResourceEntry.setStrategicBusinessUnit(StrategicBusinessUnitConverter
+								.convertSBUVOToSBU(revenueResourceEntryVO.getStrategicBusinessUnit()));
+						revenueResourceEntry.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter
+								.convertSBUHeadVOToSBUHead(revenueResourceEntryVO.getStrategicBusinessUnitHead()));
+						revenueResourceEntry.setBusinessUnit(BusinessUnitConverter
+								.convertBusinessUnitVOToBusinessUnit(revenueResourceEntryVO.getBusinessUnit()));
+						revenueResourceEntry.setLocation(
+								LocationConverter.convertLocationVOToLocation(revenueResourceEntryVO.getLocation()));
+						revenueResourceEntry.setResourceName(revenueResourceEntryVO.getResourceName());
+						revenueResourceEntry.setEmployeeId(revenueResourceEntryVO.getEmployeeId());
+						revenueResourceEntry.setResourceStartDate(revenueResourceEntryVO.getResourceStartDate());
+						revenueResourceEntry.setResourceEndDate(revenueResourceEntryVO.getResourceEndDate());
+						revenueResourceEntry.setCocPractice(CocPracticeConverter
+								.convertCocPracticeVOToCocPractice(revenueResourceEntryVO.getCocPractice()));
+						revenueResourceEntry.setBusinessType(BusinessTypeConverter
+								.convertBusinessTypeVOToBusinessType(revenueResourceEntryVO.getBusinessType()));
+						revenueResourceEntry.setAllocation(revenueResourceEntryVO.getAllocation());
+						revenueResourceEntry.setRevenueEntry(savedRevenueEntry);
+						revenueResourceEntryRepository.save(revenueResourceEntry);
+					}
+				}
+			}
+		}
+	}
 }
