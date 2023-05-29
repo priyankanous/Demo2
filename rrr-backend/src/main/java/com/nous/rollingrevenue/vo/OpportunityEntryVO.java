@@ -11,6 +11,8 @@ public class OpportunityEntryVO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	private Long opportunityId;
+
 	private String projectCode;
 
 	private String opportunityName;
@@ -24,6 +26,8 @@ public class OpportunityEntryVO implements Serializable {
 	private String cocPractice;
 
 	private Integer noOfResources;
+
+	private String leaveLossFactor;
 
 	public OpportunityEntryVO() {
 
@@ -117,6 +121,22 @@ public class OpportunityEntryVO implements Serializable {
 				&& Objects.equals(pricingType, other.pricingType) && Objects.equals(projectCode, other.projectCode)
 				&& Objects.equals(projectEndDate, other.projectEndDate)
 				&& Objects.equals(projectStartDate, other.projectStartDate);
+	}
+
+	public Long getOpportunityId() {
+		return opportunityId;
+	}
+
+	public void setOpportunityId(Long opportunityId) {
+		this.opportunityId = opportunityId;
+	}
+
+	public String getLeaveLossFactor() {
+		return leaveLossFactor;
+	}
+
+	public void setLeaveLossFactor(String leaveLossFactor) {
+		this.leaveLossFactor = leaveLossFactor;
 	}
 
 }

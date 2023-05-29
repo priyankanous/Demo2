@@ -8,6 +8,7 @@ import com.nous.rollingrevenue.vo.ResourceEntryResponse;
 import com.nous.rollingrevenue.vo.ResourceRevenueRequest;
 import com.nous.rollingrevenue.vo.ResourceRevenueResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
+import com.nous.rollingrevenue.vo.RollingRevenueResponse;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
 
 public interface RevenueService {
@@ -30,5 +31,7 @@ public interface RevenueService {
 	public void updateFPRevenueEntry(Long revenueEntryId, FPRevenueEntryVO fpRevenueEntry);
 
 	public void updateTandMRevenueEntry(Long revenueEntryId, TandMRevenueEntryVO tandMRevenueEntry);
+
+	public RollingRevenueResponse getRevenueEntryDetailsById(Long revenueEntryId);
 
 }

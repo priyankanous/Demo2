@@ -23,6 +23,7 @@ import com.nous.rollingrevenue.vo.ResourceEntryResponse;
 import com.nous.rollingrevenue.vo.ResourceRevenueRequest;
 import com.nous.rollingrevenue.vo.ResourceRevenueResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
+import com.nous.rollingrevenue.vo.RollingRevenueResponse;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -99,5 +100,12 @@ public class RevenueController {
 		revenueService.updateTandMRevenueEntry(revenueEntryId, tandMRevenueEntryVO);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 
+	}
+
+	@Operation(summary = "Get RevenueEntry By Id")
+	@GetMapping(path = "/getbyid/{revenueEntryId}")
+	public WSResponse<RollingRevenueResponse> getRevenueEntriesDetailsById(@PathVariable @Valid Long revenueEntryId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				revenueService.getRevenueEntryDetailsById(revenueEntryId));
 	}
 }
