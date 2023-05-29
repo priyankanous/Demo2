@@ -757,16 +757,15 @@ public class RevenueServiceImpl implements RevenueService {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 
-		Opportunity convertOpportunity = OpportunityConverter
-				.convertOpportunityVOToOpportunity(fpRevenueEntry.getOpportunity());
-		opportunity.setOpportunityName(convertOpportunity.getOpportunityName());
-		opportunity.setProjectCode(convertOpportunity.getProjectCode());
-		opportunity.setProjectStartDate(convertOpportunity.getProjectStartDate());
-		opportunity.setProjectEndDate(convertOpportunity.getProjectEndDate());
+		Opportunity opportunityVO = opportunityRepository
+				.findById(fpRevenueEntry.getOpportunity().getOpportunityId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 
-		if (Objects.isNull(opportunity.getOpportunityId())) {
-			opportunity = opportunityRepository.save(opportunity);
-		}
+		opportunity.setOpportunityName(opportunityVO.getOpportunityName());
+		opportunity.setProjectCode(opportunityVO.getProjectCode());
+		opportunity.setProjectStartDate(opportunityVO.getProjectStartDate());
+		opportunity.setProjectEndDate(opportunityVO.getProjectEndDate());
+		opportunity = opportunityRepository.save(opportunity);
 
 		List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
 
@@ -858,15 +857,15 @@ public class RevenueServiceImpl implements RevenueService {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 
-		Opportunity convertOpportunity = OpportunityConverter
-				.convertOpportunityVOToOpportunity(tandMRevenueEntry.getOpportunity());
-		opportunity.setOpportunityName(convertOpportunity.getOpportunityName());
-		opportunity.setProjectCode(convertOpportunity.getProjectCode());
-		opportunity.setProjectStartDate(convertOpportunity.getProjectStartDate());
-		opportunity.setProjectEndDate(convertOpportunity.getProjectEndDate());
-		if (Objects.isNull(opportunity.getOpportunityId())) {
-			opportunity = opportunityRepository.save(opportunity);
-		}
+		Opportunity opportunityVO = opportunityRepository
+				.findById(tandMRevenueEntry.getOpportunity().getOpportunityId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
+
+		opportunity.setOpportunityName(opportunityVO.getOpportunityName());
+		opportunity.setProjectCode(opportunityVO.getProjectCode());
+		opportunity.setProjectStartDate(opportunityVO.getProjectStartDate());
+		opportunity.setProjectEndDate(opportunityVO.getProjectEndDate());
+		opportunity = opportunityRepository.save(opportunity);
 		List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
 
 		for (RevenueEntry revenueEntry : revenueEntryList) {
