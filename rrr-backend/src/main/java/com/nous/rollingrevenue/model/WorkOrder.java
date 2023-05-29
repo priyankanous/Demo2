@@ -1,8 +1,6 @@
 package com.nous.rollingrevenue.model;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,7 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -44,15 +41,12 @@ public class WorkOrder extends Auditable<String> {
 	@Column(name = "is_active")
 	private boolean isActive = Boolean.TRUE;
 
-	@OneToMany(mappedBy = "workOrder")
-	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
-
 	public WorkOrder() {
 		super();
 	}
 
 	public WorkOrder(Long workOrderId, String workOrderNumber, LocalDate workOrderEndDate, String woStatus,
-			Account account, boolean isActive, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			Account account, boolean isActive) {
 		super();
 		this.workOrderId = workOrderId;
 		this.workOrderNumber = workOrderNumber;
@@ -60,7 +54,6 @@ public class WorkOrder extends Auditable<String> {
 		this.woStatus = woStatus;
 		this.account = account;
 		this.isActive = isActive;
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Long getWorkOrderId() {
@@ -109,14 +102,6 @@ public class WorkOrder extends Auditable<String> {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
-		return rollingRevenueCommonEntry;
-	}
-
-	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 }

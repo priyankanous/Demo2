@@ -54,16 +54,13 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 	@OneToMany(mappedBy = "businessDevelopmentManager")
 	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
 
-	@OneToMany(mappedBy = "bdm")
-	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
-
 	public BusinessDevelopmentManager() {
 
 	}
 
 	public BusinessDevelopmentManager(Long bdmId, String bdmName, String bdmDisplayName, LocalDate activeFrom,
 			LocalDate activeUntil, List<BusinessUnit> businessUnits, List<Region> regions, List<BDMMeeting> bdmMeetings,
-			List<AnnualTargetEntry> annualTargetEntries, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			List<AnnualTargetEntry> annualTargetEntries) {
 		super();
 		this.bdmId = bdmId;
 		this.bdmName = bdmName;
@@ -73,7 +70,6 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 		this.businessUnits = businessUnits;
 		this.regions = regions;
 		this.bdmMeetings = bdmMeetings;
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 		this.annualTargetEntries = annualTargetEntries;
 	}
 
@@ -139,14 +135,6 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 
 	public void setBdmMeetings(List<BDMMeeting> bdmMeetings) {
 		this.bdmMeetings = bdmMeetings;
-	}
-
-	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
-		return rollingRevenueCommonEntry;
-	}
-
-	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public List<AnnualTargetEntry> getAnnualTargetEntries() {

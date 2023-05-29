@@ -1,8 +1,6 @@
 package com.nous.rollingrevenue.model;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -15,7 +13,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -47,16 +44,12 @@ public class Currency extends Auditable<String> {
 	@Column(name = "base_currency")
 	private boolean baseCurrency;
 
-	@OneToMany(mappedBy = "currency")
-	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
-
 	public Currency() {
 
 	}
 
 	public Currency(Long currencyId, String currency, String currencyName, String symbol, BigDecimal conversionRate,
-			FinancialYear financialYear, boolean baseCurrency,
-			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			FinancialYear financialYear, boolean baseCurrency) {
 		super();
 		this.currencyId = currencyId;
 		this.currency = currency;
@@ -65,7 +58,6 @@ public class Currency extends Auditable<String> {
 		this.conversionRate = conversionRate;
 		this.financialYear = financialYear;
 		this.baseCurrency = baseCurrency;
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Long getCurrencyId() {
@@ -122,14 +114,6 @@ public class Currency extends Auditable<String> {
 
 	public void setBaseCurrency(boolean baseCurrency) {
 		this.baseCurrency = baseCurrency;
-	}
-
-	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
-		return rollingRevenueCommonEntry;
-	}
-
-	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 }

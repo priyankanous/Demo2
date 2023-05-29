@@ -55,9 +55,6 @@ public class FinancialYear extends Auditable<String> {
 	@OneToMany(mappedBy = "financialYear")
 	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
 
-	@OneToMany(mappedBy = "financialYear")
-	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
-
 	public FinancialYear() {
 
 	}
@@ -66,7 +63,7 @@ public class FinancialYear extends Auditable<String> {
 			LocalDate startingFrom, LocalDate endingOn, List<Currency> currencies,
 			List<GlobalMonthlyLeaveLossFactor> leaveLossFactors, List<HolidayCalendar> holidayCalendar,
 			List<BDMMeeting> bdmMeetings, List<FortnightlyMeeting> fortnightlyMeetings,
-			List<AnnualTargetEntry> annualTargetEntries, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			List<AnnualTargetEntry> annualTargetEntries) {
 
 		super();
 		this.financialYearId = financialYearId;
@@ -79,7 +76,6 @@ public class FinancialYear extends Auditable<String> {
 		this.holidayCalendar = holidayCalendar;
 		this.bdmMeetings = bdmMeetings;
 		this.fortnightlyMeetings = fortnightlyMeetings;
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 		this.annualTargetEntries = annualTargetEntries;
 	}
 
@@ -161,14 +157,6 @@ public class FinancialYear extends Auditable<String> {
 
 	public void setFortnightlyMeetings(List<FortnightlyMeeting> fortnightlyMeetings) {
 		this.fortnightlyMeetings = fortnightlyMeetings;
-	}
-
-	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
-		return rollingRevenueCommonEntry;
-	}
-
-	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public List<AnnualTargetEntry> getAnnualTargetEntries() {

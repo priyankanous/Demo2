@@ -50,9 +50,6 @@ public class BusinessUnit extends Auditable<String> {
 	@OneToMany(mappedBy = "businessUnit")
 	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
 
-	@OneToMany(mappedBy = "businessUnit")
-	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
-
 	public BusinessUnit() {
 
 	}
@@ -60,7 +57,7 @@ public class BusinessUnit extends Auditable<String> {
 	public BusinessUnit(Long businessUnitId, String businessUnitName, String businessUnitDisplayName,
 			Organization organization, List<BusinessDevelopmentManager> businessDevlopmentManagers,
 			List<StrategicBusinessUnit> strategicBusinessUnits, List<CocPractice> cocPractices,
-			List<AnnualTargetEntry> annualTargetEntries, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			List<AnnualTargetEntry> annualTargetEntries) {
 		super();
 		this.businessUnitId = businessUnitId;
 		this.businessUnitName = businessUnitName;
@@ -69,7 +66,6 @@ public class BusinessUnit extends Auditable<String> {
 		this.businessDevlopmentManagers = businessDevlopmentManagers;
 		this.strategicBusinessUnits = strategicBusinessUnits;
 		this.cocPractices = cocPractices;
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 		this.annualTargetEntries = annualTargetEntries;
 	}
 
@@ -127,14 +123,6 @@ public class BusinessUnit extends Auditable<String> {
 
 	public void setCocPractices(List<CocPractice> cocPractices) {
 		this.cocPractices = cocPractices;
-	}
-
-	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
-		return rollingRevenueCommonEntry;
-	}
-
-	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public List<AnnualTargetEntry> getAnnualTargetEntries() {

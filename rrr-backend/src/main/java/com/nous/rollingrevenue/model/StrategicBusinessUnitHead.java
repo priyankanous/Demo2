@@ -43,20 +43,17 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 
 	@Column(name = "active_until")
 	private LocalDate activeUntil;
-	
-	@OneToMany(mappedBy = "strategicBusinessUnitHead")
-	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
 
 	@OneToMany(mappedBy = "strategicBusinessUnitHead")
-	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
+	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
 
 	public StrategicBusinessUnitHead() {
 
 	}
 
-
-	public StrategicBusinessUnitHead(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName, StrategicBusinessUnit strategicbusinessUnit,
-			LocalDate activeFrom, LocalDate activeUntil, List<AnnualTargetEntry> annualTargetEntries, List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+	public StrategicBusinessUnitHead(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName,
+			StrategicBusinessUnit strategicbusinessUnit, LocalDate activeFrom, LocalDate activeUntil,
+			List<AnnualTargetEntry> annualTargetEntries) {
 		super();
 		this.sbuHeadId = sbuHeadId;
 		this.sbuHeadName = sbuHeadName;
@@ -64,7 +61,6 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 		this.strategicbusinessUnit = strategicbusinessUnit;
 		this.activeFrom = activeFrom;
 		this.activeUntil = activeUntil;
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 		this.annualTargetEntries = annualTargetEntries;
 	}
 
@@ -116,14 +112,6 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 		this.activeUntil = activeUntil;
 	}
 
-	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
-		return rollingRevenueCommonEntry;
-	}
-
-	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
-	}
-
 	public List<AnnualTargetEntry> getAnnualTargetEntries() {
 		return annualTargetEntries;
 	}
@@ -131,6 +119,5 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
 		this.annualTargetEntries = annualTargetEntries;
 	}
-
 
 }

@@ -45,12 +45,6 @@ public class Opportunity extends Auditable<String> {
 	private LocalDate projectEndDate;
 
 	@OneToMany(mappedBy = "opportunity")
-	private List<RollingRevenueCommonEntry> rollingRevenueCommonEntry = new ArrayList<>();
-
-	@OneToMany(mappedBy = "opportunity")
-	private List<ResourcesEntry> resourcesEntries = new ArrayList<>();
-
-	@OneToMany(mappedBy = "opportunity")
 	private List<RevenueEntry> revenueEntry = new ArrayList<>();
 
 	public Opportunity() {
@@ -58,8 +52,7 @@ public class Opportunity extends Auditable<String> {
 	}
 
 	public Opportunity(Long opportunityId, String opportunityName, Account account, String projectCode,
-			LocalDate projectStartDate, LocalDate projectEndDate,
-			List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
+			LocalDate projectStartDate, LocalDate projectEndDate) {
 		super();
 		this.opportunityId = opportunityId;
 		this.opportunityName = opportunityName;
@@ -67,7 +60,6 @@ public class Opportunity extends Auditable<String> {
 		this.projectCode = projectCode;
 		this.projectStartDate = projectStartDate;
 		this.projectEndDate = projectEndDate;
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
 	}
 
 	public Account getAccount() {
@@ -116,22 +108,6 @@ public class Opportunity extends Auditable<String> {
 
 	public void setProjectEndDate(LocalDate projectEndDate) {
 		this.projectEndDate = projectEndDate;
-	}
-
-	public List<RollingRevenueCommonEntry> getRollingRevenueCommonEntry() {
-		return rollingRevenueCommonEntry;
-	}
-
-	public void setRollingRevenueCommonEntry(List<RollingRevenueCommonEntry> rollingRevenueCommonEntry) {
-		this.rollingRevenueCommonEntry = rollingRevenueCommonEntry;
-	}
-
-	public List<ResourcesEntry> getResourcesEntries() {
-		return resourcesEntries;
-	}
-
-	public void setResourcesEntries(List<ResourcesEntry> resourcesEntries) {
-		this.resourcesEntries = resourcesEntries;
 	}
 
 	public List<RevenueEntry> getRevenueEntry() {
