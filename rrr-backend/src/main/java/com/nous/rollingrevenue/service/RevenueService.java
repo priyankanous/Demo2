@@ -28,10 +28,10 @@ public interface RevenueService {
 	public ResourceRevenueResponse getResourceRevenue(ResourceRevenueRequest resourceRevenueRequest,
 			boolean isDisplayAdditionalQuarter);
 
-	public void updateFPRevenueEntry(Long revenueEntryId, FPRevenueEntryVO fpRevenueEntry);
+	public void updateFPRevenueEntry(Long opportunityId, FPRevenueEntryVO fpRevenueEntry);
 
-	public void updateTandMRevenueEntry(Long revenueEntryId, TandMRevenueEntryVO tandMRevenueEntry);
+	public void updateTandMRevenueEntry(Long opportunityId, TandMRevenueEntryVO tandMRevenueEntry);
 
-	public RollingRevenueResponse getRevenueEntryDetailsById(Long revenueEntryId);
+	public RollingRevenueResponse getRevenueEntryDetailsById(Long opportunityId);
 
 }

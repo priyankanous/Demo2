@@ -86,26 +86,26 @@ public class RevenueController {
 	}
 
 	@Operation(summary = "Update FPRevenueEntry")
-	@PutMapping(path = "/fixed-price/{revenueEntryId}")
-	public WSResponse<String> updateFPRevenueEntry(@PathVariable Long revenueEntryId,
+	@PutMapping(path = "/fixed-price/{opportunityId}")
+	public WSResponse<String> updateFPRevenueEntry(@PathVariable Long opportunityId,
 			@RequestBody @Valid FPRevenueEntryVO fpRevenueEntry) {
-		revenueService.updateFPRevenueEntry(revenueEntryId, fpRevenueEntry);
+		revenueService.updateFPRevenueEntry(opportunityId, fpRevenueEntry);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
 	@Operation(summary = "Update TandMRevenueEntry")
-	@PutMapping(path = "/TandM/{revenueEntryId}")
-	public WSResponse<String> updateTandMRevenueEntry(@PathVariable @Valid Long revenueEntryId,
+	@PutMapping(path = "/TandM/{opportunityId}")
+	public WSResponse<String> updateTandMRevenueEntry(@PathVariable @Valid Long opportunityId,
 			@RequestBody @Valid TandMRevenueEntryVO tandMRevenueEntryVO) {
-		revenueService.updateTandMRevenueEntry(revenueEntryId, tandMRevenueEntryVO);
+		revenueService.updateTandMRevenueEntry(opportunityId, tandMRevenueEntryVO);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 
 	}
 
 	@Operation(summary = "Get RevenueEntry By Id")
-	@GetMapping(path = "/getbyid/{revenueEntryId}")
-	public WSResponse<RollingRevenueResponse> getRevenueEntriesDetailsById(@PathVariable @Valid Long revenueEntryId) {
+	@GetMapping(path = "/getbyid/{opportunityId}")
+	public WSResponse<RollingRevenueResponse> getRevenueEntriesDetailsById(@PathVariable @Valid Long opportunityId) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				revenueService.getRevenueEntryDetailsById(revenueEntryId));
+				revenueService.getRevenueEntryDetailsById(opportunityId));
 	}
 }

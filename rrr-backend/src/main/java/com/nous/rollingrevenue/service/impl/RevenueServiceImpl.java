@@ -752,148 +752,167 @@ public class RevenueServiceImpl implements RevenueService {
 
 	@Override
 	@Transactional
-	public void updateFPRevenueEntry(Long revenueEntryId, FPRevenueEntryVO fpRevenueEntry) {
-		RevenueEntry revenueEntry = revenueEntryRespository.findById(revenueEntryId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + revenueEntryId));
+	public void updateFPRevenueEntry(Long opportunityId, FPRevenueEntryVO fpRevenueEntry) {
 
-		Opportunity opportunity = OpportunityConverter
+		Opportunity opportunity = opportunityRepository.findById(opportunityId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
+
+		Opportunity convertOpportunity = OpportunityConverter
 				.convertOpportunityVOToOpportunity(fpRevenueEntry.getOpportunity());
-
-		revenueEntry.setAccount(AccountConverter.convertAccountVOToAccount(fpRevenueEntry.getAccount()));
+		opportunity.setOpportunityName(convertOpportunity.getOpportunityName());
+		opportunity.setProjectCode(convertOpportunity.getProjectCode());
+		opportunity.setProjectStartDate(convertOpportunity.getProjectStartDate());
+		opportunity.setProjectEndDate(convertOpportunity.getProjectEndDate());
 
 		if (Objects.isNull(opportunity.getOpportunityId())) {
 			opportunity = opportunityRepository.save(opportunity);
 		}
 
-		revenueEntry.setOpportunity(opportunity);
-		revenueEntry.setBusinessDevelopmentManager(
-				BusinessDevelopmentManagerConverter.convertBdmVOToBdm(fpRevenueEntry.getBusinessDevelopmentManager()));
-		revenueEntry.setCurrency(CurrencyConverter.convertCurrencyVOToCurrency(fpRevenueEntry.getCurrency()));
-		revenueEntry.setProbabilityType(ProbabilityTypeConverter
-				.convertProbabilityTypeVOToProbabilityType(fpRevenueEntry.getProbabilityType()));
-		revenueEntry.setRegion(RegionConverter.convertRegionVOToRegion(fpRevenueEntry.getRegion()));
-		revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(fpRevenueEntry.getWorkOrder()));
-		revenueEntry.setFinancialYear(
-				FinancialYearConverter.convertFinancialYearVOToFinancialYear(fpRevenueEntry.getFinancialYear()));
-		revenueEntry.setMilestoneCount(fpRevenueEntry.getMilestoneCount());
-		revenueEntry.setPricingType(fpRevenueEntry.getPricingType());
-		revenueEntry.setRemarks(fpRevenueEntry.getRemarks());
-		revenueEntry.setStatus(fpRevenueEntry.getStatus());
+		List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
 
-		RevenueEntry savedRevenueEntry = revenueEntryRespository.save(revenueEntry);
+		for (RevenueEntry revenueEntry : revenueEntryList) {
+			revenueEntry.setAccount(AccountConverter.convertAccountVOToAccount(fpRevenueEntry.getAccount()));
 
-		List<MilestoneEntry> milestoneEntryList = revenueEntry.getMilestoneEntry();
+			revenueEntry.setOpportunity(opportunity);
+			revenueEntry.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter
+					.convertBdmVOToBdm(fpRevenueEntry.getBusinessDevelopmentManager()));
+			revenueEntry.setCurrency(CurrencyConverter.convertCurrencyVOToCurrency(fpRevenueEntry.getCurrency()));
+			revenueEntry.setProbabilityType(ProbabilityTypeConverter
+					.convertProbabilityTypeVOToProbabilityType(fpRevenueEntry.getProbabilityType()));
+			revenueEntry.setRegion(RegionConverter.convertRegionVOToRegion(fpRevenueEntry.getRegion()));
+			revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(fpRevenueEntry.getWorkOrder()));
+			revenueEntry.setFinancialYear(
+					FinancialYearConverter.convertFinancialYearVOToFinancialYear(fpRevenueEntry.getFinancialYear()));
+			revenueEntry.setMilestoneCount(fpRevenueEntry.getMilestoneCount());
+			revenueEntry.setPricingType(fpRevenueEntry.getPricingType());
+			revenueEntry.setRemarks(fpRevenueEntry.getRemarks());
+			revenueEntry.setStatus(fpRevenueEntry.getStatus());
 
-		List<MilestoneEntryVO> milestoneEntriesVO = fpRevenueEntry.getMilestones();
+			RevenueEntry savedRevenueEntry = revenueEntryRespository.save(revenueEntry);
 
-		for (MilestoneEntryVO milestoneEntryVO : milestoneEntriesVO) {
-			for (MilestoneEntry milestoneEntry : milestoneEntryList) {
-				if (milestoneEntry.getMilestoneEntryId() == milestoneEntryVO.getMilestoneEntryId()) {
-					milestoneEntry.setMilestoneNumber(milestoneEntryVO.getMilestoneNumber());
-					milestoneEntry.setMilestoneBillingDate(milestoneEntryVO.getMilestoneBillingDate());
-					milestoneEntry.setMilestoneRevenue(milestoneEntryVO.getMilestoneRevenue());
-					milestoneEntry.setMilestoneResourceCount(milestoneEntryVO.getMilestoneResourceCount());
-					milestoneEntry.setRevenueEntry(savedRevenueEntry);
-					MilestoneEntry savedMilestoneEntry = milestoneEntryRepository.save(milestoneEntry);
+			List<MilestoneEntry> milestoneEntryList = revenueEntry.getMilestoneEntry();
 
-					List<RevenueResourceEntryVO> revenueResourceEntriesVO = milestoneEntryVO
-							.getRevenueResourceEntries();
-					List<RevenueResourceEntry> revenueResourceEntryList = milestoneEntry.getRevenueResourceEntry();
-					if (!revenueResourceEntriesVO.isEmpty()) {
-						for (RevenueResourceEntryVO revenueResourceEntryVO : revenueResourceEntriesVO) {
-							for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
-								if (revenueResourceEntry.getRevenueResourceEntryId() == revenueResourceEntryVO
-										.getRevenueResourceEntryId()) {
-									revenueResourceEntry.setStrategicBusinessUnit(StrategicBusinessUnitConverter
-											.convertSBUVOToSBU(revenueResourceEntryVO.getStrategicBusinessUnit()));
-									revenueResourceEntry.setStrategicBusinessUnitHead(
-											StrategicBusinessUnitHeadConverter.convertSBUHeadVOToSBUHead(
-													revenueResourceEntryVO.getStrategicBusinessUnitHead()));
-									revenueResourceEntry
-											.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(
-													revenueResourceEntryVO.getBusinessUnit()));
-									revenueResourceEntry.setLocation(LocationConverter
-											.convertLocationVOToLocation(revenueResourceEntryVO.getLocation()));
-									revenueResourceEntry.setResourceName(revenueResourceEntryVO.getResourceName());
-									revenueResourceEntry.setEmployeeId(revenueResourceEntryVO.getEmployeeId());
-									revenueResourceEntry
-											.setResourceStartDate(revenueResourceEntryVO.getResourceStartDate());
-									revenueResourceEntry
-											.setResourceEndDate(revenueResourceEntryVO.getResourceEndDate());
-									revenueResourceEntry
-											.setCocPractice(CocPracticeConverter.convertCocPracticeVOToCocPractice(
-													revenueResourceEntryVO.getCocPractice()));
-									revenueResourceEntry
-											.setRevenue(revenueResourceEntryVO.getMilestoneResourceRevenue());
-									revenueResourceEntry
-											.setBusinessType(BusinessTypeConverter.convertBusinessTypeVOToBusinessType(
-													revenueResourceEntryVO.getBusinessType()));
-									revenueResourceEntry.setAllocation(revenueResourceEntryVO.getAllocation());
-									revenueResourceEntry.setMilestoneEntry(savedMilestoneEntry);
-									revenueResourceEntry.setRevenueEntry(savedRevenueEntry);
-									revenueResourceEntryRepository.save(revenueResourceEntry);
+			List<MilestoneEntryVO> milestoneEntriesVO = fpRevenueEntry.getMilestones();
+
+			for (MilestoneEntryVO milestoneEntryVO : milestoneEntriesVO) {
+				for (MilestoneEntry milestoneEntry : milestoneEntryList) {
+					if (milestoneEntry.getMilestoneEntryId() == milestoneEntryVO.getMilestoneEntryId()) {
+						milestoneEntry.setMilestoneNumber(milestoneEntryVO.getMilestoneNumber());
+						milestoneEntry.setMilestoneBillingDate(milestoneEntryVO.getMilestoneBillingDate());
+						milestoneEntry.setMilestoneRevenue(milestoneEntryVO.getMilestoneRevenue());
+						milestoneEntry.setMilestoneResourceCount(milestoneEntryVO.getMilestoneResourceCount());
+						milestoneEntry.setRevenueEntry(savedRevenueEntry);
+						MilestoneEntry savedMilestoneEntry = milestoneEntryRepository.save(milestoneEntry);
+
+						List<RevenueResourceEntryVO> revenueResourceEntriesVO = milestoneEntryVO
+								.getRevenueResourceEntries();
+						List<RevenueResourceEntry> revenueResourceEntryList = milestoneEntry.getRevenueResourceEntry();
+						if (!revenueResourceEntriesVO.isEmpty()) {
+							for (RevenueResourceEntryVO revenueResourceEntryVO : revenueResourceEntriesVO) {
+								for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+									if (revenueResourceEntry.getRevenueResourceEntryId() == revenueResourceEntryVO
+											.getRevenueResourceEntryId()) {
+										revenueResourceEntry.setStrategicBusinessUnit(StrategicBusinessUnitConverter
+												.convertSBUVOToSBU(revenueResourceEntryVO.getStrategicBusinessUnit()));
+										revenueResourceEntry.setStrategicBusinessUnitHead(
+												StrategicBusinessUnitHeadConverter.convertSBUHeadVOToSBUHead(
+														revenueResourceEntryVO.getStrategicBusinessUnitHead()));
+										revenueResourceEntry.setBusinessUnit(
+												BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(
+														revenueResourceEntryVO.getBusinessUnit()));
+										revenueResourceEntry.setLocation(LocationConverter
+												.convertLocationVOToLocation(revenueResourceEntryVO.getLocation()));
+										revenueResourceEntry.setResourceName(revenueResourceEntryVO.getResourceName());
+										revenueResourceEntry.setEmployeeId(revenueResourceEntryVO.getEmployeeId());
+										revenueResourceEntry
+												.setResourceStartDate(revenueResourceEntryVO.getResourceStartDate());
+										revenueResourceEntry
+												.setResourceEndDate(revenueResourceEntryVO.getResourceEndDate());
+										revenueResourceEntry
+												.setCocPractice(CocPracticeConverter.convertCocPracticeVOToCocPractice(
+														revenueResourceEntryVO.getCocPractice()));
+										revenueResourceEntry
+												.setRevenue(revenueResourceEntryVO.getMilestoneResourceRevenue());
+										revenueResourceEntry.setBusinessType(
+												BusinessTypeConverter.convertBusinessTypeVOToBusinessType(
+														revenueResourceEntryVO.getBusinessType()));
+										revenueResourceEntry.setAllocation(revenueResourceEntryVO.getAllocation());
+										revenueResourceEntry.setMilestoneEntry(savedMilestoneEntry);
+										revenueResourceEntry.setRevenueEntry(savedRevenueEntry);
+										revenueResourceEntryRepository.save(revenueResourceEntry);
+									}
 								}
 							}
 						}
+
 					}
-
 				}
-			}
 
+			}
 		}
 	}
 
 	@Override
 	@Transactional
-	public void updateTandMRevenueEntry(Long revenueEntryId, TandMRevenueEntryVO tandMRevenueEntry) {
-		RevenueEntry revenueEntry = revenueEntryRespository.findById(revenueEntryId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + revenueEntryId));
-		Opportunity opportunity = OpportunityConverter
+	public void updateTandMRevenueEntry(Long opportunityId, TandMRevenueEntryVO tandMRevenueEntry) {
+		Opportunity opportunity = opportunityRepository.findById(opportunityId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
+
+		Opportunity convertOpportunity = OpportunityConverter
 				.convertOpportunityVOToOpportunity(tandMRevenueEntry.getOpportunity());
-		revenueEntry.setAccount(AccountConverter.convertAccountVOToAccount(tandMRevenueEntry.getAccount()));
+		opportunity.setOpportunityName(convertOpportunity.getOpportunityName());
+		opportunity.setProjectCode(convertOpportunity.getProjectCode());
+		opportunity.setProjectStartDate(convertOpportunity.getProjectStartDate());
+		opportunity.setProjectEndDate(convertOpportunity.getProjectEndDate());
 		if (Objects.isNull(opportunity.getOpportunityId())) {
 			opportunity = opportunityRepository.save(opportunity);
 		}
-		revenueEntry.setOpportunity(opportunity);
-		revenueEntry.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter
-				.convertBdmVOToBdm(tandMRevenueEntry.getBusinessDevelopmentManager()));
-		revenueEntry.setCurrency(CurrencyConverter.convertCurrencyVOToCurrency(tandMRevenueEntry.getCurrency()));
-		revenueEntry.setProbabilityType(ProbabilityTypeConverter
-				.convertProbabilityTypeVOToProbabilityType(tandMRevenueEntry.getProbabilityType()));
-		revenueEntry.setRegion(RegionConverter.convertRegionVOToRegion(tandMRevenueEntry.getRegion()));
-		revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(tandMRevenueEntry.getWorkOrder()));
-		revenueEntry.setFinancialYear(
-				FinancialYearConverter.convertFinancialYearVOToFinancialYear(tandMRevenueEntry.getFinancialYear()));
-		revenueEntry.setPricingType(tandMRevenueEntry.getPricingType());
-		revenueEntry.setRemarks(tandMRevenueEntry.getRemarks());
-		revenueEntry.setStatus(tandMRevenueEntry.getStatus());
-		RevenueEntry savedRevenueEntry = revenueEntryRespository.save(revenueEntry);
-		List<RevenueResourceEntryVO> revenueResourceEntriesVO = tandMRevenueEntry.getRevenueResourceEntries();
-		List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
-		if (!revenueResourceEntriesVO.isEmpty()) {
-			for (RevenueResourceEntryVO revenueResourceEntryVO : revenueResourceEntriesVO) {
-				for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
-					if (revenueResourceEntry.getRevenueResourceEntryId() == revenueResourceEntryVO
-							.getRevenueResourceEntryId()) {
-						revenueResourceEntry.setStrategicBusinessUnit(StrategicBusinessUnitConverter
-								.convertSBUVOToSBU(revenueResourceEntryVO.getStrategicBusinessUnit()));
-						revenueResourceEntry.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter
-								.convertSBUHeadVOToSBUHead(revenueResourceEntryVO.getStrategicBusinessUnitHead()));
-						revenueResourceEntry.setBusinessUnit(BusinessUnitConverter
-								.convertBusinessUnitVOToBusinessUnit(revenueResourceEntryVO.getBusinessUnit()));
-						revenueResourceEntry.setLocation(
-								LocationConverter.convertLocationVOToLocation(revenueResourceEntryVO.getLocation()));
-						revenueResourceEntry.setResourceName(revenueResourceEntryVO.getResourceName());
-						revenueResourceEntry.setEmployeeId(revenueResourceEntryVO.getEmployeeId());
-						revenueResourceEntry.setResourceStartDate(revenueResourceEntryVO.getResourceStartDate());
-						revenueResourceEntry.setResourceEndDate(revenueResourceEntryVO.getResourceEndDate());
-						revenueResourceEntry.setCocPractice(CocPracticeConverter
-								.convertCocPracticeVOToCocPractice(revenueResourceEntryVO.getCocPractice()));
-						revenueResourceEntry.setBusinessType(BusinessTypeConverter
-								.convertBusinessTypeVOToBusinessType(revenueResourceEntryVO.getBusinessType()));
-						revenueResourceEntry.setAllocation(revenueResourceEntryVO.getAllocation());
-						revenueResourceEntry.setRevenueEntry(savedRevenueEntry);
-						revenueResourceEntryRepository.save(revenueResourceEntry);
+		List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
+
+		for (RevenueEntry revenueEntry : revenueEntryList) {
+			revenueEntry.setAccount(AccountConverter.convertAccountVOToAccount(tandMRevenueEntry.getAccount()));
+			revenueEntry.setOpportunity(opportunity);
+			revenueEntry.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter
+					.convertBdmVOToBdm(tandMRevenueEntry.getBusinessDevelopmentManager()));
+			revenueEntry.setCurrency(CurrencyConverter.convertCurrencyVOToCurrency(tandMRevenueEntry.getCurrency()));
+			revenueEntry.setProbabilityType(ProbabilityTypeConverter
+					.convertProbabilityTypeVOToProbabilityType(tandMRevenueEntry.getProbabilityType()));
+			revenueEntry.setRegion(RegionConverter.convertRegionVOToRegion(tandMRevenueEntry.getRegion()));
+			revenueEntry
+					.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(tandMRevenueEntry.getWorkOrder()));
+			revenueEntry.setFinancialYear(
+					FinancialYearConverter.convertFinancialYearVOToFinancialYear(tandMRevenueEntry.getFinancialYear()));
+			revenueEntry.setPricingType(tandMRevenueEntry.getPricingType());
+			revenueEntry.setRemarks(tandMRevenueEntry.getRemarks());
+			revenueEntry.setStatus(tandMRevenueEntry.getStatus());
+			RevenueEntry savedRevenueEntry = revenueEntryRespository.save(revenueEntry);
+			List<RevenueResourceEntryVO> revenueResourceEntriesVO = tandMRevenueEntry.getRevenueResourceEntries();
+			List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
+			if (!revenueResourceEntriesVO.isEmpty()) {
+				for (RevenueResourceEntryVO revenueResourceEntryVO : revenueResourceEntriesVO) {
+					for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+						if (revenueResourceEntry.getRevenueResourceEntryId() == revenueResourceEntryVO
+								.getRevenueResourceEntryId()) {
+							revenueResourceEntry.setStrategicBusinessUnit(StrategicBusinessUnitConverter
+									.convertSBUVOToSBU(revenueResourceEntryVO.getStrategicBusinessUnit()));
+							revenueResourceEntry.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter
+									.convertSBUHeadVOToSBUHead(revenueResourceEntryVO.getStrategicBusinessUnitHead()));
+							revenueResourceEntry.setBusinessUnit(BusinessUnitConverter
+									.convertBusinessUnitVOToBusinessUnit(revenueResourceEntryVO.getBusinessUnit()));
+							revenueResourceEntry.setLocation(LocationConverter
+									.convertLocationVOToLocation(revenueResourceEntryVO.getLocation()));
+							revenueResourceEntry.setResourceName(revenueResourceEntryVO.getResourceName());
+							revenueResourceEntry.setEmployeeId(revenueResourceEntryVO.getEmployeeId());
+							revenueResourceEntry.setResourceStartDate(revenueResourceEntryVO.getResourceStartDate());
+							revenueResourceEntry.setResourceEndDate(revenueResourceEntryVO.getResourceEndDate());
+							revenueResourceEntry.setCocPractice(CocPracticeConverter
+									.convertCocPracticeVOToCocPractice(revenueResourceEntryVO.getCocPractice()));
+							revenueResourceEntry.setBusinessType(BusinessTypeConverter
+									.convertBusinessTypeVOToBusinessType(revenueResourceEntryVO.getBusinessType()));
+							revenueResourceEntry.setAllocation(revenueResourceEntryVO.getAllocation());
+							revenueResourceEntry.setRevenueEntry(savedRevenueEntry);
+							revenueResourceEntryRepository.save(revenueResourceEntry);
+						}
 					}
 				}
 			}
@@ -901,134 +920,138 @@ public class RevenueServiceImpl implements RevenueService {
 	}
 
 	@Override
-	public RollingRevenueResponse getRevenueEntryDetailsById(Long revenueEntryId) {
+	public RollingRevenueResponse getRevenueEntryDetailsById(Long opportunityId) {
 		var rollingRevenueResponse = new RollingRevenueResponse();
-		RevenueEntry revenueEntry = revenueEntryRespository.findById(revenueEntryId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + revenueEntryId));
+		Opportunity opportunity = opportunityRepository.findById(opportunityId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 
-		if (Constants.PRICING_TYPE_FP.equals(revenueEntry.getPricingType())) {
-			FPRevenueEntryVO fpRevenueEntryVO = new FPRevenueEntryVO();
-			fpRevenueEntryVO.setFpRevenueEntryId(revenueEntry.getRevenueEntryId());
-			fpRevenueEntryVO.setAccount(AccountConverter.convertAccountToAccountVO(revenueEntry.getAccount()));
-			fpRevenueEntryVO.setOpportunity(
-					OpportunityConverter.convertOpportunityToOpportunityVO(revenueEntry.getOpportunity()));
-			fpRevenueEntryVO.setProjectCode(revenueEntry.getOpportunity().getProjectCode());
-			fpRevenueEntryVO.setProjectStartDate(revenueEntry.getOpportunity().getProjectStartDate());
-			fpRevenueEntryVO.setProjectEndDate(revenueEntry.getOpportunity().getProjectEndDate());
-			fpRevenueEntryVO.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter
-					.convertBdmToBdmVO(revenueEntry.getBusinessDevelopmentManager()));
-			fpRevenueEntryVO.setCurrency(CurrencyConverter.convertCurrencyToCurrencyVO(revenueEntry.getCurrency()));
-			fpRevenueEntryVO.setProbabilityType(ProbabilityTypeConverter
-					.convertProbabilityTypeToProbabilityTypeVO(revenueEntry.getProbabilityType()));
-			fpRevenueEntryVO.setRegion(RegionConverter.convertRegionToRegionVO(revenueEntry.getRegion()));
-			fpRevenueEntryVO
-					.setWorkOrder(WorkOrderConverter.convertWorkOrderToWorkOrderVO(revenueEntry.getWorkOrder()));
-			fpRevenueEntryVO.setWorkOrderEndDate(revenueEntry.getWorkOrder().getWorkOrderEndDate());
-			fpRevenueEntryVO.setWorkOrderStatus(revenueEntry.getWorkOrder().getWoStatus());
-			fpRevenueEntryVO.setFinancialYear(
-					FinancialYearConverter.convertFinancialYearToFinancialYearVO(revenueEntry.getFinancialYear()));
-			fpRevenueEntryVO.setMilestoneCount(revenueEntry.getMilestoneCount());
-			fpRevenueEntryVO.setPricingType(revenueEntry.getPricingType());
-			fpRevenueEntryVO.setRemarks(revenueEntry.getRemarks());
-			fpRevenueEntryVO.setStatus(revenueEntry.getStatus());
+		List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
 
-			List<MilestoneEntryVO> milestones = new ArrayList<>();
-			List<RevenueResourceEntryVO> revenueResourceEntries = new ArrayList<>();
-			List<MilestoneEntry> milestoneEntryList = revenueEntry.getMilestoneEntry();
-			if (!milestoneEntryList.isEmpty()) {
-				for (MilestoneEntry milestoneEntry : milestoneEntryList) {
-					MilestoneEntryVO milestoneEntryVO = new MilestoneEntryVO();
-					milestoneEntryVO.setMilestoneEntryId(milestoneEntry.getMilestoneEntryId());
-					milestoneEntryVO.setMilestoneNumber(milestoneEntry.getMilestoneNumber());
-					milestoneEntryVO.setMilestoneBillingDate(milestoneEntry.getMilestoneBillingDate());
-					milestoneEntryVO.setMilestoneRevenue(milestoneEntry.getMilestoneRevenue());
-					milestoneEntryVO.setMilestoneResourceCount(milestoneEntry.getMilestoneResourceCount());
+		for (RevenueEntry revenueEntry : revenueEntryList) {
+			if (Constants.PRICING_TYPE_FP.equals(revenueEntry.getPricingType())) {
+				FPRevenueEntryVO fpRevenueEntryVO = new FPRevenueEntryVO();
+				fpRevenueEntryVO.setFpRevenueEntryId(revenueEntry.getRevenueEntryId());
+				fpRevenueEntryVO.setAccount(AccountConverter.convertAccountToAccountVO(revenueEntry.getAccount()));
+				fpRevenueEntryVO.setOpportunity(
+						OpportunityConverter.convertOpportunityToOpportunityVO(revenueEntry.getOpportunity()));
+				fpRevenueEntryVO.setProjectCode(revenueEntry.getOpportunity().getProjectCode());
+				fpRevenueEntryVO.setProjectStartDate(revenueEntry.getOpportunity().getProjectStartDate());
+				fpRevenueEntryVO.setProjectEndDate(revenueEntry.getOpportunity().getProjectEndDate());
+				fpRevenueEntryVO.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter
+						.convertBdmToBdmVO(revenueEntry.getBusinessDevelopmentManager()));
+				fpRevenueEntryVO.setCurrency(CurrencyConverter.convertCurrencyToCurrencyVO(revenueEntry.getCurrency()));
+				fpRevenueEntryVO.setProbabilityType(ProbabilityTypeConverter
+						.convertProbabilityTypeToProbabilityTypeVO(revenueEntry.getProbabilityType()));
+				fpRevenueEntryVO.setRegion(RegionConverter.convertRegionToRegionVO(revenueEntry.getRegion()));
+				fpRevenueEntryVO
+						.setWorkOrder(WorkOrderConverter.convertWorkOrderToWorkOrderVO(revenueEntry.getWorkOrder()));
+				fpRevenueEntryVO.setWorkOrderEndDate(revenueEntry.getWorkOrder().getWorkOrderEndDate());
+				fpRevenueEntryVO.setWorkOrderStatus(revenueEntry.getWorkOrder().getWoStatus());
+				fpRevenueEntryVO.setFinancialYear(
+						FinancialYearConverter.convertFinancialYearToFinancialYearVO(revenueEntry.getFinancialYear()));
+				fpRevenueEntryVO.setMilestoneCount(revenueEntry.getMilestoneCount());
+				fpRevenueEntryVO.setPricingType(revenueEntry.getPricingType());
+				fpRevenueEntryVO.setRemarks(revenueEntry.getRemarks());
+				fpRevenueEntryVO.setStatus(revenueEntry.getStatus());
 
-					List<RevenueResourceEntry> revenueResourceEntryList = milestoneEntry.getRevenueResourceEntry();
-					for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
-						RevenueResourceEntryVO revenueResourceEntryVO = new RevenueResourceEntryVO();
-						revenueResourceEntryVO
-								.setRevenueResourceEntryId(revenueResourceEntry.getRevenueResourceEntryId());
-						revenueResourceEntryVO.setStrategicBusinessUnit(StrategicBusinessUnitConverter
-								.convertSBUToSBUVO(revenueResourceEntry.getStrategicBusinessUnit()));
-						revenueResourceEntryVO.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter
-								.convertSBUHeadToSBUHeadVO(revenueResourceEntry.getStrategicBusinessUnitHead()));
-						revenueResourceEntryVO.setBusinessUnit(BusinessUnitConverter
-								.convertBusinessUnitToBusinessUnitVO(revenueResourceEntry.getBusinessUnit()));
-						revenueResourceEntryVO.setBusinessType(BusinessTypeConverter
-								.convertBusinessTypeToBusinessTypeVO(revenueResourceEntry.getBusinessType()));
-						revenueResourceEntryVO.setLocation(
-								LocationConverter.convertLocationToLocationVO(revenueResourceEntry.getLocation()));
-						revenueResourceEntryVO.setResourceName(revenueResourceEntry.getResourceName());
-						revenueResourceEntryVO.setEmployeeId(revenueResourceEntry.getEmployeeId());
-						revenueResourceEntryVO.setResourceStartDate(revenueResourceEntry.getResourceStartDate());
-						revenueResourceEntryVO.setResourceEndDate(revenueResourceEntry.getResourceEndDate());
-						revenueResourceEntryVO.setMilestoneResourceRevenue(revenueResourceEntry.getBillingRate());
-						revenueResourceEntryVO.setAllocation(revenueResourceEntry.getAllocation());
-						revenueResourceEntries.add(revenueResourceEntryVO);
+				List<MilestoneEntryVO> milestones = new ArrayList<>();
+				List<RevenueResourceEntryVO> revenueResourceEntries = new ArrayList<>();
+				List<MilestoneEntry> milestoneEntryList = revenueEntry.getMilestoneEntry();
+				if (!milestoneEntryList.isEmpty()) {
+					for (MilestoneEntry milestoneEntry : milestoneEntryList) {
+						MilestoneEntryVO milestoneEntryVO = new MilestoneEntryVO();
+						milestoneEntryVO.setMilestoneEntryId(milestoneEntry.getMilestoneEntryId());
+						milestoneEntryVO.setMilestoneNumber(milestoneEntry.getMilestoneNumber());
+						milestoneEntryVO.setMilestoneBillingDate(milestoneEntry.getMilestoneBillingDate());
+						milestoneEntryVO.setMilestoneRevenue(milestoneEntry.getMilestoneRevenue());
+						milestoneEntryVO.setMilestoneResourceCount(milestoneEntry.getMilestoneResourceCount());
+
+						List<RevenueResourceEntry> revenueResourceEntryList = milestoneEntry.getRevenueResourceEntry();
+						for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+							RevenueResourceEntryVO revenueResourceEntryVO = new RevenueResourceEntryVO();
+							revenueResourceEntryVO
+									.setRevenueResourceEntryId(revenueResourceEntry.getRevenueResourceEntryId());
+							revenueResourceEntryVO.setStrategicBusinessUnit(StrategicBusinessUnitConverter
+									.convertSBUToSBUVO(revenueResourceEntry.getStrategicBusinessUnit()));
+							revenueResourceEntryVO.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter
+									.convertSBUHeadToSBUHeadVO(revenueResourceEntry.getStrategicBusinessUnitHead()));
+							revenueResourceEntryVO.setBusinessUnit(BusinessUnitConverter
+									.convertBusinessUnitToBusinessUnitVO(revenueResourceEntry.getBusinessUnit()));
+							revenueResourceEntryVO.setBusinessType(BusinessTypeConverter
+									.convertBusinessTypeToBusinessTypeVO(revenueResourceEntry.getBusinessType()));
+							revenueResourceEntryVO.setLocation(
+									LocationConverter.convertLocationToLocationVO(revenueResourceEntry.getLocation()));
+							revenueResourceEntryVO.setResourceName(revenueResourceEntry.getResourceName());
+							revenueResourceEntryVO.setEmployeeId(revenueResourceEntry.getEmployeeId());
+							revenueResourceEntryVO.setResourceStartDate(revenueResourceEntry.getResourceStartDate());
+							revenueResourceEntryVO.setResourceEndDate(revenueResourceEntry.getResourceEndDate());
+							revenueResourceEntryVO.setMilestoneResourceRevenue(revenueResourceEntry.getBillingRate());
+							revenueResourceEntryVO.setAllocation(revenueResourceEntry.getAllocation());
+							revenueResourceEntries.add(revenueResourceEntryVO);
+						}
+						milestoneEntryVO.setRevenueResourceEntries(revenueResourceEntries);
+						milestones.add(milestoneEntryVO);
 					}
-					milestoneEntryVO.setRevenueResourceEntries(revenueResourceEntries);
-					milestones.add(milestoneEntryVO);
 				}
-			}
-			fpRevenueEntryVO.setMilestones(milestones);
-			rollingRevenueResponse.setFpRevenueEntryVO(fpRevenueEntryVO);
-		} else {
-			TandMRevenueEntryVO tmRevenueEntryVO = new TandMRevenueEntryVO();
-			tmRevenueEntryVO.setTmRevenueEntryId(revenueEntry.getRevenueEntryId());
-			tmRevenueEntryVO.setAccount(AccountConverter.convertAccountToAccountVO(revenueEntry.getAccount()));
-			tmRevenueEntryVO.setOpportunity(
-					OpportunityConverter.convertOpportunityToOpportunityVO(revenueEntry.getOpportunity()));
-			tmRevenueEntryVO.setProjectCode(revenueEntry.getOpportunity().getProjectCode());
-			tmRevenueEntryVO.setProjectStartDate(revenueEntry.getOpportunity().getProjectStartDate());
-			tmRevenueEntryVO.setProjectEndDate(revenueEntry.getOpportunity().getProjectEndDate());
-			tmRevenueEntryVO.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter
-					.convertBdmToBdmVO(revenueEntry.getBusinessDevelopmentManager()));
-			tmRevenueEntryVO.setCurrency(CurrencyConverter.convertCurrencyToCurrencyVO(revenueEntry.getCurrency()));
-			tmRevenueEntryVO.setProbabilityType(ProbabilityTypeConverter
-					.convertProbabilityTypeToProbabilityTypeVO(revenueEntry.getProbabilityType()));
-			tmRevenueEntryVO.setRegion(RegionConverter.convertRegionToRegionVO(revenueEntry.getRegion()));
-			tmRevenueEntryVO
-					.setWorkOrder(WorkOrderConverter.convertWorkOrderToWorkOrderVO(revenueEntry.getWorkOrder()));
-			tmRevenueEntryVO.setWorkOrderEndDate(revenueEntry.getWorkOrder().getWorkOrderEndDate());
-			tmRevenueEntryVO.setWorkOrderStatus(revenueEntry.getWorkOrder().getWoStatus());
-			tmRevenueEntryVO.setFinancialYear(
-					FinancialYearConverter.convertFinancialYearToFinancialYearVO(revenueEntry.getFinancialYear()));
-			tmRevenueEntryVO.setResourceCount(revenueEntry.getResourceCount());
-			tmRevenueEntryVO.setPricingType(revenueEntry.getPricingType());
-			tmRevenueEntryVO.setRemarks(revenueEntry.getRemarks());
-			tmRevenueEntryVO.setStatus(revenueEntry.getStatus());
+				fpRevenueEntryVO.setMilestones(milestones);
+				rollingRevenueResponse.setFpRevenueEntryVO(fpRevenueEntryVO);
+			} else {
+				TandMRevenueEntryVO tmRevenueEntryVO = new TandMRevenueEntryVO();
+				tmRevenueEntryVO.setTmRevenueEntryId(revenueEntry.getRevenueEntryId());
+				tmRevenueEntryVO.setAccount(AccountConverter.convertAccountToAccountVO(revenueEntry.getAccount()));
+				tmRevenueEntryVO.setOpportunity(
+						OpportunityConverter.convertOpportunityToOpportunityVO(revenueEntry.getOpportunity()));
+				tmRevenueEntryVO.setProjectCode(revenueEntry.getOpportunity().getProjectCode());
+				tmRevenueEntryVO.setProjectStartDate(revenueEntry.getOpportunity().getProjectStartDate());
+				tmRevenueEntryVO.setProjectEndDate(revenueEntry.getOpportunity().getProjectEndDate());
+				tmRevenueEntryVO.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter
+						.convertBdmToBdmVO(revenueEntry.getBusinessDevelopmentManager()));
+				tmRevenueEntryVO.setCurrency(CurrencyConverter.convertCurrencyToCurrencyVO(revenueEntry.getCurrency()));
+				tmRevenueEntryVO.setProbabilityType(ProbabilityTypeConverter
+						.convertProbabilityTypeToProbabilityTypeVO(revenueEntry.getProbabilityType()));
+				tmRevenueEntryVO.setRegion(RegionConverter.convertRegionToRegionVO(revenueEntry.getRegion()));
+				tmRevenueEntryVO
+						.setWorkOrder(WorkOrderConverter.convertWorkOrderToWorkOrderVO(revenueEntry.getWorkOrder()));
+				tmRevenueEntryVO.setWorkOrderEndDate(revenueEntry.getWorkOrder().getWorkOrderEndDate());
+				tmRevenueEntryVO.setWorkOrderStatus(revenueEntry.getWorkOrder().getWoStatus());
+				tmRevenueEntryVO.setFinancialYear(
+						FinancialYearConverter.convertFinancialYearToFinancialYearVO(revenueEntry.getFinancialYear()));
+				tmRevenueEntryVO.setResourceCount(revenueEntry.getResourceCount());
+				tmRevenueEntryVO.setPricingType(revenueEntry.getPricingType());
+				tmRevenueEntryVO.setRemarks(revenueEntry.getRemarks());
+				tmRevenueEntryVO.setStatus(revenueEntry.getStatus());
 
-			List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
-			List<RevenueResourceEntryVO> revenueResourceEntries = new ArrayList<>();
-			for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
-				RevenueResourceEntryVO revenueResourceEntryVO = new RevenueResourceEntryVO();
-				revenueResourceEntryVO.setRevenueResourceEntryId(revenueResourceEntry.getRevenueResourceEntryId());
-				revenueResourceEntryVO.setStrategicBusinessUnit(StrategicBusinessUnitConverter
-						.convertSBUToSBUVO(revenueResourceEntry.getStrategicBusinessUnit()));
-				revenueResourceEntryVO.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter
-						.convertSBUHeadToSBUHeadVO(revenueResourceEntry.getStrategicBusinessUnitHead()));
-				revenueResourceEntryVO.setBusinessUnit(BusinessUnitConverter
-						.convertBusinessUnitToBusinessUnitVO(revenueResourceEntry.getBusinessUnit()));
-				revenueResourceEntryVO.setBusinessType(BusinessTypeConverter
-						.convertBusinessTypeToBusinessTypeVO(revenueResourceEntry.getBusinessType()));
-				revenueResourceEntryVO
-						.setLocation(LocationConverter.convertLocationToLocationVO(revenueResourceEntry.getLocation()));
-				revenueResourceEntryVO.setResourceName(revenueResourceEntry.getResourceName());
-				revenueResourceEntryVO.setEmployeeId(revenueResourceEntry.getEmployeeId());
-				revenueResourceEntryVO.setResourceStartDate(revenueResourceEntry.getResourceStartDate());
-				revenueResourceEntryVO.setResourceEndDate(revenueResourceEntry.getResourceEndDate());
-				revenueResourceEntryVO.setCocPractice(
-						CocPracticeConverter.convertCocPracticeToCocPracticeVO(revenueResourceEntry.getCocPractice()));
-				revenueResourceEntryVO.setLeaveLossFactor(LeaveLossFactorConverter
-						.convertLeaveLossFactorToLeaveLossFactorVO(revenueResourceEntry.getLeaveLossFactor()));
-				revenueResourceEntryVO.setBillingRateType(revenueResourceEntry.getBillingRateType());
-				revenueResourceEntryVO.setBillingRate(revenueResourceEntry.getBillingRate());
-				revenueResourceEntryVO.setAllocation(revenueResourceEntry.getAllocation());
-				revenueResourceEntries.add(revenueResourceEntryVO);
+				List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
+				List<RevenueResourceEntryVO> revenueResourceEntries = new ArrayList<>();
+				for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+					RevenueResourceEntryVO revenueResourceEntryVO = new RevenueResourceEntryVO();
+					revenueResourceEntryVO.setRevenueResourceEntryId(revenueResourceEntry.getRevenueResourceEntryId());
+					revenueResourceEntryVO.setStrategicBusinessUnit(StrategicBusinessUnitConverter
+							.convertSBUToSBUVO(revenueResourceEntry.getStrategicBusinessUnit()));
+					revenueResourceEntryVO.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter
+							.convertSBUHeadToSBUHeadVO(revenueResourceEntry.getStrategicBusinessUnitHead()));
+					revenueResourceEntryVO.setBusinessUnit(BusinessUnitConverter
+							.convertBusinessUnitToBusinessUnitVO(revenueResourceEntry.getBusinessUnit()));
+					revenueResourceEntryVO.setBusinessType(BusinessTypeConverter
+							.convertBusinessTypeToBusinessTypeVO(revenueResourceEntry.getBusinessType()));
+					revenueResourceEntryVO.setLocation(
+							LocationConverter.convertLocationToLocationVO(revenueResourceEntry.getLocation()));
+					revenueResourceEntryVO.setResourceName(revenueResourceEntry.getResourceName());
+					revenueResourceEntryVO.setEmployeeId(revenueResourceEntry.getEmployeeId());
+					revenueResourceEntryVO.setResourceStartDate(revenueResourceEntry.getResourceStartDate());
+					revenueResourceEntryVO.setResourceEndDate(revenueResourceEntry.getResourceEndDate());
+					revenueResourceEntryVO.setCocPractice(CocPracticeConverter
+							.convertCocPracticeToCocPracticeVO(revenueResourceEntry.getCocPractice()));
+					revenueResourceEntryVO.setLeaveLossFactor(LeaveLossFactorConverter
+							.convertLeaveLossFactorToLeaveLossFactorVO(revenueResourceEntry.getLeaveLossFactor()));
+					revenueResourceEntryVO.setBillingRateType(revenueResourceEntry.getBillingRateType());
+					revenueResourceEntryVO.setBillingRate(revenueResourceEntry.getBillingRate());
+					revenueResourceEntryVO.setAllocation(revenueResourceEntry.getAllocation());
+					revenueResourceEntries.add(revenueResourceEntryVO);
+				}
+				tmRevenueEntryVO.setRevenueResourceEntries(revenueResourceEntries);
+				rollingRevenueResponse.setTmRevenueEntryVO(tmRevenueEntryVO);
 			}
-			tmRevenueEntryVO.setRevenueResourceEntries(revenueResourceEntries);
-			rollingRevenueResponse.setTmRevenueEntryVO(tmRevenueEntryVO);
 		}
 		return rollingRevenueResponse;
 	}
