@@ -27,6 +27,8 @@ public class FPResourceEntryVO implements Serializable {
 
 	private BigInteger revenue = BigInteger.ZERO;
 
+	private Integer allocation;
+
 	private String leaveLossFactor;
 
 	public FPResourceEntryVO() {
@@ -118,6 +120,14 @@ public class FPResourceEntryVO implements Serializable {
 
 	public void setLeaveLossFactor(String leaveLossFactor) {
 		this.leaveLossFactor = leaveLossFactor;
+	}
+
+	public Integer getAllocation() {
+		return allocation;
+	}
+
+	public void setAllocation(Integer allocation) {
+		this.allocation = allocation;
 	}
 
 }

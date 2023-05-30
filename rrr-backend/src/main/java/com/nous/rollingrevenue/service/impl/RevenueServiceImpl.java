@@ -627,6 +627,7 @@ public class RevenueServiceImpl implements RevenueService {
 				fpResourceEntry
 						.setMilestoneBillingDate(revenueResourceEntry.getMilestoneEntry().getMilestoneBillingDate());
 				fpResourceEntry.setRevenue(revenueResourceEntry.getRevenue());
+				fpResourceEntry.setAllocation(revenueResourceEntry.getAllocation());
 				fpResourceEntry.setLeaveLossFactor(Constants.NOT_APPLICABLE);
 
 				fpResourceEntriesVO.add(fpResourceEntry);
@@ -649,7 +650,8 @@ public class RevenueServiceImpl implements RevenueService {
 				tmResourceEntry.setEmployeeId(revenueResourceEntry.getEmployeeId());
 				tmResourceEntry.setResourceName(revenueResourceEntry.getResourceName());
 				tmResourceEntry.setBillingRate(revenueResourceEntry.getBillingRate());// Add billing rate conversion and
-																						// test leave loss factor logic
+				tmResourceEntry.setAllocation(revenueResourceEntry.getAllocation());
+				// test leave loss factor logic
 				tmResourceEntry.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOnSite() == null
 						? revenueResourceEntry.getLeaveLossFactor().getOffShore().toString()
 						: revenueResourceEntry.getLeaveLossFactor().getOnSite().toString());
@@ -659,15 +661,6 @@ public class RevenueServiceImpl implements RevenueService {
 			resourceEntryResponse.setTmResourceEntries(tmResourceEntriesVO);
 			resourceEntryResponse.setFinancialYearTMRevenue(financialYearTMRevenue);
 		}
-
-//		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
-//		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
-//		for (String key : dataMap.keySet()) {
-//			if (map.containsKey(key)) {
-//				map.put(key, map.get(key).add(dataMap.get(key)));
-//			}
-//		}
-//		financialYearRevenue.setDataMap(map);
 
 		resourceEntryResponse.setFinancialYearName(resourceEntryRequest.getFinancialYearName());
 
@@ -757,8 +750,7 @@ public class RevenueServiceImpl implements RevenueService {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 
-		Opportunity opportunityVO = opportunityRepository
-				.findById(fpRevenueEntry.getOpportunity().getOpportunityId())
+		Opportunity opportunityVO = opportunityRepository.findById(fpRevenueEntry.getOpportunity().getOpportunityId())
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 
 		opportunity.setOpportunityName(opportunityVO.getOpportunityName());

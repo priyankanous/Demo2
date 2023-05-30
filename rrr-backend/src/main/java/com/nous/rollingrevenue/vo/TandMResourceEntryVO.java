@@ -23,6 +23,8 @@ public class TandMResourceEntryVO implements Serializable {
 
 	private BigInteger billingRate;
 
+	private Integer allocation;
+
 	private String leaveLossFactor;
 
 	public TandMResourceEntryVO() {
@@ -95,6 +97,14 @@ public class TandMResourceEntryVO implements Serializable {
 
 	public void setLeaveLossFactor(String leaveLossFactor) {
 		this.leaveLossFactor = leaveLossFactor;
+	}
+
+	public Integer getAllocation() {
+		return allocation;
+	}
+
+	public void setAllocation(Integer allocation) {
+		this.allocation = allocation;
 	}
 
 }
