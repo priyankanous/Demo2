@@ -81,5 +81,13 @@ public class LocationController {
 		locationService.activateOrDeactivateById(locationId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-
+	
+	@Operation(summary = "Get leaveLossFactor By LocationName")
+	@GetMapping(path = "/{financialYear}/{locationName}")
+	public WSResponse<Long> getLeaveLossFactorByLocationName(@PathVariable String financialYear,
+			@PathVariable String locationName) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				locationService.getLeaveLossFactorByLocationName(financialYear, locationName));
+	}
+	
 }

@@ -53,5 +53,11 @@ public interface LocationService {
 	 * @param id
 	 */
 	public void activateOrDeactivateById(Long id);
+	
+	/**
+	 * Get LeaveLossFactor By Location Name
+	 * @param locationName
+	 */
+	public Long getLeaveLossFactorByLocationName(String financialYear, String locationName);
 
 }
