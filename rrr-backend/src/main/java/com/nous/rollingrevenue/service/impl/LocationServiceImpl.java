@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.LocationConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.GlobalMonthlyLeaveLossFactor;
 import com.nous.rollingrevenue.model.Location;
 import com.nous.rollingrevenue.repository.FinancialYearRepository;
@@ -108,14 +109,19 @@ public class LocationServiceImpl implements LocationService {
 	}
 
 	@Override
-	public Long getLeaveLossFactorByLocationName(String financialYear, String locationName) {
-		GlobalMonthlyLeaveLossFactor leaveLossFactor = globalMonthlyLeaveLossFactorRepository
-				.getLeaveLossFactorByLocation(financialYear);
-		if ("Offshore".equalsIgnoreCase(locationName)) {
-			return leaveLossFactor.getOffShore();
-		} else {
-			return leaveLossFactor.getOnSite();
+	public Long getLeaveLossFactorByLocationName(String financialYearName, String locationName) {
+		Optional<FinancialYear> optional = financialYearRepository.findByFinancialYearName(financialYearName);
+		if (optional.isPresent()) {
+			FinancialYear financialYear = optional.get();
+			GlobalMonthlyLeaveLossFactor leaveLossFactor = globalMonthlyLeaveLossFactorRepository
+					.getLeaveLossFactorByLocation(financialYear.getFinancialYearId());
+			if ("Offshore".equalsIgnoreCase(locationName)) {
+				return leaveLossFactor.getOffShore();
+			} else {
+				return leaveLossFactor.getOnSite();
+			}
 		}
+		return null;
 	}
 
 }
