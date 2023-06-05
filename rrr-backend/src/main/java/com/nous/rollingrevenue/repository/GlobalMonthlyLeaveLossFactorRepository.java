@@ -14,6 +14,6 @@ public interface GlobalMonthlyLeaveLossFactorRepository extends JpaRepository<Gl
 	List<GlobalMonthlyLeaveLossFactor> findByFinancialYear(String financialYear);
 	
 	@Query("Select g from GlobalMonthlyLeaveLossFactor g where g.financialYear.financialYearId = ?1")
-	GlobalMonthlyLeaveLossFactor getLeaveLossFactorByLocation(Long financialYearId);
+	List<GlobalMonthlyLeaveLossFactor> getLeaveLossFactorByLocation(Long financialYearId);
 
 }

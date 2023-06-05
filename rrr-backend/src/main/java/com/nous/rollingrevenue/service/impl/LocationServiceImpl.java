@@ -113,12 +113,15 @@ public class LocationServiceImpl implements LocationService {
 		Optional<FinancialYear> optional = financialYearRepository.findByFinancialYearName(financialYearName);
 		if (optional.isPresent()) {
 			FinancialYear financialYear = optional.get();
-			GlobalMonthlyLeaveLossFactor leaveLossFactor = globalMonthlyLeaveLossFactorRepository
+			List<GlobalMonthlyLeaveLossFactor> leaveLossFactorList = globalMonthlyLeaveLossFactorRepository
 					.getLeaveLossFactorByLocation(financialYear.getFinancialYearId());
-			if ("Offshore".equalsIgnoreCase(locationName)) {
-				return leaveLossFactor.getOffShore();
-			} else {
-				return leaveLossFactor.getOnSite();
+			if (!leaveLossFactorList.isEmpty()) {
+				GlobalMonthlyLeaveLossFactor leaveLossFactor = leaveLossFactorList.get(0);
+				if ("Offshore".equalsIgnoreCase(locationName)) {
+					return leaveLossFactor.getOffShore();
+				} else {
+					return leaveLossFactor.getOnSite();
+				}
 			}
 		}
 		return null;
