@@ -32,7 +32,6 @@ import com.nous.rollingrevenue.convertor.BusinessUnitConverter;
 import com.nous.rollingrevenue.convertor.CocPracticeConverter;
 import com.nous.rollingrevenue.convertor.CurrencyConverter;
 import com.nous.rollingrevenue.convertor.FinancialYearConverter;
-import com.nous.rollingrevenue.convertor.LeaveLossFactorConverter;
 import com.nous.rollingrevenue.convertor.LocationConverter;
 import com.nous.rollingrevenue.convertor.OpportunityConverter;
 import com.nous.rollingrevenue.convertor.ProbabilityTypeConverter;
@@ -154,8 +153,7 @@ public class RevenueServiceImpl implements RevenueService {
 						.convertCocPracticeVOToCocPractice(revenueResourceEntryVO.getCocPractice()));
 				revenueResourceEntry.setBillingRateType(revenueResourceEntryVO.getBillingRateType());
 				revenueResourceEntry.setBillingRate(revenueResourceEntryVO.getBillingRate());
-				revenueResourceEntry.setLeaveLossFactor(LeaveLossFactorConverter
-						.convertLeaveLossFactorVOToLeaveLossFactor(revenueResourceEntryVO.getLeaveLossFactor()));
+				revenueResourceEntry.setLeaveLossFactor(revenueResourceEntryVO.getLeaveLossFactor());
 				revenueResourceEntry.setBusinessType(BusinessTypeConverter
 						.convertBusinessTypeVOToBusinessType(revenueResourceEntryVO.getBusinessType()));
 				revenueResourceEntry.setAllocation(revenueResourceEntryVO.getAllocation());
@@ -544,11 +542,9 @@ public class RevenueServiceImpl implements RevenueService {
 				opportunityEntryVO.setLeaveLossFactor("Not Applicable");
 			} else {
 				if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
-					opportunityEntryVO
-							.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOffShore().toString());
+					opportunityEntryVO.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().toString());
 				} else {
-					opportunityEntryVO
-							.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOnSite().toString());
+					opportunityEntryVO.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().toString());
 				}
 			}
 
@@ -652,9 +648,7 @@ public class RevenueServiceImpl implements RevenueService {
 				tmResourceEntry.setBillingRate(revenueResourceEntry.getBillingRate());// Add billing rate conversion and
 				tmResourceEntry.setAllocation(revenueResourceEntry.getAllocation());
 				// test leave loss factor logic
-				tmResourceEntry.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().getOnSite() == null
-						? revenueResourceEntry.getLeaveLossFactor().getOffShore().toString()
-						: revenueResourceEntry.getLeaveLossFactor().getOnSite().toString());
+				tmResourceEntry.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().toString());
 
 				tmResourceEntriesVO.add(tmResourceEntry);
 			}
@@ -723,9 +717,9 @@ public class RevenueServiceImpl implements RevenueService {
 			} else {
 				long leaveLossFactor = 0;
 				if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
-					leaveLossFactor = revenueResourceEntry.getLeaveLossFactor().getOffShore();
+					leaveLossFactor = revenueResourceEntry.getLeaveLossFactor();
 				} else {
-					leaveLossFactor = revenueResourceEntry.getLeaveLossFactor().getOnSite();
+					leaveLossFactor = revenueResourceEntry.getLeaveLossFactor();
 				}
 
 				BigInteger billingRate = revenueServiceTMCalculation.calculatingBillingRate(financialYear,
@@ -1033,8 +1027,7 @@ public class RevenueServiceImpl implements RevenueService {
 					revenueResourceEntryVO.setResourceEndDate(revenueResourceEntry.getResourceEndDate());
 					revenueResourceEntryVO.setCocPractice(CocPracticeConverter
 							.convertCocPracticeToCocPracticeVO(revenueResourceEntry.getCocPractice()));
-					revenueResourceEntryVO.setLeaveLossFactor(LeaveLossFactorConverter
-							.convertLeaveLossFactorToLeaveLossFactorVO(revenueResourceEntry.getLeaveLossFactor()));
+					revenueResourceEntryVO.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor());
 					revenueResourceEntryVO.setBillingRateType(revenueResourceEntry.getBillingRateType());
 					revenueResourceEntryVO.setBillingRate(revenueResourceEntry.getBillingRate());
 					revenueResourceEntryVO.setAllocation(revenueResourceEntry.getAllocation());

@@ -37,7 +37,7 @@ public class RevenueResourceEntryVO implements Serializable {
 	
 	private CocPracticeVO cocPractice;
 	
-	private GlobalMonthlyLeaveLossFactorVO leaveLossFactor;
+	private Long leaveLossFactor;
 	
 	private String billingRateType;
 	
@@ -55,7 +55,7 @@ public class RevenueResourceEntryVO implements Serializable {
 			StrategicBusinessUnitHeadVO strategicBusinessUnitHead, BusinessUnitVO businessUnit,
 			BusinessTypeVO businessType, LocationVO location, String resourceName, String employeeId,
 			LocalDate resourceStartDate, LocalDate resourceEndDate, CocPracticeVO cocPractice,
-			GlobalMonthlyLeaveLossFactorVO leaveLossFactor, String billingRateType, BigInteger billingRate,
+			Long leaveLossFactor, String billingRateType, BigInteger billingRate,
 			BigInteger milestoneResourceRevenue, Integer allocation) {
 		super();
 		this.strategicBusinessUnit = strategicBusinessUnit;
@@ -164,11 +164,11 @@ public class RevenueResourceEntryVO implements Serializable {
 		this.cocPractice = cocPractice;
 	}
 
-	public GlobalMonthlyLeaveLossFactorVO getLeaveLossFactor() {
+	public Long getLeaveLossFactor() {
 		return leaveLossFactor;
 	}
 
-	public void setLeaveLossFactor(GlobalMonthlyLeaveLossFactorVO leaveLossFactor) {
+	public void setLeaveLossFactor(Long leaveLossFactor) {
 		this.leaveLossFactor = leaveLossFactor;
 	}
 

@@ -64,9 +64,9 @@ public class RevenueServiceTMCalculation {
 		for (RevenueResourceEntry revenueTMResourceEntry : revenueEntryList) {
 			long leaveLossFactor = 0;
 			if ("Offshore".equalsIgnoreCase(revenueTMResourceEntry.getLocation().getLocationName())) {
-				leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor().getOffShore();
+				leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor();
 			} else {
-				leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor().getOnSite();
+				leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor();
 			}
 
 			BigInteger billingRate = calculatingBillingRate(financialYear,

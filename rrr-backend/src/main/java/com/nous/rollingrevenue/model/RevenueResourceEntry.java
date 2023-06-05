@@ -68,9 +68,8 @@ public class RevenueResourceEntry extends Auditable<String> {
 	@Column(name = "billing_rate")
 	private BigInteger billingRate;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "leave_loss_factor_id", referencedColumnName = "leave_loss_factor_id")
-	private GlobalMonthlyLeaveLossFactor leaveLossFactor;
+	@Column(name = "leave_loss_factor")
+	private Long leaveLossFactor;
 
 	@Column(name = "revenue")
 	private BigInteger revenue;
@@ -94,8 +93,8 @@ public class RevenueResourceEntry extends Auditable<String> {
 			StrategicBusinessUnitHead strategicBusinessUnitHead, BusinessUnit businessUnit, Location location,
 			String resourceName, String employeeId, LocalDate resourceStartDate, LocalDate resourceEndDate,
 			BusinessType businessType, CocPractice cocPractice, String billingRateType, BigInteger billingRate,
-			GlobalMonthlyLeaveLossFactor leaveLossFactor, BigInteger revenue, Integer allocation,
-			RevenueEntry revenueEntry, MilestoneEntry milestoneEntry) {
+			Long leaveLossFactor, BigInteger revenue, Integer allocation, RevenueEntry revenueEntry,
+			MilestoneEntry milestoneEntry) {
 		super();
 		this.revenueResourceEntryId = revenueResourceEntryId;
 		this.strategicBusinessUnit = strategicBusinessUnit;
@@ -221,11 +220,11 @@ public class RevenueResourceEntry extends Auditable<String> {
 		this.billingRate = billingRate;
 	}
 
-	public GlobalMonthlyLeaveLossFactor getLeaveLossFactor() {
+	public Long getLeaveLossFactor() {
 		return leaveLossFactor;
 	}
 
-	public void setLeaveLossFactor(GlobalMonthlyLeaveLossFactor leaveLossFactor) {
+	public void setLeaveLossFactor(Long leaveLossFactor) {
 		this.leaveLossFactor = leaveLossFactor;
 	}
 
