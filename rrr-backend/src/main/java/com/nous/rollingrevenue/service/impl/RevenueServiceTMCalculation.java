@@ -99,9 +99,15 @@ public class RevenueServiceTMCalculation {
 	public Map<String, BigInteger> setQuarterlyDetails(Map<String, BigInteger> fyRevenue,
 			boolean isDisplayAdditionalQuarter) {
 		int bigInteger = 0;
+		int quarterOne = 0;
+		int quarterTwo = 0;
+		int quarterThree = 0;
+		int quarterFour = 0;
+		int quarterFive = 0;
 		for (String key : fyRevenue.keySet()) {
 			if (key.contains("April") || key.contains("May") || key.contains("June") || key.contains("q1FYP")) {
 				bigInteger = bigInteger + fyRevenue.get(key).intValue();
+				quarterOne = bigInteger;
 				if (key.contains("q1FYP")) {
 					fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(bigInteger)));
 					bigInteger = 0;
@@ -109,6 +115,7 @@ public class RevenueServiceTMCalculation {
 			} else if (key.contains("July") || key.contains("August") || key.contains("September")
 					|| key.contains("q2FYP")) {
 				bigInteger = bigInteger + fyRevenue.get(key).intValue();
+				quarterTwo = bigInteger;
 				if (key.contains("q2FYP")) {
 					fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(bigInteger)));
 					bigInteger = 0;
@@ -116,6 +123,7 @@ public class RevenueServiceTMCalculation {
 			} else if (key.contains("October") || key.contains("November") || key.contains("December")
 					|| key.contains("q3FYP")) {
 				bigInteger = bigInteger + fyRevenue.get(key).intValue();
+				quarterThree = bigInteger;
 				if (key.contains("q3FYP")) {
 					fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(bigInteger)));
 					bigInteger = 0;
@@ -123,6 +131,7 @@ public class RevenueServiceTMCalculation {
 			} else if (key.contains("January") || key.contains("February") || key.contains("March")
 					|| key.contains("q4FYP")) {
 				bigInteger = bigInteger + fyRevenue.get(key).intValue();
+				quarterFour = bigInteger;
 				if (key.contains("q4FYP")) {
 					fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(bigInteger)));
 					bigInteger = 0;
@@ -130,11 +139,15 @@ public class RevenueServiceTMCalculation {
 			} else if (isDisplayAdditionalQuarter) {
 				if (key.contains("April") || key.contains("May") || key.contains("June") || key.contains("q5FYP")) {
 					bigInteger = bigInteger + fyRevenue.get(key).intValue();
+					quarterFive = bigInteger;
 					if (key.contains("q5FYP")) {
 						fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(bigInteger)));
 						bigInteger = 0;
 					}
 				}
+			} else if (key.contains("FYP")) {
+				int allQuartersSum = quarterOne + quarterTwo + quarterThree + quarterFour + quarterFive;
+				fyRevenue.put(key, fyRevenue.get(key).add(BigInteger.valueOf(allQuartersSum)));
 			}
 		}
 		return fyRevenue;
@@ -154,36 +167,42 @@ public class RevenueServiceTMCalculation {
 		int additionalQuarterYear = Integer.parseInt(year) + 1;
 
 		listOfMonthsBetweenFinancialYear.add(3, "q1FYP " + year);
-		listOfMonthsBetweenFinancialYear.add(4, "q1FYB " + year);
-		listOfMonthsBetweenFinancialYear.add(5, "q1FYS " + year);
-		listOfMonthsBetweenFinancialYear.add(6, "q1FYT " + year);
+		listOfMonthsBetweenFinancialYear.add(4, "q1FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(5, "q1FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(6, "q1FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(7, "q1FYT " + year);
 
-		listOfMonthsBetweenFinancialYear.add(10, "q2FYP " + year);
-		listOfMonthsBetweenFinancialYear.add(11, "q2FYB " + year);
-		listOfMonthsBetweenFinancialYear.add(12, "q2FYS " + year);
-		listOfMonthsBetweenFinancialYear.add(13, "q2FYT " + year);
+		listOfMonthsBetweenFinancialYear.add(11, "q2FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(12, "q2FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(13, "q2FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(14, "q2FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(15, "q2FYT " + year);
 
-		listOfMonthsBetweenFinancialYear.add(17, "q3FYP " + year);
-		listOfMonthsBetweenFinancialYear.add(18, "q3FYB " + year);
-		listOfMonthsBetweenFinancialYear.add(19, "q3FYS " + year);
-		listOfMonthsBetweenFinancialYear.add(20, "q3FYT " + year);
+		listOfMonthsBetweenFinancialYear.add(19, "q3FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(20, "q3FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(21, "q3FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(22, "q3FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(23, "q3FYT " + year);
 
-		listOfMonthsBetweenFinancialYear.add(24, "q4FYP " + additionalQuarterYear);
-		listOfMonthsBetweenFinancialYear.add(25, "q4FYB " + additionalQuarterYear);
-		listOfMonthsBetweenFinancialYear.add(26, "q4FYS " + additionalQuarterYear);
-		listOfMonthsBetweenFinancialYear.add(27, "q4FYT " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(27, "q4FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(28, "q4FYA " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(29, "q4FYB " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(30, "q4FYS " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(31, "q4FYT " + additionalQuarterYear);
 
 		if (isDisplayAdditionalQuarter) {
-			listOfMonthsBetweenFinancialYear.add(31, "q5FYP " + additionalQuarterYear);
-			listOfMonthsBetweenFinancialYear.add(32, "q5FYB " + additionalQuarterYear);
-			listOfMonthsBetweenFinancialYear.add(33, "q5FYS " + additionalQuarterYear);
-			listOfMonthsBetweenFinancialYear.add(34, "q5FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(35, "q5FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(36, "q5FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(37, "q5FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(38, "q5FYT " + additionalQuarterYear);
 
+			listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
 			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
 			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
 			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
 			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
 		} else {
+			listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
 			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
 			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
 			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
