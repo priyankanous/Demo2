@@ -5,7 +5,6 @@ import java.time.LocalDate;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -55,11 +54,11 @@ public class RevenueResourceEntry extends Auditable<String> {
 	@Column(name = "resource_end_date")
 	private LocalDate resourceEndDate;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "business_type_id", referencedColumnName = "business_type_id")
 	private BusinessType businessType;
 
-	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "coc_practice_id", referencedColumnName = "coc_practice_id")
 	private CocPractice cocPractice;
 
