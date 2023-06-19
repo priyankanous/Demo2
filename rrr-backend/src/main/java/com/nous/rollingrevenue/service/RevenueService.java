@@ -1,5 +1,7 @@
 package com.nous.rollingrevenue.service;
 
+import java.util.List;
+
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
@@ -10,6 +12,8 @@ import com.nous.rollingrevenue.vo.ResourceRevenueResponse;
 import com.nous.rollingrevenue.vo.RevenueEntryResponse;
 import com.nous.rollingrevenue.vo.RollingRevenueResponse;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
+
+import jakarta.validation.Valid;
 
 public interface RevenueService {
 
@@ -33,5 +37,7 @@ public interface RevenueService {
 	public void updateTandMRevenueEntry(Long opportunityId, TandMRevenueEntryVO tandMRevenueEntry);
 
 	public RollingRevenueResponse getRevenueEntryDetailsById(Long opportunityId);
+
+	public String deleteRevenueEntriesDetailsById(@Valid Long opportunityId);
 
 }

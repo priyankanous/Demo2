@@ -71,6 +71,8 @@ import com.nous.rollingrevenue.vo.RollingRevenueResponse;
 import com.nous.rollingrevenue.vo.TandMResourceEntryVO;
 import com.nous.rollingrevenue.vo.TandMRevenueEntryVO;
 
+import jakarta.validation.Valid;
+
 @Service
 @Transactional(readOnly = true)
 public class RevenueServiceImpl implements RevenueService {
@@ -1056,5 +1058,33 @@ public class RevenueServiceImpl implements RevenueService {
 			}
 		}
 		return rollingRevenueResponse;
+	}
+
+	@Override
+	@Transactional
+	public String deleteRevenueEntriesDetailsById(@Valid Long opportunityId) {
+		Opportunity opportunity = opportunityRepository.findById(opportunityId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
+		List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
+		if(!revenueEntryList.isEmpty()) {
+			for (RevenueEntry revenueEntry : revenueEntryList) {
+				List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
+				List<MilestoneEntry> milestoneEntryList = revenueEntry.getMilestoneEntry();
+				for (MilestoneEntry milestoneEntry : milestoneEntryList) {
+					if (milestoneEntry.getRevenueEntry().getRevenueEntryId() == revenueEntry.getRevenueEntryId()) {
+						milestoneEntryRepository.deleteById(milestoneEntry.getMilestoneEntryId());
+					}
+				}
+
+				for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+					if (revenueResourceEntry.getRevenueEntry().getRevenueEntryId() == revenueEntry.getRevenueEntryId()) {
+						revenueResourceEntryRepository.deleteById(revenueResourceEntry.getRevenueResourceEntryId());
+					}
+				}
+				revenueEntryRespository.deleteById(revenueEntry.getRevenueEntryId());
+			}
+			return "Deleted Revenue Entry Details Successfully";
+		}
+		return "Revenue Entry Details are empty";
 	}
 }

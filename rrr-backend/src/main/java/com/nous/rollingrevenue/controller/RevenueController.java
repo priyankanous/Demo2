@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -108,4 +109,12 @@ public class RevenueController {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				revenueService.getRevenueEntryDetailsById(opportunityId));
 	}
+
+	@Operation(summary = "Delete RevenueEntry By Id")
+	@DeleteMapping(path = "/{opportunityId}")
+	public WSResponse<String> deleteRevenueEntriesDetailsById(@PathVariable @Valid Long opportunityId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				revenueService.deleteRevenueEntriesDetailsById(opportunityId));
+	}
+
 }
