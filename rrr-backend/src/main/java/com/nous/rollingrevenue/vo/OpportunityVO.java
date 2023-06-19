@@ -7,12 +7,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class OpportunityVO implements Serializable {
 
-	/**
-	 * Serial Version ID
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Long opportunityId;
@@ -25,9 +23,11 @@ public class OpportunityVO implements Serializable {
 	@NotBlank(message = "ProjectCode cannot be null or empty")
 	private String projectCode;
 
+	@NotNull(message = "projectStartDate cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectStartDate;
 
+	@NotNull(message = "projectEndDate cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectEndDate;
 

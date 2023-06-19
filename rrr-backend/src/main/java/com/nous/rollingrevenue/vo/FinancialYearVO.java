@@ -7,12 +7,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class FinancialYearVO implements Serializable {
 
-	/**
-	 * Serial Version ID
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Long financialYearId;
@@ -23,9 +21,11 @@ public class FinancialYearVO implements Serializable {
 	@NotBlank(message = "FinancialYearCustomName cannot be null or empty")
 	private String financialYearCustomName;
 
+	@NotNull(message = "startingFrom cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate startingFrom;
 
+	@NotNull(message = "endingOn cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate endingOn;
 
@@ -94,6 +94,5 @@ public class FinancialYearVO implements Serializable {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
 
 }

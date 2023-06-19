@@ -7,12 +7,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class ProbabilityTypeVO implements Serializable {
-
-	/**
-	 * Serial Version ID
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Long probabilityTypeId;
@@ -20,6 +17,7 @@ public class ProbabilityTypeVO implements Serializable {
 	@NotBlank(message = "ProbabilityTypeName cannot be null or empty")
 	private String probabilityTypeName;
 
+	@NotNull(message = "percentage cannot be null or empty")
 	@Min(value = 1, message = "Number should not be less than 1")
 	@Max(value = 100, message = "Number should not be greater than 100")
 	private Integer percentage;
@@ -70,6 +68,5 @@ public class ProbabilityTypeVO implements Serializable {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
 
 }

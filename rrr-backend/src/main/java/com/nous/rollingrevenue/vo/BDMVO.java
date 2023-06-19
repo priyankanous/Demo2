@@ -9,12 +9,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class BDMVO implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Long bdmId;
@@ -25,6 +23,7 @@ public class BDMVO implements Serializable {
 	@NotBlank(message = "BDMDisplayName cannot be null or empty")
 	private String bdmDisplayName;
 
+	@NotNull(message = "activeFrom cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate activeFrom;
 

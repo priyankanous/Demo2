@@ -11,9 +11,6 @@ import jakarta.validation.constraints.NotNull;
 
 public class StrategicBusinessUnitHeadVO implements Serializable {
 
-	/**
-	 * Serial Version ID
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Long sbuHeadId;
@@ -27,6 +24,7 @@ public class StrategicBusinessUnitHeadVO implements Serializable {
 	private StrategicBusinessUnitVO strategicBusinessUnit;
 
 	@NotNull(message = "ActiveFrom cannot be null or empty")
+	@NotNull(message = "activeFrom cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate activeFrom;
 
