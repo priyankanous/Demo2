@@ -6,7 +6,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.validator.constraints.Range;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
+
+import jakarta.validation.constraints.NotNull;
 
 public class MilestoneEntryVO implements Serializable {
 	
@@ -24,6 +28,8 @@ public class MilestoneEntryVO implements Serializable {
 	
 	private BigInteger milestoneRevenue;
 	
+	@NotNull(message = "MilestoneResourceCount cannot be null or empty")
+	@Range(min = 1, message = "MilestoneResourceCount can't be zero")
 	private Integer milestoneResourceCount;
 	
 	List<RevenueResourceEntryVO> revenueResourceEntries = new ArrayList<>();

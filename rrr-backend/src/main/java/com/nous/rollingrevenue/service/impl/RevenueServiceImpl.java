@@ -108,6 +108,11 @@ public class RevenueServiceImpl implements RevenueService {
 				.convertOpportunityVOToOpportunity(tmRevenueEntry.getOpportunity());
 
 		if (Objects.isNull(opportunity.getOpportunityId())) {
+			opportunity.setAccount(revenueEntry.getAccount());
+			opportunity.setProjectCode(tmRevenueEntry.getProjectCode());
+			opportunity.setProjectStartDate(tmRevenueEntry.getProjectStartDate());
+			opportunity.setProjectEndDate(
+					tmRevenueEntry.getProjectEndDate() != null ? tmRevenueEntry.getProjectEndDate() : null);
 			opportunity = opportunityRepository.save(opportunity);
 		}
 		revenueEntry.setOpportunity(opportunity);
@@ -118,7 +123,9 @@ public class RevenueServiceImpl implements RevenueService {
 		revenueEntry.setProbabilityType(ProbabilityTypeConverter
 				.convertProbabilityTypeVOToProbabilityType(tmRevenueEntry.getProbabilityType()));
 		revenueEntry.setRegion(RegionConverter.convertRegionVOToRegion(tmRevenueEntry.getRegion()));
-		revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(tmRevenueEntry.getWorkOrder()));
+		if (tmRevenueEntry.getWorkOrder() != null) {
+			revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(tmRevenueEntry.getWorkOrder()));
+		}
 		revenueEntry.setFinancialYear(
 				FinancialYearConverter.convertFinancialYearVOToFinancialYear(tmRevenueEntry.getFinancialYear()));
 		revenueEntry.setResourceCount(tmRevenueEntry.getResourceCount());
@@ -178,6 +185,11 @@ public class RevenueServiceImpl implements RevenueService {
 				.convertOpportunityVOToOpportunity(fpRevenueEntry.getOpportunity());
 
 		if (Objects.isNull(opportunity.getOpportunityId())) {
+			opportunity.setAccount(revenueEntry.getAccount());
+			opportunity.setProjectCode(fpRevenueEntry.getProjectCode());
+			opportunity.setProjectStartDate(fpRevenueEntry.getProjectStartDate());
+			opportunity.setProjectEndDate(
+					fpRevenueEntry.getProjectEndDate() != null ? fpRevenueEntry.getProjectEndDate() : null);
 			opportunity = opportunityRepository.save(opportunity);
 		}
 
