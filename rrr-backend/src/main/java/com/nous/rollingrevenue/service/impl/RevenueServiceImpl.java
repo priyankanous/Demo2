@@ -110,6 +110,9 @@ public class RevenueServiceImpl implements RevenueService {
 				.convertOpportunityVOToOpportunity(tmRevenueEntry.getOpportunity());
 
 		if (Objects.isNull(opportunity.getOpportunityId())) {
+			if(Objects.isNull(opportunity.getOpportunityName())) {
+				throw new RecordNotFoundException(ErrorConstants.INVALID_OPPORTUNITY_NAME);
+			}
 			opportunity.setAccount(revenueEntry.getAccount());
 			opportunity.setProjectCode(tmRevenueEntry.getProjectCode());
 			opportunity.setProjectStartDate(tmRevenueEntry.getProjectStartDate());
@@ -187,6 +190,9 @@ public class RevenueServiceImpl implements RevenueService {
 				.convertOpportunityVOToOpportunity(fpRevenueEntry.getOpportunity());
 
 		if (Objects.isNull(opportunity.getOpportunityId())) {
+			if(Objects.isNull(opportunity.getOpportunityName())) {
+				throw new RecordNotFoundException(ErrorConstants.INVALID_OPPORTUNITY_NAME);
+			}
 			opportunity.setAccount(revenueEntry.getAccount());
 			opportunity.setProjectCode(fpRevenueEntry.getProjectCode());
 			opportunity.setProjectStartDate(fpRevenueEntry.getProjectStartDate());
