@@ -11,9 +11,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public class AccountVO implements Serializable {
 
-	/**
-	 * Serial Version ID
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Long accountId;

@@ -6,15 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotEmpty;
 
-/**
- * @author Nous Infosystems
- *
- */
 public class OrganizationVO implements Serializable {
 
-	/**
-	 * Serial Version ID
-	 */
 	private static final long serialVersionUID = 2204495143644490674L;
 
 	private Long id;
