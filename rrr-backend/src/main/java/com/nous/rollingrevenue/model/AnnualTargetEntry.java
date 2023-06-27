@@ -4,6 +4,8 @@ import java.math.BigInteger;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -26,26 +28,32 @@ public class AnnualTargetEntry extends Auditable<String> {
 	private Long annualTargetEntryId;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
 	private FinancialYear financialYear;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
 	private BusinessUnit businessUnit;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "sbu_id", referencedColumnName = "sbu_id")
 	private StrategicBusinessUnit startegicBusinessUnit;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "sbu_head_id", referencedColumnName = "sbu_head_id")
 	private StrategicBusinessUnitHead strategicBusinessUnitHead;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	private Location location;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
 	private Region region;
 
@@ -54,10 +62,12 @@ public class AnnualTargetEntry extends Auditable<String> {
 	private Account account;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "business_type_id", referencedColumnName = "business_type_id")
 	private BusinessType businessType;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "coc_practice_id", referencedColumnName = "coc_practice_id")
 	private CocPractice cocPractice;
 

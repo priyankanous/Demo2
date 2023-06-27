@@ -1,8 +1,13 @@
 package com.nous.rollingrevenue.model;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,6 +18,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -38,11 +44,16 @@ public class Currency extends Auditable<String> {
 	private BigDecimal conversionRate;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
 	private FinancialYear financialYear;
 
 	@Column(name = "base_currency")
 	private boolean baseCurrency;
+
+	@OneToMany(mappedBy = "currency")
+	@JsonBackReference
+	private List<RevenueEntry> revenueEntry = new ArrayList<>();
 
 	public Currency() {
 
@@ -114,6 +125,14 @@ public class Currency extends Auditable<String> {
 
 	public void setBaseCurrency(boolean baseCurrency) {
 		this.baseCurrency = baseCurrency;
+	}
+
+	public List<RevenueEntry> getRevenueEntry() {
+		return revenueEntry;
+	}
+
+	public void setRevenueEntry(List<RevenueEntry> revenueEntry) {
+		this.revenueEntry = revenueEntry;
 	}
 
 }

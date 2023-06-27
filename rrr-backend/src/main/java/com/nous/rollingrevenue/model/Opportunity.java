@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -32,6 +35,7 @@ public class Opportunity extends Auditable<String> {
 	private String opportunityName;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
 	private Account account;
 
@@ -45,6 +49,7 @@ public class Opportunity extends Auditable<String> {
 	private LocalDate projectEndDate;
 
 	@OneToMany(mappedBy = "opportunity")
+	@JsonBackReference
 	private List<RevenueEntry> revenueEntry = new ArrayList<>();
 
 	public Opportunity() {

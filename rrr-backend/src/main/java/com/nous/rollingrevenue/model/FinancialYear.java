@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -38,22 +40,32 @@ public class FinancialYear extends Auditable<String> {
 	private LocalDate endingOn;
 
 	@OneToMany(mappedBy = "financialYear")
+	@JsonBackReference
 	private List<Currency> currencies = new ArrayList<>();
 
 	@OneToMany(mappedBy = "financialYear")
+	@JsonBackReference
 	private List<GlobalMonthlyLeaveLossFactor> leaveLossFactors = new ArrayList<>();
 
 	@OneToMany(mappedBy = "financialYear")
+	@JsonBackReference
 	private List<HolidayCalendar> holidayCalendar = new ArrayList<>();
 
 	@OneToMany(mappedBy = "financialYear")
+	@JsonBackReference
 	private List<BDMMeeting> bdmMeetings = new ArrayList<>();
 
 	@OneToMany(mappedBy = "financialYear")
+	@JsonBackReference
 	private List<FortnightlyMeeting> fortnightlyMeetings = new ArrayList<>();
 
 	@OneToMany(mappedBy = "financialYear")
+	@JsonBackReference
 	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "financialYear")
+	@JsonBackReference
+	private List<RevenueEntry> revenueEntry = new ArrayList<>();
 
 	public FinancialYear() {
 
@@ -165,6 +177,14 @@ public class FinancialYear extends Auditable<String> {
 
 	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
 		this.annualTargetEntries = annualTargetEntries;
+	}
+
+	public List<RevenueEntry> getRevenueEntry() {
+		return revenueEntry;
+	}
+
+	public void setRevenueEntry(List<RevenueEntry> revenueEntry) {
+		this.revenueEntry = revenueEntry;
 	}
 
 }

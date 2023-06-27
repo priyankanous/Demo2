@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -32,13 +35,20 @@ public class Region extends Auditable<String> {
 	private String regionDisplayName;
 
 	@ManyToMany(mappedBy = "regions")
+	@JsonManagedReference
 	private List<BusinessDevelopmentManager> businessDevlopmentManagers = new ArrayList<>();
 
 	@OneToMany(mappedBy = "region")
+	@JsonBackReference
 	private List<BDMMeeting> bdmMeetings = new ArrayList<>();
 
 	@OneToMany(mappedBy = "region")
+	@JsonBackReference
 	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "region")
+	@JsonBackReference
+	private List<RevenueEntry> revenueEntry = new ArrayList<>();
 
 	public Region() {
 
@@ -102,6 +112,14 @@ public class Region extends Auditable<String> {
 
 	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
 		this.annualTargetEntries = annualTargetEntries;
+	}
+
+	public List<RevenueEntry> getRevenueEntry() {
+		return revenueEntry;
+	}
+
+	public void setRevenueEntry(List<RevenueEntry> revenueEntry) {
+		this.revenueEntry = revenueEntry;
 	}
 
 }

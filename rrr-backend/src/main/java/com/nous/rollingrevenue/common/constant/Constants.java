@@ -31,4 +31,18 @@ public class Constants {
 
 	public static final String NOT_APPLICABLE = "Not Applicable";
 
+	public static final String BUSINESS_TYPE_ECEB = "ECEB";
+
+	public static final String BUSINESS_TYPE_ECNB = "ECNB";
+
+	public static final String BUSINESS_TYPE_NCNB = "NCNB";
+
+	public static final String PROBABILITY_TYPE_CONFIRMED = "Confirmed";
+
+	public static final String PROBABILITY_TYPE_EXPECTED = "Expected";
+
+	public static final String PROBABILITY_TYPE_UPSIDE = "Upside";
+
+	public static final String PROBABILITY_TYPE_HIGH_UPSIDE = "High-Upside";
+
 }

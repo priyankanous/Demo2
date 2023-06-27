@@ -1,7 +1,5 @@
 package com.nous.rollingrevenue.service;
 
-import java.util.List;
-
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;

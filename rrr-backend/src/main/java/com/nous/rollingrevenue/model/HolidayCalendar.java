@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -35,10 +37,12 @@ public class HolidayCalendar extends Auditable<String> {
 	private String holidayDay;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
 	private FinancialYear financialYear;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	private Location location;
 

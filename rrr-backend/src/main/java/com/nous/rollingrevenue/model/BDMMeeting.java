@@ -5,6 +5,8 @@ import java.time.LocalTime;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -27,10 +29,12 @@ public class BDMMeeting extends Auditable<String> {
 	private Long bdmMeetingId;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "bdm_id", referencedColumnName = "bdm_id")
 	private BusinessDevelopmentManager businessDevelopmentManager;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
 	private Region region;
 	
@@ -44,6 +48,7 @@ public class BDMMeeting extends Auditable<String> {
 	private LocalTime meetingTime;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
 	private FinancialYear financialYear;
 	

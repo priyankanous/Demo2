@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -35,20 +38,29 @@ public class BusinessUnit extends Auditable<String> {
 	private String businessUnitDisplayName;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "org_id", referencedColumnName = "org_id")
 	private Organization organization;
 
 	@ManyToMany(mappedBy = "businessUnits")
+	@JsonManagedReference
 	private List<BusinessDevelopmentManager> businessDevlopmentManagers = new ArrayList<>();
 
 	@OneToMany(mappedBy = "businessUnit")
+	@JsonBackReference
 	private List<StrategicBusinessUnit> strategicBusinessUnits = new ArrayList<>();
 
 	@OneToMany(mappedBy = "businessUnit")
+	@JsonBackReference
 	private List<CocPractice> cocPractices = new ArrayList<>();
 
 	@OneToMany(mappedBy = "businessUnit")
+	@JsonBackReference
 	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "businessUnit")
+	@JsonBackReference
+	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
 
 	public BusinessUnit() {
 
@@ -131,6 +143,14 @@ public class BusinessUnit extends Auditable<String> {
 
 	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
 		this.annualTargetEntries = annualTargetEntries;
+	}
+
+	public List<RevenueResourceEntry> getRevenueResourceEntry() {
+		return revenueResourceEntry;
+	}
+
+	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
+		this.revenueResourceEntry = revenueResourceEntry;
 	}
 
 }

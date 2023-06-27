@@ -349,7 +349,7 @@ public class RevenueServiceImpl implements RevenueService {
 						.equals(revenueResourceEntry.getRevenueEntry().getPricingType())));
 	}
 
-	private FinancialYearRevenue calculateFPRevenue(List<RevenueResourceEntry> revenueFPResourceEntries,
+	public FinancialYearRevenue calculateFPRevenue(List<RevenueResourceEntry> revenueFPResourceEntries,
 			FinancialYear financialYear, boolean isDisplayAdditionalQuarter) {
 
 		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();

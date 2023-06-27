@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -32,6 +34,10 @@ public class BusinessType extends Auditable<String> {
 
 	@OneToMany(mappedBy = "businessType")
 	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "businessType")
+	@JsonBackReference
+	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
 
 	public BusinessType() {
 
@@ -76,6 +82,14 @@ public class BusinessType extends Auditable<String> {
 
 	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
 		this.annualTargetEntries = annualTargetEntries;
+	}
+
+	public List<RevenueResourceEntry> getRevenueResourceEntry() {
+		return revenueResourceEntry;
+	}
+
+	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
+		this.revenueResourceEntry = revenueResourceEntry;
 	}
 
 }

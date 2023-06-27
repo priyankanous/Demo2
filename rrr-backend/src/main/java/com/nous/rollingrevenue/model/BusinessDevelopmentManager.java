@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -41,18 +43,26 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 	private LocalDate activeUntil;
 
 	@ManyToMany
+	@JsonBackReference
 	@JoinTable(name = "business_development_manager_to_business_unit", joinColumns = @JoinColumn(name = "bdm_id"), inverseJoinColumns = @JoinColumn(name = "bu_id"))
 	private List<BusinessUnit> businessUnits = new ArrayList<>();
 
 	@ManyToMany
+	@JsonBackReference
 	@JoinTable(name = "business_development_manager_to_region", joinColumns = @JoinColumn(name = "bdm_id"), inverseJoinColumns = @JoinColumn(name = "region_id"))
 	private List<Region> regions = new ArrayList<>();
 
 	@OneToMany(mappedBy = "businessDevelopmentManager")
+	@JsonBackReference
 	private List<BDMMeeting> bdmMeetings = new ArrayList<>();
 
 	@OneToMany(mappedBy = "businessDevelopmentManager")
+	@JsonBackReference
 	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "businessDevelopmentManager")
+	@JsonBackReference
+	private List<RevenueEntry> revenueEntry = new ArrayList<>();
 
 	public BusinessDevelopmentManager() {
 
@@ -143,6 +153,14 @@ public class BusinessDevelopmentManager extends Auditable<String> {
 
 	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
 		this.annualTargetEntries = annualTargetEntries;
+	}
+
+	public List<RevenueEntry> getRevenueEntry() {
+		return revenueEntry;
+	}
+
+	public void setRevenueEntry(List<RevenueEntry> revenueEntry) {
+		this.revenueEntry = revenueEntry;
 	}
 
 }

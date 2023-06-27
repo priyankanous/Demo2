@@ -5,6 +5,8 @@ import java.time.LocalDate;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -27,18 +29,22 @@ public class RevenueResourceEntry extends Auditable<String> {
 	private Long revenueResourceEntryId;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "sbu_id", referencedColumnName = "sbu_id")
 	private StrategicBusinessUnit strategicBusinessUnit;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "sbu_head_id", referencedColumnName = "sbu_head_id")
 	private StrategicBusinessUnitHead strategicBusinessUnitHead;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
 	private BusinessUnit businessUnit;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	private Location location;
 
@@ -55,10 +61,12 @@ public class RevenueResourceEntry extends Auditable<String> {
 	private LocalDate resourceEndDate;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "business_type_id", referencedColumnName = "business_type_id")
 	private BusinessType businessType;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "coc_practice_id", referencedColumnName = "coc_practice_id")
 	private CocPractice cocPractice;
 
@@ -78,10 +86,12 @@ public class RevenueResourceEntry extends Auditable<String> {
 	private Integer allocation;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "revenue_entry_id", referencedColumnName = "revenue_entry_id")
 	private RevenueEntry revenueEntry;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "milestone_entry_id", referencedColumnName = "milestone_entry_id")
 	private MilestoneEntry milestoneEntry;
 

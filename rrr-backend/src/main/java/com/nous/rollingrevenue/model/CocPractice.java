@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -34,11 +37,17 @@ public class CocPractice extends Auditable<String> {
 	private String cocPracticeDisplayName;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "bu_id", referencedColumnName = "bu_id")
 	private BusinessUnit businessUnit;
 
 	@OneToMany(mappedBy = "cocPractice")
+	@JsonBackReference
 	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "cocPractice")
+	@JsonBackReference
+	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
 
 	public CocPractice() {
 
@@ -92,6 +101,14 @@ public class CocPractice extends Auditable<String> {
 
 	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
 		this.annualTargetEntries = annualTargetEntries;
+	}
+
+	public List<RevenueResourceEntry> getRevenueResourceEntry() {
+		return revenueResourceEntry;
+	}
+
+	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
+		this.revenueResourceEntry = revenueResourceEntry;
 	}
 
 }

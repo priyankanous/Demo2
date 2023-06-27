@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -34,17 +36,25 @@ public class Account extends Auditable<String> {
 	private String accountOrClientCode;
 
 	@ManyToMany
+	@JsonBackReference
 	@JoinTable(name = "accounts_to_location", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "location_id"))
 	private List<Location> locations = new ArrayList<>();
 
 	@OneToMany(mappedBy = "account")
+	@JsonBackReference
 	private List<Opportunity> opportunities = new ArrayList<>();
 
 	@OneToMany(mappedBy = "account")
+	@JsonBackReference
 	private List<WorkOrder> workOrders = new ArrayList<>();
 
 	@OneToMany(mappedBy = "account")
+	@JsonBackReference
 	private List<AnnualTargetEntry> annualTargetEntries = new ArrayList<>();
+
+	@OneToMany(mappedBy = "account")
+	@JsonBackReference
+	private List<RevenueEntry> revenueEntry = new ArrayList<>();
 
 	public Account() {
 
@@ -116,6 +126,14 @@ public class Account extends Auditable<String> {
 
 	public void setWorkOrders(List<WorkOrder> workOrders) {
 		this.workOrders = workOrders;
+	}
+
+	public List<RevenueEntry> getRevenueEntry() {
+		return revenueEntry;
+	}
+
+	public void setRevenueEntry(List<RevenueEntry> revenueEntry) {
+		this.revenueEntry = revenueEntry;
 	}
 
 }

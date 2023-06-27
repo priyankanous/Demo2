@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -31,6 +33,7 @@ public class Organization extends Auditable<String> {
 	private String orgName;
 
 	@OneToMany(mappedBy = "organization")
+	@JsonBackReference
 	private List<BusinessUnit> businessUnits = new ArrayList<>();
 
 

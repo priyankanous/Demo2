@@ -1,6 +1,11 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +13,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -25,6 +31,10 @@ public class ProbabilityType extends Auditable<String> {
 
 	@Column(name = "percentage")
 	private Integer percentage;
+
+	@OneToMany(mappedBy = "probabilityType")
+	@JsonBackReference
+	private List<RevenueEntry> revenueEntry = new ArrayList<>();
 
 	public ProbabilityType() {
 
@@ -59,6 +69,14 @@ public class ProbabilityType extends Auditable<String> {
 
 	public void setPercentage(Integer percentage) {
 		this.percentage = percentage;
+	}
+
+	public List<RevenueEntry> getRevenueEntry() {
+		return revenueEntry;
+	}
+
+	public void setRevenueEntry(List<RevenueEntry> revenueEntry) {
+		this.revenueEntry = revenueEntry;
 	}
 
 }

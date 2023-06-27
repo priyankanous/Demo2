@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -28,34 +31,42 @@ public class RevenueEntry extends Auditable<String> {
 	private Long revenueEntryId;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
 	private Account account;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "opportunity_id", referencedColumnName = "opportunity_id")
 	private Opportunity opportunity;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "bdm_id", referencedColumnName = "bdm_id")
 	private BusinessDevelopmentManager businessDevelopmentManager;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "currency_id", referencedColumnName = "currency_id")
 	private Currency currency;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "probability_type_id", referencedColumnName = "probability_type_id")
 	private ProbabilityType probabilityType;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
 	private Region region;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "work_order_id", referencedColumnName = "work_order_id")
 	private WorkOrder workOrder;
 
 	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
 	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
 	private FinancialYear financialYear;
 
@@ -75,9 +86,11 @@ public class RevenueEntry extends Auditable<String> {
 	private String status;
 
 	@OneToMany(mappedBy = "revenueEntry")
+	@JsonBackReference
 	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
 
 	@OneToMany(mappedBy = "revenueEntry")
+	@JsonBackReference
 	private List<MilestoneEntry> milestoneEntry = new ArrayList<>();
 
 	public RevenueEntry() {
