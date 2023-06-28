@@ -39,7 +39,7 @@ public class Constants {
 
 	public static final String PROBABILITY_TYPE_CONFIRMED = "Confirmed";
 
-	public static final String PROBABILITY_TYPE_EXPECTED = "Expected";
+	public static final String PROBABILITY_TYPE_EXCEPTED = "Excepted";
 
 	public static final String PROBABILITY_TYPE_UPSIDE = "Upside";
 

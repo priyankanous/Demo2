@@ -68,25 +68,105 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		List<RevenueResourceEntry> ecnbrevenueResourceEntryList = new ArrayList<>();
 		List<RevenueResourceEntry> ncnbrevenueResourceEntryList = new ArrayList<>();
 
+		List<RevenueResourceEntry> ecebConfirmedList = new ArrayList<>();
+		List<RevenueResourceEntry> ecebExpectedList = new ArrayList<>();
+		List<RevenueResourceEntry> ecebUpsideList = new ArrayList<>();
+		List<RevenueResourceEntry> ecebHighUpsideList = new ArrayList<>();
+
+		List<RevenueResourceEntry> ecnbConfirmedList = new ArrayList<>();
+		List<RevenueResourceEntry> ecnbExpectedList = new ArrayList<>();
+		List<RevenueResourceEntry> ecnbUpsideList = new ArrayList<>();
+		List<RevenueResourceEntry> ecnbHighUpsideList = new ArrayList<>();
+
+		List<RevenueResourceEntry> ncnbConfirmedList = new ArrayList<>();
+		List<RevenueResourceEntry> ncnbExpectedList = new ArrayList<>();
+		List<RevenueResourceEntry> ncnbUpsideList = new ArrayList<>();
+		List<RevenueResourceEntry> ncnbHighUpsideList = new ArrayList<>();
+
 		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
 			if (Constants.BUSINESS_TYPE_ECEB
 					.equalsIgnoreCase(revenueResourceEntry.getBusinessType().getBusinessTypeDisplayName())) {
 				ecebrevenueResourceEntryList.add(revenueResourceEntry);
+				if (Constants.PROBABILITY_TYPE_CONFIRMED.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ecebConfirmedList.add(revenueResourceEntry);
+				} else if (Constants.PROBABILITY_TYPE_EXCEPTED.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ecebExpectedList.add(revenueResourceEntry);
+				} else if (Constants.PROBABILITY_TYPE_UPSIDE.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ecebUpsideList.add(revenueResourceEntry);
+				} else if (Constants.PROBABILITY_TYPE_HIGH_UPSIDE.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ecebHighUpsideList.add(revenueResourceEntry);
+				}
 			} else if (Constants.BUSINESS_TYPE_ECNB
 					.equalsIgnoreCase(revenueResourceEntry.getBusinessType().getBusinessTypeDisplayName())) {
 				ecnbrevenueResourceEntryList.add(revenueResourceEntry);
+				if (Constants.PROBABILITY_TYPE_CONFIRMED.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ecnbConfirmedList.add(revenueResourceEntry);
+				} else if (Constants.PROBABILITY_TYPE_EXCEPTED.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ecnbExpectedList.add(revenueResourceEntry);
+				} else if (Constants.PROBABILITY_TYPE_UPSIDE.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ecnbUpsideList.add(revenueResourceEntry);
+				} else if (Constants.PROBABILITY_TYPE_HIGH_UPSIDE.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ecnbHighUpsideList.add(revenueResourceEntry);
+				}
 			} else if (Constants.BUSINESS_TYPE_NCNB
 					.equalsIgnoreCase(revenueResourceEntry.getBusinessType().getBusinessTypeDisplayName())) {
 				ncnbrevenueResourceEntryList.add(revenueResourceEntry);
+				if (Constants.PROBABILITY_TYPE_CONFIRMED.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ncnbConfirmedList.add(revenueResourceEntry);
+				} else if (Constants.PROBABILITY_TYPE_EXCEPTED.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ncnbExpectedList.add(revenueResourceEntry);
+				} else if (Constants.PROBABILITY_TYPE_UPSIDE.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ncnbUpsideList.add(revenueResourceEntry);
+				} else if (Constants.PROBABILITY_TYPE_HIGH_UPSIDE.equalsIgnoreCase(
+						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+					ncnbHighUpsideList.add(revenueResourceEntry);
+				}
 			}
 		}
 
 		FinancialYearRevenue financialYearRevenueECEB = calculatingBasedOnBusinessType(ecebrevenueResourceEntryList,
 				financialYear, isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecebConfirmed = calculatingBasedOnBusinessType(ecebConfirmedList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecebExpected = calculatingBasedOnBusinessType(ecebExpectedList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecebUpside = calculatingBasedOnBusinessType(ecebUpsideList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecebHighUpside = calculatingBasedOnBusinessType(ecebHighUpsideList, financialYear,
+				isDisplayAdditionalQuarter);
+
 		FinancialYearRevenue financialYearRevenueECNB = calculatingBasedOnBusinessType(ecnbrevenueResourceEntryList,
 				financialYear, isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecnbConfirmed = calculatingBasedOnBusinessType(ecnbConfirmedList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecnbExpected = calculatingBasedOnBusinessType(ecnbExpectedList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecnbUpside = calculatingBasedOnBusinessType(ecnbUpsideList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecnbHighUpside = calculatingBasedOnBusinessType(ecnbHighUpsideList, financialYear,
+				isDisplayAdditionalQuarter);
+
 		FinancialYearRevenue financialYearRevenueNCNB = calculatingBasedOnBusinessType(ncnbrevenueResourceEntryList,
 				financialYear, isDisplayAdditionalQuarter);
+		FinancialYearRevenue ncnbConfirmed = calculatingBasedOnBusinessType(ncnbConfirmedList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ncnbExpected = calculatingBasedOnBusinessType(ncnbExpectedList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ncnbUpside = calculatingBasedOnBusinessType(ncnbUpsideList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ncnbHighUpside = calculatingBasedOnBusinessType(ncnbHighUpsideList, financialYear,
+				isDisplayAdditionalQuarter);
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
 		List<String> quarterlyDetails = setQuarterlyDetails(fyStartDate);
@@ -95,15 +175,84 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 			businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
 			outDTOList = setBusinessTypeDetails(listOfMonthsBetweenFinancialYear, financialYearRevenueECEB,
 					financialYearRevenueECNB, financialYearRevenueNCNB);
+			setProbabilityTypes(listOfMonthsBetweenFinancialYear, ecebConfirmed, ecebExpected, ecebUpside,
+					ecebHighUpside, outDTOList);
+			setProbabilityTypes(listOfMonthsBetweenFinancialYear, ecnbConfirmed, ecnbExpected, ecnbUpside,
+					ecnbHighUpside, outDTOList);
+			setProbabilityTypes(listOfMonthsBetweenFinancialYear, ncnbConfirmed, ncnbExpected, ncnbUpside,
+					ncnbHighUpside, outDTOList);
 			businessTypeResponse.setOutDTOList(outDTOList);
 		} else {
 			businessTypeResponse.setLabels(quarterlyDetails);
 			outDTOList = setBusinessTypeDetails(quarterlyDetails, financialYearRevenueECEB, financialYearRevenueECNB,
 					financialYearRevenueNCNB);
+			setProbabilityTypes(quarterlyDetails, ecebConfirmed, ecebExpected, ecebUpside, ecebHighUpside, outDTOList);
+			setProbabilityTypes(quarterlyDetails, ecnbConfirmed, ecnbExpected, ecnbUpside, ecnbHighUpside, outDTOList);
+			setProbabilityTypes(quarterlyDetails, ncnbConfirmed, ncnbExpected, ncnbUpside, ncnbHighUpside, outDTOList);
 			businessTypeResponse.setOutDTOList(outDTOList);
 		}
 		businessTypeResponse.setFinancialYearName(financialYear.getFinancialYearName());
 		return businessTypeResponse;
+	}
+
+	private void setProbabilityTypes(List<String> list, FinancialYearRevenue confirmedRevenue,
+			FinancialYearRevenue expectedRevenue, FinancialYearRevenue upsideRevenue,
+			FinancialYearRevenue highUpsideRevenue, List<BusinessTypeOutDTO> outDTOList) {
+		List<BigInteger> confirmed = getRevenueDetails(list, confirmedRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOConfirmed = new BusinessTypeOutDTO();
+		outDTOConfirmed.setLabel("Confirmed");
+		outDTOConfirmed.setStack("bar2");
+		outDTOConfirmed.setData(confirmed);
+		outDTOList.add(outDTOConfirmed);
+
+		List<BigInteger> expected = getRevenueDetails(list, expectedRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOExpected = new BusinessTypeOutDTO();
+		outDTOExpected.setLabel("Excepted");
+		outDTOExpected.setStack("bar2");
+		outDTOExpected.setData(expected);
+		outDTOList.add(outDTOExpected);
+
+		List<BigInteger> upside = getRevenueDetails(list, upsideRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOUpside = new BusinessTypeOutDTO();
+		outDTOUpside.setLabel("Upside");
+		outDTOUpside.setStack("bar2");
+		outDTOUpside.setData(upside);
+		outDTOList.add(outDTOUpside);
+
+		List<BigInteger> high = getRevenueDetails(list, highUpsideRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOHigh = new BusinessTypeOutDTO();
+		outDTOHigh.setLabel("High-Upside");
+		outDTOHigh.setStack("bar2");
+		outDTOHigh.setData(high);
+		outDTOList.add(outDTOHigh);
+	}
+
+	private List<BusinessTypeOutDTO> setBusinessTypeDetails(List<String> list,
+			FinancialYearRevenue financialYearRevenueECEB, FinancialYearRevenue financialYearRevenueECNB,
+			FinancialYearRevenue financialYearRevenueNCNB) {
+		List<BusinessTypeOutDTO> outDTOList = new ArrayList<>();
+		List<BigInteger> eceb = getRevenueDetails(list, financialYearRevenueECEB.getDataMap());
+		BusinessTypeOutDTO outDTOECEB = new BusinessTypeOutDTO();
+		outDTOECEB.setLabel("ECEB");
+		outDTOECEB.setStack("bar1");
+		outDTOECEB.setData(eceb);
+		outDTOList.add(outDTOECEB);
+
+		List<BigInteger> ecnb = getRevenueDetails(list, financialYearRevenueECNB.getDataMap());
+		BusinessTypeOutDTO outDTOECNB = new BusinessTypeOutDTO();
+		outDTOECNB.setLabel("ECNB");
+		outDTOECNB.setStack("bar1");
+		outDTOECNB.setData(ecnb);
+		outDTOList.add(outDTOECNB);
+
+		List<BigInteger> ncnb = getRevenueDetails(list, financialYearRevenueNCNB.getDataMap());
+		BusinessTypeOutDTO outDTONCNB = new BusinessTypeOutDTO();
+		outDTONCNB.setLabel("NCNB");
+		outDTONCNB.setStack("bar1");
+		outDTONCNB.setData(ncnb);
+		outDTOList.add(outDTONCNB);
+
+		return outDTOList;
 	}
 
 	private List<String> setQuarterlyDetails(LocalDate fyEndDate) {
@@ -142,34 +291,6 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		string.add("DiFF-FY " + additionalQuarterYear);
 
 		return string;
-	}
-
-	private List<BusinessTypeOutDTO> setBusinessTypeDetails(List<String> list,
-			FinancialYearRevenue financialYearRevenueECEB, FinancialYearRevenue financialYearRevenueECNB,
-			FinancialYearRevenue financialYearRevenueNCNB) {
-		List<BusinessTypeOutDTO> outDTOList = new ArrayList<>();
-		List<BigInteger> eceb = getRevenueDetails(list, financialYearRevenueECEB.getDataMap());
-		BusinessTypeOutDTO outDTOECEB = new BusinessTypeOutDTO();
-		outDTOECEB.setLabel("ECEB");
-		outDTOECEB.setStack("bar1");
-		outDTOECEB.setData(eceb);
-		outDTOList.add(outDTOECEB);
-
-		List<BigInteger> ecnb = getRevenueDetails(list, financialYearRevenueECNB.getDataMap());
-		BusinessTypeOutDTO outDTOECNB = new BusinessTypeOutDTO();
-		outDTOECNB.setLabel("ECNB");
-		outDTOECNB.setStack("bar1");
-		outDTOECNB.setData(ecnb);
-		outDTOList.add(outDTOECNB);
-
-		List<BigInteger> ncnb = getRevenueDetails(list, financialYearRevenueNCNB.getDataMap());
-		BusinessTypeOutDTO outDTONCNB = new BusinessTypeOutDTO();
-		outDTONCNB.setLabel("NCNB");
-		outDTONCNB.setStack("bar1");
-		outDTONCNB.setData(ncnb);
-		outDTOList.add(outDTONCNB);
-
-		return outDTOList;
 	}
 
 	private List<BigInteger> getRevenueDetails(List<String> list, Map<String, BigInteger> dataMap) {
