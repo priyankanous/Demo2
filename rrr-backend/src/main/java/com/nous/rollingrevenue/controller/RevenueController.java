@@ -117,4 +117,14 @@ public class RevenueController {
 				revenueService.deleteRevenueEntriesDetailsById(opportunityId));
 	}
 
+	@Operation(summary = "Get RevenueEntry By Pagination")
+	@GetMapping(path = "/page/{financialYearName}")
+	public WSResponse<RevenueEntryResponse> getRevenueEntriesDetailsByPagination(@PathVariable String financialYearName,
+			@RequestParam(defaultValue = "1") int pagenumber, @RequestParam(defaultValue = "10") int pagesize,
+			@RequestParam(defaultValue = "revenueResourceEntryId", required = false) String sortBy,
+			@RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				revenueService.getRevenueEntriesDetailsByPagination(financialYearName,pagenumber, pagesize, sortBy, isDisplayAdditionalQuarter));
+	}
+
 }

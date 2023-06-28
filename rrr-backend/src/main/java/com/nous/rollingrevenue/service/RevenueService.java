@@ -38,4 +38,6 @@ public interface RevenueService {
 
 	public String deleteRevenueEntriesDetailsById(@Valid Long opportunityId);
 
+	public RevenueEntryResponse getRevenueEntriesDetailsByPagination(String financialYearName, int pagenumber, int pagesize,
+			String sortBy, boolean isDisplayAdditionalQuarter);
 }

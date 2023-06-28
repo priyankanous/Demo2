@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -110,7 +115,7 @@ public class RevenueServiceImpl implements RevenueService {
 				.convertOpportunityVOToOpportunity(tmRevenueEntry.getOpportunity());
 
 		if (Objects.isNull(opportunity.getOpportunityId())) {
-			if(Objects.isNull(opportunity.getOpportunityName())) {
+			if (Objects.isNull(opportunity.getOpportunityName())) {
 				throw new RecordNotFoundException(ErrorConstants.INVALID_OPPORTUNITY_NAME);
 			}
 			opportunity.setAccount(revenueEntry.getAccount());
@@ -190,7 +195,7 @@ public class RevenueServiceImpl implements RevenueService {
 				.convertOpportunityVOToOpportunity(fpRevenueEntry.getOpportunity());
 
 		if (Objects.isNull(opportunity.getOpportunityId())) {
-			if(Objects.isNull(opportunity.getOpportunityName())) {
+			if (Objects.isNull(opportunity.getOpportunityName())) {
 				throw new RecordNotFoundException(ErrorConstants.INVALID_OPPORTUNITY_NAME);
 			}
 			opportunity.setAccount(revenueEntry.getAccount());
@@ -1072,7 +1077,7 @@ public class RevenueServiceImpl implements RevenueService {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 		List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
-		if(!revenueEntryList.isEmpty()) {
+		if (!revenueEntryList.isEmpty()) {
 			for (RevenueEntry revenueEntry : revenueEntryList) {
 				List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
 				List<MilestoneEntry> milestoneEntryList = revenueEntry.getMilestoneEntry();
@@ -1083,7 +1088,8 @@ public class RevenueServiceImpl implements RevenueService {
 				}
 
 				for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
-					if (revenueResourceEntry.getRevenueEntry().getRevenueEntryId() == revenueEntry.getRevenueEntryId()) {
+					if (revenueResourceEntry.getRevenueEntry().getRevenueEntryId() == revenueEntry
+							.getRevenueEntryId()) {
 						revenueResourceEntryRepository.deleteById(revenueResourceEntry.getRevenueResourceEntryId());
 					}
 				}
@@ -1092,5 +1098,86 @@ public class RevenueServiceImpl implements RevenueService {
 			return "Deleted Revenue Entry Details Successfully";
 		}
 		return "Revenue Entry Details are empty";
+	}
+
+	@Override
+	public RevenueEntryResponse getRevenueEntriesDetailsByPagination(String financialYearName,int pagenumber, int pagesize,
+	String sortBy, boolean isDisplayAdditionalQuarter) {
+
+		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(financialYearName).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
+
+		Set<RevenueEntryVO> revenueEntriesVO = new HashSet<>();
+		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
+		FinancialYearTMRevenue financialYearTMRevenue = new FinancialYearTMRevenue();
+		RevenueEntryResponse revenueEntryResponse = new RevenueEntryResponse();
+		List<RevenueResourceEntry> revenueResourceEntries = null;
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
+		Page<RevenueResourceEntry> pageResult = revenueResourceEntryRepository.findAll(paging);
+		if (pageResult.hasContent()) {
+		revenueResourceEntries = pageResult.getContent();
+		}
+
+		Map<Boolean, List<RevenueResourceEntry>> partitionResourceEntriesByPricingType = this
+				.getPartitionResourceEntriesByPricingType(revenueResourceEntries);
+
+		Set<Entry<Boolean, List<RevenueResourceEntry>>> entrySet = partitionResourceEntriesByPricingType.entrySet();
+
+		for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
+			if (entry.getKey()) {
+				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
+				financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYear,
+						isDisplayAdditionalQuarter);
+			} else {
+				List<RevenueResourceEntry> revenueEntryList = entry.getValue();
+				financialYearTMRevenue = tmCalculation.calculateTMRevenue(revenueEntryList, financialYear,
+						isDisplayAdditionalQuarter);
+			}
+		}
+
+		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
+		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
+		for (String key : dataMap.keySet()) {
+			if (map.containsKey(key)) {
+				map.put(key, map.get(key).add(dataMap.get(key)));
+			}
+		}
+		financialYearRevenue.setDataMap(map);
+
+		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
+
+			RevenueEntry revenueEntry = revenueResourceEntry.getRevenueEntry();
+
+			RevenueEntryVO revenueEntryVO = new RevenueEntryVO();
+
+			revenueEntryVO.setRevenueEntryId(revenueEntry.getRevenueEntryId());
+
+			revenueEntryVO.setBusinessUnit(revenueResourceEntry.getBusinessUnit().getBusinessUnitDisplayName());
+			revenueEntryVO
+					.setStrategicBusinessUnit(revenueResourceEntry.getStrategicBusinessUnit().getSbuDisplayName());
+			revenueEntryVO.setStrategicBusinessUnitHead(
+					revenueResourceEntry.getStrategicBusinessUnitHead().getSbuHeadDisplayName());
+			revenueEntryVO
+					.setBusinessDevelopmentManager(revenueEntry.getBusinessDevelopmentManager().getBdmDisplayName());
+			revenueEntryVO.setBusinessType(revenueResourceEntry.getBusinessType().getBusinessTypeDisplayName());
+			revenueEntryVO.setAccount(revenueEntry.getAccount().getAccountName());
+			revenueEntryVO.setRegion(revenueEntry.getRegion().getRegionDisplayName());
+			revenueEntryVO.setLocation(revenueResourceEntry.getLocation().getLocationDisplayName());
+			revenueEntryVO.setProbabilityType(revenueEntry.getProbabilityType().getProbabilityTypeName());
+			revenueEntryVO.setCocPractice(
+					Constants.NON_COC_BASED.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())
+							? Constants.NO
+							: Constants.YES);
+			revenueEntryVO.setStatus(revenueEntry.getStatus());
+
+			revenueEntriesVO.add(revenueEntryVO);
+
+		}
+
+		revenueEntryResponse.setRevenueEntries(revenueEntriesVO);
+		revenueEntryResponse.setFinancialYearRevenue(financialYearRevenue);
+		revenueEntryResponse.setFinancialYearName(financialYearName);
+
+		return revenueEntryResponse;
 	}
 }

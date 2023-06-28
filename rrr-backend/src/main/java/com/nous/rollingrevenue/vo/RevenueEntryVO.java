@@ -5,9 +5,6 @@ import java.util.Objects;
 
 public class RevenueEntryVO implements Serializable {
 
-	/**
-	 * serialVersionUID
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private Long revenueEntryId;
