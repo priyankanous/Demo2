@@ -20,7 +20,6 @@ public class BusinessUnitConverter {
 			businessUnit.setBusinessUnitId(businessUnitVO.getBusinessUnitId());
 			businessUnit.setBusinessUnitName(businessUnitVO.getBusinessUnitName());
 			businessUnit.setBusinessUnitDisplayName(businessUnitVO.getBusinessUnitDisplayName());
-			businessUnit.setOrganization(OrganizationConverter.convertOrganizationVOToOrganization(businessUnitVO.getOrganization()));
 		}
 		return businessUnit;
 	}
@@ -37,7 +36,6 @@ public class BusinessUnitConverter {
 			businessUnitVO.setBusinessUnitId(businessUnit.getBusinessUnitId());
 			businessUnitVO.setBusinessUnitName(businessUnit.getBusinessUnitName());
 			businessUnitVO.setBusinessUnitDisplayName(businessUnit.getBusinessUnitDisplayName());
-			businessUnitVO.setOrganization(OrganizationConverter.convertOrganizationToOrganizationVO(businessUnit.getOrganization()));
 			businessUnitVO.setActive(businessUnit.isActive());
 		}
 		return businessUnitVO;

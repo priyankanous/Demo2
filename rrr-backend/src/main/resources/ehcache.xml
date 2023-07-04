@@ -74,11 +74,6 @@
 		<value-type>com.nous.rollingrevenue.vo.BDMVO</value-type>
 	</cache>
 
-    <cache alias="organizations" uses-template="default">
-		<key-type>java.lang.Long</key-type>
-		<value-type>com.nous.rollingrevenue.vo.OrganizationVO</value-type>
-	</cache>
-
     <cache alias="cocpractice" uses-template="default">
 		<key-type>java.lang.Long</key-type>
 		<value-type>com.nous.rollingrevenue.vo.CocPracticeVO</value-type>

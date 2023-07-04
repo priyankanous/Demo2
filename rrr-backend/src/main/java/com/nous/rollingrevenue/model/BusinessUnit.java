@@ -11,13 +11,10 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -36,11 +33,6 @@ public class BusinessUnit extends Auditable<String> {
 
 	@Column(name = "bu_display_name")
 	private String businessUnitDisplayName;
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonManagedReference
-	@JoinColumn(name = "org_id", referencedColumnName = "org_id")
-	private Organization organization;
 
 	@ManyToMany(mappedBy = "businessUnits")
 	@JsonManagedReference
@@ -67,14 +59,13 @@ public class BusinessUnit extends Auditable<String> {
 	}
 
 	public BusinessUnit(Long businessUnitId, String businessUnitName, String businessUnitDisplayName,
-			Organization organization, List<BusinessDevelopmentManager> businessDevlopmentManagers,
+			List<BusinessDevelopmentManager> businessDevlopmentManagers,
 			List<StrategicBusinessUnit> strategicBusinessUnits, List<CocPractice> cocPractices,
 			List<AnnualTargetEntry> annualTargetEntries) {
 		super();
 		this.businessUnitId = businessUnitId;
 		this.businessUnitName = businessUnitName;
 		this.businessUnitDisplayName = businessUnitDisplayName;
-		this.organization = organization;
 		this.businessDevlopmentManagers = businessDevlopmentManagers;
 		this.strategicBusinessUnits = strategicBusinessUnits;
 		this.cocPractices = cocPractices;
@@ -103,14 +94,6 @@ public class BusinessUnit extends Auditable<String> {
 
 	public void setBusinessUnitDisplayName(String businessUnitDisplayName) {
 		this.businessUnitDisplayName = businessUnitDisplayName;
-	}
-
-	public Organization getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(Organization organization) {
-		this.organization = organization;
 	}
 
 	public List<BusinessDevelopmentManager> getBusinessDevlopmentManagers() {
