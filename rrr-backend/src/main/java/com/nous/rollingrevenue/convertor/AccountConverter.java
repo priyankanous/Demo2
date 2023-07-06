@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.nous.rollingrevenue.model.Account;
-import com.nous.rollingrevenue.model.Location;
+import com.nous.rollingrevenue.model.Region;
 import com.nous.rollingrevenue.vo.AccountVO;
-import com.nous.rollingrevenue.vo.LocationVO;
+import com.nous.rollingrevenue.vo.RegionVO;
 
 @Component
 public class AccountConverter {
@@ -26,9 +26,10 @@ public class AccountConverter {
 			account.setAccountId(accountVO.getAccountId());
 			account.setAccountName(accountVO.getAccountName());
 			account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
-			List<Location> locations = new ArrayList<>();
-			accountVO.getLocations().stream().forEach(locationVO -> locations.add(LocationConverter.convertLocationVOToLocation(locationVO)));
-			account.setLocations(locations);
+			List<Region> regions = new ArrayList<>();
+			accountVO.getRegions().stream()
+					.forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
+			account.setRegions(regions);
 		}
 		return account;
 	}
@@ -46,9 +47,10 @@ public class AccountConverter {
 			accountVO.setAccountId(account.getAccountId());
 			accountVO.setAccountName(account.getAccountName());
 			accountVO.setAccountOrClientCode(account.getAccountOrClientCode());
-			List<LocationVO> locationVOs = new ArrayList<>();
-			account.getLocations().stream().forEach(location -> locationVOs.add(LocationConverter.convertLocationToLocationVO(location)));
-			accountVO.setLocations(locationVOs);
+			List<RegionVO> regionVOs = new ArrayList<>();
+			account.getRegions().stream()
+					.forEach(region -> regionVOs.add(RegionConverter.convertRegionToRegionVO(region)));
+			accountVO.setRegions(regionVOs);
 			accountVO.setActive(account.isActive());
 		}
 		return accountVO;

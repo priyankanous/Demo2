@@ -3,7 +3,6 @@ package com.nous.rollingrevenue.vo;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,7 +20,7 @@ public class AccountVO implements Serializable {
 	@NotBlank(message = "AccountOrClientCode cannot be null or empty")
 	private String accountOrClientCode;
 
-	private List<LocationVO> locations = new ArrayList<>();
+	private List<RegionVO> regions = new ArrayList<>();
 
 	private boolean isActive;
 
@@ -29,13 +28,14 @@ public class AccountVO implements Serializable {
 
 	}
 
-	public AccountVO(Long accountId, String accountName, String accountOrClientCode, Set<String> location,
-			List<LocationVO> locations, boolean isActive) {
+	public AccountVO(Long accountId, @NotBlank(message = "AccountName cannot be null or empty") String accountName,
+			@NotBlank(message = "AccountOrClientCode cannot be null or empty") String accountOrClientCode,
+			List<RegionVO> regions, boolean isActive) {
 		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
 		this.accountOrClientCode = accountOrClientCode;
-		this.locations = locations;
+		this.regions = regions;
 		this.isActive = isActive;
 	}
 
@@ -63,12 +63,12 @@ public class AccountVO implements Serializable {
 		this.accountOrClientCode = accountOrClientCode;
 	}
 
-	public List<LocationVO> getLocations() {
-		return locations;
+	public List<RegionVO> getRegions() {
+		return regions;
 	}
 
-	public void setLocations(List<LocationVO> locations) {
-		this.locations = locations;
+	public void setRegions(List<RegionVO> regions) {
+		this.regions = regions;
 	}
 
 	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
@@ -79,6 +79,5 @@ public class AccountVO implements Serializable {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
 
 }

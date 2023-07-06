@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,7 +13,6 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -34,10 +32,6 @@ public class Location extends Auditable<String> {
 	@Column(name = "location_display_name")
 	private String locationDisplayName;
 
-	@ManyToMany(mappedBy = "locations")
-	@JsonManagedReference
-	private List<Account> accounts = new ArrayList<>();
-
 	@OneToMany(mappedBy = "location")
 	@JsonBackReference
 	private List<HolidayCalendar> holidayCalendar = new ArrayList<>();
@@ -54,13 +48,12 @@ public class Location extends Auditable<String> {
 
 	}
 
-	public Location(Long locationId, String locationName, String locationDisplayName, List<Account> accounts,
+	public Location(Long locationId, String locationName, String locationDisplayName,
 			List<HolidayCalendar> holidayCalendar, List<AnnualTargetEntry> annualTargetEntries) {
 		super();
 		this.locationId = locationId;
 		this.locationName = locationName;
 		this.locationDisplayName = locationDisplayName;
-		this.accounts = accounts;
 		this.holidayCalendar = holidayCalendar;
 		this.annualTargetEntries = annualTargetEntries;
 	}
@@ -87,14 +80,6 @@ public class Location extends Auditable<String> {
 
 	public void setLocationDisplayName(String locationDisplayName) {
 		this.locationDisplayName = locationDisplayName;
-	}
-
-	public List<Account> getAccounts() {
-		return accounts;
-	}
-
-	public void setAccounts(List<Account> accounts) {
-		this.accounts = accounts;
 	}
 
 	public List<HolidayCalendar> getHolidayCalendar() {

@@ -37,8 +37,8 @@ public class Account extends Auditable<String> {
 
 	@ManyToMany
 	@JsonBackReference
-	@JoinTable(name = "accounts_to_location", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "location_id"))
-	private List<Location> locations = new ArrayList<>();
+	@JoinTable(name = "accounts_to_region", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "regionId"))
+	private List<Region> regions = new ArrayList<>();
 
 	@OneToMany(mappedBy = "account")
 	@JsonBackReference
@@ -60,16 +60,18 @@ public class Account extends Auditable<String> {
 
 	}
 
-	public Account(Long accountId, String accountName, String accountOrClientCode, List<Location> locations,
-			List<Opportunity> opportunities, List<AnnualTargetEntry> annualTargetEntries, List<WorkOrder> workOrders) {
+	public Account(Long accountId, String accountName, String accountOrClientCode, List<Region> regions,
+			List<Opportunity> opportunities, List<WorkOrder> workOrders, List<AnnualTargetEntry> annualTargetEntries,
+			List<RevenueEntry> revenueEntry) {
 		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
 		this.accountOrClientCode = accountOrClientCode;
-		this.locations = locations;
+		this.regions = regions;
 		this.opportunities = opportunities;
-		this.annualTargetEntries = annualTargetEntries;
 		this.workOrders = workOrders;
+		this.annualTargetEntries = annualTargetEntries;
+		this.revenueEntry = revenueEntry;
 	}
 
 	public Long getAccountId() {
@@ -96,12 +98,12 @@ public class Account extends Auditable<String> {
 		this.accountOrClientCode = accountOrClientCode;
 	}
 
-	public List<Location> getLocations() {
-		return locations;
+	public List<Region> getRegions() {
+		return regions;
 	}
 
-	public void setLocations(List<Location> locations) {
-		this.locations = locations;
+	public void setRegions(List<Region> regions) {
+		this.regions = regions;
 	}
 
 	public List<Opportunity> getOpportunities() {

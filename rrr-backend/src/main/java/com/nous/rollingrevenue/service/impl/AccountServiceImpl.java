@@ -15,10 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.AccountConverter;
-import com.nous.rollingrevenue.convertor.LocationConverter;
+import com.nous.rollingrevenue.convertor.RegionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Account;
-import com.nous.rollingrevenue.model.Location;
+import com.nous.rollingrevenue.model.Region;
 import com.nous.rollingrevenue.repository.AccountRepository;
 import com.nous.rollingrevenue.service.AccountService;
 import com.nous.rollingrevenue.vo.AccountVO;
@@ -29,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountRepository accountRepository;
-	
+
 	@Override
 	public List<AccountVO> getAllAccounts() {
 		List<AccountVO> accountVOs = new ArrayList<>();
@@ -37,7 +37,7 @@ public class AccountServiceImpl implements AccountService {
 				.forEach(account -> accountVOs.add(AccountConverter.convertAccountToAccountVO(account)));
 		return accountVOs;
 	}
-	
+
 	@Override
 	@Transactional
 	public void saveAccount(AccountVO accountVO) {
@@ -67,9 +67,10 @@ public class AccountServiceImpl implements AccountService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
 		account.setAccountName(accountVO.getAccountName());
 		account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
-		List<Location> locations = new ArrayList<>();
-		accountVO.getLocations().stream().forEach(locationVO -> locations.add(LocationConverter.convertLocationVOToLocation(locationVO)));
-		account.setLocations(locations);
+		List<Region> regions = new ArrayList<>();
+		accountVO.getRegions().stream()
+				.forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
+		account.setRegions(regions);
 		accountRepository.save(account);
 	}
 
@@ -95,6 +96,5 @@ public class AccountServiceImpl implements AccountService {
 		account.setActive(!account.isActive());
 		accountRepository.save(account);
 	}
-
 
 }
