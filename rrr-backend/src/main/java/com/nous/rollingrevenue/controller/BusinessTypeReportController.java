@@ -38,6 +38,15 @@ public class BusinessTypeReportController {
 				.getBusinessTypeReportDetails(businessTypeReportRequest, isDisplayAdditionalQuarter));
 	}
 
+	@Operation(summary = "Get ProbabilityType Report Details")
+	@PostMapping(path = "/probabilitytype")
+	public WSResponse<BusinessTypeResponse> getProbabilityTypeReportDetails(
+			@RequestBody @Valid BusinessTypeReportRequest businessTypeReportRequest,
+			@RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, businessTypeReportService
+				.getProbabilityTypeReportDetails(businessTypeReportRequest, isDisplayAdditionalQuarter));
+	}
+
 	// Dummy API for Get Revenue Resources Entries List //
 	// TODO: Delete after above API working successfully
 	@PostMapping(path = "/businesstype/param")

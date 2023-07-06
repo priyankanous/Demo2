@@ -4,9 +4,12 @@ import java.util.List;
 
 import com.nous.rollingrevenue.model.RevenueResourceEntry;
 import com.nous.rollingrevenue.vo.BusinessTypeReportRequest;
+import com.nous.rollingrevenue.vo.ClientTypeReportRequest;
 
 public interface RevenueResourceEntryCustomRepository {
 
 	List<RevenueResourceEntry> findRevenueResourceDetails(BusinessTypeReportRequest businessTypeReportRequest);
+
+	List<RevenueResourceEntry> findRevenueResourceDetailsByClient(ClientTypeReportRequest clientTypeReportRequest);
 
 }

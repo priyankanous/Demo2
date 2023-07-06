@@ -14,4 +14,7 @@ public interface BusinessTypeReportService {
 	List<RevenueResourceEntry> getRevenueResourceEntryFilter(BusinessTypeReportRequest businessTypeReportRequest,
 			boolean isDisplayAdditionalQuarter);
 
+	BusinessTypeResponse getProbabilityTypeReportDetails(BusinessTypeReportRequest businessTypeReportRequest,
+			boolean isDisplayAdditionalQuarter);
+
 }

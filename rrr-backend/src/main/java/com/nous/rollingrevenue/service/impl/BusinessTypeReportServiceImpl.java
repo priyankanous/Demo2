@@ -357,4 +357,69 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		return revenueResourceEntryCustomRepository.findRevenueResourceDetails(businessTypeReportRequest);
 	}
 
+	@Override
+	public BusinessTypeResponse getProbabilityTypeReportDetails(BusinessTypeReportRequest businessTypeReportRequest,
+			boolean isDisplayAdditionalQuarter) {
+		BusinessTypeReportInDTO InDTO = businessTypeReportRequest.getData();
+		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(InDTO.getFinancialYearName())
+				.orElseThrow(() -> new RecordNotFoundException(
+						ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
+
+		LocalDate financialYearStartingFrom = financialYear.getStartingFrom();
+		LocalDate financialYearEndingOn = financialYear.getEndingOn();
+		LocalDate fyStartDate = LocalDate.of(financialYearStartingFrom.getYear(), 4, 1);
+		LocalDate fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 3, 31);
+
+		BusinessTypeResponse businessTypeResponse = new BusinessTypeResponse();
+		List<BusinessTypeOutDTO> outDTOList = new ArrayList<>();
+		List<RevenueResourceEntry> revenueResourceEntryList = revenueResourceEntryCustomRepository
+				.findRevenueResourceDetails(businessTypeReportRequest);
+
+		List<RevenueResourceEntry> confirmedList = new ArrayList<>();
+		List<RevenueResourceEntry> expectedList = new ArrayList<>();
+		List<RevenueResourceEntry> upsideList = new ArrayList<>();
+		List<RevenueResourceEntry> highUpsideList = new ArrayList<>();
+
+		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+			if (Constants.PROBABILITY_TYPE_CONFIRMED.equalsIgnoreCase(
+					revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+				confirmedList.add(revenueResourceEntry);
+			} else if (Constants.PROBABILITY_TYPE_EXCEPTED.equalsIgnoreCase(
+					revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+				expectedList.add(revenueResourceEntry);
+			} else if (Constants.PROBABILITY_TYPE_UPSIDE.equalsIgnoreCase(
+					revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+				upsideList.add(revenueResourceEntry);
+			} else if (Constants.PROBABILITY_TYPE_HIGH_UPSIDE.equalsIgnoreCase(
+					revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+				highUpsideList.add(revenueResourceEntry);
+			}
+		}
+
+		FinancialYearRevenue ecebConfirmed = calculatingBasedOnBusinessType(confirmedList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecebExpected = calculatingBasedOnBusinessType(expectedList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecebUpside = calculatingBasedOnBusinessType(upsideList, financialYear,
+				isDisplayAdditionalQuarter);
+		FinancialYearRevenue ecebHighUpside = calculatingBasedOnBusinessType(highUpsideList, financialYear,
+				isDisplayAdditionalQuarter);
+
+		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
+		List<String> quarterlyDetails = setQuarterlyDetails(fyStartDate);
+
+		if ("Monthly".equalsIgnoreCase(businessTypeReportRequest.getViewType())) {
+			businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
+			setProbabilityTypes(listOfMonthsBetweenFinancialYear, ecebConfirmed, ecebExpected, ecebUpside,
+					ecebHighUpside, outDTOList);
+			businessTypeResponse.setOutDTOList(outDTOList);
+		} else {
+			businessTypeResponse.setLabels(quarterlyDetails);
+			setProbabilityTypes(quarterlyDetails, ecebConfirmed, ecebExpected, ecebUpside, ecebHighUpside, outDTOList);
+			businessTypeResponse.setOutDTOList(outDTOList);
+		}
+		businessTypeResponse.setFinancialYearName(financialYear.getFinancialYearName());
+		return businessTypeResponse;
+	}
+
 }
