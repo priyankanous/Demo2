@@ -45,4 +45,10 @@ public class Constants {
 
 	public static final String PROBABILITY_TYPE_HIGH_UPSIDE = "High-Upside";
 
+	public static final String REGION_NA = "NA";
+
+	public static final String REGION_EU = "EU";
+
+	public static final String REGION_APAC = "APAC";
+
 }
