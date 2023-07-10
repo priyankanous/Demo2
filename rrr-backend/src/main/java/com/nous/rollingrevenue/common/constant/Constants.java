@@ -56,5 +56,24 @@ public class Constants {
 	public static final String REGION_EU = "EU";
 
 	public static final String REGION_APAC = "APAC";
+	
+	public static final String SBU_CLIENT_TYPE_AMU = "AMU";
+
+	public static final String SBU_CLIENT_TYPE_APAC1 = "APAC1";
+
+	public static final String SBU_CLIENT_TYPE_EURASIAUSRTM1 = "EURASIAUSRTM1";
+
+	public static final String SBU_CLIENT_TYPE_USBFSIE = "USBFSIE";
+
+	public static final String SBU_CLIENT_TYPE_USFITCHRTM3 = "USFITCHRTM3";
+
+	public static final String SBU_CLIENT_TYPE_USHLCEMVRTM2 = "USHLCEMVRTM2";
+
+	public static final String SBU_CLIENT_TYPE_TESTREE1 = "TESTREE1";
+
+	public static final String SBU_CLIENT_TYPE_TESTREE2 = "TESTREE2";
+
+	public static final String SBU_CLIENT_TYPE_VSERVE = "VSERVE";
+
 
 }

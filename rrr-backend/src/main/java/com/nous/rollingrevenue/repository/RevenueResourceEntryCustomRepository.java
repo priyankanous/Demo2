@@ -1,12 +1,12 @@
 package com.nous.rollingrevenue.repository;
 
 import java.util.List;
-
 import com.nous.rollingrevenue.model.RevenueResourceEntry;
 import com.nous.rollingrevenue.vo.BusinessTypeReportRequest;
 import com.nous.rollingrevenue.vo.ClientTypeReportRequest;
 import com.nous.rollingrevenue.vo.RegionReportRequest;
 import com.nous.rollingrevenue.vo.BusinessUnitReportRequest;
+import com.nous.rollingrevenue.vo.SBUClientTypeReportRequest;
 
 public interface RevenueResourceEntryCustomRepository {
 
@@ -18,6 +18,7 @@ public interface RevenueResourceEntryCustomRepository {
 	
 	List<RevenueResourceEntry> findRevenueResourceDetailsForBUOrSBU(BusinessUnitReportRequest businessUnitReportRequest);
 
-	
+	List<RevenueResourceEntry> findRevenueResourceDetailsForSBUClient(SBUClientTypeReportRequest sbuclientTypeReportRequest);
+
 
 }
