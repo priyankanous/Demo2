@@ -44,6 +44,12 @@ public class Constants {
 	public static final String PROBABILITY_TYPE_UPSIDE = "Upside";
 
 	public static final String PROBABILITY_TYPE_HIGH_UPSIDE = "High-Upside";
+	
+	public static final String BUSINESS_UNIT_GSS = "GSS";
+	
+	public static final String BUSINESS_UNIT_TESTREE = "Testree";
+	
+	public static final String BUSINESS_UNIT_VSERVE = "VServe";
 
 	public static final String REGION_NA = "NA";
 

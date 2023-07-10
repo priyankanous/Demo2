@@ -23,7 +23,8 @@ import com.nous.rollingrevenue.vo.ClientTypeReportInDTO;
 import com.nous.rollingrevenue.vo.ClientTypeReportRequest;
 import com.nous.rollingrevenue.vo.RegionReportInDTO;
 import com.nous.rollingrevenue.vo.RegionReportRequest;
-
+import com.nous.rollingrevenue.vo.BusinessUnitReportInDTO;
+import com.nous.rollingrevenue.vo.BusinessUnitReportRequest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -180,5 +181,48 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 		List<RevenueResourceEntry> result = entityManager.createQuery(criteriaQuery).getResultList();
 		return result;
 	}
+	
+	@Override
+	public List<RevenueResourceEntry> findRevenueResourceDetailsForBUOrSBU(BusinessUnitReportRequest businessUnitReportRequest) {
+
+		// Create query
+		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<RevenueResourceEntry> criteriaQuery = criteriaBuilder.createQuery(RevenueResourceEntry.class);
+		// Define FROM clause
+		Root<RevenueResourceEntry> root = criteriaQuery.from(RevenueResourceEntry.class);
+		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join("revenueEntry", JoinType.INNER);
+		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join("financialYear", JoinType.INNER);
+		Join<RevenueEntry, Region> region = qualityJoin.join("region", JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessUnit> business = root.join("businessUnit", JoinType.INNER);
+		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root.join("strategicBusinessUnitHead",JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessType> bt = root.join("businessType", JoinType.INNER);
+		Join<RevenueEntry, ProbabilityType> pt = qualityJoin.join("probabilityType", JoinType.INNER);
+		Join<RevenueResourceEntry, Location> location = root.join("location", JoinType.INNER);
+		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join("businessDevelopmentManager",JoinType.INNER);
+
+		List<Predicate> predicates = new ArrayList<>();
+		BusinessUnitReportInDTO inDTO = businessUnitReportRequest.getData();
+		if (inDTO.getFinancialYearName() != null)
+			predicates.add(criteriaBuilder.equal(fin.get("financialYearName"), inDTO.getFinancialYearName()));
+		if (inDTO.getRegionId() != null)
+			predicates.add(criteriaBuilder.equal(region.get("regionId"), inDTO.getRegionId()));
+		if (inDTO.getBusinessUnitId() != null)
+			predicates.add(criteriaBuilder.equal(business.get("businessUnitId"), inDTO.getBusinessUnitId()));
+		if (inDTO.getSbuHeadId() != null)
+			predicates.add(criteriaBuilder.equal(sbuHead.get("sbuHeadId"), inDTO.getSbuHeadId()));
+		if (inDTO.getBusinessTypeId() != null)
+			predicates.add(criteriaBuilder.equal(bt.get("businessTypeId"), inDTO.getBusinessTypeId()));
+		if (inDTO.getProbabilityTypeId() != null)
+			predicates.add(criteriaBuilder.equal(pt.get("probabilityTypeId"), inDTO.getProbabilityTypeId()));
+		if (inDTO.getLocationId() != null)
+			predicates.add(criteriaBuilder.equal(location.get("locationId"), inDTO.getLocationId()));
+		if (inDTO.getBdmId() != null)
+			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
+
+		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
+		List<RevenueResourceEntry> result = entityManager.createQuery(criteriaQuery).getResultList();
+		return result;
+	}
+
 
 }
