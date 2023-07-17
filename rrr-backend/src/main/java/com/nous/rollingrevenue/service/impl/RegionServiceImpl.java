@@ -16,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.RegionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.Account;
 import com.nous.rollingrevenue.model.Region;
+import com.nous.rollingrevenue.repository.AccountRepository;
 import com.nous.rollingrevenue.repository.RegionRepository;
 import com.nous.rollingrevenue.service.RegionService;
 import com.nous.rollingrevenue.vo.RegionVO;
@@ -27,6 +29,9 @@ public class RegionServiceImpl implements RegionService {
 
 	@Autowired
 	private RegionRepository regionRepository;
+	
+	@Autowired
+	AccountRepository accountRepository;
 
 	@Override
 	public List<RegionVO> getAllRegions() {
@@ -88,6 +93,18 @@ public class RegionServiceImpl implements RegionService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
 		region.setActive(!region.isActive());
 		regionRepository.save(region);
+	}
+
+	@Override
+	public List<RegionVO> getRegionByAccountId(Long accountId) {
+		List<RegionVO> list = new ArrayList<>();
+		Account account = accountRepository.findById(accountId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
+		List<Region> regions = account.getRegions();
+		for (Region region : regions) {
+			list.add(RegionConverter.convertRegionToRegionVO(region));
+		}
+		return list;
 	}
 
 }

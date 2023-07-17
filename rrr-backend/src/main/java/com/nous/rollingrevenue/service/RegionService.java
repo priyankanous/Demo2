@@ -2,6 +2,7 @@ package com.nous.rollingrevenue.service;
 
 import java.util.List;
 
+import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.vo.RegionVO;
 
 public interface RegionService {
@@ -63,5 +64,15 @@ public interface RegionService {
 	 * @param id
 	 */
 	public void activateOrDeactivateById(Long id);
+
+
+	/**
+	 * Get the Region details by given AccountId 
+	 * 
+	 * @param  accountId The accountId for retrieving the details of region
+	 * @return The Region details matching the account id. Throws
+	 *         {@link RecordNotFoundException} if no match is found
+	 */
+	public List<RegionVO> getRegionByAccountId(Long accountId);
 
 }
