@@ -83,7 +83,7 @@ public class RegionController {
 
 	@Operation(summary = "Get Region by AccountId")
 	@GetMapping(path = "/account/{accountId}")
-	public WSResponse<List<RegionVO>> getRegionByAccountId(@PathVariable Long accountId) {
+	public WSResponse<RegionVO> getRegionByAccountId(@PathVariable Long accountId) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				regionService.getRegionByAccountId(accountId));
 	}

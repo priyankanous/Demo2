@@ -34,8 +34,8 @@ public class Region extends Auditable<String> {
 	@Column(name = "region_display_name")
 	private String regionDisplayName;
 
-	@ManyToMany(mappedBy = "regions")
-	@JsonManagedReference
+	@OneToMany(mappedBy = "regions")
+	@JsonBackReference
 	private List<Account> accounts = new ArrayList<>();
 
 	@ManyToMany(mappedBy = "regions")

@@ -6,16 +6,17 @@ import java.util.List;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -35,10 +36,10 @@ public class Account extends Auditable<String> {
 	@Column(name = "account_or_clientcode")
 	private String accountOrClientCode;
 
-	@ManyToMany
-	@JsonBackReference
-	@JoinTable(name = "accounts_to_region", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "regionId"))
-	private List<Region> regions = new ArrayList<>();
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
+	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
+	private Region regions;
 
 	@OneToMany(mappedBy = "account")
 	@JsonBackReference
@@ -60,7 +61,7 @@ public class Account extends Auditable<String> {
 
 	}
 
-	public Account(Long accountId, String accountName, String accountOrClientCode, List<Region> regions,
+	public Account(Long accountId, String accountName, String accountOrClientCode, Region regions,
 			List<Opportunity> opportunities, List<WorkOrder> workOrders, List<AnnualTargetEntry> annualTargetEntries,
 			List<RevenueEntry> revenueEntry) {
 		super();
@@ -98,11 +99,11 @@ public class Account extends Auditable<String> {
 		this.accountOrClientCode = accountOrClientCode;
 	}
 
-	public List<Region> getRegions() {
+	public Region getRegions() {
 		return regions;
 	}
 
-	public void setRegions(List<Region> regions) {
+	public void setRegions(Region regions) {
 		this.regions = regions;
 	}
 

@@ -1,14 +1,9 @@
 package com.nous.rollingrevenue.convertor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
 import com.nous.rollingrevenue.model.Account;
-import com.nous.rollingrevenue.model.Region;
 import com.nous.rollingrevenue.vo.AccountVO;
-import com.nous.rollingrevenue.vo.RegionVO;
 
 @Component
 public class AccountConverter {
@@ -26,10 +21,7 @@ public class AccountConverter {
 			account.setAccountId(accountVO.getAccountId());
 			account.setAccountName(accountVO.getAccountName());
 			account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
-			List<Region> regions = new ArrayList<>();
-			accountVO.getRegions().stream()
-					.forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
-			account.setRegions(regions);
+			account.setRegions(RegionConverter.convertRegionVOToRegion(accountVO.getRegions()));
 		}
 		return account;
 	}
@@ -47,10 +39,7 @@ public class AccountConverter {
 			accountVO.setAccountId(account.getAccountId());
 			accountVO.setAccountName(account.getAccountName());
 			accountVO.setAccountOrClientCode(account.getAccountOrClientCode());
-			List<RegionVO> regionVOs = new ArrayList<>();
-			account.getRegions().stream()
-					.forEach(region -> regionVOs.add(RegionConverter.convertRegionToRegionVO(region)));
-			accountVO.setRegions(regionVOs);
+			accountVO.setRegions(RegionConverter.convertRegionToRegionVO(account.getRegions()));
 			accountVO.setActive(account.isActive());
 		}
 		return accountVO;

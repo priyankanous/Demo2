@@ -15,11 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.AccountConverter;
-import com.nous.rollingrevenue.convertor.RegionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Account;
 import com.nous.rollingrevenue.model.Region;
 import com.nous.rollingrevenue.repository.AccountRepository;
+import com.nous.rollingrevenue.repository.RegionRepository;
 import com.nous.rollingrevenue.service.AccountService;
 import com.nous.rollingrevenue.vo.AccountVO;
 
@@ -29,6 +29,9 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private AccountRepository accountRepository;
+
+	@Autowired
+	private RegionRepository regionRepository;
 
 	@Override
 	public List<AccountVO> getAllAccounts() {
@@ -42,6 +45,9 @@ public class AccountServiceImpl implements AccountService {
 	@Transactional
 	public void saveAccount(AccountVO accountVO) {
 		Account account = AccountConverter.convertAccountVOToAccount(accountVO);
+		Region region = regionRepository.findById(accountVO.getRegions().getRegionId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Region not exist"));
+		account.setRegions(region);
 		accountRepository.save(account);
 	}
 
@@ -67,10 +73,9 @@ public class AccountServiceImpl implements AccountService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
 		account.setAccountName(accountVO.getAccountName());
 		account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
-		List<Region> regions = new ArrayList<>();
-		accountVO.getRegions().stream()
-				.forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
-		account.setRegions(regions);
+		Region region = regionRepository.findById(accountVO.getRegions().getRegionId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Region not exist"));
+		account.setRegions(region);
 		accountRepository.save(account);
 	}
 

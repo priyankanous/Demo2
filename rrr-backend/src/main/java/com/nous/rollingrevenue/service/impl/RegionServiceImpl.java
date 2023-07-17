@@ -29,7 +29,7 @@ public class RegionServiceImpl implements RegionService {
 
 	@Autowired
 	private RegionRepository regionRepository;
-	
+
 	@Autowired
 	AccountRepository accountRepository;
 
@@ -96,15 +96,11 @@ public class RegionServiceImpl implements RegionService {
 	}
 
 	@Override
-	public List<RegionVO> getRegionByAccountId(Long accountId) {
-		List<RegionVO> list = new ArrayList<>();
+	public RegionVO getRegionByAccountId(Long accountId) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
-		List<Region> regions = account.getRegions();
-		for (Region region : regions) {
-			list.add(RegionConverter.convertRegionToRegionVO(region));
-		}
-		return list;
+		Region regions = account.getRegions();
+		return RegionConverter.convertRegionToRegionVO(regions);
 	}
 
 }

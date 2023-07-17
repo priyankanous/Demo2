@@ -1,8 +1,6 @@
 package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,7 +18,7 @@ public class AccountVO implements Serializable {
 	@NotBlank(message = "AccountOrClientCode cannot be null or empty")
 	private String accountOrClientCode;
 
-	private List<RegionVO> regions = new ArrayList<>();
+	private RegionVO regions;
 
 	private boolean isActive;
 
@@ -30,7 +28,7 @@ public class AccountVO implements Serializable {
 
 	public AccountVO(Long accountId, @NotBlank(message = "AccountName cannot be null or empty") String accountName,
 			@NotBlank(message = "AccountOrClientCode cannot be null or empty") String accountOrClientCode,
-			List<RegionVO> regions, boolean isActive) {
+			RegionVO regions, boolean isActive) {
 		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
@@ -63,11 +61,11 @@ public class AccountVO implements Serializable {
 		this.accountOrClientCode = accountOrClientCode;
 	}
 
-	public List<RegionVO> getRegions() {
+	public RegionVO getRegions() {
 		return regions;
 	}
 
-	public void setRegions(List<RegionVO> regions) {
+	public void setRegions(RegionVO regions) {
 		this.regions = regions;
 	}
 

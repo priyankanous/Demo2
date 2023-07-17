@@ -6,7 +6,7 @@ import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.vo.RegionVO;
 
 public interface RegionService {
-	
+
 	/**
 	 * Get all the Regions
 	 * 
@@ -14,39 +14,35 @@ public interface RegionService {
 	 */
 
 	public List<RegionVO> getAllRegions();
-	
-	
+
 	/**
 	 * Add an Region to the database
 	 * 
 	 * @param RegionVO
 	 * 
 	 */
-	
+
 	public void saveRegion(RegionVO regionVO);
-	
 
 	/**
 	 * Delete an Region record by given Id
 	 * 
 	 * @param regionId The regionId of the Region to be deleted. Throws
-	 *         {@link RecordNotFoundException} if no match is found
+	 *                 {@link RecordNotFoundException} if no match is found
 	 */
 
 	public void deleteRegionById(Long regionId);
-	
-	
+
 	/**
-	 * Get the Region details by given Id 
+	 * Get the Region details by given Id
 	 * 
-	 * @param  regionId The regionId for retrieving the details
+	 * @param regionId The regionId for retrieving the details
 	 * @return The Region details matching the Region id. Throws
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
 
 	public RegionVO getRegionById(Long regionId);
-	
-	
+
 	/**
 	 * Update an Region to the database by given Id
 	 * 
@@ -54,25 +50,24 @@ public interface RegionService {
 	 * 
 	 */
 
-	public  void updateRegion(Long regionId, RegionVO regionVO);
-
+	public void updateRegion(Long regionId, RegionVO regionVO);
 
 	public List<RegionVO> getPagination(int pagenumber, int pagesize, String sortBy);
-	
+
 	/**
 	 * Activate or Deactivate the record
+	 * 
 	 * @param id
 	 */
 	public void activateOrDeactivateById(Long id);
 
-
 	/**
-	 * Get the Region details by given AccountId 
+	 * Get the Region details by given AccountId
 	 * 
-	 * @param  accountId The accountId for retrieving the details of region
+	 * @param accountId The accountId for retrieving the details of region
 	 * @return The Region details matching the account id. Throws
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
-	public List<RegionVO> getRegionByAccountId(Long accountId);
+	public RegionVO getRegionByAccountId(Long accountId);
 
 }
