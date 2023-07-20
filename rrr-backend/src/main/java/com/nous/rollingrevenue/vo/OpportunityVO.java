@@ -27,7 +27,6 @@ public class OpportunityVO implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectStartDate;
 
-	@NotNull(message = "projectEndDate cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectEndDate;
 
@@ -105,6 +104,5 @@ public class OpportunityVO implements Serializable {
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
 	}
-
 
 }
