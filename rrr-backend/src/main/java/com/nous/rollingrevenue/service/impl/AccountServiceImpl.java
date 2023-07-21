@@ -72,10 +72,17 @@ public class AccountServiceImpl implements AccountService {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
 		account.setAccountName(accountVO.getAccountName());
+<<<<<<< Updated upstream
 		account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
 		Region region = regionRepository.findById(accountVO.getRegions().getRegionId())
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Region not exist"));
 		account.setRegions(region);
+=======
+		List<Region> regions = new ArrayList<>();
+		accountVO.getRegions().stream()
+				.forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
+		account.setRegions(regions);
+>>>>>>> Stashed changes
 		accountRepository.save(account);
 	}
 

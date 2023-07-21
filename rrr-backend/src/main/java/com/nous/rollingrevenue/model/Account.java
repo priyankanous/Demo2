@@ -33,6 +33,7 @@ public class Account extends Auditable<String> {
 	@Column(name = "account_name")
 	private String accountName;
 
+<<<<<<< Updated upstream
 	@Column(name = "account_or_clientcode")
 	private String accountOrClientCode;
 
@@ -40,6 +41,12 @@ public class Account extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "region_id", referencedColumnName = "region_id")
 	private Region regions;
+=======
+	@ManyToMany
+	@JsonBackReference
+	@JoinTable(name = "accounts_to_region", joinColumns = @JoinColumn(name = "account_id"), inverseJoinColumns = @JoinColumn(name = "regionId"))
+	private List<Region> regions = new ArrayList<>();
+>>>>>>> Stashed changes
 
 	@OneToMany(mappedBy = "account")
 	@JsonBackReference
@@ -61,13 +68,16 @@ public class Account extends Auditable<String> {
 
 	}
 
+<<<<<<< Updated upstream
 	public Account(Long accountId, String accountName, String accountOrClientCode, Region regions,
+=======
+	public Account(Long accountId, String accountName, List<Region> regions,
+>>>>>>> Stashed changes
 			List<Opportunity> opportunities, List<WorkOrder> workOrders, List<AnnualTargetEntry> annualTargetEntries,
 			List<RevenueEntry> revenueEntry) {
 		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
-		this.accountOrClientCode = accountOrClientCode;
 		this.regions = regions;
 		this.opportunities = opportunities;
 		this.workOrders = workOrders;
@@ -91,6 +101,7 @@ public class Account extends Auditable<String> {
 		this.accountName = accountName;
 	}
 
+<<<<<<< Updated upstream
 	public String getAccountOrClientCode() {
 		return accountOrClientCode;
 	}
@@ -100,6 +111,9 @@ public class Account extends Auditable<String> {
 	}
 
 	public Region getRegions() {
+=======
+	public List<Region> getRegions() {
+>>>>>>> Stashed changes
 		return regions;
 	}
 

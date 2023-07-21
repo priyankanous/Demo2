@@ -20,8 +20,15 @@ public class AccountConverter {
 		if (accountVO != null) {
 			account.setAccountId(accountVO.getAccountId());
 			account.setAccountName(accountVO.getAccountName());
+<<<<<<< Updated upstream
 			account.setAccountOrClientCode(accountVO.getAccountOrClientCode());
 			account.setRegions(RegionConverter.convertRegionVOToRegion(accountVO.getRegions()));
+=======
+			List<Region> regions = new ArrayList<>();
+			accountVO.getRegions().stream()
+					.forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
+			account.setRegions(regions);
+>>>>>>> Stashed changes
 		}
 		return account;
 	}
@@ -38,8 +45,15 @@ public class AccountConverter {
 		if (account != null) {
 			accountVO.setAccountId(account.getAccountId());
 			accountVO.setAccountName(account.getAccountName());
+<<<<<<< Updated upstream
 			accountVO.setAccountOrClientCode(account.getAccountOrClientCode());
 			accountVO.setRegions(RegionConverter.convertRegionToRegionVO(account.getRegions()));
+=======
+			List<RegionVO> regionVOs = new ArrayList<>();
+			account.getRegions().stream()
+					.forEach(region -> regionVOs.add(RegionConverter.convertRegionToRegionVO(region)));
+			accountVO.setRegions(regionVOs);
+>>>>>>> Stashed changes
 			accountVO.setActive(account.isActive());
 		}
 		return accountVO;
