@@ -15,14 +15,7 @@ public class AccountVO implements Serializable {
 	@NotBlank(message = "AccountName cannot be null or empty")
 	private String accountName;
 
-<<<<<<< Updated upstream
-	@NotBlank(message = "AccountOrClientCode cannot be null or empty")
-	private String accountOrClientCode;
-
 	private RegionVO regions;
-=======
-	private List<RegionVO> regions = new ArrayList<>();
->>>>>>> Stashed changes
 
 	private boolean isActive;
 
@@ -30,13 +23,7 @@ public class AccountVO implements Serializable {
 
 	}
 
-	public AccountVO(Long accountId, @NotBlank(message = "AccountName cannot be null or empty") String accountName,
-<<<<<<< Updated upstream
-			@NotBlank(message = "AccountOrClientCode cannot be null or empty") String accountOrClientCode,
-			RegionVO regions, boolean isActive) {
-=======
-			List<RegionVO> regions, boolean isActive) {
->>>>>>> Stashed changes
+	public AccountVO(Long accountId, String accountName, RegionVO regions, boolean isActive) {
 		super();
 		this.accountId = accountId;
 		this.accountName = accountName;
@@ -60,19 +47,7 @@ public class AccountVO implements Serializable {
 		this.accountName = accountName;
 	}
 
-<<<<<<< Updated upstream
-	public String getAccountOrClientCode() {
-		return accountOrClientCode;
-	}
-
-	public void setAccountOrClientCode(String accountOrClientCode) {
-		this.accountOrClientCode = accountOrClientCode;
-	}
-
 	public RegionVO getRegions() {
-=======
-	public List<RegionVO> getRegions() {
->>>>>>> Stashed changes
 		return regions;
 	}
 
