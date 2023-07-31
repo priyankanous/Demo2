@@ -25,7 +25,6 @@ public class FinancialYearVO implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate startingFrom;
 
-	@NotNull(message = "endingOn cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate endingOn;
 

@@ -26,7 +26,8 @@ public class OpportunityVO implements Serializable {
 	@NotNull(message = "projectStartDate cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectStartDate;
-
+	
+	@NotNull(message = "projectEndDate cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectEndDate;
 
