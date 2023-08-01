@@ -76,20 +76,38 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 			clientMap.put(revenueResourceEntry.getRevenueEntry().getAccount().getAccountName(), financialYearRevenue);
 		}
 
-		Set<Entry<String, FinancialYearRevenue>> entrySet = clientMap.entrySet();
-
 		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
 		String year = yearFormatter.format(fyStartDate);
 		int additionalQuarterYear = Integer.parseInt(year) + 1;
 
-		Map<String, FinancialYearRevenue> collect = clientMap.entrySet().stream()
-//				.sorted(Comparator.comparingBigInteger(FinancialYearRevenue::getDataMap.get("FYP " + additionalQuarterYear).reversed())
-				.sorted(Map.Entry.<String, FinancialYearRevenue>comparingByValue(
-						(o1, o2) -> o1.getDataMap().get("FYP " + additionalQuarterYear)
-								.compareTo(o1.getDataMap().get("FYP " + additionalQuarterYear)))
-						.reversed()).limit(9)
-				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (a, b) -> a, // or throw an exception
-						LinkedHashMap::new));
+		Map<String, FinancialYearRevenue> collect = clientMap.entrySet().stream().sorted((entry1, entry2) -> {
+			BigInteger value1 = entry1.getValue().getDataMap().get("FYP " + additionalQuarterYear);
+			BigInteger value2 = entry2.getValue().getDataMap().get("FYP " + additionalQuarterYear);
+			return value2.compareTo(value1); // descending order
+		}).limit(9)
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v1, LinkedHashMap::new));
+
+		// Exclude the top 5 records from the original map.
+		Map<String, FinancialYearRevenue> excludeTopRecords = clientMap.entrySet().stream()
+				.filter(entry -> !collect.containsKey(entry.getKey()))
+				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+
+		Map<String, BigInteger> resultMap = new HashMap<>();
+		for (Map.Entry<String, FinancialYearRevenue> entry : excludeTopRecords.entrySet()) {
+			FinancialYearRevenue yearRevenue = entry.getValue();
+			Map<String, BigInteger> dataMap = yearRevenue.getDataMap();
+			for (Map.Entry<String, BigInteger> entryMap : dataMap.entrySet()) {
+				if (resultMap.containsKey(entryMap.getKey())) {
+					BigInteger currentSum = resultMap.get(entryMap.getKey());
+					resultMap.put(entryMap.getKey(), currentSum.add(entryMap.getValue()));
+				} else {
+					resultMap.put(entryMap.getKey(), entryMap.getValue());
+				}
+			}
+		}
+		FinancialYearRevenue fyRevenue = new FinancialYearRevenue();
+		fyRevenue.setDataMap(resultMap);
+		collect.put("Others", fyRevenue);
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
 		List<String> quarterlyDetails = setQuarterlyDetails(fyStartDate);
