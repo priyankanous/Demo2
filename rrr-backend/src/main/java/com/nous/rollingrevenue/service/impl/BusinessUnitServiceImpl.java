@@ -17,10 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.BusinessUnitConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.AnnualTargetEntry;
 import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
 import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.model.CocPractice;
 import com.nous.rollingrevenue.model.StrategicBusinessUnit;
+import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
 import com.nous.rollingrevenue.repository.BusinessDevelopmentManagerRepository;
 import com.nous.rollingrevenue.repository.BusinessUnitRepository;
 import com.nous.rollingrevenue.repository.CocPracticeRepository;
@@ -42,6 +44,9 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 
 	@Autowired
 	private CocPracticeRepository cocRepository;
+
+	@Autowired
+	private AnnualTargetEntryRepository annualTargetEntryRepository;
 
 	@Override
 	@Transactional
@@ -127,6 +132,13 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 		if (coc.isPresent()) {
 			CocPractice cocPractice = coc.get();
 			if (businessUnit.isActive() && cocPractice.isActive()) {
+				throw new RecordNotFoundException("BU is already linked to SBU or BDM or CoC Practice");
+			}
+		}
+		Optional<AnnualTargetEntry> annualTargetEntry = annualTargetEntryRepository.findByBusinessUnitId(id);
+		if (annualTargetEntry.isPresent()) {
+			AnnualTargetEntry targetEntry = annualTargetEntry.get();
+			if (businessUnit.isActive() && targetEntry.isActive()) {
 				throw new RecordNotFoundException("BU is already linked to SBU or BDM or CoC Practice");
 			}
 		}
