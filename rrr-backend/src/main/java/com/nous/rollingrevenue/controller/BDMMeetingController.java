@@ -58,12 +58,19 @@ public class BDMMeetingController {
 		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
 				bdmMeetingService.getBDMMeetingByFinancialYear(financialYear));
 	}
-	
+
 	@Operation(summary = "Activate or Deactivate BDMMeeting by Id")
 	@PutMapping(path = "/activate-or-deactivate/{bdmMeetingId}")
 	public WSResponse<String> activateOrDeactivateBDMMeetingById(@PathVariable Long bdmMeetingId) {
 		bdmMeetingService.activateOrDeactivateById(bdmMeetingId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
+	}
+
+	@Operation(summary = "Get BDMMeeting by Id")
+	@GetMapping(path = "{bdmMeetingId}")
+	public WSResponse<BDMMeetingVO> getBDMMeetingById(@PathVariable Long bdmMeetingId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				bdmMeetingService.getBDMMeetingById(bdmMeetingId));
 	}
 
 }

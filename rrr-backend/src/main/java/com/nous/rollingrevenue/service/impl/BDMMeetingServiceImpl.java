@@ -42,15 +42,16 @@ public class BDMMeetingServiceImpl implements BDMMeetingService {
 	@Transactional
 	public void saveBDMMeeting(BDMMeetingVO bdmMeetingVO) {
 		BDMMeeting bdmMeeting = BDMMeetingConverter.convertBDMMeetingVOToBDMMeeting(bdmMeetingVO);
-		BusinessDevelopmentManager bdm = bdmRepository.findById(bdmMeetingVO.getBusinessDevelopmentManager().getBdmId()).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessDevelopmentManager"));
+		BusinessDevelopmentManager bdm = bdmRepository.findById(bdmMeetingVO.getBusinessDevelopmentManager().getBdmId())
+				.orElseThrow(() -> new RecordNotFoundException(
+						ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessDevelopmentManager"));
 		bdmMeeting.setBusinessDevelopmentManager(bdm);
-		Region region = regionRepository.findById(bdmMeetingVO.getRegion().getRegionId()).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Region"));
+		Region region = regionRepository.findById(bdmMeetingVO.getRegion().getRegionId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Region"));
 		bdmMeeting.setRegion(region);
 		FinancialYear financialYear = financialYearRepository
-				.findById(bdmMeetingVO.getFinancialYear().getFinancialYearId()).orElseThrow(
-						() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
+				.findById(bdmMeetingVO.getFinancialYear().getFinancialYearId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
 		bdmMeeting.setFinancialYear(financialYear);
 		bdmMeetingRepository.save(bdmMeeting);
 	}
@@ -60,18 +61,19 @@ public class BDMMeetingServiceImpl implements BDMMeetingService {
 	public void updateBDMMeeting(Long bdmMeetingId, BDMMeetingVO bdmMeetingVO) {
 		BDMMeeting bdmMeeting = bdmMeetingRepository.findById(bdmMeetingId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmMeetingId));
-		BusinessDevelopmentManager bdm = bdmRepository.findById(bdmMeetingVO.getBusinessDevelopmentManager().getBdmId()).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessDevelopmentManager"));
+		BusinessDevelopmentManager bdm = bdmRepository.findById(bdmMeetingVO.getBusinessDevelopmentManager().getBdmId())
+				.orElseThrow(() -> new RecordNotFoundException(
+						ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessDevelopmentManager"));
 		bdmMeeting.setBusinessDevelopmentManager(bdm);
-		Region region = regionRepository.findById(bdmMeetingVO.getRegion().getRegionId()).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Region"));
+		Region region = regionRepository.findById(bdmMeetingVO.getRegion().getRegionId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Region"));
 		bdmMeeting.setRegion(region);
 		bdmMeeting.setMeetingName(bdmMeetingVO.getMeetingName());
 		bdmMeeting.setMeetingDate(bdmMeetingVO.getMeetingDate());
 		bdmMeeting.setMeetingTime(bdmMeetingVO.getMeetingTime());
 		FinancialYear financialYear = financialYearRepository
-				.findById(bdmMeetingVO.getFinancialYear().getFinancialYearId()).orElseThrow(
-						() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
+				.findById(bdmMeetingVO.getFinancialYear().getFinancialYearId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
 		bdmMeeting.setFinancialYear(financialYear);
 		bdmMeetingRepository.save(bdmMeeting);
 	}
@@ -87,8 +89,9 @@ public class BDMMeetingServiceImpl implements BDMMeetingService {
 	@Override
 	public List<BDMMeetingVO> getBDMMeetingByFinancialYear(String financialYear) {
 		List<BDMMeetingVO> bdmMeetingVOs = new ArrayList<>();
-		Optional<FinancialYear> findByFinancialYearName = financialYearRepository.findByFinancialYearName(financialYear);
-		if(findByFinancialYearName.isPresent()) {
+		Optional<FinancialYear> findByFinancialYearName = financialYearRepository
+				.findByFinancialYearName(financialYear);
+		if (findByFinancialYearName.isPresent()) {
 			findByFinancialYearName.get().getBdmMeetings().stream().forEach(bdmMeeting -> {
 				bdmMeetingVOs.add(BDMMeetingConverter.convertBDMMeetingToBDMMeetingVO(bdmMeeting));
 			});
@@ -103,6 +106,13 @@ public class BDMMeetingServiceImpl implements BDMMeetingService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmMeetingid));
 		bdmMeeting.setActive(!bdmMeeting.isActive());
 		bdmMeetingRepository.save(bdmMeeting);
+	}
+
+	@Override
+	public BDMMeetingVO getBDMMeetingById(Long bdmMeetingId) {
+		BDMMeeting bdmMeeting = bdmMeetingRepository.findById(bdmMeetingId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmMeetingId));
+		return BDMMeetingConverter.convertBDMMeetingToBDMMeetingVO(bdmMeeting);
 	}
 
 }

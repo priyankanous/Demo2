@@ -49,4 +49,13 @@ public interface BDMMeetingService {
 	 */
 	public void activateOrDeactivateById(Long bdmMeetingid);
 
+	/**
+	 * Get the BDM Meeting details by given Id 
+	 * 
+	 * @param  bdmMettingId The bdmMettingId for retrieving the details
+	 * @return The BDM Meeting details matching the bdmMeeting id. Throws
+	 *         {@link RecordNotFoundException} if no match is found
+	 */
+	public BDMMeetingVO getBDMMeetingById(Long bdmMeetingId);
+
 }
