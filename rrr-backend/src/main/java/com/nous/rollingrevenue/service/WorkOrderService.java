@@ -29,4 +29,11 @@ public interface WorkOrderService {
 	 * @return  List<WorkOrderVO> matched with the account name
 	 */
 	public List<WorkOrderVO> getWorkOrderByAccountName(String accountName);
+	
+	/**
+	 * Get all the Work Orders
+	 * 
+	 * @return List of all  Work Orders in the database
+	 */
+	public List<WorkOrderVO> getAllWorkOrders();
 }

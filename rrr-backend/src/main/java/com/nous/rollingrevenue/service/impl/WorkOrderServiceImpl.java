@@ -43,13 +43,15 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 		List<WorkOrderVO> excelWorkOrderVOs = excelHelper.convertExceltoListOfWorkOrder(file);
 		List<WorkOrder> dbworkOrders = workOrderRepository.findAll();
 		if (!dbworkOrders.isEmpty()) {
-			Map<Boolean, List<WorkOrderVO>> partitionWorkOrdersByWorkOrderNumber = this.getPartitionWorkOrdersByWorkOrderNumber(excelWorkOrderVOs, dbworkOrders);
+			Map<Boolean, List<WorkOrderVO>> partitionWorkOrdersByWorkOrderNumber = this
+					.getPartitionWorkOrdersByWorkOrderNumber(excelWorkOrderVOs, dbworkOrders);
 			Set<Entry<Boolean, List<WorkOrderVO>>> entrySet = partitionWorkOrdersByWorkOrderNumber.entrySet();
 			for (Entry<Boolean, List<WorkOrderVO>> entry : entrySet) {
 				if (entry.getKey()) {
 					List<WorkOrderVO> workOrderNumberMatch = entry.getValue();
 					if (!workOrderNumberMatch.isEmpty()) {
-						List<WorkOrderVO> unmatchedWorkOrders = this.getUnmatchedWorkOrdersByCheckWithDBWorkOrders(excelWorkOrderVOs, dbworkOrders);
+						List<WorkOrderVO> unmatchedWorkOrders = this
+								.getUnmatchedWorkOrdersByCheckWithDBWorkOrders(excelWorkOrderVOs, dbworkOrders);
 						if (!unmatchedWorkOrders.isEmpty()) {
 							this.updateWorkOrder(unmatchedWorkOrders);
 						}
@@ -64,21 +66,20 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 		}
 
 	}
-	
+
 	private void saveWorkOrder(List<WorkOrderVO> workOrderVOs) {
 		List<WorkOrder> workOrderEntries = new ArrayList<>();
 		workOrderVOs.stream().forEach(
 				workOrderVO -> workOrderEntries.add(WorkOrderConverter.convertWorkOrderVOToWorkOrder(workOrderVO)));
 		workOrderRepository.saveAll(workOrderEntries);
 	}
-	
+
 	private void updateWorkOrder(List<WorkOrderVO> workOrderVOs) {
 		List<WorkOrder> workOrderEntries = new ArrayList<>();
-		workOrderVOs.stream().forEach(workOrderVO -> workOrderEntries
-				.add(WorkOrderConverter.convertWorkOrderVOToWorkOrder(workOrderVO)));
+		workOrderVOs.stream().forEach(
+				workOrderVO -> workOrderEntries.add(WorkOrderConverter.convertWorkOrderVOToWorkOrder(workOrderVO)));
 		for (WorkOrder workOrder : workOrderEntries) {
-			Optional<WorkOrder> wo = workOrderRepository
-					.findByWorkOrderNumber(workOrder.getWorkOrderNumber());
+			Optional<WorkOrder> wo = workOrderRepository.findByWorkOrderNumber(workOrder.getWorkOrderNumber());
 			if (wo.isPresent()) {
 				WorkOrder workOrderEntity = wo.get();
 				workOrderEntity.setWorkOrderEndDate(workOrder.getWorkOrderEndDate());
@@ -87,17 +88,19 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 			}
 		}
 	}
-	
-	private List<WorkOrderVO> getUnmatchedWorkOrdersByCheckWithDBWorkOrders(List<WorkOrderVO> workOrderVOs, List<WorkOrder> workOrders) {
+
+	private List<WorkOrderVO> getUnmatchedWorkOrdersByCheckWithDBWorkOrders(List<WorkOrderVO> workOrderVOs,
+			List<WorkOrder> workOrders) {
 		return workOrderVOs.stream()
-		.filter(wo1 -> workOrders.stream()
-				.noneMatch(wo2 -> wo1.getWorkOrderNumber().equals(wo2.getWorkOrderNumber())
-						&& wo1.getWorkOrderEndDate().equals(wo2.getWorkOrderEndDate())
-						&& wo1.getWorkOrderStatus().equals(wo2.getWoStatus())))
-		.collect(Collectors.toList());
+				.filter(wo1 -> workOrders.stream()
+						.noneMatch(wo2 -> wo1.getWorkOrderNumber().equals(wo2.getWorkOrderNumber())
+								&& wo1.getWorkOrderEndDate().equals(wo2.getWorkOrderEndDate())
+								&& wo1.getWorkOrderStatus().equals(wo2.getWoStatus())))
+				.collect(Collectors.toList());
 	}
-	
-	private Map<Boolean, List<WorkOrderVO>> getPartitionWorkOrdersByWorkOrderNumber(List<WorkOrderVO> excelWorkOrderVOs, List<WorkOrder> dbworkOrders) {
+
+	private Map<Boolean, List<WorkOrderVO>> getPartitionWorkOrdersByWorkOrderNumber(List<WorkOrderVO> excelWorkOrderVOs,
+			List<WorkOrder> dbworkOrders) {
 		List<String> dbWorkOrderNumbers = dbworkOrders.stream().map(WorkOrder::getWorkOrderNumber)
 				.collect(Collectors.toList());
 		return excelWorkOrderVOs.stream()
@@ -121,6 +124,14 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 		findByAccountName.getWorkOrders().stream().forEach(
 				workOrder -> workOrderVOEntries.add(WorkOrderConverter.convertWorkOrderToWorkOrderVO(workOrder)));
 		return workOrderVOEntries;
+	}
+
+	@Override
+	public List<WorkOrderVO> getAllWorkOrders() {
+		List<WorkOrderVO> workOrderVOs = new ArrayList<>();
+		workOrderRepository.findAll().stream()
+				.forEach(workOrder -> workOrderVOs.add(WorkOrderConverter.convertWorkOrderToWorkOrderVO(workOrder)));
+		return workOrderVOs;
 	}
 
 }

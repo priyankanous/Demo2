@@ -64,4 +64,11 @@ public class WorkOrderController {
 				workOrderService.getWorkOrderByAccountName(accountName));
 	}
 	
+	@Operation(summary = "Get All Work Orders")
+	@GetMapping
+	public WSResponse<List<WorkOrderVO>> getAllWorkOrders() {
+		List<WorkOrderVO> workOrderVOs = workOrderService.getAllWorkOrders();
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, workOrderVOs);
+	}
+	
 }
