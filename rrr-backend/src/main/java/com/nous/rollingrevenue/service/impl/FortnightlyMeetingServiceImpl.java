@@ -157,5 +157,12 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 		}
 		return recurringDates;
 	}
+	
+	@Override
+	public FortnightlyMeetingVO getFortnightlyMeetingsById(Long meetingId) {
+	FortnightlyMeeting fortnightlyMeeting = fortnightlyMeetingRepository.findById(meetingId)
+	.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + meetingId));
+	return FortnightlyMeetingConverter.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeeting);
+	}
 
 }

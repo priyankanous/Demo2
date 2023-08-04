@@ -60,5 +60,13 @@ public class FortnightlyMeetingController {
 		fortnightlyMeetingService.activateOrDeactivateById(id);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
+	
+	@Operation(summary = "Get Fortnightly Meeting by Id")
+	@GetMapping(path = "/meetingId/{meetingId}")
+	public WSResponse<FortnightlyMeetingVO> getFortnightlyMeetingsById(@PathVariable Long meetingId) {
+	return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+	fortnightlyMeetingService.getFortnightlyMeetingsById(meetingId));
+
+	}
 
 }

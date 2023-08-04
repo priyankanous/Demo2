@@ -31,5 +31,15 @@ public interface FortnightlyMeetingService {
 	 */
 	public void activateOrDeactivateById(Long id);
 	
+	/**
+	* Get the FortnightlyMeetings details by given Id
+	*
+	* @param meetingId The meetingId for retrieving the details
+	* @return The FortnightlyMeetings details matching the FortnightlyMeetings id. Throws
+	* {@link RecordNotFoundException} if no match is found
+	*/
+
+	public FortnightlyMeetingVO getFortnightlyMeetingsById(Long meetingId);
+	
 
 }
