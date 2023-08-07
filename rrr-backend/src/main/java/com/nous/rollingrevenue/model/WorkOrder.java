@@ -43,9 +43,6 @@ public class WorkOrder extends Auditable<String> {
 	@JoinColumn(name = "account_id", referencedColumnName = "account_id")
 	private Account account;
 
-	@Column(name = "is_active")
-	private boolean isActive = Boolean.TRUE;
-
 	@OneToMany(mappedBy = "workOrder")
 	@JsonBackReference
 	private List<RevenueEntry> revenueEntry = new ArrayList<>();
@@ -55,14 +52,13 @@ public class WorkOrder extends Auditable<String> {
 	}
 
 	public WorkOrder(Long workOrderId, String workOrderNumber, LocalDate workOrderEndDate, String woStatus,
-			Account account, boolean isActive) {
+			Account account) {
 		super();
 		this.workOrderId = workOrderId;
 		this.workOrderNumber = workOrderNumber;
 		this.workOrderEndDate = workOrderEndDate;
 		this.woStatus = woStatus;
 		this.account = account;
-		this.isActive = isActive;
 	}
 
 	public Long getWorkOrderId() {
@@ -103,14 +99,6 @@ public class WorkOrder extends Auditable<String> {
 
 	public void setAccount(Account account) {
 		this.account = account;
-	}
-
-	public boolean isActive() {
-		return isActive;
-	}
-
-	public void setActive(boolean isActive) {
-		this.isActive = isActive;
 	}
 
 	public List<RevenueEntry> getRevenueEntry() {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -83,6 +84,7 @@ public class WorkOrderVO implements Serializable {
 		this.account = account;
 	}
 
+	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
 	}

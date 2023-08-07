@@ -32,8 +32,7 @@ public class WorkOrderController {
 
 	@Autowired
 	private WorkOrderService workOrderService;
-	
-	
+
 	@Operation(summary = "Save WorkOrderEntries from Uploaded Excel File")
 	@PostMapping("/upload")
 	public WSResponse<String> uploadExcelDataOfAnnualTargetEntry(@RequestParam("file") MultipartFile file) {
@@ -46,29 +45,34 @@ public class WorkOrderController {
 		workOrderService.saveExcelDataOfWorkOrder(file);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
+
 	@Operation(summary = "Activate or Deactivate WorkOrder by WorkOrderId")
 	@PutMapping(path = "/activate-or-deactivate/{workOrderId}")
-	public WSResponse<String> activateOrDeactivateWorkOrderById(
-			@PathVariable Long workOrderId) {
+	public WSResponse<String> activateOrDeactivateWorkOrderById(@PathVariable Long workOrderId) {
 		workOrderService.activateOrDeactivateWorkOrderById(workOrderId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
-	
+
 	@Operation(summary = "Get Work Order by Account Name")
 	@GetMapping(path = "/account-name/{accountName}")
-	public WSResponse<List<WorkOrderVO>> getWorkOrderByAccountName(
-			@PathVariable  String accountName) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				workOrderService.getWorkOrderByAccountName(accountName));
+	public WSResponse<List<WorkOrderVO>> getWorkOrderByAccountName(@PathVariable String accountName) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, workOrderService.getWorkOrderByAccountName(accountName));
 	}
-	
+
 	@Operation(summary = "Get All Work Orders")
 	@GetMapping
 	public WSResponse<List<WorkOrderVO>> getAllWorkOrders() {
 		List<WorkOrderVO> workOrderVOs = workOrderService.getAllWorkOrders();
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, workOrderVOs);
 	}
-	
+
+	@Operation(summary = "Get Work Orders By Pagination")
+	@GetMapping("/page")
+	public WSResponse<List<WorkOrderVO>> getWorkOrdersByPagination(@RequestParam(defaultValue = "1") int pagenumber,
+			@RequestParam(defaultValue = "10") int pagesize,
+			@RequestParam(defaultValue = "workOrderId", required = false) String sortBy) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
+				workOrderService.getWorkOrdersByPagination(pagenumber, pagesize, sortBy));
+	}
+
 }

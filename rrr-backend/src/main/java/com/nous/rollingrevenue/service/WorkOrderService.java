@@ -36,4 +36,6 @@ public interface WorkOrderService {
 	 * @return List of all  Work Orders in the database
 	 */
 	public List<WorkOrderVO> getAllWorkOrders();
+	
+	public List<WorkOrderVO> getWorkOrdersByPagination(int pagenumber, int pagesize, String sortBy);
 }
