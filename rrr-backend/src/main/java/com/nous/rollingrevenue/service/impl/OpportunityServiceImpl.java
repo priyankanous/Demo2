@@ -18,8 +18,10 @@ import com.nous.rollingrevenue.convertor.OpportunityConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Account;
 import com.nous.rollingrevenue.model.Opportunity;
+import com.nous.rollingrevenue.model.RevenueEntry;
 import com.nous.rollingrevenue.repository.AccountRepository;
 import com.nous.rollingrevenue.repository.OpportunityRepository;
+import com.nous.rollingrevenue.repository.RevenueEntryRespository;
 import com.nous.rollingrevenue.service.OpportunityService;
 import com.nous.rollingrevenue.vo.OpportunityVO;
 
@@ -32,6 +34,9 @@ public class OpportunityServiceImpl implements OpportunityService {
 
 	@Autowired
 	AccountRepository accountRepository;
+
+	@Autowired
+	private RevenueEntryRespository revenueEntryRespository;
 
 	@Override
 	public List<OpportunityVO> getAllOpportunity() {
@@ -101,6 +106,12 @@ public class OpportunityServiceImpl implements OpportunityService {
 	public void activateOrDeactivateById(Long opportunityId) {
 		Opportunity opportunity = opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByOpportunityId(opportunityId);
+		for (RevenueEntry revenueEntry : revenueEntryList) {
+			if (opportunity.isActive() && revenueEntry.isActive()) {
+				throw new RecordNotFoundException("Opportunity is already linked to RevenueEntry");
+			}
+		}
 		opportunity.setActive(!opportunity.isActive());
 		opportunityRepository.save(opportunity);
 	}

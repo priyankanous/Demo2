@@ -17,9 +17,17 @@ import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.RegionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Account;
+import com.nous.rollingrevenue.model.AnnualTargetEntry;
+import com.nous.rollingrevenue.model.BDMMeeting;
+import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
 import com.nous.rollingrevenue.model.Region;
+import com.nous.rollingrevenue.model.RevenueEntry;
 import com.nous.rollingrevenue.repository.AccountRepository;
+import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
+import com.nous.rollingrevenue.repository.BDMMeetingRepository;
+import com.nous.rollingrevenue.repository.BusinessDevelopmentManagerRepository;
 import com.nous.rollingrevenue.repository.RegionRepository;
+import com.nous.rollingrevenue.repository.RevenueEntryRespository;
 import com.nous.rollingrevenue.service.RegionService;
 import com.nous.rollingrevenue.vo.RegionVO;
 
@@ -32,6 +40,18 @@ public class RegionServiceImpl implements RegionService {
 
 	@Autowired
 	AccountRepository accountRepository;
+
+	@Autowired
+	private BusinessDevelopmentManagerRepository bdmRepository;
+
+	@Autowired
+	private BDMMeetingRepository bdmMeetingRepository;
+
+	@Autowired
+	private AnnualTargetEntryRepository annualTargetEntryRepository;
+
+	@Autowired
+	private RevenueEntryRespository revenueEntryRespository;
 
 	@Override
 	public List<RegionVO> getAllRegions() {
@@ -91,6 +111,41 @@ public class RegionServiceImpl implements RegionService {
 	public void activateOrDeactivateById(Long regionId) {
 		Region region = regionRepository.findById(regionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
+		List<BusinessDevelopmentManager> bdmList = bdmRepository.findByRegionId(regionId);
+		for (BusinessDevelopmentManager bdm : bdmList) {
+			if (region.isActive() && bdm.isActive()) {
+				throw new RecordNotFoundException(
+						"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			}
+		}
+		List<BDMMeeting> bdmMeetingList = bdmMeetingRepository.findByRegionId(regionId);
+		for (BDMMeeting bdmMeeting : bdmMeetingList) {
+			if (region.isActive() && bdmMeeting.isActive()) {
+				throw new RecordNotFoundException(
+						"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			}
+		}
+		List<Account> accountList = accountRepository.findByRegionId(regionId);
+		for (Account account : accountList) {
+			if (region.isActive() && account.isActive()) {
+				throw new RecordNotFoundException(
+						"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			}
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByRegionId(regionId);
+		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
+			if (region.isActive() && targetEntry.isActive()) {
+				throw new RecordNotFoundException(
+						"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			}
+		}
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByRegionId(regionId);
+		for (RevenueEntry revenueEntry : revenueEntryList) {
+			if (region.isActive() && revenueEntry.isActive()) {
+				throw new RecordNotFoundException(
+						"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			}
+		}
 		region.setActive(!region.isActive());
 		regionRepository.save(region);
 	}

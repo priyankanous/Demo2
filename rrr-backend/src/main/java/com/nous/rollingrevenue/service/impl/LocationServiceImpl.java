@@ -17,12 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.LocationConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.AnnualTargetEntry;
 import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.GlobalMonthlyLeaveLossFactor;
+import com.nous.rollingrevenue.model.HolidayCalendar;
 import com.nous.rollingrevenue.model.Location;
+import com.nous.rollingrevenue.model.RevenueResourceEntry;
+import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
 import com.nous.rollingrevenue.repository.FinancialYearRepository;
 import com.nous.rollingrevenue.repository.GlobalMonthlyLeaveLossFactorRepository;
+import com.nous.rollingrevenue.repository.HolidayCalendarRepository;
 import com.nous.rollingrevenue.repository.LocationRepository;
+import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
 import com.nous.rollingrevenue.service.LocationService;
 import com.nous.rollingrevenue.vo.LocationVO;
 
@@ -38,6 +44,15 @@ public class LocationServiceImpl implements LocationService {
 
 	@Autowired
 	FinancialYearRepository financialYearRepository;
+
+	@Autowired
+	private HolidayCalendarRepository holidayCalendarRepository;
+
+	@Autowired
+	private AnnualTargetEntryRepository annualTargetEntryRepository;
+
+	@Autowired
+	private RevenueResourceEntryRepository revenueResourceEntryRepository;
 
 	@Override
 	@Transactional
@@ -104,6 +119,27 @@ public class LocationServiceImpl implements LocationService {
 	public void activateOrDeactivateById(Long locationId) {
 		Location location = locationRepository.findById(locationId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + locationId));
+		List<HolidayCalendar> holidayCalenderList = holidayCalendarRepository.findByLocationId(locationId);
+		for (HolidayCalendar holidayCalender : holidayCalenderList) {
+			if (location.isActive() && holidayCalender.isActive()) {
+				throw new RecordNotFoundException(
+						"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+			}
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByLocationId(locationId);
+		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
+			if (location.isActive() && targetEntry.isActive()) {
+				throw new RecordNotFoundException(
+						"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+			}
+		}
+		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByLocationId(locationId);
+		for (RevenueResourceEntry revenueResource : revenueResourceList) {
+			if (location.isActive() && revenueResource.isActive()) {
+				throw new RecordNotFoundException(
+						"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+			}
+		}
 		location.setActive(!location.isActive());
 		locationRepository.save(location);
 	}

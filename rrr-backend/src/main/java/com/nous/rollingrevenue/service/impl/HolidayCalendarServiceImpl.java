@@ -48,8 +48,8 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 				.findById(holidayCalendarVO.getFinancialYear().getFinancialYearId()).orElseThrow(
 						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
 		holidayCalendar.setFinancialYear(financialYear);
-		Location location = locationRepository.findById(holidayCalendarVO.getLocation().getLocationId()).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Location not exist"));
+		Location location = locationRepository.findById(holidayCalendarVO.getLocation().getLocationId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Location not exist"));
 		holidayCalendar.setLocation(location);
 		holidayCalendar.setHolidayDay(holidayCalendar.getHolidayDate().getDayOfWeek().name());
 		holidayCalendarRepository.save(holidayCalendar);
@@ -66,8 +66,8 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 				.findById(holidayCalendarVO.getFinancialYear().getFinancialYearId()).orElseThrow(
 						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "FinancialYear not exist"));
 		holidayCalendar.setFinancialYear(financialYear);
-		Location location = locationRepository.findById(holidayCalendarVO.getLocation().getLocationId()).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Location not exist"));
+		Location location = locationRepository.findById(holidayCalendarVO.getLocation().getLocationId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "Location not exist"));
 		holidayCalendar.setLocation(location);
 		holidayCalendar.setHolidayDay(holidayCalendarVO.getHolidayDate().getDayOfWeek().name());
 		holidayCalendarRepository.save(holidayCalendar);
@@ -121,6 +121,22 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 	public void activateOrDeactivateById(Long holidayId) {
 		HolidayCalendar holidayCalendar = holidayCalendarRepository.findById(holidayId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + holidayId));
+		Optional<Location> optional = locationRepository.findById(holidayCalendar.getLocation().getLocationId());
+		if (optional.isPresent()) {
+			Location location = optional.get();
+			if (!location.isActive() && !holidayCalendar.isActive()) {
+				throw new RecordNotFoundException("Location is not active and its already linked to HolidayCalendar");
+			}
+		}
+		Optional<FinancialYear> findbyId = financialYearRepository
+				.findById(holidayCalendar.getFinancialYear().getFinancialYearId());
+		if (findbyId.isPresent()) {
+			FinancialYear financialYear = findbyId.get();
+			if (!financialYear.isActive() && !holidayCalendar.isActive()) {
+				throw new RecordNotFoundException(
+						"FinancialYear is not active and its already linked to HolidayCalendar");
+			}
+		}
 		holidayCalendar.setActive(!holidayCalendar.isActive());
 		holidayCalendarRepository.save(holidayCalendar);
 	}
@@ -129,9 +145,10 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 	public List<HolidayCalendarVO> getHolidayCalendarByFinancialYear(String financialYear) {
 		List<HolidayCalendarVO> holidayCalendarVOs = new ArrayList<>();
 		Optional<FinancialYear> findFinancialYearById = financialYearRepository.findByFinancialYearName(financialYear);
-		if(findFinancialYearById.isPresent()) {
+		if (findFinancialYearById.isPresent()) {
 			findFinancialYearById.get().getHolidayCalendar().stream().forEach(holidayClaendar -> {
-				holidayCalendarVOs.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(holidayClaendar));
+				holidayCalendarVOs
+						.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(holidayClaendar));
 			});
 		}
 		return holidayCalendarVOs;

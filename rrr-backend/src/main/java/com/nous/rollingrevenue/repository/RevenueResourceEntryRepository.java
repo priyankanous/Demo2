@@ -100,4 +100,22 @@ public interface RevenueResourceEntryRepository extends JpaRepository<RevenueRes
 	public RevenueResourceEntry getResourcesRevenue(
 			@Param("resourcereq") ResourceRevenueRequest resourceRevenueRequest);
 
+	@Query("SELECT r from RevenueResourceEntry r where r.businessUnit.businessUnitId = ?1")
+	List<RevenueResourceEntry> findByBusinessUnitId(Long id);
+
+	@Query("SELECT r from RevenueResourceEntry r where r.strategicBusinessUnit.sbuId = ?1")
+	List<RevenueResourceEntry> findBySBUId(Long sbuId);
+
+	@Query("SELECT r from RevenueResourceEntry r where r.strategicBusinessUnitHead.sbuHeadId = ?1")
+	List<RevenueResourceEntry> findBySBUHeadId(Long sbuHeadId);
+
+	@Query("SELECT r from RevenueResourceEntry r where r.location.locationId = ?1")
+	List<RevenueResourceEntry> findByLocationId(Long locationId);
+
+	@Query("SELECT r from RevenueResourceEntry r where r.businessType.businessTypeId = ?1")
+	List<RevenueResourceEntry> findByBusinessTypeId(Long businessTypeId);
+
+	@Query("SELECT r from RevenueResourceEntry r where r.cocPractice.cocPracticeId = ?1")
+	List<RevenueResourceEntry> findByCocPracticeId(Long id);
+
 }

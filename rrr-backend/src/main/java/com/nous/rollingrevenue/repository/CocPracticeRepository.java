@@ -1,6 +1,6 @@
 package com.nous.rollingrevenue.repository;
 
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,6 +12,6 @@ import com.nous.rollingrevenue.model.CocPractice;
 public interface CocPracticeRepository extends JpaRepository<CocPractice, Long> {
 
 	@Query("SELECT c from CocPractice c where c.businessUnit.businessUnitId = ?1")
-	Optional<CocPractice> findByBusinessUnitId(Long businessUnitId);
+	List<CocPractice> findByBusinessUnitId(Long businessUnitId);
 
 }

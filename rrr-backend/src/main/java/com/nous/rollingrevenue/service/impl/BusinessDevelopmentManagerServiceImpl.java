@@ -19,10 +19,16 @@ import com.nous.rollingrevenue.convertor.BusinessDevelopmentManagerConverter;
 import com.nous.rollingrevenue.convertor.BusinessUnitConverter;
 import com.nous.rollingrevenue.convertor.RegionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.AnnualTargetEntry;
+import com.nous.rollingrevenue.model.BDMMeeting;
 import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
 import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.model.Region;
+import com.nous.rollingrevenue.model.RevenueEntry;
+import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
+import com.nous.rollingrevenue.repository.BDMMeetingRepository;
 import com.nous.rollingrevenue.repository.BusinessDevelopmentManagerRepository;
+import com.nous.rollingrevenue.repository.RevenueEntryRespository;
 import com.nous.rollingrevenue.service.BusinessDevelopmentManagerService;
 import com.nous.rollingrevenue.vo.BDMVO;
 
@@ -31,6 +37,15 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 
 	@Autowired
 	BusinessDevelopmentManagerRepository businessDevelopmentManagerRepository;
+
+	@Autowired
+	private BDMMeetingRepository bdmMeetingRepository;
+
+	@Autowired
+	private AnnualTargetEntryRepository annualTargetEntryRepository;
+
+	@Autowired
+	private RevenueEntryRespository revenueEntryRespository;
 
 	@Override
 	@Transactional
@@ -105,6 +120,39 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 	public void activateOrDeactivateById(Long bdmId) {
 		BusinessDevelopmentManager bdm = businessDevelopmentManagerRepository.findById(bdmId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmId));
+		List<BusinessUnit> businessUnits = bdm.getBusinessUnits();
+		for (BusinessUnit bu : businessUnits) {
+			if (!bu.isActive() && !bdm.isActive()) {
+				throw new RecordNotFoundException("BU is not active and its already linked to BDM");
+			}
+		}
+		List<Region> regionList = bdm.getRegions();
+		for (Region region : regionList) {
+			if (!region.isActive() && !bdm.isActive()) {
+				throw new RecordNotFoundException("Region is not active and its already linked to BDM");
+			}
+		}
+		List<BDMMeeting> meetingList = bdmMeetingRepository.findByBDMId(bdmId);
+		for (BDMMeeting bdmMeeting : meetingList) {
+			if (bdm.isActive() && bdmMeeting.isActive()) {
+				throw new RecordNotFoundException(
+						"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			}
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByBDMId(bdmId);
+		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
+			if (bdm.isActive() && targetEntry.isActive()) {
+				throw new RecordNotFoundException(
+						"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			}
+		}
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByBDMId(bdmId);
+		for (RevenueEntry revenueEntry : revenueEntryList) {
+			if (bdm.isActive() && revenueEntry.isActive()) {
+				throw new RecordNotFoundException(
+						"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			}
+		}
 		bdm.setActive(!bdm.isActive());
 		businessDevelopmentManagerRepository.save(bdm);
 	}

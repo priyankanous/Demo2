@@ -122,11 +122,13 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 	@Override
 	public List<FortnightlyMeetingVO> getFortnightlyMeetingsByFinancialYear(String financialYear) {
 		List<FortnightlyMeetingVO> fortnightlyMeetingVOs = new ArrayList<>();
-		Optional<FinancialYear> findByFinancialYearName = financialYearRepository.findByFinancialYearName(financialYear);
-		if(findByFinancialYearName.isPresent()) {
-			findByFinancialYearName.get().getFortnightlyMeetings().stream().filter(fortnightlyMeeting -> fortnightlyMeeting.isActive()==true)
-			.forEach(fortnightlyMeeting -> fortnightlyMeetingVOs.add(FortnightlyMeetingConverter
-					.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeeting)));
+		Optional<FinancialYear> findByFinancialYearName = financialYearRepository
+				.findByFinancialYearName(financialYear);
+		if (findByFinancialYearName.isPresent()) {
+			findByFinancialYearName.get().getFortnightlyMeetings().stream()
+					.filter(fortnightlyMeeting -> fortnightlyMeeting.isActive() == true)
+					.forEach(fortnightlyMeeting -> fortnightlyMeetingVOs.add(FortnightlyMeetingConverter
+							.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeeting)));
 		}
 		return fortnightlyMeetingVOs;
 	}
@@ -136,6 +138,15 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 	public void activateOrDeactivateById(Long id) {
 		FortnightlyMeeting fortnightlyMeeting = fortnightlyMeetingRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
+		Optional<FinancialYear> optional = financialYearRepository
+				.findById(fortnightlyMeeting.getFinancialYear().getFinancialYearId());
+		if (optional.isPresent()) {
+			FinancialYear financialYear = optional.get();
+			if (!financialYear.isActive() && !fortnightlyMeeting.isActive()) {
+				throw new RecordNotFoundException(
+						"FinancialYear is not active and its already linked to FortnightlyMeeting");
+			}
+		}
 		fortnightlyMeeting.setActive(!fortnightlyMeeting.isActive());
 		fortnightlyMeetingRepository.save(fortnightlyMeeting);
 	}

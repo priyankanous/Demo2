@@ -13,4 +13,7 @@ public interface BusinessDevelopmentManagerRepository extends JpaRepository<Busi
 
 	@Query("SELECT b from BusinessDevelopmentManager b left join fetch b.businessUnits u where u.businessUnitId = ?1")
 	List<BusinessDevelopmentManager> findByBusinessUnitId(Long businessUnitId);
+
+	@Query("SELECT b from BusinessDevelopmentManager b left join fetch b.regions r where r.regionId = ?1")
+	List<BusinessDevelopmentManager> findByRegionId(Long regionId);
 }

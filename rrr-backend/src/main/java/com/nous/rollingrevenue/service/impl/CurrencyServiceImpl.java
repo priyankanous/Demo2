@@ -19,8 +19,10 @@ import com.nous.rollingrevenue.convertor.CurrencyConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Currency;
 import com.nous.rollingrevenue.model.FinancialYear;
+import com.nous.rollingrevenue.model.RevenueEntry;
 import com.nous.rollingrevenue.repository.CurrencyRepository;
 import com.nous.rollingrevenue.repository.FinancialYearRepository;
+import com.nous.rollingrevenue.repository.RevenueEntryRespository;
 import com.nous.rollingrevenue.service.CurrencyService;
 import com.nous.rollingrevenue.vo.CurrencyVO;
 
@@ -33,6 +35,9 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Autowired
 	private FinancialYearRepository financialYearRepository;
+
+	@Autowired
+	private RevenueEntryRespository revenueEntryRespository;
 
 	@Override
 	public List<CurrencyVO> getAllCurrency() {
@@ -47,8 +52,8 @@ public class CurrencyServiceImpl implements CurrencyService {
 	public void saveCurrency(CurrencyVO currencyVO) {
 		Currency currency = CurrencyConverter.convertCurrencyVOToCurrency(currencyVO);
 		FinancialYear financialYear = financialYearRepository
-				.findById(currencyVO.getFinancialYear().getFinancialYearId()).orElseThrow(
-						() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
+				.findById(currencyVO.getFinancialYear().getFinancialYearId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
 		currency.setFinancialYear(financialYear);
 		currencyRepository.save(currency);
 	}
@@ -78,8 +83,8 @@ public class CurrencyServiceImpl implements CurrencyService {
 		currency.setSymbol(currencyVO.getSymbol());
 		currency.setConversionRate(currencyVO.getConversionRate());
 		FinancialYear financialYear = financialYearRepository
-				.findById(currencyVO.getFinancialYear().getFinancialYearId()).orElseThrow(
-						() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
+				.findById(currencyVO.getFinancialYear().getFinancialYearId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
 		currency.setFinancialYear(financialYear);
 		currency.setBaseCurrency(currencyVO.isBaseCurrency());
 		currencyRepository.save(currency);
@@ -104,6 +109,20 @@ public class CurrencyServiceImpl implements CurrencyService {
 	public void activateOrDeactivateById(Long currencyId) {
 		Currency currency = currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
+		Optional<FinancialYear> optional = financialYearRepository
+				.findById(currency.getFinancialYear().getFinancialYearId());
+		if (optional.isPresent()) {
+			FinancialYear financialYear = optional.get();
+			if (!financialYear.isActive() && !currency.isActive()) {
+				throw new RecordNotFoundException("FinancialYear is not active and its already linked to Currency");
+			}
+		}
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByCurrencyId(currencyId);
+		for (RevenueEntry revenueEntry : revenueEntryList) {
+			if (currency.isActive() && revenueEntry.isActive()) {
+				throw new RecordNotFoundException("Currency is already linked to RevenueEntry");
+			}
+		}
 		currency.setActive(!currency.isActive());
 		currencyRepository.save(currency);
 	}
@@ -119,14 +138,14 @@ public class CurrencyServiceImpl implements CurrencyService {
 		}
 		return currencyVOs;
 	}
-	
+
 	@Override
 	@Transactional
 	public void saveListOfCurrency(List<CurrencyVO> currencyVOs) {
 		List<Currency> currencies = new ArrayList<>();
 		currencyVOs.stream()
-		.forEach(currencyVO -> currencies.add(CurrencyConverter.convertCurrencyVOToCurrency(currencyVO)));
+				.forEach(currencyVO -> currencies.add(CurrencyConverter.convertCurrencyVOToCurrency(currencyVO)));
 		currencyRepository.saveAll(currencies);
-		
+
 	}
 }

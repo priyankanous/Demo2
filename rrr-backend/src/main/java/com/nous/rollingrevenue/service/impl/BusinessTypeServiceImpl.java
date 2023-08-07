@@ -16,8 +16,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.BusinessTypeConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.AnnualTargetEntry;
 import com.nous.rollingrevenue.model.BusinessType;
+import com.nous.rollingrevenue.model.RevenueResourceEntry;
+import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
 import com.nous.rollingrevenue.repository.BusinessTypeRepository;
+import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
 import com.nous.rollingrevenue.service.BusinessTypeService;
 import com.nous.rollingrevenue.vo.BusinessTypeVO;
 
@@ -27,6 +31,12 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 
 	@Autowired
 	private BusinessTypeRepository businessTypeRepository;
+
+	@Autowired
+	private AnnualTargetEntryRepository annualTargetEntryRepository;
+
+	@Autowired
+	private RevenueResourceEntryRepository revenueResourceEntryRepository;
 
 	@Override
 	public List<BusinessTypeVO> getAllBusinessType() {
@@ -53,7 +63,7 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 	@Override
 	public BusinessTypeVO getBusinessTypeById(Long businessTypeId) {
 		BusinessType businessType = businessTypeRepository.findById(businessTypeId)
-                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
 		return BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(businessType);
 	}
 
@@ -80,12 +90,28 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 		}
 		return Collections.emptyList();
 	}
-	
+
 	@Override
 	@Transactional
 	public void activateOrDeactivateById(Long businessTypeId) {
 		BusinessType businessType = businessTypeRepository.findById(businessTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository
+				.findByBusinessTypeId(businessTypeId);
+		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
+			if (businessType.isActive() && targetEntry.isActive()) {
+				throw new RecordNotFoundException(
+						"BusinessType is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			}
+		}
+		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository
+				.findByBusinessTypeId(businessTypeId);
+		for (RevenueResourceEntry revenueResource : revenueResourceList) {
+			if (businessType.isActive() && revenueResource.isActive()) {
+				throw new RecordNotFoundException(
+						"BusinessType is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			}
+		}
 		businessType.setActive(!businessType.isActive());
 		businessTypeRepository.save(businessType);
 	}

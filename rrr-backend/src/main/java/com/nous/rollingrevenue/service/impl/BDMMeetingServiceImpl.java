@@ -104,6 +104,22 @@ public class BDMMeetingServiceImpl implements BDMMeetingService {
 	public void activateOrDeactivateById(Long bdmMeetingid) {
 		BDMMeeting bdmMeeting = bdmMeetingRepository.findById(bdmMeetingid)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmMeetingid));
+		Optional<BusinessDevelopmentManager> optional = bdmRepository
+				.findById(bdmMeeting.getBusinessDevelopmentManager().getBdmId());
+		if (optional.isPresent()) {
+			BusinessDevelopmentManager bdm = optional.get();
+			if (!bdm.isActive() && !bdmMeeting.isActive()) {
+				throw new RecordNotFoundException("BDM is not active and its already linked to BDMMeeting");
+			}
+		}
+		Optional<FinancialYear> findbyId = financialYearRepository
+				.findById(bdmMeeting.getFinancialYear().getFinancialYearId());
+		if (findbyId.isPresent()) {
+			FinancialYear financialYear = findbyId.get();
+			if (!financialYear.isActive() && !bdmMeeting.isActive()) {
+				throw new RecordNotFoundException("FinancialYear is not active and its already linked to BDMMeeting");
+			}
+		}
 		bdmMeeting.setActive(!bdmMeeting.isActive());
 		bdmMeetingRepository.save(bdmMeeting);
 	}

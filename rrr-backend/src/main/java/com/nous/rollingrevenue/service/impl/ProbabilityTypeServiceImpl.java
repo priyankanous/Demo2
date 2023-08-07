@@ -17,7 +17,9 @@ import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.ProbabilityTypeConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.ProbabilityType;
+import com.nous.rollingrevenue.model.RevenueEntry;
 import com.nous.rollingrevenue.repository.ProbabilityTypeRepository;
+import com.nous.rollingrevenue.repository.RevenueEntryRespository;
 import com.nous.rollingrevenue.service.ProbabilityTypeService;
 import com.nous.rollingrevenue.vo.ProbabilityTypeVO;
 
@@ -27,6 +29,9 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 
 	@Autowired
 	private ProbabilityTypeRepository probabilityTypeRepository;
+
+	@Autowired
+	private RevenueEntryRespository revenueEntryRespository;
 
 	@Override
 	public List<ProbabilityTypeVO> getAllProbabilityType() {
@@ -39,7 +44,8 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 	@Override
 	@Transactional
 	public void saveProbabilityType(ProbabilityTypeVO probabilityTypeVO) {
-		probabilityTypeRepository.save(ProbabilityTypeConverter.convertProbabilityTypeVOToProbabilityType(probabilityTypeVO));
+		probabilityTypeRepository
+				.save(ProbabilityTypeConverter.convertProbabilityTypeVOToProbabilityType(probabilityTypeVO));
 	}
 
 	@Override
@@ -86,6 +92,12 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 	public void activateOrDeactivateById(Long probabilityTypeId) {
 		ProbabilityType probabilityType = probabilityTypeRepository.findById(probabilityTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByProbabilityTypeId(probabilityTypeId);
+		for (RevenueEntry revenueEntry : revenueEntryList) {
+			if (probabilityType.isActive() && revenueEntry.isActive()) {
+				throw new RecordNotFoundException("ProbabilityType is already linked to RevenueEntry");
+			}
+		}
 		probabilityType.setActive(!probabilityType.isActive());
 		probabilityTypeRepository.save(probabilityType);
 	}

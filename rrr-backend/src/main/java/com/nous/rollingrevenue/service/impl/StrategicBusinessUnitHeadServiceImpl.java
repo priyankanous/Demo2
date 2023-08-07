@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,8 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitHeadConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.AnnualTargetEntry;
+import com.nous.rollingrevenue.model.RevenueResourceEntry;
 import com.nous.rollingrevenue.model.StrategicBusinessUnit;
 import com.nous.rollingrevenue.model.StrategicBusinessUnitHead;
+import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
+import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
 import com.nous.rollingrevenue.repository.StrategicBusinessUnitHeadRepository;
 import com.nous.rollingrevenue.repository.StrategicBusinessUnitRepository;
 import com.nous.rollingrevenue.service.StrategicBusinessUnitHeadService;
@@ -29,9 +34,15 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 
 	@Autowired
 	private StrategicBusinessUnitHeadRepository sbuHeadRepository;
-	
+
 	@Autowired
 	private StrategicBusinessUnitRepository sbuRepository;
+
+	@Autowired
+	private AnnualTargetEntryRepository annualTargetEntryRepository;
+
+	@Autowired
+	private RevenueResourceEntryRepository revenueResourceEntryRepository;
 
 	@Override
 	public List<StrategicBusinessUnitHeadVO> getAllSBUHead() {
@@ -45,7 +56,8 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 	@Transactional
 	public void saveSBUHead(StrategicBusinessUnitHeadVO sbuHeadVO) {
 		StrategicBusinessUnitHead sbuHead = StrategicBusinessUnitHeadConverter.convertSBUHeadVOToSBUHead(sbuHeadVO);
-		StrategicBusinessUnit sbu =  sbuRepository.findById(sbuHeadVO.getStrategicBusinessUnit().getSbuId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "StrategicBusinessUnit not exist"));
+		StrategicBusinessUnit sbu = sbuRepository.findById(sbuHeadVO.getStrategicBusinessUnit().getSbuId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "StrategicBusinessUnit not exist"));
 		sbuHead.setStrategicbusinessUnit(sbu);
 		sbuHeadRepository.save(sbuHead);
 	}
@@ -73,7 +85,8 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
 		sbuHead.setSbuHeadName(sbuHeadVO.getSbuHeadName());
 		sbuHead.setSbuHeadDisplayName(sbuHeadVO.getSbuHeadDisplayName());
-		StrategicBusinessUnit sbu =  sbuRepository.findById(sbuHeadVO.getStrategicBusinessUnit().getSbuId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "StrategicBusinessUnit not exist"));
+		StrategicBusinessUnit sbu = sbuRepository.findById(sbuHeadVO.getStrategicBusinessUnit().getSbuId()).orElseThrow(
+				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "StrategicBusinessUnit not exist"));
 		sbuHead.setStrategicbusinessUnit(sbu);
 		sbuHead.setActiveFrom(sbuHeadVO.getActiveFrom());
 		sbuHead.setActiveUntil(sbuHeadVO.getActiveUntil());
@@ -99,6 +112,28 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 	public void activateOrDeactivateById(Long sbuHeadId) {
 		StrategicBusinessUnitHead sbuHead = sbuHeadRepository.findById(sbuHeadId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuHeadId));
+		Optional<StrategicBusinessUnit> optional = sbuRepository
+				.findById(sbuHead.getStrategicbusinessUnit().getSbuId());
+		if (optional.isPresent()) {
+			StrategicBusinessUnit sbu = optional.get();
+			if (!sbuHead.isActive() && !sbu.isActive()) {
+				throw new RecordNotFoundException("SBU is not active and its already linked to SBU Head");
+			}
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findBySBUHeadId(sbuHeadId);
+		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
+			if (sbuHead.isActive() && targetEntry.isActive()) {
+				throw new RecordNotFoundException(
+						"SBU Head is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			}
+		}
+		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findBySBUHeadId(sbuHeadId);
+		for (RevenueResourceEntry revenueResource : revenueResourceList) {
+			if (sbuHead.isActive() && revenueResource.isActive()) {
+				throw new RecordNotFoundException(
+						"SBU Head is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			}
+		}
 		sbuHead.setActive(!sbuHead.isActive());
 		sbuHeadRepository.save(sbuHead);
 	}

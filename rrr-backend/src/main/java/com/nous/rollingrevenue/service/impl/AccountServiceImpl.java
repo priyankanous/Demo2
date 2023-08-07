@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,9 +18,17 @@ import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.AccountConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Account;
+import com.nous.rollingrevenue.model.AnnualTargetEntry;
+import com.nous.rollingrevenue.model.Opportunity;
 import com.nous.rollingrevenue.model.Region;
+import com.nous.rollingrevenue.model.RevenueEntry;
+import com.nous.rollingrevenue.model.WorkOrder;
 import com.nous.rollingrevenue.repository.AccountRepository;
+import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
+import com.nous.rollingrevenue.repository.OpportunityRepository;
 import com.nous.rollingrevenue.repository.RegionRepository;
+import com.nous.rollingrevenue.repository.RevenueEntryRespository;
+import com.nous.rollingrevenue.repository.WorkOrderRepository;
 import com.nous.rollingrevenue.service.AccountService;
 import com.nous.rollingrevenue.vo.AccountVO;
 
@@ -32,6 +41,18 @@ public class AccountServiceImpl implements AccountService {
 
 	@Autowired
 	private RegionRepository regionRepository;
+
+	@Autowired
+	private OpportunityRepository OpportunityRepository;
+
+	@Autowired
+	private WorkOrderRepository workOrderRepository;
+
+	@Autowired
+	private AnnualTargetEntryRepository annualTargetEntryRepository;
+
+	@Autowired
+	private RevenueEntryRespository revenueEntryRespository;
 
 	@Override
 	public List<AccountVO> getAllAccounts() {
@@ -97,6 +118,41 @@ public class AccountServiceImpl implements AccountService {
 	public void activateOrDeactivateById(Long accountId) {
 		Account account = accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
+		Optional<Region> region = regionRepository.findById(account.getRegions().getRegionId());
+		if (region.isPresent()) {
+			Region region2 = region.get();
+			if (!region2.isActive() && !account.isActive()) {
+				throw new RecordNotFoundException("Region is not active and its already linked to Account");
+			}
+		}
+		List<Opportunity> opportunityList = OpportunityRepository.findByAccountId(accountId);
+		for (Opportunity opportunity : opportunityList) {
+			if (account.isActive() && opportunity.isActive()) {
+				throw new RecordNotFoundException(
+						"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+			}
+		}
+		List<WorkOrder> workOrderList = workOrderRepository.findByAccountId(accountId);
+		for (WorkOrder workOrder : workOrderList) {
+			if (account.isActive() && workOrder.isActive()) {
+				throw new RecordNotFoundException(
+						"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+			}
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByAccountId(accountId);
+		for (AnnualTargetEntry annualTargetEntry : annualTargetEntryList) {
+			if (account.isActive() && annualTargetEntry.isActive()) {
+				throw new RecordNotFoundException(
+						"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+			}
+		}
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByAccountId(accountId);
+		for (RevenueEntry revenueEntry : revenueEntryList) {
+			if (account.isActive() && revenueEntry.isActive()) {
+				throw new RecordNotFoundException(
+						"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+			}
+		}
 		account.setActive(!account.isActive());
 		accountRepository.save(account);
 	}

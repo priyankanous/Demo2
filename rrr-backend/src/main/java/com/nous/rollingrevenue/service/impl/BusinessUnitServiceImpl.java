@@ -21,11 +21,13 @@ import com.nous.rollingrevenue.model.AnnualTargetEntry;
 import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
 import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.model.CocPractice;
+import com.nous.rollingrevenue.model.RevenueResourceEntry;
 import com.nous.rollingrevenue.model.StrategicBusinessUnit;
 import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
 import com.nous.rollingrevenue.repository.BusinessDevelopmentManagerRepository;
 import com.nous.rollingrevenue.repository.BusinessUnitRepository;
 import com.nous.rollingrevenue.repository.CocPracticeRepository;
+import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
 import com.nous.rollingrevenue.repository.StrategicBusinessUnitRepository;
 import com.nous.rollingrevenue.service.BusinessUnitService;
 import com.nous.rollingrevenue.vo.BusinessUnitVO;
@@ -47,6 +49,9 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 
 	@Autowired
 	private AnnualTargetEntryRepository annualTargetEntryRepository;
+
+	@Autowired
+	private RevenueResourceEntryRepository revenueResourceEntryRepository;
 
 	@Override
 	@Transactional
@@ -115,31 +120,39 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 	public void activateOrDeactivateById(Long id) {
 		BusinessUnit businessUnit = businessUnitRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
-		Optional<StrategicBusinessUnit> sbu = sbuRepository.findByBusinessUnitId(id);
-		if (sbu.isPresent()) {
-			StrategicBusinessUnit strategicBusinessUnit = sbu.get();
-			if (businessUnit.isActive() && strategicBusinessUnit.isActive()) {
-				throw new RecordNotFoundException("BU is already linked to SBU or BDM or CoC Practice");
+		List<StrategicBusinessUnit> sbuList = sbuRepository.findByBusinessUnitId(id);
+		for (StrategicBusinessUnit sbu : sbuList) {
+			if (businessUnit.isActive() && sbu.isActive()) {
+				throw new RecordNotFoundException(
+						"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
 			}
 		}
 		List<BusinessDevelopmentManager> bdmList = bdmRepository.findByBusinessUnitId(id);
 		for (BusinessDevelopmentManager bdm : bdmList) {
 			if (businessUnit.isActive() && bdm.isActive()) {
-				throw new RecordNotFoundException("BU is already linked to SBU or BDM or CoC Practice");
+				throw new RecordNotFoundException(
+						"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
 			}
 		}
-		Optional<CocPractice> coc = cocRepository.findByBusinessUnitId(id);
-		if (coc.isPresent()) {
-			CocPractice cocPractice = coc.get();
-			if (businessUnit.isActive() && cocPractice.isActive()) {
-				throw new RecordNotFoundException("BU is already linked to SBU or BDM or CoC Practice");
+		List<CocPractice> cocList = cocRepository.findByBusinessUnitId(id);
+		for (CocPractice coc : cocList) {
+			if (businessUnit.isActive() && coc.isActive()) {
+				throw new RecordNotFoundException(
+						"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
 			}
 		}
-		Optional<AnnualTargetEntry> annualTargetEntry = annualTargetEntryRepository.findByBusinessUnitId(id);
-		if (annualTargetEntry.isPresent()) {
-			AnnualTargetEntry targetEntry = annualTargetEntry.get();
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByBusinessUnitId(id);
+		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
 			if (businessUnit.isActive() && targetEntry.isActive()) {
-				throw new RecordNotFoundException("BU is already linked to SBU or BDM or CoC Practice");
+				throw new RecordNotFoundException(
+						"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+			}
+		}
+		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByBusinessUnitId(id);
+		for (RevenueResourceEntry revenueResource : revenueResourceList) {
+			if (businessUnit.isActive() && revenueResource.isActive()) {
+				throw new RecordNotFoundException(
+						"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
 			}
 		}
 		businessUnit.setActive(!businessUnit.isActive());

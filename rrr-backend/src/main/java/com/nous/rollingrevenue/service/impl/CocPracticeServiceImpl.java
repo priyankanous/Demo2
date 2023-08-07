@@ -17,10 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.CocPracticeConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.model.AnnualTargetEntry;
 import com.nous.rollingrevenue.model.BusinessUnit;
 import com.nous.rollingrevenue.model.CocPractice;
+import com.nous.rollingrevenue.model.RevenueResourceEntry;
+import com.nous.rollingrevenue.repository.AnnualTargetEntryRepository;
 import com.nous.rollingrevenue.repository.BusinessUnitRepository;
 import com.nous.rollingrevenue.repository.CocPracticeRepository;
+import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
 import com.nous.rollingrevenue.service.CocPracticeService;
 import com.nous.rollingrevenue.vo.CocPracticeVO;
 
@@ -30,15 +34,22 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 
 	@Autowired
 	CocPracticeRepository cocpracticeRepository;
-	
+
 	@Autowired
 	BusinessUnitRepository businessUnitRepository;
+
+	@Autowired
+	private AnnualTargetEntryRepository annualTargetEntryRepository;
+
+	@Autowired
+	private RevenueResourceEntryRepository revenueResourceEntryRepository;
 
 	@Override
 	@Transactional
 	public void addCocPractice(CocPracticeVO cocpracticeVO) {
 		CocPractice cocPractice = CocPracticeConverter.convertCocPracticeVOToCocPractice(cocpracticeVO);
-		BusinessUnit businessUnit =  businessUnitRepository.findById(cocpracticeVO.getBusinessUnit().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessUnit"));
+		BusinessUnit businessUnit = businessUnitRepository.findById(cocpracticeVO.getBusinessUnit().getBusinessUnitId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessUnit"));
 		cocPractice.setBusinessUnit(businessUnit);
 		cocpracticeRepository.save(cocPractice);
 	}
@@ -82,7 +93,8 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
 		cocpractice.setCocPracticeDisplayName(cocpracticeVO.getCocPracticeDisplayName());
 		cocpractice.setCocPracticeName(cocpracticeVO.getCocPracticeName());
-		BusinessUnit businessUnit =  businessUnitRepository.findById(cocpracticeVO.getBusinessUnit().getBusinessUnitId()).orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessUnit"));
+		BusinessUnit businessUnit = businessUnitRepository.findById(cocpracticeVO.getBusinessUnit().getBusinessUnitId())
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "BusinessUnit"));
 		cocpractice.setBusinessUnit(businessUnit);
 		cocpracticeRepository.save(cocpractice);
 	}
@@ -106,6 +118,27 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 	public void activateOrDeactivateById(Long id) {
 		CocPractice cocpractice = cocpracticeRepository.findById(id)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
+		Optional<BusinessUnit> bu = businessUnitRepository.findById(cocpractice.getBusinessUnit().getBusinessUnitId());
+		if (bu.isPresent()) {
+			BusinessUnit businessUnit = bu.get();
+			if (!businessUnit.isActive() && !cocpractice.isActive()) {
+				throw new RecordNotFoundException("BU is not active and its already linked to CocPractice");
+			}
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByCocPracticeId(id);
+		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
+			if (cocpractice.isActive() && targetEntry.isActive()) {
+				throw new RecordNotFoundException(
+						"CocPractice is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			}
+		}
+		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByCocPracticeId(id);
+		for (RevenueResourceEntry revenueResource : revenueResourceList) {
+			if (cocpractice.isActive() && revenueResource.isActive()) {
+				throw new RecordNotFoundException(
+						"CocPractice is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			}
+		}
 		cocpractice.setActive(!cocpractice.isActive());
 		cocpracticeRepository.save(cocpractice);
 	}
