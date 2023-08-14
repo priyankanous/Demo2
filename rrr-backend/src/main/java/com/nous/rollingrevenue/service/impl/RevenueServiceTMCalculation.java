@@ -248,8 +248,14 @@ public class RevenueServiceTMCalculation {
 			cal = billRate * totalHours;
 		} else if (Constants.DAILY.equalsIgnoreCase(billingType)) {
 			cal = billRate * (totalHours / 8);
+		} else if (Constants.WEEKLY.equalsIgnoreCase(billingType)) {
+			cal = billRate * (totalHours / 40);
+		} else if (Constants.TWOWEEKS.equalsIgnoreCase(billingType)) {
+			cal = billRate * (totalHours / 80);
 		} else if (Constants.MONTHLY.equalsIgnoreCase(billingType)) {
 			cal = billRate;
+		} else if (Constants.TWO_MONTHS.equalsIgnoreCase(billingType)) {
+			cal = (billRate / 2);
 		} else if (Constants.QUARTERLY.equalsIgnoreCase(billingType)) {
 			cal = (billRate / 3);
 		} else {

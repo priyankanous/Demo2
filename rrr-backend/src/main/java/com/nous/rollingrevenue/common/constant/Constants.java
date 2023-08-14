@@ -22,8 +22,14 @@ public class Constants {
 	public static final String HOURLY = "Hourly";
 
 	public static final String DAILY = "Daily";
+	
+	public static final String WEEKLY = "Weekly";
+	
+	public static final String TWOWEEKS = "TwoWeeks";
 
 	public static final String MONTHLY = "Monthly";
+	
+	public static final String TWO_MONTHS = "TwoMonths";
 
 	public static final String QUARTERLY = "Quarterly";
 
