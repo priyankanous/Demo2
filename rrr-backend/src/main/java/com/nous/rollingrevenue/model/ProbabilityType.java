@@ -30,7 +30,7 @@ public class ProbabilityType extends Auditable<String> {
 	private String probabilityTypeName;
 
 	@Column(name = "percentage")
-	private Integer percentage;
+	private String percentage;
 
 	@OneToMany(mappedBy = "probabilityType")
 	@JsonBackReference
@@ -40,7 +40,7 @@ public class ProbabilityType extends Auditable<String> {
 
 	}
 
-	public ProbabilityType(Long probabilityTypeId, String probabilityTypeName, Integer percentage) {
+	public ProbabilityType(Long probabilityTypeId, String probabilityTypeName, String percentage) {
 		super();
 		this.probabilityTypeId = probabilityTypeId;
 		this.probabilityTypeName = probabilityTypeName;
@@ -63,11 +63,11 @@ public class ProbabilityType extends Auditable<String> {
 		this.probabilityTypeName = probabilityTypeName;
 	}
 
-	public Integer getPercentage() {
+	public String getPercentage() {
 		return percentage;
 	}
 
-	public void setPercentage(Integer percentage) {
+	public void setPercentage(String percentage) {
 		this.percentage = percentage;
 	}
 
