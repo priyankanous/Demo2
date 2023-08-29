@@ -69,7 +69,16 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 	@Transactional
 	public void deleteCocPractice(Long id) {
 		Optional<CocPractice> cocOptional = cocpracticeRepository.findById(id);
-
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByCocPracticeId(id);
+		if (!annualTargetEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"CocPractice is already linked to AnnualTargetEntry or RevenueResourceEntry");
+		}
+		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByCocPracticeId(id);
+		if (!revenueResourceList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"CocPractice is already linked to AnnualTargetEntry or RevenueResourceEntry");
+		}
 		if (cocOptional.isPresent()) {
 			cocpracticeRepository.deleteById(id);
 		} else {

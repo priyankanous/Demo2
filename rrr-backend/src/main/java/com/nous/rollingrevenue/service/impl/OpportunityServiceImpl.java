@@ -59,6 +59,11 @@ public class OpportunityServiceImpl implements OpportunityService {
 	@Override
 	@Transactional
 	public void deleteOpportunityById(Long opportunityId) {
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByOpportunityId(opportunityId);
+		if (!revenueEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Opportunity is already linked to RevenueEntry");
+		}
 		opportunityRepository.findById(opportunityId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
 		opportunityRepository.deleteById(opportunityId);

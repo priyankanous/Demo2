@@ -61,6 +61,11 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@Override
 	@Transactional
 	public void deleteCurrencyById(Long currencyId) {
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByCurrencyId(currencyId);
+		if (!revenueEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Currency is already linked to RevenueEntry");
+		}
 		currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
 		currencyRepository.deleteById(currencyId);

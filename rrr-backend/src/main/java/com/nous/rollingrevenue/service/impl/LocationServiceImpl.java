@@ -84,6 +84,21 @@ public class LocationServiceImpl implements LocationService {
 	@Transactional
 	public void deleteLocation(Long locationId) {
 		Optional<Location> locationOptional = locationRepository.findById(locationId);
+		List<HolidayCalendar> holidayCalenderList = holidayCalendarRepository.findByLocationId(locationId);
+		if (!holidayCalenderList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByLocationId(locationId);
+		if (!annualTargetEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+		}
+		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByLocationId(locationId);
+		if (!revenueResourceList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+		}
 		if (locationOptional.isPresent()) {
 			locationRepository.deleteById(locationId);
 		} else {

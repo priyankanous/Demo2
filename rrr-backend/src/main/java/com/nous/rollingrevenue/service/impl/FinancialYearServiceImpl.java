@@ -80,6 +80,44 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	@Override
 	@Transactional
 	public void deleteFinancialYearById(Long financialYearId) {
+		List<Currency> currencyList = currencyRepository.findByFinancialYearId(financialYearId);
+		if (!currencyList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<GlobalMonthlyLeaveLossFactor> leaveLossFactorByLocation = leaveLossFactorRepository
+				.getLeaveLossFactorByLocation(financialYearId);
+		if (!leaveLossFactorByLocation.isEmpty()) {
+			throw new RecordNotFoundException(
+					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<HolidayCalendar> holidayList = holidayCalendarRepository.findByFinancialYearId(financialYearId);
+		if (!holidayList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<BDMMeeting> bdmMeetingList = bdmMeetingRepository.findByFinancialYearId(financialYearId);
+		if (!bdmMeetingList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<FortnightlyMeeting> fortnightlyMeetingList = fortnightlyMeetingRepository
+				.findByFinancialYearId(financialYearId);
+		if (!fortnightlyMeetingList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository
+				.findByFinancialYearId(financialYearId);
+		if (!annualTargetEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByFinancialYearId(financialYearId);
+		if (!revenueEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+		}
 		financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
 		financialYearRepository.deleteById(financialYearId);

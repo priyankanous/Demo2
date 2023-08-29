@@ -71,6 +71,21 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 	@Override
 	@Transactional
 	public void deleteSBUById(Long sbuId) {
+		List<StrategicBusinessUnitHead> sbuHeadList = sbuHeadRepository.findBySBUId(sbuId);
+		if (!sbuHeadList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"SBU is already linked to SBU Head or AnnualTargetEntry or RevenueResourceEntry");
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findBySBUId(sbuId);
+		if (!annualTargetEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"SBU is already linked to SBU Head or AnnualTargetEntry or RevenueResourceEntry");
+		}
+		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findBySBUId(sbuId);
+		if (!revenueResourceList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"SBU is already linked to SBU Head or AnnualTargetEntry or RevenueResourceEntry");
+		}
 		sbuRepository.findById(sbuId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
 		sbuRepository.deleteById(sbuId);

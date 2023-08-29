@@ -74,7 +74,31 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 	@Transactional
 	public void deleteBusinessUnit(Long id) {
 		Optional<BusinessUnit> businessUnitOptional = businessUnitRepository.findById(id);
-
+		List<StrategicBusinessUnit> sbuList = sbuRepository.findByBusinessUnitId(id);
+		if (!sbuList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+		}
+		List<BusinessDevelopmentManager> bdmList = bdmRepository.findByBusinessUnitId(id);
+		if (!bdmList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+		}
+		List<CocPractice> cocList = cocRepository.findByBusinessUnitId(id);
+		if (!cocList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByBusinessUnitId(id);
+		if (!annualTargetEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+		}
+		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByBusinessUnitId(id);
+		if (!revenueResourceList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+		}
 		if (businessUnitOptional.isPresent()) {
 			businessUnitRepository.deleteById(id);
 		} else {

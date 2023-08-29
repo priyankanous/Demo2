@@ -51,6 +51,11 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 	@Override
 	@Transactional
 	public void deleteProbabilityTypeById(Long probabilityTypeId) {
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByProbabilityTypeId(probabilityTypeId);
+		if (!revenueEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"ProbabilityType is already linked to RevenueEntry");
+		}
 		probabilityTypeRepository.findById(probabilityTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + probabilityTypeId));
 		probabilityTypeRepository.deleteById(probabilityTypeId);

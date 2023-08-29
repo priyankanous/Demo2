@@ -121,14 +121,14 @@ public class BusinessUnitReportServiceImpl implements BusinessUnitReportService 
 
 		List<BigInteger> testree = getRevenueDetails(list, financialYearRevenueTESTREE.getDataMap());
 		BusinessUnitOutDTO outDTOTESTREE = new BusinessUnitOutDTO();
-		outDTOTESTREE.setLabel("TESTREE");
+		outDTOTESTREE.setLabel("Testree");
 		outDTOTESTREE.setStack("bar1");
 		outDTOTESTREE.setData(testree);
 		outDTOList.add(outDTOTESTREE);
 
 		List<BigInteger> vserve = getRevenueDetails(list, financialYearRevenueVSERVE.getDataMap());
 		BusinessUnitOutDTO outDTOVSERVE = new BusinessUnitOutDTO();
-		outDTOVSERVE.setLabel("VSERVE");
+		outDTOVSERVE.setLabel("VServe");
 		outDTOVSERVE.setStack("bar1");
 		outDTOVSERVE.setData(vserve);
 		outDTOList.add(outDTOVSERVE);

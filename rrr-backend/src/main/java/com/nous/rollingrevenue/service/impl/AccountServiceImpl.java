@@ -75,6 +75,26 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	@Transactional
 	public void deleteAccountById(Long accountId) {
+		List<WorkOrder> workOrderList = workOrderRepository.findByAccountId(accountId);
+		if (!workOrderList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+		}
+		List<Opportunity> opportunityList = OpportunityRepository.findByAccountId(accountId);
+		if (!opportunityList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByBusinessUnitId(accountId);
+		if (!annualTargetEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+		}
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByAccountId(accountId);
+		if (!revenueEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+		}
 		accountRepository.findById(accountId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
 		accountRepository.deleteById(accountId);

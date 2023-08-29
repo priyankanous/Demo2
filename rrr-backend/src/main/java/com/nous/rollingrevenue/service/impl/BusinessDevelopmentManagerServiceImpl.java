@@ -86,6 +86,21 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 	@Transactional
 	public void deleteBDM(Long bdmId) {
 		Optional<BusinessDevelopmentManager> bdmOptional = businessDevelopmentManagerRepository.findById(bdmId);
+		List<BDMMeeting> meetingList = bdmMeetingRepository.findByBDMId(bdmId);
+		if (!meetingList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByBDMId(bdmId);
+		if (!annualTargetEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByBDMId(bdmId);
+		if (!revenueEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+		}
 		if (bdmOptional.isPresent()) {
 			businessDevelopmentManagerRepository.deleteById(bdmId);
 		} else {

@@ -70,6 +70,31 @@ public class RegionServiceImpl implements RegionService {
 	@Override
 	@Transactional
 	public void deleteRegionById(Long regionId) {
+		List<Account> accountList = accountRepository.findByRegionId(regionId);
+		if (!accountList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<BusinessDevelopmentManager> bdmList = bdmRepository.findByRegionId(regionId);
+		if (!bdmList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<BDMMeeting> bdmMeetingList = bdmMeetingRepository.findByRegionId(regionId);
+		if (!bdmMeetingList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByRegionId(regionId);
+		if (!annualTargetEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+		}
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByRegionId(regionId);
+		if (!revenueEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+		}
 		regionRepository.findById(regionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
 		regionRepository.deleteById(regionId);

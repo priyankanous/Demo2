@@ -55,6 +55,18 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 	@Override
 	@Transactional
 	public void deleteBusinessTypeById(Long businessTypeId) {
+		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository
+				.findByBusinessTypeId(businessTypeId);
+		if (!annualTargetEntryList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"BusinessType is already linked to AnnualTargetEntry or RevenueResourceEntry");
+		}
+		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository
+				.findByBusinessTypeId(businessTypeId);
+		if (!revenueResourceList.isEmpty()) {
+			throw new RecordNotFoundException(
+					"BusinessType is already linked to AnnualTargetEntry or RevenueResourceEntry");
+		}
 		businessTypeRepository.findById(businessTypeId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
 		businessTypeRepository.deleteById(businessTypeId);
