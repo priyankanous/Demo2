@@ -65,6 +65,7 @@ import com.nous.rollingrevenue.vo.MilestoneEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
 import com.nous.rollingrevenue.vo.OpportunityEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
+import com.nous.rollingrevenue.vo.ResourceDeleteRequest;
 import com.nous.rollingrevenue.vo.ResourceEntryRequest;
 import com.nous.rollingrevenue.vo.ResourceEntryResponse;
 import com.nous.rollingrevenue.vo.ResourceRevenueRequest;
@@ -1282,5 +1283,28 @@ public class RevenueServiceImpl implements RevenueService {
 		revenueEntryResponse.setFinancialYearName(financialYearName);
 
 		return revenueEntryResponse;
+	}
+
+	@Override
+	@Transactional
+	public String deleteResourcesDetails(ResourceDeleteRequest resourceDeleteRequest) {
+		Opportunity opportunity = opportunityRepository.findById(resourceDeleteRequest.getOpportunityId())
+				.orElseThrow(() -> new RecordNotFoundException(
+						ErrorConstants.RECORD_NOT_EXIST + resourceDeleteRequest.getOpportunityId()));
+		List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
+		if (!revenueEntryList.isEmpty()) {
+			for (RevenueEntry revenueEntry : revenueEntryList) {
+				List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
+				for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+					if (resourceDeleteRequest.getEmployeeId().equalsIgnoreCase(revenueResourceEntry.getEmployeeId())
+							&& resourceDeleteRequest.getResourceStartDate()
+									.isEqual(revenueResourceEntry.getResourceStartDate())) {
+						revenueResourceEntryRepository.deleteById(revenueResourceEntry.getRevenueResourceEntryId());
+					}
+				}
+			}
+			return "Deleted Revenue Entry Details Successfully";
+		}
+		return "Revenue Entry Details are empty";
 	}
 }

@@ -19,6 +19,7 @@ import com.nous.rollingrevenue.service.RevenueService;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
+import com.nous.rollingrevenue.vo.ResourceDeleteRequest;
 import com.nous.rollingrevenue.vo.ResourceEntryRequest;
 import com.nous.rollingrevenue.vo.ResourceEntryResponse;
 import com.nous.rollingrevenue.vo.ResourceRevenueRequest;
@@ -124,7 +125,15 @@ public class RevenueController {
 			@RequestParam(defaultValue = "revenueResourceEntryId", required = false) String sortBy,
 			@RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
-				revenueService.getRevenueEntriesDetailsByPagination(financialYearName,pagenumber, pagesize, sortBy, isDisplayAdditionalQuarter));
+				revenueService.getRevenueEntriesDetailsByPagination(financialYearName, pagenumber, pagesize, sortBy,
+						isDisplayAdditionalQuarter));
+	}
+
+	@Operation(summary = "Delete Resource Details")
+	@DeleteMapping(path = "/delete/resources")
+	public WSResponse<String> deleteResourcesDetails(@RequestBody @Valid ResourceDeleteRequest resourceDeleteRequest) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				revenueService.deleteResourcesDetails(resourceDeleteRequest));
 	}
 
 }

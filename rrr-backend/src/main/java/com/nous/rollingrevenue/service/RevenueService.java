@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
+import com.nous.rollingrevenue.vo.ResourceDeleteRequest;
 import com.nous.rollingrevenue.vo.ResourceEntryRequest;
 import com.nous.rollingrevenue.vo.ResourceEntryResponse;
 import com.nous.rollingrevenue.vo.ResourceRevenueRequest;
@@ -38,6 +39,8 @@ public interface RevenueService {
 
 	public String deleteRevenueEntriesDetailsById(@Valid Long opportunityId);
 
-	public RevenueEntryResponse getRevenueEntriesDetailsByPagination(String financialYearName, int pagenumber, int pagesize,
-			String sortBy, boolean isDisplayAdditionalQuarter);
+	public RevenueEntryResponse getRevenueEntriesDetailsByPagination(String financialYearName, int pagenumber,
+			int pagesize, String sortBy, boolean isDisplayAdditionalQuarter);
+
+	public String deleteResourcesDetails(ResourceDeleteRequest resourceDeleteRequest);
 }
