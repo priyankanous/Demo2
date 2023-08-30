@@ -196,42 +196,42 @@ public class SBUClientTypeReportServiceImpl implements SBUClientTypeReportServic
 
 		List<BigInteger> usbfsie = getRevenueDetails(list, financialYearRevenueUSBFSIE.getDataMap());
 		BusinessTypeOutDTO outUSBFSIE = new BusinessTypeOutDTO();
-		outUSBFSIE.setLabel("USBFSIE ");
+		outUSBFSIE.setLabel("USBFSIE");
 		outUSBFSIE.setStack("bar1");
 		outUSBFSIE.setData(usbfsie);
 		outDTOList.add(outUSBFSIE);
 
 		List<BigInteger> usfitchrtm3 = getRevenueDetails(list, financialYearRevenueUSFITCHRTM3.getDataMap());
 		BusinessTypeOutDTO outUSFITCHRTM3 = new BusinessTypeOutDTO();
-		outUSFITCHRTM3.setLabel("USFITCHRTM3 ");
+		outUSFITCHRTM3.setLabel("USFITCHRTM3");
 		outUSFITCHRTM3.setStack("bar1");
 		outUSFITCHRTM3.setData(usfitchrtm3);
 		outDTOList.add(outUSFITCHRTM3);
 
 		List<BigInteger> ushlcemvrtm2 = getRevenueDetails(list, financialYearRevenueUSHLCEMVRTM2.getDataMap());
 		BusinessTypeOutDTO outushlcemvrtm2 = new BusinessTypeOutDTO();
-		outushlcemvrtm2.setLabel("USHLCEMVRTM2 ");
+		outushlcemvrtm2.setLabel("USHLCEMVRTM2");
 		outushlcemvrtm2.setStack("bar1");
 		outushlcemvrtm2.setData(ushlcemvrtm2);
 		outDTOList.add(outushlcemvrtm2);
 
 		List<BigInteger> testree1 = getRevenueDetails(list, financialYearRevenueTESTREE1.getDataMap());
 		BusinessTypeOutDTO outTESTREE1 = new BusinessTypeOutDTO();
-		outTESTREE1.setLabel("TESTREE1  ");
+		outTESTREE1.setLabel("Testree1");
 		outTESTREE1.setStack("bar1");
 		outTESTREE1.setData(testree1);
 		outDTOList.add(outTESTREE1);
 
 		List<BigInteger> testree2 = getRevenueDetails(list, financialYearRevenueTESTREE2.getDataMap());
 		BusinessTypeOutDTO outTESTREE2 = new BusinessTypeOutDTO();
-		outTESTREE2.setLabel("TESTREE2 ");
+		outTESTREE2.setLabel("Testree2");
 		outTESTREE2.setStack("bar1");
 		outTESTREE2.setData(testree2);
 		outDTOList.add(outTESTREE2);
 
 		List<BigInteger> vserve = getRevenueDetails(list, financialYearRevenueVSERVE.getDataMap());
 		BusinessTypeOutDTO outVSERVE = new BusinessTypeOutDTO();
-		outVSERVE.setLabel("VSERVE");
+		outVSERVE.setLabel("Vserve");
 		outVSERVE.setStack("bar1");
 		outVSERVE.setData(vserve);
 		outDTOList.add(outVSERVE);
