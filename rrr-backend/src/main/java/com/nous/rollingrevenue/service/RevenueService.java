@@ -43,4 +43,6 @@ public interface RevenueService {
 			int pagesize, String sortBy, boolean isDisplayAdditionalQuarter);
 
 	public String deleteResourcesDetails(ResourceDeleteRequest resourceDeleteRequest);
+
+	public String deleteRevenueResourceEntry(Long revenueResourceEntryId);
 }

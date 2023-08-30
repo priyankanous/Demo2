@@ -136,4 +136,11 @@ public class RevenueController {
 				revenueService.deleteResourcesDetails(resourceDeleteRequest));
 	}
 
+	@Operation(summary = "Delete RevenueResourceEntry By revenueResourceEntryId")
+	@DeleteMapping(path = "/revenueresource/{revenueResourceEntryId}")
+	public WSResponse<String> deleteRevenueResourceEntry(@PathVariable @Valid Long revenueResourceEntryId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				revenueService.deleteRevenueResourceEntry(revenueResourceEntryId));
+	}
+
 }

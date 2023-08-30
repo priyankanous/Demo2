@@ -1307,4 +1307,16 @@ public class RevenueServiceImpl implements RevenueService {
 		}
 		return "Revenue Entry Details are empty";
 	}
+
+	@Override
+	@Transactional
+	public String deleteRevenueResourceEntry(Long revenueResourceEntryId) {
+		Optional<RevenueResourceEntry> optional = revenueResourceEntryRepository.findById(revenueResourceEntryId);
+		if (optional.isPresent()) {
+			revenueResourceEntryRepository.deleteById(revenueResourceEntryId);
+			return "Deleted Revenue Resource Entry Details Successfully";
+		} else {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + revenueResourceEntryId);
+		}
+	}
 }
