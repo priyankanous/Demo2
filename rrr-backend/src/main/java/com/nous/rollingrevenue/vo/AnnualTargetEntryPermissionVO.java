@@ -15,16 +15,20 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 	
 	@NotNull(message = "isAddAnnualTargetEntryRequired cannot be null or empty")
 	private Boolean isAddAnnualTargetEntryRequired;
+	
+	private boolean isActive;
 
 	public AnnualTargetEntryPermissionVO() {
 		super();
 	}
 
 	public AnnualTargetEntryPermissionVO(Long annualTargetEntryPermissionId,
-			@NotNull(message = "isAddAnnualTargetEntryRequired cannot be null or empty") Boolean isAddAnnualTargetEntryRequired) {
+			Boolean isAddAnnualTargetEntryRequired,
+			boolean isActive) {
 		super();
 		this.annualTargetEntryPermissionId = annualTargetEntryPermissionId;
 		this.isAddAnnualTargetEntryRequired = isAddAnnualTargetEntryRequired;
+		this.isActive = isActive;
 	}
 
 	public Long getAnnualTargetEntryPermissionId() {
@@ -42,10 +46,15 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 	public void setIsAddAnnualTargetEntryRequired(Boolean isAddAnnualTargetEntryRequired) {
 		this.isAddAnnualTargetEntryRequired = isAddAnnualTargetEntryRequired;
 	}
-	
-	
-	
-	
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
 }
 
 

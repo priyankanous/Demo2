@@ -36,6 +36,7 @@ public class AnnualTargetEntryPermissionConverter {
 		if (annualTargetEntryPermission != null) {
 			annualTargetEntryPermissionVO.setAnnualTargetEntryPermissionId(annualTargetEntryPermission.getAnnualTargetEntryPermissionId());
 			annualTargetEntryPermissionVO.setIsAddAnnualTargetEntryRequired(annualTargetEntryPermission.getIsAddAnnualTargetEntryRequired());
+			annualTargetEntryPermissionVO.setActive(annualTargetEntryPermission.isActive());
 		}
 		return annualTargetEntryPermissionVO;
 	}
