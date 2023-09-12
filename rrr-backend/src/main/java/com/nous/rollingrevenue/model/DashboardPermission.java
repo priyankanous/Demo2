@@ -62,6 +62,4 @@ public class DashboardPermission extends Auditable<String> {
 		this.isEditDashboardRequired = isEditDashboardRequired;
 	}
 
-	
-
 }
