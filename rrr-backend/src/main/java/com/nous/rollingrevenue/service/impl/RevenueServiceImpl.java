@@ -1300,6 +1300,13 @@ public class RevenueServiceImpl implements RevenueService {
 							&& resourceDeleteRequest.getResourceStartDate()
 									.isEqual(revenueResourceEntry.getResourceStartDate())) {
 						revenueResourceEntryRepository.deleteById(revenueResourceEntry.getRevenueResourceEntryId());
+						revenueResourceEntry.getRevenueEntry().getRevenueEntryId();
+						if (revenueResourceEntry.getRevenueEntry().getResourceCount() != null
+								|| revenueResourceEntry.getRevenueEntry().getResourceCount() != 0) {
+							Integer resourceCount = revenueResourceEntry.getRevenueEntry().getResourceCount() - 1;
+							revenueEntryRespository.updateRevenueEntryDetails(resourceCount,
+									revenueResourceEntry.getRevenueEntry().getRevenueEntryId());
+						}
 					}
 				}
 			}

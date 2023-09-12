@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +32,9 @@ public interface RevenueEntryRespository extends JpaRepository<RevenueEntry, Lon
 
 	@Query("SELECT r from RevenueEntry r where r.opportunity.opportunityId = ?1")
 	List<RevenueEntry> findByOpportunityId(Long opportunityId);
+
+	@Modifying
+	@Query("Update RevenueEntry r set r.resourceCount = ?1 where r.revenueEntryId = ?2")
+	void updateRevenueEntryDetails(Integer resourceCount, Long revenueEntryId);
 
 }
