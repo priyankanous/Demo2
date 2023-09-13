@@ -148,4 +148,16 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 		sbuHeadRepository.save(sbuHead);
 	}
 
+	@Override
+	public List<StrategicBusinessUnitHeadVO> getSBUHeadBySBUId(Long sbuId) {
+		List<StrategicBusinessUnitHeadVO> list = new ArrayList<>();
+		StrategicBusinessUnit sbu = sbuRepository.findById(sbuId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
+		List<StrategicBusinessUnitHead> sbuHeadList = sbu.getStrategicBusinessUnitHeads();
+		for (StrategicBusinessUnitHead sbuHead : sbuHeadList) {
+			list.add(StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(sbuHead));
+		}
+		return list;
+	}
+
 }

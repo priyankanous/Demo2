@@ -82,4 +82,10 @@ public class StrategicBusinessUnitHeadController {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 
+	@Operation(summary = "Get SBU head by sbu Id")
+	@GetMapping(path = "/sbu/{sbuId}")
+	public WSResponse<List<StrategicBusinessUnitHeadVO>> getSBUHeadBySBUId(@PathVariable Long sbuId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuHeadService.getSBUHeadBySBUId(sbuId));
+	}
+
 }
