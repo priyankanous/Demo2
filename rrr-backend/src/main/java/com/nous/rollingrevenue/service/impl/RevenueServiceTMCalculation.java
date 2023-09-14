@@ -62,21 +62,22 @@ public class RevenueServiceTMCalculation {
 		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
 
 		for (RevenueResourceEntry revenueTMResourceEntry : revenueEntryList) {
-			long leaveLossFactor = 0;
-			if ("Offshore".equalsIgnoreCase(revenueTMResourceEntry.getLocation().getLocationName())) {
-				leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor();
-			} else {
-				leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor();
+			if (revenueTMResourceEntry.getLeaveLossFactor() != null) {
+				long leaveLossFactor = 0;
+				if ("Offshore".equalsIgnoreCase(revenueTMResourceEntry.getLocation().getLocationName())) {
+					leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor();
+				} else {
+					leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor();
+				}
+
+				BigInteger billingRate = calculatingBillingRate(financialYear,
+						revenueTMResourceEntry.getRevenueEntry().getCurrency().getCurrencyId(),
+						revenueTMResourceEntry.getBillingRate());
+				monthlyBillingSeparation(financialYearName, revenueTMResourceEntry.getResourceStartDate(),
+						revenueTMResourceEntry.getResourceEndDate(), revenueTMResourceEntry.getBillingRateType(),
+						billingRate, leaveLossFactor, isDisplayAdditionalQuarter, fyRevenue);
 			}
-
-			BigInteger billingRate = calculatingBillingRate(financialYear,
-					revenueTMResourceEntry.getRevenueEntry().getCurrency().getCurrencyId(),
-					revenueTMResourceEntry.getBillingRate());
-			monthlyBillingSeparation(financialYearName, revenueTMResourceEntry.getResourceStartDate(),
-					revenueTMResourceEntry.getResourceEndDate(), revenueTMResourceEntry.getBillingRateType(),
-					billingRate, leaveLossFactor, isDisplayAdditionalQuarter, fyRevenue);
 		}
-
 		setQuarterlyDetails(fyRevenue, isDisplayAdditionalQuarter);
 		financialYearTMRevenue.setDataMap(fyRevenue);
 		return financialYearTMRevenue;

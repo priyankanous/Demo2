@@ -1,8 +1,11 @@
 package com.nous.rollingrevenue.repository;
 
+import java.math.BigInteger;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -117,5 +120,12 @@ public interface RevenueResourceEntryRepository extends JpaRepository<RevenueRes
 
 	@Query("SELECT r from RevenueResourceEntry r where r.cocPractice.cocPracticeId = ?1")
 	List<RevenueResourceEntry> findByCocPracticeId(Long id);
+
+	@Modifying
+	@Query("Update RevenueResourceEntry r set r.resourceStartDate = ?1, r.resourceEndDate = ?2, r.employeeId = ?3, r.resourceName = ?4, r.billingRate = ?5,"
+			+ "r.allocation = ?6, r.leaveLossFactor = ?7 where r.revenueResourceEntryId = ?8")
+	void updateRevenueResourceEntryDetails(LocalDate resourceStartDate, LocalDate resourceEndDate, String employeeId,
+			String resourceName, BigInteger billingRate, Integer allocation, Long leaveLossFactor,
+			Long revenueResourceEntryId);
 
 }

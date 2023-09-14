@@ -279,38 +279,9 @@ public class RevenueServiceImpl implements RevenueService {
 				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
 
 		Set<RevenueEntryVO> revenueEntriesVO = new HashSet<>();
-		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
-		FinancialYearTMRevenue financialYearTMRevenue = new FinancialYearTMRevenue();
 		RevenueEntryResponse revenueEntryResponse = new RevenueEntryResponse();
 
 		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository.findAll();
-
-		Map<Boolean, List<RevenueResourceEntry>> partitionResourceEntriesByPricingType = this
-				.getPartitionResourceEntriesByPricingType(revenueResourceEntries);
-
-		Set<Entry<Boolean, List<RevenueResourceEntry>>> entrySet = partitionResourceEntriesByPricingType.entrySet();
-
-		for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
-			if (entry.getKey()) {
-				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
-				financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYear,
-						isDisplayAdditionalQuarter);
-			} else {
-				List<RevenueResourceEntry> revenueEntryList = entry.getValue();
-				financialYearTMRevenue = tmCalculation.calculateTMRevenue(revenueEntryList, financialYear,
-						isDisplayAdditionalQuarter);
-			}
-		}
-
-		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
-		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
-		for (String key : dataMap.keySet()) {
-			if (map.containsKey(key)) {
-				map.put(key, map.get(key).add(dataMap.get(key)));
-			}
-		}
-		financialYearRevenue.setDataMap(map);
-
 		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
 
 			RevenueEntry revenueEntry = revenueResourceEntry.getRevenueEntry();
@@ -336,15 +307,10 @@ public class RevenueServiceImpl implements RevenueService {
 							? Constants.NO
 							: Constants.YES);
 			revenueEntryVO.setStatus(revenueEntry.getStatus());
-
 			revenueEntriesVO.add(revenueEntryVO);
-
 		}
-
 		revenueEntryResponse.setRevenueEntries(revenueEntriesVO);
-		revenueEntryResponse.setFinancialYearRevenue(financialYearRevenue);
-		revenueEntryResponse.setFinancialYearName(financialYearName);
-
+		revenueEntryResponse.setFinancialYearName(financialYear.getFinancialYearName());
 		return revenueEntryResponse;
 	}
 
@@ -573,13 +539,14 @@ public class RevenueServiceImpl implements RevenueService {
 			if (Constants.PRICING_TYPE_FP.equals(revenueResourceEntry.getRevenueEntry().getPricingType())) {
 				opportunityEntryVO.setLeaveLossFactor("Not Applicable");
 			} else {
-				if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
-					opportunityEntryVO.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().toString());
-				} else {
-					opportunityEntryVO.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().toString());
+				if (revenueResourceEntry.getLeaveLossFactor() != null) {
+					if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
+						opportunityEntryVO.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().toString());
+					} else {
+						opportunityEntryVO.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().toString());
+					}
 				}
 			}
-
 			opportunityEntriesVO.add(opportunityEntryVO);
 		}
 
@@ -648,8 +615,9 @@ public class RevenueServiceImpl implements RevenueService {
 				fpResourceEntry.setResourceStartDate(revenueResourceEntry.getResourceStartDate());
 				fpResourceEntry.setResourceEndDate(revenueResourceEntry.getResourceEndDate());
 				fpResourceEntry.setMilestoneNumber(revenueResourceEntry.getMilestoneEntry().getMilestoneNumber());
-				fpResourceEntry
-						.setWorkOrderNumber(revenueResourceEntry.getRevenueEntry().getWorkOrder().getWorkOrderNumber());
+				fpResourceEntry.setWorkOrderNumber(revenueResourceEntry.getRevenueEntry().getWorkOrder() != null
+						? revenueResourceEntry.getRevenueEntry().getWorkOrder().getWorkOrderNumber()
+						: null);
 				fpResourceEntry.setEmployeeId(revenueResourceEntry.getEmployeeId());
 				fpResourceEntry.setResourceName(revenueResourceEntry.getResourceName());
 				fpResourceEntry
@@ -673,14 +641,17 @@ public class RevenueServiceImpl implements RevenueService {
 				TandMResourceEntryVO tmResourceEntry = new TandMResourceEntryVO();
 				tmResourceEntry.setResourceStartDate(revenueResourceEntry.getResourceStartDate());
 				tmResourceEntry.setResourceEndDate(revenueResourceEntry.getResourceEndDate());
-				tmResourceEntry
-						.setWorkOrderNumber(revenueResourceEntry.getRevenueEntry().getWorkOrder().getWorkOrderNumber());
+				tmResourceEntry.setWorkOrderNumber(revenueResourceEntry.getRevenueEntry().getWorkOrder() != null
+						? revenueResourceEntry.getRevenueEntry().getWorkOrder().getWorkOrderNumber()
+						: null);
 				tmResourceEntry.setEmployeeId(revenueResourceEntry.getEmployeeId());
 				tmResourceEntry.setResourceName(revenueResourceEntry.getResourceName());
 				tmResourceEntry.setBillingRate(revenueResourceEntry.getBillingRate());// Add billing rate conversion and
 				tmResourceEntry.setAllocation(revenueResourceEntry.getAllocation());
 				// test leave loss factor logic
-				tmResourceEntry.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().toString());
+				tmResourceEntry.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor() != null
+						? revenueResourceEntry.getLeaveLossFactor().toString()
+						: null);
 
 				tmResourceEntriesVO.add(tmResourceEntry);
 			}
@@ -1294,20 +1265,29 @@ public class RevenueServiceImpl implements RevenueService {
 		List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
 		if (!revenueEntryList.isEmpty()) {
 			for (RevenueEntry revenueEntry : revenueEntryList) {
-				List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
-				for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
-					if (resourceDeleteRequest.getEmployeeId().equalsIgnoreCase(revenueResourceEntry.getEmployeeId())
-							&& resourceDeleteRequest.getResourceStartDate()
-									.isEqual(revenueResourceEntry.getResourceStartDate())) {
-						revenueResourceEntryRepository.deleteById(revenueResourceEntry.getRevenueResourceEntryId());
-						revenueResourceEntry.getRevenueEntry().getRevenueEntryId();
-						if (revenueResourceEntry.getRevenueEntry().getResourceCount() != null
-								|| revenueResourceEntry.getRevenueEntry().getResourceCount() != 0) {
-							Integer resourceCount = revenueResourceEntry.getRevenueEntry().getResourceCount() - 1;
-							revenueEntryRespository.updateRevenueEntryDetails(resourceCount,
-									revenueResourceEntry.getRevenueEntry().getRevenueEntryId());
+				Integer count = revenueEntry.getResourceCount();
+				if (count > 1) {
+					List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
+					for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+						if (resourceDeleteRequest.getEmployeeId().equalsIgnoreCase(revenueResourceEntry.getEmployeeId())
+								&& resourceDeleteRequest.getResourceStartDate()
+										.isEqual(revenueResourceEntry.getResourceStartDate())) {
+							revenueResourceEntryRepository.deleteById(revenueResourceEntry.getRevenueResourceEntryId());
+							revenueResourceEntry.getRevenueEntry().getRevenueEntryId();
+							if (revenueResourceEntry.getRevenueEntry().getResourceCount() != null
+									|| revenueResourceEntry.getRevenueEntry().getResourceCount() != 0) {
+								Integer resourceCount = revenueResourceEntry.getRevenueEntry().getResourceCount() - 1;
+								revenueEntryRespository.updateRevenueEntryDetails(resourceCount,
+										revenueResourceEntry.getRevenueEntry().getRevenueEntryId());
+							}
 						}
 					}
+				} else {
+					revenueEntryRespository.updateRevenueEntryDetailsToNull(null, revenueEntry.getRevenueEntryId());
+					Long revenueResourceEntryId = revenueEntry.getRevenueResourceEntry().get(0)
+							.getRevenueResourceEntryId();
+					revenueResourceEntryRepository.updateRevenueResourceEntryDetails(null, null, null, null, null, null,
+							null, revenueResourceEntryId);
 				}
 			}
 			return "Deleted Revenue Entry Details Successfully";
