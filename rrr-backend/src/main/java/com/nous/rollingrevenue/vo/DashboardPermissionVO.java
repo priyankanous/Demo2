@@ -58,6 +58,7 @@ public class DashboardPermissionVO implements Serializable {
 	public void setIsEditDashboardRequired(boolean isEditDashboardRequired) {
 		this.isEditDashboardRequired = isEditDashboardRequired;
 	}
+	
 	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;

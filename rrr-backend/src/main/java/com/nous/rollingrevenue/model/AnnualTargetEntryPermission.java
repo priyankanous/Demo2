@@ -14,12 +14,12 @@ import jakarta.persistence.Table;
 @Table(name = "annual_target_entry_permission")
 @EntityListeners(AuditingEntityListener.class)
 public class AnnualTargetEntryPermission extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "annual_target_entry__permission_id")
 	private Long annualTargetEntryPermissionId;
-	 
+
 	@Column(name = "is_add_annual_target_entry_required")
 	private Boolean isAddAnnualTargetEntryRequired;
 
@@ -48,8 +48,5 @@ public class AnnualTargetEntryPermission extends Auditable<String> {
 	public void setIsAddAnnualTargetEntryRequired(Boolean isAddAnnualTargetEntryRequired) {
 		this.isAddAnnualTargetEntryRequired = isAddAnnualTargetEntryRequired;
 	}
-	
-	
-	
-	
+
 }

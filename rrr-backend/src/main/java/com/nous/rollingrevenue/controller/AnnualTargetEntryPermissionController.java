@@ -22,8 +22,6 @@ import com.nous.rollingrevenue.vo.AnnualTargetEntryPermissionVO;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
-
-
 @RestController
 @RequestMapping("/api/v1/annual-target-entry-permission")
 @CrossOrigin(origins = "*")

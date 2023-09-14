@@ -15,11 +15,14 @@ public class AnnualTargetEntryPermissionConverter {
 	 * @return AnnualTargetEntryPermission
 	 */
 
-	public static AnnualTargetEntryPermission convertAnnualTargetEntryPermissionVOToAnnualTargetEntryPermission(AnnualTargetEntryPermissionVO annualTargetEntryPermissionVO) {
+	public static AnnualTargetEntryPermission convertAnnualTargetEntryPermissionVOToAnnualTargetEntryPermission(
+			AnnualTargetEntryPermissionVO annualTargetEntryPermissionVO) {
 		AnnualTargetEntryPermission annualTargetEntryPermission = new AnnualTargetEntryPermission();
 		if (annualTargetEntryPermissionVO != null) {
-			annualTargetEntryPermission.setAnnualTargetEntryPermissionId(annualTargetEntryPermissionVO.getAnnualTargetEntryPermissionId());
-			annualTargetEntryPermission.setIsAddAnnualTargetEntryRequired(annualTargetEntryPermissionVO.getIsAddAnnualTargetEntryRequired());
+			annualTargetEntryPermission
+					.setAnnualTargetEntryPermissionId(annualTargetEntryPermissionVO.getAnnualTargetEntryPermissionId());
+			annualTargetEntryPermission.setIsAddAnnualTargetEntryRequired(
+					annualTargetEntryPermissionVO.getIsAddAnnualTargetEntryRequired());
 		}
 		return annualTargetEntryPermission;
 	}
@@ -31,11 +34,16 @@ public class AnnualTargetEntryPermissionConverter {
 	 * @return AnnualTargetEntryPermissionVO
 	 */
 
-	public static AnnualTargetEntryPermissionVO convertAnnualTargetEntryPermissionToAnnualTargetEntryPermissionVO(AnnualTargetEntryPermission annualTargetEntryPermission) {
+	public static AnnualTargetEntryPermissionVO convertAnnualTargetEntryPermissionToAnnualTargetEntryPermissionVO(
+			AnnualTargetEntryPermission annualTargetEntryPermission) {
 		AnnualTargetEntryPermissionVO annualTargetEntryPermissionVO = new AnnualTargetEntryPermissionVO();
 		if (annualTargetEntryPermission != null) {
 			annualTargetEntryPermissionVO.setAnnualTargetEntryPermissionId(annualTargetEntryPermission.getAnnualTargetEntryPermissionId());
 			annualTargetEntryPermissionVO.setIsAddAnnualTargetEntryRequired(annualTargetEntryPermission.getIsAddAnnualTargetEntryRequired());
+			annualTargetEntryPermissionVO
+					.setAnnualTargetEntryPermissionId(annualTargetEntryPermission.getAnnualTargetEntryPermissionId());
+			annualTargetEntryPermissionVO
+					.setIsAddAnnualTargetEntryRequired(annualTargetEntryPermission.getIsAddAnnualTargetEntryRequired());
 			annualTargetEntryPermissionVO.setActive(annualTargetEntryPermission.isActive());
 		}
 		return annualTargetEntryPermissionVO;

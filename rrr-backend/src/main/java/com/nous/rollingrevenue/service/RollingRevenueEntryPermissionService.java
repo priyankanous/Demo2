@@ -5,8 +5,6 @@ import java.util.List;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.vo.RollingRevenueEntryPermissionVO;
 
-import jakarta.validation.Valid;
-
 public interface RollingRevenueEntryPermissionService {
 
 	/**
@@ -25,7 +23,7 @@ public interface RollingRevenueEntryPermissionService {
 	 * 
 	 */
 	void updateRollingRevenueEntryPermissionById(Long rollingrevenueEntryPermissionId,
-			@Valid RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO);
+			RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO);
 
 	/**
 	 * Delete an RollingRevenueEntryPermission record by given

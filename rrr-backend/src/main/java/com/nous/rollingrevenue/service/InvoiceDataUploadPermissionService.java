@@ -5,8 +5,6 @@ import java.util.List;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.vo.InvoiceDataUploadPermissionVO;
 
-import jakarta.validation.Valid;
-
 public interface InvoiceDataUploadPermissionService {
 
 	/**
@@ -25,7 +23,7 @@ public interface InvoiceDataUploadPermissionService {
 	 * 
 	 */
 	void updateInvoiceDataUploadPermissionById(Long invoiceDataUploadPermissionId,
-			@Valid InvoiceDataUploadPermissionVO invoiceDataUploadPermissionVO);
+			InvoiceDataUploadPermissionVO invoiceDataUploadPermissionVO);
 
 	/**
 	 * Delete an InvoiceDataUploadPermission record by given

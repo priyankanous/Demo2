@@ -27,7 +27,7 @@ public class DashboardPermission extends Auditable<String> {
 	private boolean isEditDashboardRequired;
 
 	public DashboardPermission() {
-		
+
 	}
 
 	public DashboardPermission(Long dashboardPermissionId, boolean isReadDashboardRequired,

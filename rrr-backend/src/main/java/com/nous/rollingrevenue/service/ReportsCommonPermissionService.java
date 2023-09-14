@@ -5,8 +5,6 @@ import java.util.List;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.vo.ReportsCommonPermissionVO;
 
-import jakarta.validation.Valid;
-
 public interface ReportsCommonPermissionService {
 
 	/**
@@ -25,7 +23,7 @@ public interface ReportsCommonPermissionService {
 	 * 
 	 */
 	void updateReportsCommonPermissionById(Long reportsCommonPermissionId,
-			@Valid ReportsCommonPermissionVO reportsCommonPermissionVO);
+			ReportsCommonPermissionVO reportsCommonPermissionVO);
 
 	/**
 	 * Delete an ReportsCommonPermission record by given reportsCommonPermissionId

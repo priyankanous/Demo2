@@ -32,30 +32,28 @@ public class ReportsCommonPermissionController {
 
 	@Operation(summary = "Save ReportsCommonPermission")
 	@PostMapping
-	public WSResponse<Boolean> saveReportsCommonPermission(
+	public WSResponse<String> saveReportsCommonPermission(
 			@RequestBody @Valid ReportsCommonPermissionVO reportsCommonPermissionVO) {
 		reportsCommonPermissionService.saveReportsCommonPermission(reportsCommonPermissionVO);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
+
 	@Operation(summary = "Update ReportsCommonPermission by reportsCommonPermissionId")
 	@PutMapping(path = "{reportsCommonPermissionId}")
-	public WSResponse<Boolean> updateReportsCommonPermissionById(
-			@PathVariable Long reportsCommonPermissionId,
+	public WSResponse<String> updateReportsCommonPermissionById(@PathVariable Long reportsCommonPermissionId,
 			@RequestBody @Valid ReportsCommonPermissionVO reportsCommonPermissionVO) {
 		reportsCommonPermissionService.updateReportsCommonPermissionById(reportsCommonPermissionId,
 				reportsCommonPermissionVO);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
+
 	@Operation(summary = "Delete ReportsCommonPermission by reportsCommonPermissionId")
 	@DeleteMapping(path = "{reportsCommonPermissionId}")
-	public WSResponse<Boolean> deleteReportsCommonPermission(
-			@PathVariable Long reportsCommonPermissionId) {
+	public WSResponse<String> deleteReportsCommonPermission(@PathVariable Long reportsCommonPermissionId) {
 		reportsCommonPermissionService.deleteReportsCommonPermissionById(reportsCommonPermissionId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
+
 	@Operation(summary = "Get All ReportsCommonPermission")
 	@GetMapping
 	public WSResponse<List<ReportsCommonPermissionVO>> getAllReportsCommonPermission() {
@@ -63,13 +61,13 @@ public class ReportsCommonPermissionController {
 				.getAllReportsCommonPermissions();
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, reportsCommonPermissions);
 	}
-	
+
 	@Operation(summary = "Get ReportsCommonPermission by reportsCommonPermissionId")
 	@GetMapping(path = "{reportsCommonPermissionId}")
 	public WSResponse<ReportsCommonPermissionVO> getReportsCommonPermissionById(
 			@PathVariable Long reportsCommonPermissionId) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, reportsCommonPermissionService
-				.getReportsCommonPermissionById(reportsCommonPermissionId));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				reportsCommonPermissionService.getReportsCommonPermissionById(reportsCommonPermissionId));
 	}
 
 }

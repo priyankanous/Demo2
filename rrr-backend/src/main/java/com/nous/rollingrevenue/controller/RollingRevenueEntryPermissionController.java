@@ -32,7 +32,7 @@ public class RollingRevenueEntryPermissionController {
 
 	@Operation(summary = "Save RollingRevenueEntryPermission")
 	@PostMapping
-	public WSResponse<Boolean> saveRollingRevenueEntryPermission(
+	public WSResponse<String> saveRollingRevenueEntryPermission(
 			@RequestBody @Valid RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO) {
 		rollingRevenueEntryPermissionService.saveRollingRevenueEntryPermission(rollingRevenueEntryPermissionVO);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
@@ -40,7 +40,7 @@ public class RollingRevenueEntryPermissionController {
 
 	@Operation(summary = "Update RollingRevenueEntryPermission by rollingrevenueEntryPermissionId")
 	@PutMapping(path = "{rollingrevenueEntryPermissionId}")
-	public WSResponse<Boolean> updateRollingRevenueEntryPermissionById(
+	public WSResponse<String> updateRollingRevenueEntryPermissionById(
 			@PathVariable Long rollingrevenueEntryPermissionId,
 			@RequestBody @Valid RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO) {
 		rollingRevenueEntryPermissionService.updateRollingRevenueEntryPermissionById(rollingrevenueEntryPermissionId,
@@ -50,7 +50,7 @@ public class RollingRevenueEntryPermissionController {
 
 	@Operation(summary = "Delete RollingRevenueEntryPermission by rollingrevenueEntryPermissionId")
 	@DeleteMapping(path = "{rollingrevenueEntryPermissionId}")
-	public WSResponse<Boolean> deleteRollingRevenueEntryPermission(
+	public WSResponse<String> deleteRollingRevenueEntryPermission(
 			@PathVariable Long rollingrevenueEntryPermissionId) {
 		rollingRevenueEntryPermissionService.deleteRollingRevenueEntryPermissionById(rollingrevenueEntryPermissionId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);

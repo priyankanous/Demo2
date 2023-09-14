@@ -15,8 +15,6 @@ import com.nous.rollingrevenue.repository.InvoiceDataUploadPermissionRepository;
 import com.nous.rollingrevenue.service.InvoiceDataUploadPermissionService;
 import com.nous.rollingrevenue.vo.InvoiceDataUploadPermissionVO;
 
-import jakarta.validation.Valid;
-
 @Service
 @Transactional(readOnly = true)
 public class InvoiceDataUploadPermissionServiceImpl implements InvoiceDataUploadPermissionService {
@@ -34,7 +32,7 @@ public class InvoiceDataUploadPermissionServiceImpl implements InvoiceDataUpload
 	@Override
 	@Transactional
 	public void updateInvoiceDataUploadPermissionById(Long invoiceDataUploadPermissionId,
-			@Valid InvoiceDataUploadPermissionVO invoiceDataUploadPermissionVO) {
+			InvoiceDataUploadPermissionVO invoiceDataUploadPermissionVO) {
 		InvoiceDataUploadPermission invoiceDataUploadPermission = invoiceDataUploadPermissionRepository
 				.findById(invoiceDataUploadPermissionId).orElseThrow(() -> new RecordNotFoundException(
 						ErrorConstants.RECORD_NOT_EXIST + invoiceDataUploadPermissionId));

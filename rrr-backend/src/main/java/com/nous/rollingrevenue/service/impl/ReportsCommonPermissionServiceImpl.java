@@ -15,8 +15,6 @@ import com.nous.rollingrevenue.repository.ReportsCommonPermissionRepository;
 import com.nous.rollingrevenue.service.ReportsCommonPermissionService;
 import com.nous.rollingrevenue.vo.ReportsCommonPermissionVO;
 
-import jakarta.validation.Valid;
-
 @Service
 @Transactional(readOnly = true)
 public class ReportsCommonPermissionServiceImpl implements ReportsCommonPermissionService {
@@ -26,7 +24,7 @@ public class ReportsCommonPermissionServiceImpl implements ReportsCommonPermissi
 
 	@Override
 	@Transactional
-	public void saveReportsCommonPermission( ReportsCommonPermissionVO reportsCommonPermissionVO) {
+	public void saveReportsCommonPermission(ReportsCommonPermissionVO reportsCommonPermissionVO) {
 		reportsCommonPermissionRepository.save(ReportsCommonPermissionConverter
 				.convertReportsCommonPermissionVOToReportsCommonPermission(reportsCommonPermissionVO));
 	}
@@ -34,7 +32,7 @@ public class ReportsCommonPermissionServiceImpl implements ReportsCommonPermissi
 	@Override
 	@Transactional
 	public void updateReportsCommonPermissionById(Long reportsCommonPermissionId,
-			@Valid ReportsCommonPermissionVO reportsCommonPermissionVO) {
+			ReportsCommonPermissionVO reportsCommonPermissionVO) {
 
 		ReportsCommonPermission reportsCommonPermission = reportsCommonPermissionRepository
 				.findById(reportsCommonPermissionId).orElseThrow(

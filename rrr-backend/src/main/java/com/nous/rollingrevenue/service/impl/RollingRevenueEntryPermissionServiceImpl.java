@@ -15,8 +15,6 @@ import com.nous.rollingrevenue.repository.RollingRevenueEntryPermissionRepositor
 import com.nous.rollingrevenue.service.RollingRevenueEntryPermissionService;
 import com.nous.rollingrevenue.vo.RollingRevenueEntryPermissionVO;
 
-import jakarta.validation.Valid;
-
 @Service
 @Transactional(readOnly = true)
 public class RollingRevenueEntryPermissionServiceImpl implements RollingRevenueEntryPermissionService {
@@ -26,8 +24,7 @@ public class RollingRevenueEntryPermissionServiceImpl implements RollingRevenueE
 
 	@Override
 	@Transactional
-	public void saveRollingRevenueEntryPermission(
-			@Valid RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO) {
+	public void saveRollingRevenueEntryPermission(RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO) {
 		rollingRevenueEntryPermissionRepository.save(RollingRevenueEntryPermissionConverter
 				.convertRollingRevenueEntryPermissionVOToRollingRevenueEntryPermission(
 						rollingRevenueEntryPermissionVO));
@@ -36,7 +33,7 @@ public class RollingRevenueEntryPermissionServiceImpl implements RollingRevenueE
 	@Override
 	@Transactional
 	public void updateRollingRevenueEntryPermissionById(Long rollingrevenueEntryPermissionId,
-			@Valid RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO) {
+			RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO) {
 		RollingRevenueEntryPermission rollingRevenueEntryPermission = rollingRevenueEntryPermissionRepository
 				.findById(rollingrevenueEntryPermissionId).orElseThrow(() -> new RecordNotFoundException(
 						ErrorConstants.RECORD_NOT_EXIST + rollingrevenueEntryPermissionId));

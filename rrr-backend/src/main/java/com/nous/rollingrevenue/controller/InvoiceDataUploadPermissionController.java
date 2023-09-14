@@ -32,7 +32,7 @@ public class InvoiceDataUploadPermissionController {
 
 	@Operation(summary = "Save InvoiceDataUploadPermission")
 	@PostMapping
-	public WSResponse<Boolean> saveInvoiceDataUploadPermission(
+	public WSResponse<String> saveInvoiceDataUploadPermission(
 			@RequestBody @Valid InvoiceDataUploadPermissionVO invoiceDataUploadPermissionVO) {
 		invoiceDataUploadPermissionService.saveInvoiceDataUploadPermission(invoiceDataUploadPermissionVO);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
@@ -40,7 +40,7 @@ public class InvoiceDataUploadPermissionController {
 
 	@Operation(summary = "Update InvoiceDataUploadPermission by invoiceDataUploadPermissionId")
 	@PutMapping(path = "{invoiceDataUploadPermissionId}")
-	public WSResponse<Boolean> updateInvoiceDataUploadPermissionById(@PathVariable Long invoiceDataUploadPermissionId,
+	public WSResponse<String> updateInvoiceDataUploadPermissionById(@PathVariable Long invoiceDataUploadPermissionId,
 			@RequestBody @Valid InvoiceDataUploadPermissionVO invoiceDataUploadPermissionVO) {
 		invoiceDataUploadPermissionService.updateInvoiceDataUploadPermissionById(invoiceDataUploadPermissionId,
 				invoiceDataUploadPermissionVO);
@@ -49,7 +49,7 @@ public class InvoiceDataUploadPermissionController {
 
 	@Operation(summary = "Delete InvoiceDataUploadPermission by invoiceDataUploadPermissionId")
 	@DeleteMapping(path = "{invoiceDataUploadPermissionId}")
-	public WSResponse<Boolean> deleteInvoiceDataUploadPermission(@PathVariable Long invoiceDataUploadPermissionId) {
+	public WSResponse<String> deleteInvoiceDataUploadPermission(@PathVariable Long invoiceDataUploadPermissionId) {
 		invoiceDataUploadPermissionService.deleteInvoiceDataUploadPermissionById(invoiceDataUploadPermissionId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}

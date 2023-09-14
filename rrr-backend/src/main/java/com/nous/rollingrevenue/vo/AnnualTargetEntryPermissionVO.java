@@ -2,6 +2,8 @@ package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotNull;
 
 public class AnnualTargetEntryPermissionVO implements Serializable {
@@ -12,18 +14,17 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long annualTargetEntryPermissionId;
-	
+
 	@NotNull(message = "isAddAnnualTargetEntryRequired cannot be null or empty")
 	private Boolean isAddAnnualTargetEntryRequired;
-	
+
 	private boolean isActive;
 
 	public AnnualTargetEntryPermissionVO() {
-		super();
+
 	}
 
-	public AnnualTargetEntryPermissionVO(Long annualTargetEntryPermissionId,
-			Boolean isAddAnnualTargetEntryRequired,
+	public AnnualTargetEntryPermissionVO(Long annualTargetEntryPermissionId, Boolean isAddAnnualTargetEntryRequired,
 			boolean isActive) {
 		super();
 		this.annualTargetEntryPermissionId = annualTargetEntryPermissionId;
@@ -47,6 +48,7 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 		this.isAddAnnualTargetEntryRequired = isAddAnnualTargetEntryRequired;
 	}
 
+	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
 	}
@@ -56,5 +58,3 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 	}
 
 }
-
-
