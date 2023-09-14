@@ -175,7 +175,7 @@ public class LocationServiceImpl implements LocationService {
 				}
 			}
 		}
-		return null;
+		throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearName);
 	}
 
 }
