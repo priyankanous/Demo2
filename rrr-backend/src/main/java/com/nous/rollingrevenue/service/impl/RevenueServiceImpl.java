@@ -477,17 +477,17 @@ public class RevenueServiceImpl implements RevenueService {
 		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository
 				.getOpportunities(opportunityRevenueRequest);
 
-		if (Constants.NO.equals(opportunityRevenueRequest.getCocPractice())) {
-			revenueResourceEntries = revenueResourceEntries.stream()
-					.filter(revenueResourceEntry -> Constants.NON_COC_BASED
-							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName()))
-					.collect(Collectors.toList());
-		} else {
-			revenueResourceEntries = revenueResourceEntries.stream()
-					.filter(revenueResourceEntry -> (!Constants.NON_COC_BASED
-							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())))
-					.collect(Collectors.toList());
-		}
+//		if (Constants.NO.equals(opportunityRevenueRequest.getCocPractice())) {
+//			revenueResourceEntries = revenueResourceEntries.stream()
+//					.filter(revenueResourceEntry -> Constants.NON_COC_BASED
+//							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName()))
+//					.collect(Collectors.toList());
+//		} else {
+//			revenueResourceEntries = revenueResourceEntries.stream()
+//					.filter(revenueResourceEntry -> (!Constants.NON_COC_BASED
+//							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())))
+//					.collect(Collectors.toList());
+//		}
 
 		Map<Boolean, List<RevenueResourceEntry>> partitionResourceEntriesByPricingType = this
 				.getPartitionResourceEntriesByPricingType(revenueResourceEntries);
@@ -531,7 +531,7 @@ public class RevenueServiceImpl implements RevenueService {
 			opportunityEntryVO
 					.setProjectEndDate(revenueResourceEntry.getRevenueEntry().getOpportunity().getProjectEndDate());
 			opportunityEntryVO.setPricingType(revenueResourceEntry.getRevenueEntry().getPricingType());
-			opportunityEntryVO.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeName());
+//			opportunityEntryVO.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeName());
 
 			opportunityEntryVO.setNoOfResources(
 					this.getNoOfResourcesForOpportunity(opportunityRevenueRequest, opportunityEntryVO));
@@ -577,7 +577,7 @@ public class RevenueServiceImpl implements RevenueService {
 		resourceEntryRequest.setProjectStartDate(opportunityEntryVO.getProjectStartDate());
 		resourceEntryRequest.setProjectEndDate(opportunityEntryVO.getProjectEndDate());
 		resourceEntryRequest.setPricingType(opportunityEntryVO.getPricingType());
-		resourceEntryRequest.setCocPractice(opportunityEntryVO.getCocPractice());
+//		resourceEntryRequest.setCocPractice(opportunityEntryVO.getCocPractice());
 
 		List<RevenueResourceEntry> opportunityResources = revenueResourceEntryRepository
 				.getResourcesByOpportunity(resourceEntryRequest);
@@ -604,6 +604,18 @@ public class RevenueServiceImpl implements RevenueService {
 		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository
 				.getResourcesByOpportunity(resourceEntryRequest);
 
+		if (Constants.NO.equals(resourceEntryRequest.getCocPractice())) {
+			revenueResourceEntries = revenueResourceEntries.stream()
+					.filter(revenueResourceEntry -> Constants.NON_COC_BASED
+							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName()))
+					.collect(Collectors.toList());
+		} else {
+			revenueResourceEntries = revenueResourceEntries.stream()
+					.filter(revenueResourceEntry -> (!Constants.NON_COC_BASED
+							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())))
+					.collect(Collectors.toList());
+		}
+
 		if (Constants.PRICING_TYPE_FP.equals(resourceEntryRequest.getPricingType())) {
 
 			financialYearRevenue = this.calculateFPRevenue(revenueResourceEntries, financialYear,
@@ -618,6 +630,7 @@ public class RevenueServiceImpl implements RevenueService {
 				fpResourceEntry.setWorkOrderNumber(revenueResourceEntry.getRevenueEntry().getWorkOrder() != null
 						? revenueResourceEntry.getRevenueEntry().getWorkOrder().getWorkOrderNumber()
 						: null);
+				fpResourceEntry.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeName());
 				fpResourceEntry.setEmployeeId(revenueResourceEntry.getEmployeeId());
 				fpResourceEntry.setResourceName(revenueResourceEntry.getResourceName());
 				fpResourceEntry
@@ -644,6 +657,7 @@ public class RevenueServiceImpl implements RevenueService {
 				tmResourceEntry.setWorkOrderNumber(revenueResourceEntry.getRevenueEntry().getWorkOrder() != null
 						? revenueResourceEntry.getRevenueEntry().getWorkOrder().getWorkOrderNumber()
 						: null);
+				tmResourceEntry.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeName());
 				tmResourceEntry.setEmployeeId(revenueResourceEntry.getEmployeeId());
 				tmResourceEntry.setResourceName(revenueResourceEntry.getResourceName());
 				tmResourceEntry.setBillingRate(revenueResourceEntry.getBillingRate());// Add billing rate conversion and
@@ -1287,7 +1301,9 @@ public class RevenueServiceImpl implements RevenueService {
 					Long revenueResourceEntryId = revenueEntry.getRevenueResourceEntry().get(0)
 							.getRevenueResourceEntryId();
 					revenueResourceEntryRepository.updateRevenueResourceEntryDetails(null, null, null, null, null, null,
-							null, revenueResourceEntryId);
+							null, null, revenueResourceEntryId);
+					revenueEntryRespository.updateRevenueEntryDetails(revenueEntry.getResourceCount() - 1,
+							revenueEntry.getRevenueEntryId());
 				}
 			}
 			return "Deleted Revenue Entry Details Successfully";

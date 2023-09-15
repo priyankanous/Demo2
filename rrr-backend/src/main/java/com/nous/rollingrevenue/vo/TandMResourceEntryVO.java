@@ -17,6 +17,8 @@ public class TandMResourceEntryVO implements Serializable {
 
 	private String workOrderNumber;
 
+	private String cocPractice;
+
 	private String employeeId;
 
 	private String resourceName;
@@ -29,18 +31,6 @@ public class TandMResourceEntryVO implements Serializable {
 
 	public TandMResourceEntryVO() {
 
-	}
-
-	public TandMResourceEntryVO(LocalDate resourceStartDate, LocalDate resourceEndDate, String workOrderNumber,
-			String employeeId, String resourceName, BigInteger billingRate, String leaveLossFactor) {
-		super();
-		this.resourceStartDate = resourceStartDate;
-		this.resourceEndDate = resourceEndDate;
-		this.workOrderNumber = workOrderNumber;
-		this.employeeId = employeeId;
-		this.resourceName = resourceName;
-		this.billingRate = billingRate;
-		this.leaveLossFactor = leaveLossFactor;
 	}
 
 	public LocalDate getResourceStartDate() {
@@ -67,6 +57,14 @@ public class TandMResourceEntryVO implements Serializable {
 		this.workOrderNumber = workOrderNumber;
 	}
 
+	public String getCocPractice() {
+		return cocPractice;
+	}
+
+	public void setCocPractice(String cocPractice) {
+		this.cocPractice = cocPractice;
+	}
+
 	public String getEmployeeId() {
 		return employeeId;
 	}
@@ -91,20 +89,20 @@ public class TandMResourceEntryVO implements Serializable {
 		this.billingRate = billingRate;
 	}
 
-	public String getLeaveLossFactor() {
-		return leaveLossFactor;
-	}
-
-	public void setLeaveLossFactor(String leaveLossFactor) {
-		this.leaveLossFactor = leaveLossFactor;
-	}
-
 	public Integer getAllocation() {
 		return allocation;
 	}
 
 	public void setAllocation(Integer allocation) {
 		this.allocation = allocation;
+	}
+
+	public String getLeaveLossFactor() {
+		return leaveLossFactor;
+	}
+
+	public void setLeaveLossFactor(String leaveLossFactor) {
+		this.leaveLossFactor = leaveLossFactor;
 	}
 
 }

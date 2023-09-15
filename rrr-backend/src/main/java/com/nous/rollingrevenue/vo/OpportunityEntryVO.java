@@ -2,7 +2,6 @@ package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Objects;
 
 public class OpportunityEntryVO implements Serializable {
 
@@ -23,8 +22,6 @@ public class OpportunityEntryVO implements Serializable {
 
 	private LocalDate projectEndDate;
 
-	private String cocPractice;
-
 	private Integer noOfResources;
 
 	private String leaveLossFactor;
@@ -33,16 +30,12 @@ public class OpportunityEntryVO implements Serializable {
 
 	}
 
-	public OpportunityEntryVO(String projectCode, String opportunityName, String pricingType,
-			LocalDate projectStartDate, LocalDate projectEndDate, String cocPractice, Integer noOfResources) {
-		super();
-		this.projectCode = projectCode;
-		this.opportunityName = opportunityName;
-		this.pricingType = pricingType;
-		this.projectStartDate = projectStartDate;
-		this.projectEndDate = projectEndDate;
-		this.cocPractice = cocPractice;
-		this.noOfResources = noOfResources;
+	public Long getOpportunityId() {
+		return opportunityId;
+	}
+
+	public void setOpportunityId(Long opportunityId) {
+		this.opportunityId = opportunityId;
 	}
 
 	public String getProjectCode() {
@@ -85,50 +78,12 @@ public class OpportunityEntryVO implements Serializable {
 		this.projectEndDate = projectEndDate;
 	}
 
-	public String getCocPractice() {
-		return cocPractice;
-	}
-
-	public void setCocPractice(String cocPractice) {
-		this.cocPractice = cocPractice;
-	}
-
 	public Integer getNoOfResources() {
 		return noOfResources;
 	}
 
 	public void setNoOfResources(Integer noOfResources) {
 		this.noOfResources = noOfResources;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(cocPractice, noOfResources, opportunityName, pricingType, projectCode, projectEndDate,
-				projectStartDate);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		OpportunityEntryVO other = (OpportunityEntryVO) obj;
-		return Objects.equals(cocPractice, other.cocPractice) && Objects.equals(noOfResources, other.noOfResources)
-				&& Objects.equals(opportunityName, other.opportunityName)
-				&& Objects.equals(pricingType, other.pricingType) && Objects.equals(projectCode, other.projectCode)
-				&& Objects.equals(projectEndDate, other.projectEndDate)
-				&& Objects.equals(projectStartDate, other.projectStartDate);
-	}
-
-	public Long getOpportunityId() {
-		return opportunityId;
-	}
-
-	public void setOpportunityId(Long opportunityId) {
-		this.opportunityId = opportunityId;
 	}
 
 	public String getLeaveLossFactor() {

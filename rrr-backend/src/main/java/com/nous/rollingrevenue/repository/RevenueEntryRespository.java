@@ -39,6 +39,6 @@ public interface RevenueEntryRespository extends JpaRepository<RevenueEntry, Lon
 
 	@Modifying
 	@Query("Update RevenueEntry r set r.workOrder.workOrderId = ?1 where r.revenueEntryId = ?2")
-	void updateRevenueEntryDetailsToNull(String workOrderNumber, Long revenueEntryId);
+	void updateRevenueEntryDetailsToNull(Long workOrderId, Long revenueEntryId);
 
 }

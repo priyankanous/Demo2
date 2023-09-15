@@ -28,6 +28,8 @@ public class ResourceEntryRequest implements Serializable {
 
 	private String probabilityType;
 
+	private String cocPractice;
+
 	private String status;
 
 	private String financialYearName;
@@ -42,17 +44,14 @@ public class ResourceEntryRequest implements Serializable {
 
 	private String pricingType;
 
-	private String cocPractice;
-
 	public ResourceEntryRequest() {
 
 	}
 
 	public ResourceEntryRequest(String businessUnit, String strategicBusinessUnit, String strategicBusinessUnitHead,
 			String businessDevelopmentManager, String businessType, String account, String region, String location,
-			String probabilityType,String status, String financialYearName, String projectCode,
-			String opportunityName, LocalDate projectStartDate, LocalDate projectEndDate, String pricingType,
-			String cocPractice) {
+			String probabilityType, String status, String financialYearName, String projectCode, String opportunityName,
+			LocalDate projectStartDate, LocalDate projectEndDate, String pricingType, String cocPractice) {
 		super();
 		this.businessUnit = businessUnit;
 		this.strategicBusinessUnit = strategicBusinessUnit;

@@ -62,7 +62,7 @@ public interface RevenueResourceEntryRepository extends JpaRepository<RevenueRes
 			+ "acc.accountName = :#{#resourcereq.account} AND " + "reg.regionDisplayName = :#{#resourcereq.region} AND "
 			+ "loc.locationDisplayName = :#{#resourcereq.location} AND "
 			+ "pt.probabilityTypeName = :#{#resourcereq.probabilityType} AND "
-			+ "coc.cocPracticeName = :#{#resourcereq.cocPractice} AND " + "re.status = :#{#resourcereq.status} AND "
+			+ "re.status = :#{#resourcereq.status} AND "
 			+ "opp.projectCode = :#{#resourcereq.projectCode} AND "
 			+ "opp.opportunityName = :#{#resourcereq.opportunityName} AND "
 			+ "opp.projectStartDate = :#{#resourcereq.projectStartDate} AND "
@@ -123,9 +123,9 @@ public interface RevenueResourceEntryRepository extends JpaRepository<RevenueRes
 
 	@Modifying
 	@Query("Update RevenueResourceEntry r set r.resourceStartDate = ?1, r.resourceEndDate = ?2, r.employeeId = ?3, r.resourceName = ?4, r.billingRate = ?5,"
-			+ "r.allocation = ?6, r.leaveLossFactor = ?7 where r.revenueResourceEntryId = ?8")
+			+ "r.allocation = ?6, r.leaveLossFactor = ?7, r.cocPractice.cocPracticeId = ?8 where r.revenueResourceEntryId = ?9")
 	void updateRevenueResourceEntryDetails(LocalDate resourceStartDate, LocalDate resourceEndDate, String employeeId,
-			String resourceName, BigInteger billingRate, Integer allocation, Long leaveLossFactor,
+			String resourceName, BigInteger billingRate, Integer allocation, Long leaveLossFactor, Long cocPracticeId,
 			Long revenueResourceEntryId);
 
 }

@@ -19,6 +19,8 @@ public class FPResourceEntryVO implements Serializable {
 
 	private String workOrderNumber;
 
+	private String cocPractice;
+
 	private String employeeId;
 
 	private String resourceName;
@@ -33,21 +35,6 @@ public class FPResourceEntryVO implements Serializable {
 
 	public FPResourceEntryVO() {
 
-	}
-
-	public FPResourceEntryVO(LocalDate resourceStartDate, LocalDate resourceEndDate, String milestoneNumber,
-			String workOrderNumber, String employeeId, String resourceName, LocalDate milestoneBillingDate,
-			BigInteger revenue, String leaveLossFactor) {
-		super();
-		this.resourceStartDate = resourceStartDate;
-		this.resourceEndDate = resourceEndDate;
-		this.milestoneNumber = milestoneNumber;
-		this.workOrderNumber = workOrderNumber;
-		this.employeeId = employeeId;
-		this.resourceName = resourceName;
-		this.milestoneBillingDate = milestoneBillingDate;
-		this.revenue = revenue;
-		this.leaveLossFactor = leaveLossFactor;
 	}
 
 	public LocalDate getResourceStartDate() {
@@ -82,6 +69,14 @@ public class FPResourceEntryVO implements Serializable {
 		this.workOrderNumber = workOrderNumber;
 	}
 
+	public String getCocPractice() {
+		return cocPractice;
+	}
+
+	public void setCocPractice(String cocPractice) {
+		this.cocPractice = cocPractice;
+	}
+
 	public String getEmployeeId() {
 		return employeeId;
 	}
@@ -114,20 +109,20 @@ public class FPResourceEntryVO implements Serializable {
 		this.revenue = revenue;
 	}
 
-	public String getLeaveLossFactor() {
-		return leaveLossFactor;
-	}
-
-	public void setLeaveLossFactor(String leaveLossFactor) {
-		this.leaveLossFactor = leaveLossFactor;
-	}
-
 	public Integer getAllocation() {
 		return allocation;
 	}
 
 	public void setAllocation(Integer allocation) {
 		this.allocation = allocation;
+	}
+
+	public String getLeaveLossFactor() {
+		return leaveLossFactor;
+	}
+
+	public void setLeaveLossFactor(String leaveLossFactor) {
+		this.leaveLossFactor = leaveLossFactor;
 	}
 
 }
