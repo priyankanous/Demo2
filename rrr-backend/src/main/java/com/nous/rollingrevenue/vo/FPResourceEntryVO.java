@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.vo;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class FPResourceEntryVO implements Serializable {
 
@@ -123,6 +124,32 @@ public class FPResourceEntryVO implements Serializable {
 
 	public void setLeaveLossFactor(String leaveLossFactor) {
 		this.leaveLossFactor = leaveLossFactor;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(allocation, cocPractice, employeeId, leaveLossFactor, milestoneBillingDate, milestoneNumber,
+				resourceEndDate, resourceName, resourceStartDate, revenue, workOrderNumber);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FPResourceEntryVO other = (FPResourceEntryVO) obj;
+		return Objects.equals(allocation, other.allocation) && Objects.equals(cocPractice, other.cocPractice)
+				&& Objects.equals(employeeId, other.employeeId)
+				&& Objects.equals(leaveLossFactor, other.leaveLossFactor)
+				&& Objects.equals(milestoneBillingDate, other.milestoneBillingDate)
+				&& Objects.equals(milestoneNumber, other.milestoneNumber)
+				&& Objects.equals(resourceEndDate, other.resourceEndDate)
+				&& Objects.equals(resourceName, other.resourceName)
+				&& Objects.equals(resourceStartDate, other.resourceStartDate) && Objects.equals(revenue, other.revenue)
+				&& Objects.equals(workOrderNumber, other.workOrderNumber);
 	}
 
 }

@@ -51,11 +51,13 @@ import com.nous.rollingrevenue.model.MilestoneEntry;
 import com.nous.rollingrevenue.model.Opportunity;
 import com.nous.rollingrevenue.model.RevenueEntry;
 import com.nous.rollingrevenue.model.RevenueResourceEntry;
+import com.nous.rollingrevenue.model.WorkOrder;
 import com.nous.rollingrevenue.repository.FinancialYearRepository;
 import com.nous.rollingrevenue.repository.MilestoneEntryRepository;
 import com.nous.rollingrevenue.repository.OpportunityRepository;
 import com.nous.rollingrevenue.repository.RevenueEntryRespository;
 import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
+import com.nous.rollingrevenue.repository.WorkOrderRepository;
 import com.nous.rollingrevenue.service.RevenueService;
 import com.nous.rollingrevenue.vo.FPResourceEntryVO;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
@@ -104,6 +106,9 @@ public class RevenueServiceImpl implements RevenueService {
 	@Autowired
 	private RevenueServiceTMCalculation revenueServiceTMCalculation;
 
+	@Autowired
+	private WorkOrderRepository woRepository;
+
 	@Override
 	@Transactional
 	public void saveTandMRevenueEntry(TandMRevenueEntryVO tmRevenueEntry) {
@@ -134,7 +139,21 @@ public class RevenueServiceImpl implements RevenueService {
 		revenueEntry.setProbabilityType(ProbabilityTypeConverter
 				.convertProbabilityTypeVOToProbabilityType(tmRevenueEntry.getProbabilityType()));
 		revenueEntry.setRegion(RegionConverter.convertRegionVOToRegion(tmRevenueEntry.getRegion()));
-		if (tmRevenueEntry.getWorkOrder() != null) {
+		if (tmRevenueEntry.getWorkOrder() != null && tmRevenueEntry.getWorkOrder().getWorkOrderId() == 0) {
+			Optional<WorkOrder> optional = woRepository.findByWorkOrderNumber("TBD");
+			if (optional.isPresent()) {
+				revenueEntry.setWorkOrder(optional.get());
+			} else {
+				WorkOrder wo = new WorkOrder();
+				wo.setWorkOrderId(tmRevenueEntry.getWorkOrder().getWorkOrderId());
+				wo.setWorkOrderNumber("TBD");
+				wo.setWorkOrderEndDate(tmRevenueEntry.getWorkOrder().getWorkOrderEndDate());
+				wo.setWoStatus(tmRevenueEntry.getWorkOrder().getWorkOrderStatus());
+				wo.setAccount(AccountConverter.convertAccountVOToAccount(tmRevenueEntry.getAccount()));
+				WorkOrder workOrder = woRepository.save(wo);
+				revenueEntry.setWorkOrder(workOrder);
+			}
+		} else {
 			revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(tmRevenueEntry.getWorkOrder()));
 		}
 		revenueEntry.setFinancialYear(
@@ -214,7 +233,23 @@ public class RevenueServiceImpl implements RevenueService {
 		revenueEntry.setProbabilityType(ProbabilityTypeConverter
 				.convertProbabilityTypeVOToProbabilityType(fpRevenueEntry.getProbabilityType()));
 		revenueEntry.setRegion(RegionConverter.convertRegionVOToRegion(fpRevenueEntry.getRegion()));
-		revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(fpRevenueEntry.getWorkOrder()));
+		if (fpRevenueEntry.getWorkOrder() != null && fpRevenueEntry.getWorkOrder().getWorkOrderId() == 0) {
+			Optional<WorkOrder> optional = woRepository.findByWorkOrderNumber("TBD");
+			if (optional.isPresent()) {
+				revenueEntry.setWorkOrder(optional.get());
+			} else {
+				WorkOrder wo = new WorkOrder();
+				wo.setWorkOrderId(fpRevenueEntry.getWorkOrder().getWorkOrderId());
+				wo.setWorkOrderNumber("TBD");
+				wo.setWorkOrderEndDate(fpRevenueEntry.getWorkOrder().getWorkOrderEndDate());
+				wo.setWoStatus(fpRevenueEntry.getWorkOrder().getWorkOrderStatus());
+				wo.setAccount(AccountConverter.convertAccountVOToAccount(fpRevenueEntry.getAccount()));
+				WorkOrder workOrder = woRepository.save(wo);
+				revenueEntry.setWorkOrder(workOrder);
+			}
+		} else {
+			revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(fpRevenueEntry.getWorkOrder()));
+		}
 		revenueEntry.setFinancialYear(
 				FinancialYearConverter.convertFinancialYearVOToFinancialYear(fpRevenueEntry.getFinancialYear()));
 		revenueEntry.setMilestoneCount(fpRevenueEntry.getMilestoneCount());
@@ -465,7 +500,6 @@ public class RevenueServiceImpl implements RevenueService {
 	public OpportunityEntryResponse getOpportunities(OpportunityRevenueRequest opportunityRevenueRequest,
 			boolean isDisplayAdditionalQuarter) {
 
-		Set<OpportunityEntryVO> opportunityEntriesVO = new HashSet<>();
 		OpportunityEntryResponse opportunityEntryResponse = new OpportunityEntryResponse();
 		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
 		FinancialYearTMRevenue financialYearTMRevenue = new FinancialYearTMRevenue();
@@ -517,6 +551,7 @@ public class RevenueServiceImpl implements RevenueService {
 		}
 		financialYearRevenue.setDataMap(map);
 
+		Set<OpportunityEntryVO> opportunityEntriesVO = new HashSet<>();
 		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
 
 			OpportunityEntryVO opportunityEntryVO = new OpportunityEntryVO();
@@ -782,7 +817,23 @@ public class RevenueServiceImpl implements RevenueService {
 			revenueEntry.setProbabilityType(ProbabilityTypeConverter
 					.convertProbabilityTypeVOToProbabilityType(fpRevenueEntry.getProbabilityType()));
 			revenueEntry.setRegion(RegionConverter.convertRegionVOToRegion(fpRevenueEntry.getRegion()));
-			revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(fpRevenueEntry.getWorkOrder()));
+			if (fpRevenueEntry.getWorkOrder() != null && fpRevenueEntry.getWorkOrder().getWorkOrderId() == 0) {
+				Optional<WorkOrder> optional = woRepository.findByWorkOrderNumber("TBD");
+				if (optional.isPresent()) {
+					revenueEntry.setWorkOrder(optional.get());
+				} else {
+					WorkOrder wo = new WorkOrder();
+					wo.setWorkOrderId(fpRevenueEntry.getWorkOrder().getWorkOrderId());
+					wo.setWorkOrderNumber("TBD");
+					wo.setWorkOrderEndDate(fpRevenueEntry.getWorkOrder().getWorkOrderEndDate());
+					wo.setWoStatus(fpRevenueEntry.getWorkOrder().getWorkOrderStatus());
+					wo.setAccount(AccountConverter.convertAccountVOToAccount(fpRevenueEntry.getAccount()));
+					WorkOrder workOrder = woRepository.save(wo);
+					revenueEntry.setWorkOrder(workOrder);
+				}
+			} else {
+				revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(fpRevenueEntry.getWorkOrder()));
+			}
 			revenueEntry.setFinancialYear(
 					FinancialYearConverter.convertFinancialYearVOToFinancialYear(fpRevenueEntry.getFinancialYear()));
 			revenueEntry.setMilestoneCount(fpRevenueEntry.getMilestoneCount());
@@ -951,8 +1002,23 @@ public class RevenueServiceImpl implements RevenueService {
 			revenueEntry.setProbabilityType(ProbabilityTypeConverter
 					.convertProbabilityTypeVOToProbabilityType(tandMRevenueEntry.getProbabilityType()));
 			revenueEntry.setRegion(RegionConverter.convertRegionVOToRegion(tandMRevenueEntry.getRegion()));
-			revenueEntry
-					.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(tandMRevenueEntry.getWorkOrder()));
+			if (tandMRevenueEntry.getWorkOrder() != null && tandMRevenueEntry.getWorkOrder().getWorkOrderId() == 0) {
+				Optional<WorkOrder> optional = woRepository.findByWorkOrderNumber("TBD");
+				if (optional.isPresent()) {
+					revenueEntry.setWorkOrder(optional.get());
+				} else {
+					WorkOrder wo = new WorkOrder();
+					wo.setWorkOrderId(tandMRevenueEntry.getWorkOrder().getWorkOrderId());
+					wo.setWorkOrderNumber("TBD");
+					wo.setWorkOrderEndDate(tandMRevenueEntry.getWorkOrder().getWorkOrderEndDate());
+					wo.setWoStatus(tandMRevenueEntry.getWorkOrder().getWorkOrderStatus());
+					wo.setAccount(AccountConverter.convertAccountVOToAccount(tandMRevenueEntry.getAccount()));
+					WorkOrder workOrder = woRepository.save(wo);
+					revenueEntry.setWorkOrder(workOrder);
+				}
+			} else {
+				revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(tandMRevenueEntry.getWorkOrder()));
+			}
 			revenueEntry.setFinancialYear(
 					FinancialYearConverter.convertFinancialYearVOToFinancialYear(tandMRevenueEntry.getFinancialYear()));
 			revenueEntry.setPricingType(tandMRevenueEntry.getPricingType());

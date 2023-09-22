@@ -2,6 +2,7 @@ package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class OpportunityEntryVO implements Serializable {
 
@@ -92,6 +93,30 @@ public class OpportunityEntryVO implements Serializable {
 
 	public void setLeaveLossFactor(String leaveLossFactor) {
 		this.leaveLossFactor = leaveLossFactor;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(leaveLossFactor, noOfResources, opportunityId, opportunityName, pricingType, projectCode,
+				projectEndDate, projectStartDate);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OpportunityEntryVO other = (OpportunityEntryVO) obj;
+		return Objects.equals(leaveLossFactor, other.leaveLossFactor)
+				&& Objects.equals(noOfResources, other.noOfResources)
+				&& Objects.equals(opportunityId, other.opportunityId)
+				&& Objects.equals(opportunityName, other.opportunityName)
+				&& Objects.equals(pricingType, other.pricingType) && Objects.equals(projectCode, other.projectCode)
+				&& Objects.equals(projectEndDate, other.projectEndDate)
+				&& Objects.equals(projectStartDate, other.projectStartDate);
 	}
 
 }
