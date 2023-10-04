@@ -59,6 +59,7 @@ import com.nous.rollingrevenue.repository.RevenueEntryRespository;
 import com.nous.rollingrevenue.repository.RevenueResourceEntryRepository;
 import com.nous.rollingrevenue.repository.WorkOrderRepository;
 import com.nous.rollingrevenue.service.RevenueService;
+import com.nous.rollingrevenue.vo.DeleteRevenueResourceResponse;
 import com.nous.rollingrevenue.vo.FPResourceEntryVO;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.FinancialYearRevenue;
@@ -832,7 +833,8 @@ public class RevenueServiceImpl implements RevenueService {
 					revenueEntry.setWorkOrder(workOrder);
 				}
 			} else {
-				revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(fpRevenueEntry.getWorkOrder()));
+				revenueEntry
+						.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(fpRevenueEntry.getWorkOrder()));
 			}
 			revenueEntry.setFinancialYear(
 					FinancialYearConverter.convertFinancialYearVOToFinancialYear(fpRevenueEntry.getFinancialYear()));
@@ -1017,7 +1019,8 @@ public class RevenueServiceImpl implements RevenueService {
 					revenueEntry.setWorkOrder(workOrder);
 				}
 			} else {
-				revenueEntry.setWorkOrder(WorkOrderConverter.convertWorkOrderVOToWorkOrder(tandMRevenueEntry.getWorkOrder()));
+				revenueEntry.setWorkOrder(
+						WorkOrderConverter.convertWorkOrderVOToWorkOrder(tandMRevenueEntry.getWorkOrder()));
 			}
 			revenueEntry.setFinancialYear(
 					FinancialYearConverter.convertFinancialYearVOToFinancialYear(tandMRevenueEntry.getFinancialYear()));
@@ -1379,11 +1382,21 @@ public class RevenueServiceImpl implements RevenueService {
 
 	@Override
 	@Transactional
-	public String deleteRevenueResourceEntry(Long revenueResourceEntryId) {
+	public DeleteRevenueResourceResponse deleteRevenueResourceEntry(Long revenueResourceEntryId) {
+		DeleteRevenueResourceResponse response = new DeleteRevenueResourceResponse();
 		Optional<RevenueResourceEntry> optional = revenueResourceEntryRepository.findById(revenueResourceEntryId);
 		if (optional.isPresent()) {
+			RevenueResourceEntry revenueResourceEntry = optional.get();
 			revenueResourceEntryRepository.deleteById(revenueResourceEntryId);
-			return "Deleted Revenue Resource Entry Details Successfully";
+			if (revenueResourceEntry.getRevenueEntry().getResourceCount() != null
+					|| revenueResourceEntry.getRevenueEntry().getResourceCount() != 0) {
+				Integer resourceCount = revenueResourceEntry.getRevenueEntry().getResourceCount() - 1;
+				revenueEntryRespository.updateRevenueEntryDetails(resourceCount,
+						revenueResourceEntry.getRevenueEntry().getRevenueEntryId());
+				response.setResourceCount(resourceCount);
+			}
+			response.setMessage("Deleted Revenue Resource Entry Details Successfully");
+			return response;
 		} else {
 			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + revenueResourceEntryId);
 		}

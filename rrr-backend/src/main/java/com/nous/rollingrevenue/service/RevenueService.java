@@ -1,5 +1,6 @@
 package com.nous.rollingrevenue.service;
 
+import com.nous.rollingrevenue.vo.DeleteRevenueResourceResponse;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
@@ -44,5 +45,5 @@ public interface RevenueService {
 
 	public String deleteResourcesDetails(ResourceDeleteRequest resourceDeleteRequest);
 
-	public String deleteRevenueResourceEntry(Long revenueResourceEntryId);
+	public DeleteRevenueResourceResponse deleteRevenueResourceEntry(Long revenueResourceEntryId);
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
 import com.nous.rollingrevenue.service.RevenueService;
+import com.nous.rollingrevenue.vo.DeleteRevenueResourceResponse;
 import com.nous.rollingrevenue.vo.FPRevenueEntryVO;
 import com.nous.rollingrevenue.vo.OpportunityEntryResponse;
 import com.nous.rollingrevenue.vo.OpportunityRevenueRequest;
@@ -138,7 +139,8 @@ public class RevenueController {
 
 	@Operation(summary = "Delete RevenueResourceEntry By revenueResourceEntryId")
 	@DeleteMapping(path = "/revenueresource/{revenueResourceEntryId}")
-	public WSResponse<String> deleteRevenueResourceEntry(@PathVariable @Valid Long revenueResourceEntryId) {
+	public WSResponse<DeleteRevenueResourceResponse> deleteRevenueResourceEntry(
+			@PathVariable @Valid Long revenueResourceEntryId) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
 				revenueService.deleteRevenueResourceEntry(revenueResourceEntryId));
 	}
