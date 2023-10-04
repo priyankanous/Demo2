@@ -25,16 +25,16 @@ public class RolesPermissionServiceImpl implements RolesPermissionService {
 	@Override
 	public List<RolesPermissionVO> getAllRolesPermission() {
 		List<RolesPermissionVO> rolesPermissionVO = new ArrayList<>();
-		rolesPermissionRepository.findAll().stream().forEach(rolesPermission -> rolesPermissionVO
-				.add(RolesPermissionConverter.convertRolesPermissionToRolesPermissionVO(rolesPermission)));
+//		rolesPermissionRepository.findAll().stream().forEach(rolesPermission -> rolesPermissionVO
+//				.add(RolesPermissionConverter.convertRolesPermissionToRolesPermissionVO(rolesPermission)));
 		return rolesPermissionVO;
 	}
 
 	@Override
 	@Transactional
 	public void saveRolesPermission(RolesPermissionVO rolesPermissionVO) {
-		rolesPermissionRepository
-				.save(RolesPermissionConverter.convertRolesPermissionVOToRolesPermission(rolesPermissionVO));
+//		rolesPermissionRepository
+//				.save(RolesPermissionConverter.convertRolesPermissionVOToRolesPermission(rolesPermissionVO));
 	}
 
 	@Override
@@ -49,7 +49,8 @@ public class RolesPermissionServiceImpl implements RolesPermissionService {
 	public RolesPermissionVO getRolesPermissionById(Long rolesPermissionId) {
 		RolesPermission rolesPermission = rolesPermissionRepository.findById(rolesPermissionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + rolesPermissionId));
-		return RolesPermissionConverter.convertRolesPermissionToRolesPermissionVO(rolesPermission);
+//		return RolesPermissionConverter.convertRolesPermissionToRolesPermissionVO(rolesPermission);
+		return null;
 	}
 
 	@Override
@@ -58,9 +59,9 @@ public class RolesPermissionServiceImpl implements RolesPermissionService {
 		RolesPermission rolesPermission = rolesPermissionRepository.findById(rolesPermissionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + rolesPermissionId));
 		rolesPermission.setIsCreateRoleRequired(rolesPermissionVO.getIsCreateRoleRequired());
-		rolesPermission.setIsCopyRoleRequired(rolesPermissionVO.getIsCopyRoleRequired());
-		rolesPermission.setIsEditRoleRequired(rolesPermissionVO.getIsEditRoleRequired());
-		rolesPermission.setIsDeleteOrDeactivateRequired(rolesPermissionVO.getIsDeleteOrDeactivateRequired());
+//		rolesPermission.setIsCopyRoleRequired(rolesPermissionVO.getIsCopyRoleRequired());
+//		rolesPermission.setIsEditRoleRequired(rolesPermissionVO.getIsEditRoleRequired());
+//		rolesPermission.setIsDeleteOrDeactivateRequired(rolesPermissionVO.getIsDeleteOrDeactivateRequired());
 		rolesPermissionRepository.save(rolesPermission);
 	}
 

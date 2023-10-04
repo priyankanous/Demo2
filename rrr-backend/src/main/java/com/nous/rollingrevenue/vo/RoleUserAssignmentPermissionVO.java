@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.validation.constraints.NotNull;
-
 public class RoleUserAssignmentPermissionVO implements Serializable {
 
 	/**
@@ -15,11 +13,15 @@ public class RoleUserAssignmentPermissionVO implements Serializable {
 
 	private Long roleUserAssignmentPermissionId;
 
-	@NotNull(message = "isAssignOrModifyUsersToRolesRequired cannot be null or empty")
-	private boolean isAssignOrModifyUsersToRolesRequired;
+	private boolean roleUserAssignmentPermissionAll;
 
-	@NotNull(message = "isActivateOrDeactivateNotificationRequired cannot be null or empty")
-	private boolean isActivateOrDeactivateNotificationRequired;
+	private Boolean isCreateOrUploadRequired;
+
+	private Boolean isEditOrReUploadRequired;
+
+	private Boolean isViewRequired;
+
+	private Boolean isDeleteRequired;
 
 	private boolean isActive;
 
@@ -27,13 +29,16 @@ public class RoleUserAssignmentPermissionVO implements Serializable {
 
 	}
 
-	public RoleUserAssignmentPermissionVO(Long roleUserAssignmentPermissionId,
-			boolean isAssignOrModifyUsersToRolesRequired, boolean isActivateOrDeactivateNotificationRequired,
-			boolean isActive) {
+	public RoleUserAssignmentPermissionVO(Long roleUserAssignmentPermissionId, boolean roleUserAssignmentPermissionAll,
+			Boolean isCreateOrUploadRequired, Boolean isEditOrReUploadRequired, Boolean isViewRequired,
+			Boolean isDeleteRequired, boolean isActive) {
 		super();
 		this.roleUserAssignmentPermissionId = roleUserAssignmentPermissionId;
-		this.isAssignOrModifyUsersToRolesRequired = isAssignOrModifyUsersToRolesRequired;
-		this.isActivateOrDeactivateNotificationRequired = isActivateOrDeactivateNotificationRequired;
+		this.roleUserAssignmentPermissionAll = roleUserAssignmentPermissionAll;
+		this.isCreateOrUploadRequired = isCreateOrUploadRequired;
+		this.isEditOrReUploadRequired = isEditOrReUploadRequired;
+		this.isViewRequired = isViewRequired;
+		this.isDeleteRequired = isDeleteRequired;
 		this.isActive = isActive;
 	}
 
@@ -45,29 +50,53 @@ public class RoleUserAssignmentPermissionVO implements Serializable {
 		this.roleUserAssignmentPermissionId = roleUserAssignmentPermissionId;
 	}
 
-	public boolean getIsAssignOrModifyUsersToRolesRequired() {
-		return isAssignOrModifyUsersToRolesRequired;
-	}
-
-	public void setAssignOrModifyUsersToRolesRequired(boolean isAssignOrModifyUsersToRolesRequired) {
-		this.isAssignOrModifyUsersToRolesRequired = isAssignOrModifyUsersToRolesRequired;
-	}
-
-	public boolean getIsActivateOrDeactivateNotificationRequired() {
-		return isActivateOrDeactivateNotificationRequired;
-	}
-
-	public void setActivateOrDeactivateNotificationRequired(boolean isActivateOrDeactivateNotificationRequired) {
-		this.isActivateOrDeactivateNotificationRequired = isActivateOrDeactivateNotificationRequired;
-	}
-
-	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
 	}
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public boolean isRoleUserAssignmentPermissionAll() {
+		return roleUserAssignmentPermissionAll;
+	}
+
+	public void setRoleUserAssignmentPermissionAll(boolean roleUserAssignmentPermissionAll) {
+		this.roleUserAssignmentPermissionAll = roleUserAssignmentPermissionAll;
+	}
+
+	public Boolean getIsCreateOrUploadRequired() {
+		return isCreateOrUploadRequired;
+	}
+
+	public void setIsCreateOrUploadRequired(Boolean isCreateOrUploadRequired) {
+		this.isCreateOrUploadRequired = isCreateOrUploadRequired;
+	}
+
+	public Boolean getIsEditOrReUploadRequired() {
+		return isEditOrReUploadRequired;
+	}
+
+	public void setIsEditOrReUploadRequired(Boolean isEditOrReUploadRequired) {
+		this.isEditOrReUploadRequired = isEditOrReUploadRequired;
+	}
+
+	public Boolean getIsViewRequired() {
+		return isViewRequired;
+	}
+
+	public void setIsViewRequired(Boolean isViewRequired) {
+		this.isViewRequired = isViewRequired;
+	}
+
+	public Boolean getIsDeleteRequired() {
+		return isDeleteRequired;
+	}
+
+	public void setIsDeleteRequired(Boolean isDeleteRequired) {
+		this.isDeleteRequired = isDeleteRequired;
 	}
 
 }

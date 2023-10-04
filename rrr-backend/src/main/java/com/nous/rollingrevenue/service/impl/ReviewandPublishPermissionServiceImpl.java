@@ -25,17 +25,17 @@ public class ReviewandPublishPermissionServiceImpl implements ReviewandPublishPe
 	@Override
 	public List<ReviewandPublishPermissionVO> getAllReviewandPublishPermission() {
 		List<ReviewandPublishPermissionVO> reviewandPublishPermissionsVO = new ArrayList<>();
-		reviewandPublishPermissionRepository.findAll().stream().forEach(
-				reviewandPublishPermission -> reviewandPublishPermissionsVO.add(ReviewandPublishPermissionConverter
-						.convertReviewandPublishPermissionToReviewandPublishPermissionVO(reviewandPublishPermission)));
+//		reviewandPublishPermissionRepository.findAll().stream().forEach(
+//				reviewandPublishPermission -> reviewandPublishPermissionsVO.add(ReviewandPublishPermissionConverter
+//						.convertReviewandPublishPermissionToReviewandPublishPermissionVO(reviewandPublishPermission)));
 		return reviewandPublishPermissionsVO;
 	}
 
 	@Override
 	@Transactional
 	public void saveReviewandPublishPermission(ReviewandPublishPermissionVO reviewandPublishPermissionVO) {
-		reviewandPublishPermissionRepository.save(ReviewandPublishPermissionConverter
-				.convertReviewandPublishPermissionVOToReviewandPublishPermission(reviewandPublishPermissionVO));
+//		reviewandPublishPermissionRepository.save(ReviewandPublishPermissionConverter
+//				.convertReviewandPublishPermissionVOToReviewandPublishPermission(reviewandPublishPermissionVO));
 
 	}
 
@@ -52,8 +52,9 @@ public class ReviewandPublishPermissionServiceImpl implements ReviewandPublishPe
 		ReviewandPublishPermission reviewandPublishPermission = reviewandPublishPermissionRepository
 				.findById(reviewandPublishPermissionId).orElseThrow(() -> new RecordNotFoundException(
 						ErrorConstants.RECORD_NOT_EXIST + reviewandPublishPermissionId));
-		return ReviewandPublishPermissionConverter
-				.convertReviewandPublishPermissionToReviewandPublishPermissionVO(reviewandPublishPermission);
+//		return ReviewandPublishPermissionConverter
+//				.convertReviewandPublishPermissionToReviewandPublishPermissionVO(reviewandPublishPermission);
+		return null;
 	}
 
 	@Override
@@ -63,9 +64,9 @@ public class ReviewandPublishPermissionServiceImpl implements ReviewandPublishPe
 		ReviewandPublishPermission reviewandPublishPermission = reviewandPublishPermissionRepository
 				.findById(reviewandPublishPermissionId).orElseThrow(() -> new RecordNotFoundException(
 						ErrorConstants.RECORD_NOT_EXIST + reviewandPublishPermissionId));
-		reviewandPublishPermission.setMarkPublishRequired(reviewandPublishPermissionVO.getIsMarkPublishRequired());
-		reviewandPublishPermission
-				.setReviewListViewRequired(reviewandPublishPermissionVO.getIsReviewListViewRequired());
+//		reviewandPublishPermission.setMarkPublishRequired(reviewandPublishPermissionVO.getIsMarkPublishRequired());
+//		reviewandPublishPermission
+//				.setReviewListViewRequired(reviewandPublishPermissionVO.getIsReviewListViewRequired());
 		reviewandPublishPermissionRepository.save(reviewandPublishPermission);
 	}
 

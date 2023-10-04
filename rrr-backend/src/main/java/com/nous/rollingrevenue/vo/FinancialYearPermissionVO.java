@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.validation.constraints.NotNull;
-
 public class FinancialYearPermissionVO implements Serializable {
 
 	/**
@@ -15,11 +13,9 @@ public class FinancialYearPermissionVO implements Serializable {
 
 	private Long financialYearPermissionId;
 
-	@NotNull(message = "isCreateRequired cannot be null or empty")
-	private Boolean isCreateRequired;
+	private boolean financialYearPermissionAll;
 
-	@NotNull(message = "isActivateOrDeactivateRequired cannot be null or empty")
-	private Boolean isActivateOrDeactivateRequired;
+	private CommonAdministrationPermissionVO commonAdministrationPermissionVO;
 
 	private boolean isActive;
 
@@ -27,12 +23,12 @@ public class FinancialYearPermissionVO implements Serializable {
 
 	}
 
-	public FinancialYearPermissionVO(Long financialYearPermissionId, Boolean isCreateRequired,
-			Boolean isActivateOrDeactivateRequired, boolean isActive) {
+	public FinancialYearPermissionVO(Long financialYearPermissionId, boolean financialYearPermissionAll,
+			CommonAdministrationPermissionVO commonAdministrationPermissionVO, boolean isActive) {
 		super();
 		this.financialYearPermissionId = financialYearPermissionId;
-		this.isCreateRequired = isCreateRequired;
-		this.isActivateOrDeactivateRequired = isActivateOrDeactivateRequired;
+		this.financialYearPermissionAll = financialYearPermissionAll;
+		this.commonAdministrationPermissionVO = commonAdministrationPermissionVO;
 		this.isActive = isActive;
 	}
 
@@ -44,20 +40,20 @@ public class FinancialYearPermissionVO implements Serializable {
 		this.financialYearPermissionId = financialYearPermissionId;
 	}
 
-	public Boolean getIsCreateRequired() {
-		return isCreateRequired;
+	public boolean isFinancialYearPermissionAll() {
+		return financialYearPermissionAll;
 	}
 
-	public void setIsCreateRequired(Boolean isCreateRequired) {
-		this.isCreateRequired = isCreateRequired;
+	public void setFinancialYearPermissionAll(boolean financialYearPermissionAll) {
+		this.financialYearPermissionAll = financialYearPermissionAll;
 	}
 
-	public Boolean getIsActivateOrDeactivateRequired() {
-		return isActivateOrDeactivateRequired;
+	public CommonAdministrationPermissionVO getCommonAdministrationPermissionVO() {
+		return commonAdministrationPermissionVO;
 	}
 
-	public void setIsActivateOrDeactivateRequired(Boolean isActivateOrDeactivateRequired) {
-		this.isActivateOrDeactivateRequired = isActivateOrDeactivateRequired;
+	public void setCommonAdministrationPermissionVO(CommonAdministrationPermissionVO commonAdministrationPermissionVO) {
+		this.commonAdministrationPermissionVO = commonAdministrationPermissionVO;
 	}
 
 	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)

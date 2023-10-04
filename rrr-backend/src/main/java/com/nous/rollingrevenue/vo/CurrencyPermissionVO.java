@@ -1,9 +1,8 @@
 package com.nous.rollingrevenue.vo;
+
 import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import jakarta.validation.constraints.NotNull;
 
 public class CurrencyPermissionVO implements Serializable {
 
@@ -14,31 +13,22 @@ public class CurrencyPermissionVO implements Serializable {
 
 	private Long currencyPermissionId;
 
-	@NotNull(message = "isViewRequired cannot be null or empty")
-	private boolean isViewRequired;
+	private boolean currencyPermissionAll;
 
-	@NotNull(message = "isAddRequired cannot be null or empty")
-	private boolean isAddRequired;
-	
-	@NotNull(message = "isDeleteOrDeactiveRequired cannot be null or empty")
-	private boolean isDeleteOrDeactiveRequired;
-	
-	@NotNull(message = "isSetConversionForFyRequired cannot be null or empty")
-	private boolean isSetConversionForFyRequired;
-	
+	private CommonAdministrationPermissionVO commonAdministrationPermissionVO;
+
 	private boolean isActive;
 
 	public CurrencyPermissionVO() {
-	
+
 	}
 
-	public CurrencyPermissionVO(Long currencyPermissionId, boolean isViewRequired, boolean isAddRequired,boolean isDeleteOrDeactiveRequired,boolean isSetConversionForFyRequired,boolean isActive) {
+	public CurrencyPermissionVO(Long currencyPermissionId, boolean currencyPermissionAll,
+			CommonAdministrationPermissionVO commonAdministrationPermissionVO, boolean isActive) {
 		super();
 		this.currencyPermissionId = currencyPermissionId;
-		this.isViewRequired = isViewRequired;
-		this.isAddRequired = isAddRequired;
-		this.isDeleteOrDeactiveRequired = isDeleteOrDeactiveRequired;
-		this.isSetConversionForFyRequired = isSetConversionForFyRequired;
+		this.currencyPermissionAll = currencyPermissionAll;
+		this.commonAdministrationPermissionVO = commonAdministrationPermissionVO;
 		this.isActive = isActive;
 	}
 
@@ -50,39 +40,23 @@ public class CurrencyPermissionVO implements Serializable {
 		this.currencyPermissionId = currencyPermissionId;
 	}
 
-	public boolean getIsViewRequired() {
-		return isViewRequired;
+	public boolean isCurrencyPermissionAll() {
+		return currencyPermissionAll;
 	}
 
-	public void setViewRequired(boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
+	public void setCurrencyPermissionAll(boolean currencyPermissionAll) {
+		this.currencyPermissionAll = currencyPermissionAll;
 	}
 
-	public boolean getIsAddRequired() {
-		return isAddRequired;
+	public CommonAdministrationPermissionVO getCommonAdministrationPermissionVO() {
+		return commonAdministrationPermissionVO;
 	}
 
-	public void setAddRequired(boolean isAddRequired) {
-		this.isAddRequired = isAddRequired;
+	public void setCommonAdministrationPermissionVO(CommonAdministrationPermissionVO commonAdministrationPermissionVO) {
+		this.commonAdministrationPermissionVO = commonAdministrationPermissionVO;
 	}
 
-	public boolean getIsDeleteOrDeactiveRequired() {
-		return isDeleteOrDeactiveRequired;
-	}
-
-	public void setDeleteOrDeactiveRequired(boolean isDeleteOrDeactiveRequired) {
-		this.isDeleteOrDeactiveRequired = isDeleteOrDeactiveRequired;
-	}
-
-	public boolean getIsSetConversionForFyRequired() {
-		return isSetConversionForFyRequired;
-	}
-
-	public void setSetConversionForFyRequired(boolean isSetConversionForFyRequired) {
-		this.isSetConversionForFyRequired = isSetConversionForFyRequired;
-	}
-
-	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
 	}

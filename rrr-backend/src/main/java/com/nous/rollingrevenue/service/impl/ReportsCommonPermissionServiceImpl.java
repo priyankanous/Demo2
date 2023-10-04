@@ -25,8 +25,8 @@ public class ReportsCommonPermissionServiceImpl implements ReportsCommonPermissi
 	@Override
 	@Transactional
 	public void saveReportsCommonPermission(ReportsCommonPermissionVO reportsCommonPermissionVO) {
-		reportsCommonPermissionRepository.save(ReportsCommonPermissionConverter
-				.convertReportsCommonPermissionVOToReportsCommonPermission(reportsCommonPermissionVO));
+//		reportsCommonPermissionRepository.save(ReportsCommonPermissionConverter
+//				.convertReportsCommonPermissionVOToReportsCommonPermission(reportsCommonPermissionVO));
 	}
 
 	@Override
@@ -37,12 +37,12 @@ public class ReportsCommonPermissionServiceImpl implements ReportsCommonPermissi
 		ReportsCommonPermission reportsCommonPermission = reportsCommonPermissionRepository
 				.findById(reportsCommonPermissionId).orElseThrow(
 						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + reportsCommonPermissionId));
-		reportsCommonPermission.setIsViewAllDataRequired(reportsCommonPermissionVO.getIsViewAllDataRequired());
-		reportsCommonPermission.setIsViewRequired(reportsCommonPermissionVO.getIsViewRequired());
-		reportsCommonPermission.setIsSaveReportViewRequired(reportsCommonPermissionVO.getIsSaveReportViewRequired());
-		reportsCommonPermission.setIsPrintRequired(reportsCommonPermissionVO.getIsPrintRequired());
-		reportsCommonPermission.setIsMailRequired(reportsCommonPermissionVO.getIsMailRequired());
-		reportsCommonPermission.setIsExportRequired(reportsCommonPermissionVO.getIsExportRequired());
+//		reportsCommonPermission.setIsViewAllDataRequired(reportsCommonPermissionVO.getIsViewAllDataRequired());
+//		reportsCommonPermission.setIsViewRequired(reportsCommonPermissionVO.getIsViewRequired());
+//		reportsCommonPermission.setIsSaveReportViewRequired(reportsCommonPermissionVO.getIsSaveReportViewRequired());
+//		reportsCommonPermission.setIsPrintRequired(reportsCommonPermissionVO.getIsPrintRequired());
+//		reportsCommonPermission.setIsMailRequired(reportsCommonPermissionVO.getIsMailRequired());
+//		reportsCommonPermission.setIsExportRequired(reportsCommonPermissionVO.getIsExportRequired());
 		reportsCommonPermissionRepository.save(reportsCommonPermission);
 	}
 
@@ -57,9 +57,9 @@ public class ReportsCommonPermissionServiceImpl implements ReportsCommonPermissi
 	@Override
 	public List<ReportsCommonPermissionVO> getAllReportsCommonPermissions() {
 		List<ReportsCommonPermissionVO> reportsCommonPermissionVO = new ArrayList<>();
-		reportsCommonPermissionRepository.findAll().stream()
-				.forEach(reportsCommonPermission -> reportsCommonPermissionVO.add(ReportsCommonPermissionConverter
-						.convertReportsCommonPermissionToReportsCommonPermissionVO(reportsCommonPermission)));
+//		reportsCommonPermissionRepository.findAll().stream()
+//				.forEach(reportsCommonPermission -> reportsCommonPermissionVO.add(ReportsCommonPermissionConverter
+//						.convertReportsCommonPermissionToReportsCommonPermissionVO(reportsCommonPermission)));
 		return reportsCommonPermissionVO;
 	}
 
@@ -68,8 +68,9 @@ public class ReportsCommonPermissionServiceImpl implements ReportsCommonPermissi
 		ReportsCommonPermission reportsCommonPermission = reportsCommonPermissionRepository
 				.findById(reportsCommonPermissionId).orElseThrow(
 						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + reportsCommonPermissionId));
-		return ReportsCommonPermissionConverter
-				.convertReportsCommonPermissionToReportsCommonPermissionVO(reportsCommonPermission);
+//		return ReportsCommonPermissionConverter
+//				.convertReportsCommonPermissionToReportsCommonPermissionVO(reportsCommonPermission);
+		return null;
 	}
 
 }

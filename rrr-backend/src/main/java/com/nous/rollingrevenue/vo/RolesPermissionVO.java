@@ -2,8 +2,6 @@ package com.nous.rollingrevenue.vo;
 
 import java.io.Serializable;
 
-import jakarta.validation.constraints.NotNull;
-
 public class RolesPermissionVO implements Serializable {
 
 	/**
@@ -13,17 +11,13 @@ public class RolesPermissionVO implements Serializable {
 
 	private Long rolesPermissionId;
 
-	@NotNull(message = "isCreateRoleRequired cannot be null or empty")
+	private Boolean rolesPermissionAll;
+
 	private Boolean isCreateRoleRequired;
 
-	@NotNull(message = "isCopyRoleRequired cannot be null or empty")
-	private Boolean isCopyRoleRequired;
-
-	@NotNull(message = "isEditRoleRequired cannot be null or empty")
 	private Boolean isEditRoleRequired;
 
-	@NotNull(message = "isDeleteOrDeactivateRequired cannot be null or empty")
-	private Boolean isDeleteOrDeactivateRequired;
+	private Boolean isDeleteRequired;
 
 	private boolean isActive;
 
@@ -31,14 +25,14 @@ public class RolesPermissionVO implements Serializable {
 
 	}
 
-	public RolesPermissionVO(Long rolesPermissionId, Boolean isCreateRoleRequired, Boolean isCopyRoleRequired,
-			Boolean isEditRoleRequired, Boolean isDeleteOrDeactivateRequired, boolean isActive) {
+	public RolesPermissionVO(Long rolesPermissionId, Boolean rolesPermissionAll, Boolean isCreateRoleRequired,
+			Boolean isEditRoleRequired, Boolean isDeleteRequired, boolean isActive) {
 		super();
 		this.rolesPermissionId = rolesPermissionId;
+		this.rolesPermissionAll = rolesPermissionAll;
 		this.isCreateRoleRequired = isCreateRoleRequired;
-		this.isCopyRoleRequired = isCopyRoleRequired;
 		this.isEditRoleRequired = isEditRoleRequired;
-		this.isDeleteOrDeactivateRequired = isDeleteOrDeactivateRequired;
+		this.isDeleteRequired = isDeleteRequired;
 		this.isActive = isActive;
 	}
 
@@ -58,14 +52,6 @@ public class RolesPermissionVO implements Serializable {
 		this.isCreateRoleRequired = isCreateRoleRequired;
 	}
 
-	public Boolean getIsCopyRoleRequired() {
-		return isCopyRoleRequired;
-	}
-
-	public void setIsCopyRoleRequired(Boolean isCopyRoleRequired) {
-		this.isCopyRoleRequired = isCopyRoleRequired;
-	}
-
 	public Boolean getIsEditRoleRequired() {
 		return isEditRoleRequired;
 	}
@@ -74,20 +60,28 @@ public class RolesPermissionVO implements Serializable {
 		this.isEditRoleRequired = isEditRoleRequired;
 	}
 
-	public Boolean getIsDeleteOrDeactivateRequired() {
-		return isDeleteOrDeactivateRequired;
-	}
-
-	public void setIsDeleteOrDeactivateRequired(Boolean isDeleteOrDeactivateRequired) {
-		this.isDeleteOrDeactivateRequired = isDeleteOrDeactivateRequired;
-	}
-
 	public boolean isActive() {
 		return isActive;
 	}
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
+	}
+
+	public Boolean getRolesPermissionAll() {
+		return rolesPermissionAll;
+	}
+
+	public void setRolesPermissionAll(Boolean rolesPermissionAll) {
+		this.rolesPermissionAll = rolesPermissionAll;
+	}
+
+	public Boolean getIsDeleteRequired() {
+		return isDeleteRequired;
+	}
+
+	public void setIsDeleteRequired(Boolean isDeleteRequired) {
+		this.isDeleteRequired = isDeleteRequired;
 	}
 
 }

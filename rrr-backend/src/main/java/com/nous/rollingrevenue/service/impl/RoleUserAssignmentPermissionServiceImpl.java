@@ -25,20 +25,19 @@ public class RoleUserAssignmentPermissionServiceImpl implements RoleUserAssignme
 	@Override
 	public List<RoleUserAssignmentPermissionVO> getAllRoleUserAssignmentPermission() {
 		List<RoleUserAssignmentPermissionVO> roleUserAssignmentPermissionsVO = new ArrayList<>();
-		roleUserAssignmentPermissionRepository.findAll().stream()
-				.forEach(roleUserAssignmentPermission -> roleUserAssignmentPermissionsVO
-						.add(RoleUserAssignmentPermissionConverter
-								.convertRoleUserAssignmentPermissionToRoleUserAssignmentPermissionVO(
-										roleUserAssignmentPermission)));
+//		roleUserAssignmentPermissionRepository.findAll().stream()
+//				.forEach(roleUserAssignmentPermission -> roleUserAssignmentPermissionsVO
+//						.add(RoleUserAssignmentPermissionConverter
+//								.convertRoleUserAssignmentPermissionToRoleUserAssignmentPermissionVO(
+//										roleUserAssignmentPermission)));
 		return roleUserAssignmentPermissionsVO;
 	}
 
 	@Override
 	@Transactional
 	public void saveRoleUserAssignmentPermission(RoleUserAssignmentPermissionVO roleUserAssignmentPermissionVO) {
-		roleUserAssignmentPermissionRepository.save(RoleUserAssignmentPermissionConverter
-				.convertRoleUserAssignmentPermissionVOToRoleUserAssignmentPermission(roleUserAssignmentPermissionVO));
-
+//		roleUserAssignmentPermissionRepository.save(RoleUserAssignmentPermissionConverter
+//				.convertRoleUserAssignmentPermissionVOToRoleUserAssignmentPermission(roleUserAssignmentPermissionVO));
 	}
 
 	@Override
@@ -55,8 +54,9 @@ public class RoleUserAssignmentPermissionServiceImpl implements RoleUserAssignme
 		RoleUserAssignmentPermission roleUserAssignmentPermission = roleUserAssignmentPermissionRepository
 				.findById(roleUserAssignmentPermissionId).orElseThrow(() -> new RecordNotFoundException(
 						ErrorConstants.RECORD_NOT_EXIST + roleUserAssignmentPermissionId));
-		return RoleUserAssignmentPermissionConverter
-				.convertRoleUserAssignmentPermissionToRoleUserAssignmentPermissionVO(roleUserAssignmentPermission);
+//		return RoleUserAssignmentPermissionConverter
+//				.convertRoleUserAssignmentPermissionToRoleUserAssignmentPermissionVO(roleUserAssignmentPermission);
+		return null;
 	}
 
 	@Override
@@ -68,10 +68,10 @@ public class RoleUserAssignmentPermissionServiceImpl implements RoleUserAssignme
 						ErrorConstants.RECORD_NOT_EXIST + roleUserAssignmentPermissionId));
 		roleUserAssignmentPermission
 				.setRoleUserAssignmentPermissionId(roleUserAssignmentPermissionVO.getRoleUserAssignmentPermissionId());
-		roleUserAssignmentPermission.setAssignOrModifyUsersToRolesRequired(
-				roleUserAssignmentPermissionVO.getIsAssignOrModifyUsersToRolesRequired());
-		roleUserAssignmentPermission.setActivateOrDeactivateNotificationRequired(
-				roleUserAssignmentPermissionVO.getIsActivateOrDeactivateNotificationRequired());
+//		roleUserAssignmentPermission.setAssignOrModifyUsersToRolesRequired(
+//				roleUserAssignmentPermissionVO.getIsAssignOrModifyUsersToRolesRequired());
+//		roleUserAssignmentPermission.setActivateOrDeactivateNotificationRequired(
+//				roleUserAssignmentPermissionVO.getIsActivateOrDeactivateNotificationRequired());
 
 		roleUserAssignmentPermissionRepository.save(roleUserAssignmentPermission);
 	}

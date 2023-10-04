@@ -25,8 +25,8 @@ public class FinancialYearPermissionServiceImpl implements FinancialYearPermissi
 	@Override
 	@Transactional
 	public void saveFinancialYearPermission(FinancialYearPermissionVO financialYearPermissionVO) {
-		financialYearPermissionRepository.save(FinancialYearPermissionConverter
-				.convertFinancialYearPermissionVOToFinancialYearPermission(financialYearPermissionVO));
+//		financialYearPermissionRepository.save(FinancialYearPermissionConverter
+//				.convertFinancialYearPermissionVOToFinancialYearPermission(financialYearPermissionVO));
 	}
 
 	@Override
@@ -37,9 +37,9 @@ public class FinancialYearPermissionServiceImpl implements FinancialYearPermissi
 				.findById(financialYearPermissionId).orElseThrow(
 						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearPermissionId));
 		financialYearPermission.setFinancialYearPermissionId(financialYearPermissionVO.getFinancialYearPermissionId());
-		financialYearPermission.setIsCreateRequired(financialYearPermissionVO.getIsCreateRequired());
-		financialYearPermission
-				.setIsActivateOrDeactivateRequired(financialYearPermissionVO.getIsActivateOrDeactivateRequired());
+//		financialYearPermission.setIsCreateRequired(financialYearPermissionVO.getIsCreateRequired());
+//		financialYearPermission
+//				.setIsActivateOrDeactivateRequired(financialYearPermissionVO.getIsActivateOrDeactivateRequired());
 	}
 
 	@Override
@@ -53,9 +53,9 @@ public class FinancialYearPermissionServiceImpl implements FinancialYearPermissi
 	@Override
 	public List<FinancialYearPermissionVO> getFinancialYearPermissions() {
 		List<FinancialYearPermissionVO> financialYearPermissionVO = new ArrayList<>();
-		financialYearPermissionRepository.findAll().stream()
-				.forEach(financialYearPermission -> financialYearPermissionVO.add(FinancialYearPermissionConverter
-						.convertFinancialYearPermissionToFinancialYearPermissionVO(financialYearPermission)));
+//		financialYearPermissionRepository.findAll().stream()
+//				.forEach(financialYearPermission -> financialYearPermissionVO.add(FinancialYearPermissionConverter
+//						.convertFinancialYearPermissionToFinancialYearPermissionVO(financialYearPermission)));
 		return financialYearPermissionVO;
 	}
 
@@ -64,8 +64,9 @@ public class FinancialYearPermissionServiceImpl implements FinancialYearPermissi
 		FinancialYearPermission financialYearPermission = financialYearPermissionRepository
 				.findById(financialYearPermissionId).orElseThrow(
 						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearPermissionId));
-		return FinancialYearPermissionConverter
-				.convertFinancialYearPermissionToFinancialYearPermissionVO(financialYearPermission);
+//		return FinancialYearPermissionConverter
+//				.convertFinancialYearPermissionToFinancialYearPermissionVO(financialYearPermission);
+		return null;
 	}
 
 }

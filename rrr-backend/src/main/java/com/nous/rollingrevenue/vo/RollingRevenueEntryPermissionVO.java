@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.validation.constraints.NotNull;
-
 public class RollingRevenueEntryPermissionVO implements Serializable {
 	/**
 	 * Serial Version ID
@@ -14,35 +12,21 @@ public class RollingRevenueEntryPermissionVO implements Serializable {
 
 	private Long rollingrevenueEntryPermissionId;
 
-	@NotNull(message = "isViewAllEntriesRequired cannot be null or empty")
+	private Boolean rollingrevenueEntryPermissionAll;
+
 	private Boolean isViewAllEntriesRequired;
 
-	@NotNull(message = "isAddRevenueEntryRequired cannot be null or empty")
 	private Boolean isAddRevenueEntryRequired;
 
-	@NotNull(message = "isEditRevenueEntryRequired cannot be null or empty")
 	private Boolean isEditRevenueEntryRequired;
 
-	@NotNull(message = "isDeleteRevenueEntryRequired cannot be null or empty")
 	private Boolean isDeleteRevenueEntryRequired;
 
-	@NotNull(message = "isCopyRevenueEntryRequired cannot be null or empty")
 	private Boolean isCopyRevenueEntryRequired;
 
-	@NotNull(message = "isSubmitRevenueEntryRequired cannot be null or empty")
 	private Boolean isSubmitRevenueEntryRequired;
 
-	@NotNull(message = "isAllEntriesRequired cannot be null or empty")
-	private Boolean isAllEntriesRequired;
-
-	@NotNull(message = "isExportRequired cannot be null or empty")
 	private Boolean isExportRequired;
-
-	@NotNull(message = "isOnlyIfCreatorRequired cannot be null or empty")
-	private Boolean isOnlyIfCreatorRequired;
-
-	@NotNull(message = "isPrintRequired cannot be null or empty")
-	private Boolean isPrintRequired;
 
 	private boolean isActive;
 
@@ -50,23 +34,30 @@ public class RollingRevenueEntryPermissionVO implements Serializable {
 
 	}
 
-	public RollingRevenueEntryPermissionVO(Long rollingrevenueEntryPermissionId, Boolean isViewAllEntriesRequired,
+	public RollingRevenueEntryPermissionVO(Long rollingrevenueEntryPermissionId,
+			Boolean rollingrevenueEntryPermissionAll, Boolean isViewAllEntriesRequired,
 			Boolean isAddRevenueEntryRequired, Boolean isEditRevenueEntryRequired, Boolean isDeleteRevenueEntryRequired,
-			Boolean isCopyRevenueEntryRequired, Boolean isSubmitRevenueEntryRequired, Boolean isAllEntriesRequired,
-			Boolean isExportRequired, Boolean isOnlyIfCreatorRequired, Boolean isPrintRequired, boolean isActive) {
+			Boolean isCopyRevenueEntryRequired, Boolean isSubmitRevenueEntryRequired, Boolean isExportRequired,
+			boolean isActive) {
 		super();
 		this.rollingrevenueEntryPermissionId = rollingrevenueEntryPermissionId;
+		this.rollingrevenueEntryPermissionAll = rollingrevenueEntryPermissionAll;
 		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
 		this.isAddRevenueEntryRequired = isAddRevenueEntryRequired;
 		this.isEditRevenueEntryRequired = isEditRevenueEntryRequired;
 		this.isDeleteRevenueEntryRequired = isDeleteRevenueEntryRequired;
 		this.isCopyRevenueEntryRequired = isCopyRevenueEntryRequired;
 		this.isSubmitRevenueEntryRequired = isSubmitRevenueEntryRequired;
-		this.isAllEntriesRequired = isAllEntriesRequired;
 		this.isExportRequired = isExportRequired;
-		this.isOnlyIfCreatorRequired = isOnlyIfCreatorRequired;
-		this.isPrintRequired = isPrintRequired;
 		this.isActive = isActive;
+	}
+
+	public Boolean getRollingrevenueEntryPermissionAll() {
+		return rollingrevenueEntryPermissionAll;
+	}
+
+	public void setRollingrevenueEntryPermissionAll(Boolean rollingrevenueEntryPermissionAll) {
+		this.rollingrevenueEntryPermissionAll = rollingrevenueEntryPermissionAll;
 	}
 
 	public Long getRollingrevenueEntryPermissionId() {
@@ -125,14 +116,6 @@ public class RollingRevenueEntryPermissionVO implements Serializable {
 		this.isSubmitRevenueEntryRequired = isSubmitRevenueEntryRequired;
 	}
 
-	public Boolean getIsAllEntriesRequired() {
-		return isAllEntriesRequired;
-	}
-
-	public void setIsAllEntriesRequired(Boolean isAllEntriesRequired) {
-		this.isAllEntriesRequired = isAllEntriesRequired;
-	}
-
 	public Boolean getIsExportRequired() {
 		return isExportRequired;
 	}
@@ -141,22 +124,6 @@ public class RollingRevenueEntryPermissionVO implements Serializable {
 		this.isExportRequired = isExportRequired;
 	}
 
-	public Boolean getIsOnlyIfCreatorRequired() {
-		return isOnlyIfCreatorRequired;
-	}
-
-	public void setIsOnlyIfCreatorRequired(Boolean isOnlyIfCreatorRequired) {
-		this.isOnlyIfCreatorRequired = isOnlyIfCreatorRequired;
-	}
-
-	public Boolean getIsPrintRequired() {
-		return isPrintRequired;
-	}
-
-	public void setIsPrintRequired(Boolean isPrintRequired) {
-		this.isPrintRequired = isPrintRequired;
-	}
-	
 	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;

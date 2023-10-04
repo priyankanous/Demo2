@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.validation.constraints.NotNull;
-
 public class ReportsCommonPermissionVO implements Serializable {
 	/**
 	 * Serial Version ID
@@ -14,23 +12,11 @@ public class ReportsCommonPermissionVO implements Serializable {
 
 	private Long reportsCommonPermissionId;
 
-	@NotNull(message = "isViewAllDataRequired cannot be null or empty")
-	private Boolean isViewAllDataRequired;
+	private boolean viewAll;
 
-	@NotNull(message = "isViewRequired cannot be null or empty")
-	private Boolean isViewRequired;
+	private boolean setFilter;
 
-	@NotNull(message = "isPrintRequired cannot be null or empty")
-	private Boolean isPrintRequired;
-
-	@NotNull(message = "isSaveReportViewRequired cannot be null or empty")
-	private Boolean isSaveReportViewRequired;
-
-	@NotNull(message = "isExportRequired cannot be null or empty")
-	private Boolean isExportRequired;
-
-	@NotNull(message = "isMailRequired cannot be null or empty")
-	private Boolean isMailRequired;
+	private boolean export;
 
 	private boolean isActive;
 
@@ -38,17 +24,13 @@ public class ReportsCommonPermissionVO implements Serializable {
 
 	}
 
-	public ReportsCommonPermissionVO(Long reportsCommonPermissionId, Boolean isViewAllDataRequired,
-			Boolean isViewRequired, Boolean isPrintRequired, Boolean isSaveReportViewRequired, Boolean isExportRequired,
-			Boolean isMailRequired, boolean isActive) {
+	public ReportsCommonPermissionVO(Long reportsCommonPermissionId, boolean viewAll, boolean setFilter, boolean export,
+			boolean isActive) {
 		super();
 		this.reportsCommonPermissionId = reportsCommonPermissionId;
-		this.isViewAllDataRequired = isViewAllDataRequired;
-		this.isViewRequired = isViewRequired;
-		this.isPrintRequired = isPrintRequired;
-		this.isSaveReportViewRequired = isSaveReportViewRequired;
-		this.isExportRequired = isExportRequired;
-		this.isMailRequired = isMailRequired;
+		this.viewAll = viewAll;
+		this.setFilter = setFilter;
+		this.export = export;
 		this.isActive = isActive;
 	}
 
@@ -60,54 +42,30 @@ public class ReportsCommonPermissionVO implements Serializable {
 		this.reportsCommonPermissionId = reportsCommonPermissionId;
 	}
 
-	public Boolean getIsViewAllDataRequired() {
-		return isViewAllDataRequired;
+	public boolean isViewAll() {
+		return viewAll;
 	}
 
-	public void setIsViewAllDataRequired(Boolean isViewAllDataRequired) {
-		this.isViewAllDataRequired = isViewAllDataRequired;
+	public void setViewAll(boolean viewAll) {
+		this.viewAll = viewAll;
 	}
 
-	public Boolean getIsViewRequired() {
-		return isViewRequired;
+	public boolean isSetFilter() {
+		return setFilter;
 	}
 
-	public void setIsViewRequired(Boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
+	public void setSetFilter(boolean setFilter) {
+		this.setFilter = setFilter;
 	}
 
-	public Boolean getIsPrintRequired() {
-		return isPrintRequired;
+	public boolean isExport() {
+		return export;
 	}
 
-	public void setIsPrintRequired(Boolean isPrintRequired) {
-		this.isPrintRequired = isPrintRequired;
+	public void setExport(boolean export) {
+		this.export = export;
 	}
 
-	public Boolean getIsSaveReportViewRequired() {
-		return isSaveReportViewRequired;
-	}
-
-	public void setIsSaveReportViewRequired(Boolean isSaveReportViewRequired) {
-		this.isSaveReportViewRequired = isSaveReportViewRequired;
-	}
-
-	public Boolean getIsExportRequired() {
-		return isExportRequired;
-	}
-
-	public void setIsExportRequired(Boolean isExportRequired) {
-		this.isExportRequired = isExportRequired;
-	}
-
-	public Boolean getIsMailRequired() {
-		return isMailRequired;
-	}
-
-	public void setIsMailRequired(Boolean isMailRequired) {
-		this.isMailRequired = isMailRequired;
-	}
-	
 	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;

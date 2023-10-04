@@ -25,8 +25,8 @@ public class InvoiceDataUploadPermissionServiceImpl implements InvoiceDataUpload
 	@Override
 	@Transactional
 	public void saveInvoiceDataUploadPermission(InvoiceDataUploadPermissionVO invoiceDataUploadPermissionVO) {
-		invoiceDataUploadPermissionRepository.save(InvoiceDataUploadPermissionConverter
-				.convertInvoiceDataUploadPermissionVOToInvoiceDataUploadPermission(invoiceDataUploadPermissionVO));
+//		invoiceDataUploadPermissionRepository.save(InvoiceDataUploadPermissionConverter
+//				.convertInvoiceDataUploadPermissionVOToInvoiceDataUploadPermission(invoiceDataUploadPermissionVO));
 	}
 
 	@Override
@@ -40,8 +40,8 @@ public class InvoiceDataUploadPermissionServiceImpl implements InvoiceDataUpload
 				.setInvoiceDataUploadPermissionId(invoiceDataUploadPermissionVO.getInvoiceDataUploadPermissionId());
 		invoiceDataUploadPermission.setIsViewListRequired(invoiceDataUploadPermissionVO.getIsViewListRequired());
 		invoiceDataUploadPermission.setIsUploadDataRequired(invoiceDataUploadPermissionVO.getIsUploadDataRequired());
-		invoiceDataUploadPermission
-				.setIsMarkMisPublishedRequired(invoiceDataUploadPermissionVO.getIsMarkMisPublishedRequired());
+//		invoiceDataUploadPermission
+//				.setIsMarkMisPublishedRequired(invoiceDataUploadPermissionVO.getIsMarkMisPublishedRequired());
 	}
 
 	@Override
@@ -55,10 +55,10 @@ public class InvoiceDataUploadPermissionServiceImpl implements InvoiceDataUpload
 	@Override
 	public List<InvoiceDataUploadPermissionVO> getInvoiceDataUploadPermissions() {
 		List<InvoiceDataUploadPermissionVO> invoiceDataUploadPermissionVO = new ArrayList<>();
-		invoiceDataUploadPermissionRepository.findAll().stream().forEach(
-				invoiceDataUploadPermission -> invoiceDataUploadPermissionVO.add(InvoiceDataUploadPermissionConverter
-						.convertInvoiceDataUploadPermissionToInvoiceDataUploadPermissionVO(
-								invoiceDataUploadPermission)));
+//		invoiceDataUploadPermissionRepository.findAll().stream().forEach(
+//				invoiceDataUploadPermission -> invoiceDataUploadPermissionVO.add(InvoiceDataUploadPermissionConverter
+//						.convertInvoiceDataUploadPermissionToInvoiceDataUploadPermissionVO(
+//								invoiceDataUploadPermission)));
 		return invoiceDataUploadPermissionVO;
 	}
 
@@ -67,8 +67,9 @@ public class InvoiceDataUploadPermissionServiceImpl implements InvoiceDataUpload
 		InvoiceDataUploadPermission invoiceDataUploadPermission = invoiceDataUploadPermissionRepository
 				.findById(invoiceDataUploadPermissionId).orElseThrow(() -> new RecordNotFoundException(
 						ErrorConstants.RECORD_NOT_EXIST + invoiceDataUploadPermissionId));
-		return InvoiceDataUploadPermissionConverter
-				.convertInvoiceDataUploadPermissionToInvoiceDataUploadPermissionVO(invoiceDataUploadPermission);
+//		return InvoiceDataUploadPermissionConverter
+//				.convertInvoiceDataUploadPermissionToInvoiceDataUploadPermissionVO(invoiceDataUploadPermission);
+		return null;
 	}
 
 }

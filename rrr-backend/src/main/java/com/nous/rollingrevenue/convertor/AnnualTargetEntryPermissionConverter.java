@@ -15,38 +15,38 @@ public class AnnualTargetEntryPermissionConverter {
 	 * @return AnnualTargetEntryPermission
 	 */
 
-	public static AnnualTargetEntryPermission convertAnnualTargetEntryPermissionVOToAnnualTargetEntryPermission(
-			AnnualTargetEntryPermissionVO annualTargetEntryPermissionVO) {
-		AnnualTargetEntryPermission annualTargetEntryPermission = new AnnualTargetEntryPermission();
-		if (annualTargetEntryPermissionVO != null) {
-			annualTargetEntryPermission
-					.setAnnualTargetEntryPermissionId(annualTargetEntryPermissionVO.getAnnualTargetEntryPermissionId());
-			annualTargetEntryPermission.setIsAddAnnualTargetEntryRequired(
-					annualTargetEntryPermissionVO.getIsAddAnnualTargetEntryRequired());
-		}
-		return annualTargetEntryPermission;
-	}
-
-	/**
-	 * Convert AnnualTargetEntryPermission to AnnualTargetEntryPermissionVO
-	 * 
-	 * @param AnnualTargetEntryPermission
-	 * @return AnnualTargetEntryPermissionVO
-	 */
-
-	public static AnnualTargetEntryPermissionVO convertAnnualTargetEntryPermissionToAnnualTargetEntryPermissionVO(
-			AnnualTargetEntryPermission annualTargetEntryPermission) {
-		AnnualTargetEntryPermissionVO annualTargetEntryPermissionVO = new AnnualTargetEntryPermissionVO();
-		if (annualTargetEntryPermission != null) {
-			annualTargetEntryPermissionVO.setAnnualTargetEntryPermissionId(annualTargetEntryPermission.getAnnualTargetEntryPermissionId());
-			annualTargetEntryPermissionVO.setIsAddAnnualTargetEntryRequired(annualTargetEntryPermission.getIsAddAnnualTargetEntryRequired());
-			annualTargetEntryPermissionVO
-					.setAnnualTargetEntryPermissionId(annualTargetEntryPermission.getAnnualTargetEntryPermissionId());
-			annualTargetEntryPermissionVO
-					.setIsAddAnnualTargetEntryRequired(annualTargetEntryPermission.getIsAddAnnualTargetEntryRequired());
-			annualTargetEntryPermissionVO.setActive(annualTargetEntryPermission.isActive());
-		}
-		return annualTargetEntryPermissionVO;
-	}
+//	public static AnnualTargetEntryPermission convertAnnualTargetEntryPermissionVOToAnnualTargetEntryPermission(
+//			AnnualTargetEntryPermissionVO annualTargetEntryPermissionVO) {
+//		AnnualTargetEntryPermission annualTargetEntryPermission = new AnnualTargetEntryPermission();
+//		if (annualTargetEntryPermissionVO != null) {
+//			annualTargetEntryPermission
+//					.setAnnualTargetEntryPermissionId(annualTargetEntryPermissionVO.getAnnualTargetEntryPermissionId());
+//			annualTargetEntryPermission.setIsAddAnnualTargetEntryRequired(
+//					annualTargetEntryPermissionVO.getIsAddAnnualTargetEntryRequired());
+//		}
+//		return annualTargetEntryPermission;
+//	}
+//
+//	/**
+//	 * Convert AnnualTargetEntryPermission to AnnualTargetEntryPermissionVO
+//	 * 
+//	 * @param AnnualTargetEntryPermission
+//	 * @return AnnualTargetEntryPermissionVO
+//	 */
+//
+//	public static AnnualTargetEntryPermissionVO convertAnnualTargetEntryPermissionToAnnualTargetEntryPermissionVO(
+//			AnnualTargetEntryPermission annualTargetEntryPermission) {
+//		AnnualTargetEntryPermissionVO annualTargetEntryPermissionVO = new AnnualTargetEntryPermissionVO();
+//		if (annualTargetEntryPermission != null) {
+//			annualTargetEntryPermissionVO.setAnnualTargetEntryPermissionId(annualTargetEntryPermission.getAnnualTargetEntryPermissionId());
+//			annualTargetEntryPermissionVO.setIsAddAnnualTargetEntryRequired(annualTargetEntryPermission.getIsAddAnnualTargetEntryRequired());
+//			annualTargetEntryPermissionVO
+//					.setAnnualTargetEntryPermissionId(annualTargetEntryPermission.getAnnualTargetEntryPermissionId());
+//			annualTargetEntryPermissionVO
+//					.setIsAddAnnualTargetEntryRequired(annualTargetEntryPermission.getIsAddAnnualTargetEntryRequired());
+//			annualTargetEntryPermissionVO.setActive(annualTargetEntryPermission.isActive());
+//		}
+//		return annualTargetEntryPermissionVO;
+//	}
 
 }

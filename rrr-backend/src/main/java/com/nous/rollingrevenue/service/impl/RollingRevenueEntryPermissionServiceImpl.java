@@ -25,9 +25,9 @@ public class RollingRevenueEntryPermissionServiceImpl implements RollingRevenueE
 	@Override
 	@Transactional
 	public void saveRollingRevenueEntryPermission(RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO) {
-		rollingRevenueEntryPermissionRepository.save(RollingRevenueEntryPermissionConverter
-				.convertRollingRevenueEntryPermissionVOToRollingRevenueEntryPermission(
-						rollingRevenueEntryPermissionVO));
+//		rollingRevenueEntryPermissionRepository.save(RollingRevenueEntryPermissionConverter
+//				.convertRollingRevenueEntryPermissionVOToRollingRevenueEntryPermission(
+//						rollingRevenueEntryPermissionVO));
 	}
 
 	@Override
@@ -39,8 +39,8 @@ public class RollingRevenueEntryPermissionServiceImpl implements RollingRevenueE
 						ErrorConstants.RECORD_NOT_EXIST + rollingrevenueEntryPermissionId));
 		rollingRevenueEntryPermission
 				.setIsAddRevenueEntryRequired(rollingRevenueEntryPermissionVO.getIsAddRevenueEntryRequired());
-		rollingRevenueEntryPermission
-				.setIsAllEntriesRequired(rollingRevenueEntryPermissionVO.getIsAllEntriesRequired());
+//		rollingRevenueEntryPermission
+//				.setIsAllEntriesRequired(rollingRevenueEntryPermissionVO.getIsAllEntriesRequired());
 		rollingRevenueEntryPermission
 				.setIsCopyRevenueEntryRequired(rollingRevenueEntryPermissionVO.getIsCopyRevenueEntryRequired());
 		rollingRevenueEntryPermission
@@ -48,9 +48,9 @@ public class RollingRevenueEntryPermissionServiceImpl implements RollingRevenueE
 		rollingRevenueEntryPermission
 				.setIsEditRevenueEntryRequired(rollingRevenueEntryPermissionVO.getIsEditRevenueEntryRequired());
 		rollingRevenueEntryPermission.setIsExportRequired(rollingRevenueEntryPermissionVO.getIsExportRequired());
-		rollingRevenueEntryPermission
-				.setIsOnlyIfCreatorRequired(rollingRevenueEntryPermissionVO.getIsOnlyIfCreatorRequired());
-		rollingRevenueEntryPermission.setIsPrintRequired(rollingRevenueEntryPermissionVO.getIsPrintRequired());
+//		rollingRevenueEntryPermission
+//				.setIsOnlyIfCreatorRequired(rollingRevenueEntryPermissionVO.getIsOnlyIfCreatorRequired());
+//		rollingRevenueEntryPermission.setIsPrintRequired(rollingRevenueEntryPermissionVO.getIsPrintRequired());
 		rollingRevenueEntryPermission
 				.setIsSubmitRevenueEntryRequired(rollingRevenueEntryPermissionVO.getIsSubmitRevenueEntryRequired());
 		rollingRevenueEntryPermission
@@ -69,11 +69,11 @@ public class RollingRevenueEntryPermissionServiceImpl implements RollingRevenueE
 	@Override
 	public List<RollingRevenueEntryPermissionVO> getAllRollingRevenueEntryPermissions() {
 		List<RollingRevenueEntryPermissionVO> rollingRevenueEntryPermissionVO = new ArrayList<>();
-		rollingRevenueEntryPermissionRepository.findAll().stream()
-				.forEach(rollingrevenueEntryPermission -> rollingRevenueEntryPermissionVO
-						.add(RollingRevenueEntryPermissionConverter
-								.convertRollingRevenueEntryPermissionToRollingRevenueEntryPermissionVO(
-										rollingrevenueEntryPermission)));
+//		rollingRevenueEntryPermissionRepository.findAll().stream()
+//				.forEach(rollingrevenueEntryPermission -> rollingRevenueEntryPermissionVO
+//						.add(RollingRevenueEntryPermissionConverter
+//								.convertRollingRevenueEntryPermissionToRollingRevenueEntryPermissionVO(
+//										rollingrevenueEntryPermission)));
 		return rollingRevenueEntryPermissionVO;
 	}
 
@@ -82,9 +82,9 @@ public class RollingRevenueEntryPermissionServiceImpl implements RollingRevenueE
 		RollingRevenueEntryPermission rollingrevenueEntryPermission = rollingRevenueEntryPermissionRepository
 				.findById(rollingrevenueEntryPermissionId).orElseThrow(() -> new RecordNotFoundException(
 						ErrorConstants.RECORD_NOT_EXIST + rollingrevenueEntryPermissionId));
-		return RollingRevenueEntryPermissionConverter
-				.convertRollingRevenueEntryPermissionToRollingRevenueEntryPermissionVO(rollingrevenueEntryPermission);
-
+//		return RollingRevenueEntryPermissionConverter
+//				.convertRollingRevenueEntryPermissionToRollingRevenueEntryPermissionVO(rollingrevenueEntryPermission);
+		return null;
 	}
 
 }

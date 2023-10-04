@@ -15,19 +15,22 @@ public class DashboardPermissionVO implements Serializable {
 
 	private Long dashboardPermissionId;
 
+	private boolean dashboardPermissionAll;
+
 	@NotNull(message = "isReadDashboardRequired cannot be null or empty")
 	private boolean isReadDashboardRequired;
 
 	@NotNull(message = "isEditDashboardRequired cannot be null or empty")
 	private boolean isEditDashboardRequired;
-	
+
 	private boolean isActive;
 
 	public DashboardPermissionVO() {
 
 	}
 
-	public DashboardPermissionVO(Long dashboardPermissionId, boolean isReadDashboardRequired,boolean isEditDashboardRequired,  boolean isActive) {
+	public DashboardPermissionVO(Long dashboardPermissionId, boolean isReadDashboardRequired,
+			boolean isEditDashboardRequired, boolean isActive) {
 		super();
 		this.dashboardPermissionId = dashboardPermissionId;
 		this.isReadDashboardRequired = isReadDashboardRequired;
@@ -58,8 +61,8 @@ public class DashboardPermissionVO implements Serializable {
 	public void setIsEditDashboardRequired(boolean isEditDashboardRequired) {
 		this.isEditDashboardRequired = isEditDashboardRequired;
 	}
-	
-	@JsonProperty(value="isActive", access = JsonProperty.Access.READ_ONLY)
+
+	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
 	}

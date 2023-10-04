@@ -25,16 +25,16 @@ public class CurrencyPermissionServiceImpl implements CurrencyPermissionService 
 	@Override
 	public List<CurrencyPermissionVO> getAllCurrencyPermission() {
 		List<CurrencyPermissionVO> currencyPermissionsVO = new ArrayList<>();
-		currencyPermissionRepository.findAll().stream().forEach(currencyPermission -> currencyPermissionsVO
-				.add(CurrencyPermissionConverter.convertCurrencyPermissionToCurrencyPermissionVO(currencyPermission)));
+//		currencyPermissionRepository.findAll().stream().forEach(currencyPermission -> currencyPermissionsVO
+//				.add(CurrencyPermissionConverter.convertCurrencyPermissionToCurrencyPermissionVO(currencyPermission)));
 		return currencyPermissionsVO;
 	}
 
 	@Override
 	@Transactional
 	public void saveCurrencyPermission(CurrencyPermissionVO currencyPermissionVO) {
-		currencyPermissionRepository.save(
-				CurrencyPermissionConverter.convertCurrencyPermissionVOToCurrencyPermission(currencyPermissionVO));
+//		currencyPermissionRepository.save(
+//				CurrencyPermissionConverter.convertCurrencyPermissionVOToCurrencyPermission(currencyPermissionVO));
 	}
 
 	@Override
@@ -49,7 +49,8 @@ public class CurrencyPermissionServiceImpl implements CurrencyPermissionService 
 	public CurrencyPermissionVO getCurrencyPermissionById(Long currencyPermissionId) {
 		CurrencyPermission currencyPermission = currencyPermissionRepository.findById(currencyPermissionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyPermissionId));
-		return CurrencyPermissionConverter.convertCurrencyPermissionToCurrencyPermissionVO(currencyPermission);
+//		return CurrencyPermissionConverter.convertCurrencyPermissionToCurrencyPermissionVO(currencyPermission);
+		return null;
 	}
 
 	@Override
@@ -57,10 +58,10 @@ public class CurrencyPermissionServiceImpl implements CurrencyPermissionService 
 	public void updateCurrencyPermission(Long currencyPermissionId, CurrencyPermissionVO currencyPermissionVO) {
 		CurrencyPermission currencyPermission = currencyPermissionRepository.findById(currencyPermissionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyPermissionId));
-		currencyPermission.setViewRequired(currencyPermissionVO.getIsViewRequired());
-		currencyPermission.setAddRequired(currencyPermissionVO.getIsAddRequired());
-		currencyPermission.setDeleteOrDeactiveRequired(currencyPermissionVO.getIsDeleteOrDeactiveRequired());
-		currencyPermission.setSetConversionForFyRequired(currencyPermissionVO.getIsSetConversionForFyRequired());
+//		currencyPermission.setViewRequired(currencyPermissionVO.getIsViewRequired());
+//		currencyPermission.setAddRequired(currencyPermissionVO.getIsAddRequired());
+//		currencyPermission.setDeleteOrDeactiveRequired(currencyPermissionVO.getIsDeleteOrDeactiveRequired());
+//		currencyPermission.setSetConversionForFyRequired(currencyPermissionVO.getIsSetConversionForFyRequired());
 		currencyPermissionRepository.save(currencyPermission);
 	}
 
