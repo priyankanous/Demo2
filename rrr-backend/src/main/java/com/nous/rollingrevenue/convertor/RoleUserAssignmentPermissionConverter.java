@@ -2,9 +2,6 @@ package com.nous.rollingrevenue.convertor;
 
 import org.springframework.stereotype.Component;
 
-import com.nous.rollingrevenue.model.RoleUserAssignmentPermission;
-import com.nous.rollingrevenue.vo.RoleUserAssignmentPermissionVO;
-
 @Component
 public class RoleUserAssignmentPermissionConverter {
 
@@ -24,6 +21,7 @@ public class RoleUserAssignmentPermissionConverter {
 //
 //	public static RoleUserAssignmentPermissionVO convertRoleUserAssignmentPermissionToRoleUserAssignmentPermissionVO(
 //			RoleUserAssignmentPermission roleUserAssignmentPermission) {
+//			RoleUserPermission roleUserAssignmentPermission) {
 //		RoleUserAssignmentPermissionVO roleUserAssignmentPermissionVO = new RoleUserAssignmentPermissionVO();
 //		if (roleUserAssignmentPermission != null) {
 //			roleUserAssignmentPermissionVO.setRoleUserAssignmentPermissionId(

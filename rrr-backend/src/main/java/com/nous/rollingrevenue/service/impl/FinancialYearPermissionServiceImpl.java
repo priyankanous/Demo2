@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
-import com.nous.rollingrevenue.convertor.FinancialYearPermissionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.FinancialYearPermission;
 import com.nous.rollingrevenue.repository.FinancialYearPermissionRepository;

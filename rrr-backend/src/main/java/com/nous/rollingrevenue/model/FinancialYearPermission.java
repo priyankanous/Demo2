@@ -1,6 +1,11 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +13,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,22 +26,40 @@ public class FinancialYearPermission extends Auditable<String> {
 	@Column(name = "financial_year_permission_id")
 	private Long financialYearPermissionId;
 
-	@Column(name = "is_create")
-	private Boolean isCreateRequired;
+	@Column(name = "financial_year_permission_all")
+	private Boolean isFinancialYearPermissionAll;
 
-	@Column(name = "is_activate_or_deactivate")
+	@Column(name = "view")
+	private Boolean isViewRequired;
+
+	@Column(name = "add")
+	private Boolean isAddRequired;
+
+	@Column(name = "edit")
+	private Boolean isEditRequired;
+
+	@Column(name = "activate_or_deactivate")
 	private Boolean isActivateOrDeactivateRequired;
+
+	@OneToMany(mappedBy = "financialYearPermission")
+	@JsonBackReference
+	private List<AdministrationPermission> administrationPermission = new ArrayList<>();
 
 	public FinancialYearPermission() {
 
 	}
 
-	public FinancialYearPermission(Long financialYearPermissionId, Boolean isCreateRequired,
-			Boolean isActivateOrDeactivateRequired) {
+	public FinancialYearPermission(Long financialYearPermissionId, Boolean isFinancialYearPermissionAll,
+			Boolean isViewRequired, Boolean isAddRequired, Boolean isEditRequired,
+			Boolean isActivateOrDeactivateRequired, List<AdministrationPermission> administrationPermission) {
 		super();
 		this.financialYearPermissionId = financialYearPermissionId;
-		this.isCreateRequired = isCreateRequired;
+		this.isFinancialYearPermissionAll = isFinancialYearPermissionAll;
+		this.isViewRequired = isViewRequired;
+		this.isAddRequired = isAddRequired;
+		this.isEditRequired = isEditRequired;
 		this.isActivateOrDeactivateRequired = isActivateOrDeactivateRequired;
+		this.administrationPermission = administrationPermission;
 	}
 
 	public Long getFinancialYearPermissionId() {
@@ -46,12 +70,36 @@ public class FinancialYearPermission extends Auditable<String> {
 		this.financialYearPermissionId = financialYearPermissionId;
 	}
 
-	public Boolean getIsCreateRequired() {
-		return isCreateRequired;
+	public Boolean getIsFinancialYearPermissionAll() {
+		return isFinancialYearPermissionAll;
 	}
 
-	public void setIsCreateRequired(Boolean isCreateRequired) {
-		this.isCreateRequired = isCreateRequired;
+	public void setIsFinancialYearPermissionAll(Boolean isFinancialYearPermissionAll) {
+		this.isFinancialYearPermissionAll = isFinancialYearPermissionAll;
+	}
+
+	public Boolean getIsViewRequired() {
+		return isViewRequired;
+	}
+
+	public void setIsViewRequired(Boolean isViewRequired) {
+		this.isViewRequired = isViewRequired;
+	}
+
+	public Boolean getIsAddRequired() {
+		return isAddRequired;
+	}
+
+	public void setIsAddRequired(Boolean isAddRequired) {
+		this.isAddRequired = isAddRequired;
+	}
+
+	public Boolean getIsEditRequired() {
+		return isEditRequired;
+	}
+
+	public void setIsEditRequired(Boolean isEditRequired) {
+		this.isEditRequired = isEditRequired;
 	}
 
 	public Boolean getIsActivateOrDeactivateRequired() {
@@ -60,6 +108,14 @@ public class FinancialYearPermission extends Auditable<String> {
 
 	public void setIsActivateOrDeactivateRequired(Boolean isActivateOrDeactivateRequired) {
 		this.isActivateOrDeactivateRequired = isActivateOrDeactivateRequired;
+	}
+
+	public List<AdministrationPermission> getAdministrationPermission() {
+		return administrationPermission;
+	}
+
+	public void setAdministrationPermission(List<AdministrationPermission> administrationPermission) {
+		this.administrationPermission = administrationPermission;
 	}
 
 }

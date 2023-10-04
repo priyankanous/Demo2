@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
-import com.nous.rollingrevenue.convertor.CurrencyPermissionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.CurrencyPermission;
 import com.nous.rollingrevenue.repository.CurrencyPermissionRepository;
@@ -58,10 +57,6 @@ public class CurrencyPermissionServiceImpl implements CurrencyPermissionService 
 	public void updateCurrencyPermission(Long currencyPermissionId, CurrencyPermissionVO currencyPermissionVO) {
 		CurrencyPermission currencyPermission = currencyPermissionRepository.findById(currencyPermissionId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyPermissionId));
-//		currencyPermission.setViewRequired(currencyPermissionVO.getIsViewRequired());
-//		currencyPermission.setAddRequired(currencyPermissionVO.getIsAddRequired());
-//		currencyPermission.setDeleteOrDeactiveRequired(currencyPermissionVO.getIsDeleteOrDeactiveRequired());
-//		currencyPermission.setSetConversionForFyRequired(currencyPermissionVO.getIsSetConversionForFyRequired());
 		currencyPermissionRepository.save(currencyPermission);
 	}
 

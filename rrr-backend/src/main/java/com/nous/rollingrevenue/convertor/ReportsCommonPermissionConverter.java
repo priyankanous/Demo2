@@ -2,9 +2,6 @@ package com.nous.rollingrevenue.convertor;
 
 import org.springframework.stereotype.Component;
 
-import com.nous.rollingrevenue.model.ReportsCommonPermission;
-import com.nous.rollingrevenue.vo.ReportsCommonPermissionVO;
-
 @Component
 public class ReportsCommonPermissionConverter {
 

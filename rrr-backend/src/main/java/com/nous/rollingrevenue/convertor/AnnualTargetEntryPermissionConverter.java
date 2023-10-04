@@ -2,9 +2,6 @@ package com.nous.rollingrevenue.convertor;
 
 import org.springframework.stereotype.Component;
 
-import com.nous.rollingrevenue.model.AnnualTargetEntryPermission;
-import com.nous.rollingrevenue.vo.AnnualTargetEntryPermissionVO;
-
 @Component
 public class AnnualTargetEntryPermissionConverter {
 
@@ -14,7 +11,6 @@ public class AnnualTargetEntryPermissionConverter {
 	 * @param AnnualTargetEntryPermissionVO
 	 * @return AnnualTargetEntryPermission
 	 */
-
 //	public static AnnualTargetEntryPermission convertAnnualTargetEntryPermissionVOToAnnualTargetEntryPermission(
 //			AnnualTargetEntryPermissionVO annualTargetEntryPermissionVO) {
 //		AnnualTargetEntryPermission annualTargetEntryPermission = new AnnualTargetEntryPermission();

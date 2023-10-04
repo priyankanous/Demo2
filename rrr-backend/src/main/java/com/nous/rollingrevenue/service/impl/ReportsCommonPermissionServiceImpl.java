@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
-import com.nous.rollingrevenue.convertor.ReportsCommonPermissionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.ReportsCommonPermission;
 import com.nous.rollingrevenue.repository.ReportsCommonPermissionRepository;
@@ -37,12 +36,6 @@ public class ReportsCommonPermissionServiceImpl implements ReportsCommonPermissi
 		ReportsCommonPermission reportsCommonPermission = reportsCommonPermissionRepository
 				.findById(reportsCommonPermissionId).orElseThrow(
 						() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + reportsCommonPermissionId));
-//		reportsCommonPermission.setIsViewAllDataRequired(reportsCommonPermissionVO.getIsViewAllDataRequired());
-//		reportsCommonPermission.setIsViewRequired(reportsCommonPermissionVO.getIsViewRequired());
-//		reportsCommonPermission.setIsSaveReportViewRequired(reportsCommonPermissionVO.getIsSaveReportViewRequired());
-//		reportsCommonPermission.setIsPrintRequired(reportsCommonPermissionVO.getIsPrintRequired());
-//		reportsCommonPermission.setIsMailRequired(reportsCommonPermissionVO.getIsMailRequired());
-//		reportsCommonPermission.setIsExportRequired(reportsCommonPermissionVO.getIsExportRequired());
 		reportsCommonPermissionRepository.save(reportsCommonPermission);
 	}
 

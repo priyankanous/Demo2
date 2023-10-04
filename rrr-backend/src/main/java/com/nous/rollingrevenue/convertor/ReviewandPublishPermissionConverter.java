@@ -2,9 +2,6 @@ package com.nous.rollingrevenue.convertor;
 
 import org.springframework.stereotype.Component;
 
-import com.nous.rollingrevenue.model.ReviewandPublishPermission;
-import com.nous.rollingrevenue.vo.ReviewandPublishPermissionVO;
-
 @Component
 public class ReviewandPublishPermissionConverter {
 

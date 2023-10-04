@@ -1,6 +1,11 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +13,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,56 +26,54 @@ public class RollingRevenueEntryPermission extends Auditable<String> {
 	@Column(name = "rolling_revenue_entry_permission_id")
 	private Long rollingrevenueEntryPermissionId;
 
-	@Column(name = "is_view_all_entries")
+	@Column(name = "rolling_revenue_entry_permission_all")
+	private Boolean isRollingRevenueEntryPermissionAll;
+
+	@Column(name = "view_all_entries")
 	private Boolean isViewAllEntriesRequired;
 
-	@Column(name = "is_add_revenue_entry")
+	@Column(name = "add_revenue_entry")
 	private Boolean isAddRevenueEntryRequired;
 
-	@Column(name = "is_edit_revenue_entry")
+	@Column(name = "edit_revenue_entry")
 	private Boolean isEditRevenueEntryRequired;
 
-	@Column(name = "is_delete_revenue_entry")
+	@Column(name = "delete_revenue_entry")
 	private Boolean isDeleteRevenueEntryRequired;
 
-	@Column(name = "is_copy_revenue_entry")
+	@Column(name = "copy_revenue_entry")
 	private Boolean isCopyRevenueEntryRequired;
 
-	@Column(name = "is_submit_revenue_entry")
+	@Column(name = "submit_revenue_entry")
 	private Boolean isSubmitRevenueEntryRequired;
 
-	@Column(name = "is_all_entries")
-	private Boolean isAllEntriesRequired;
-
-	@Column(name = "is_export")
+	@Column(name = "export")
 	private Boolean isExportRequired;
 
-	@Column(name = "is_only_if_creator")
-	private Boolean isOnlyIfCreatorRequired;
-
-	@Column(name = "is_print")
-	private Boolean isPrintRequired;
+	@OneToMany(mappedBy = "rollingRevenueEntryPermission")
+	@JsonBackReference
+	private List<RevenuePermission> revenuePermission = new ArrayList<>();
 
 	public RollingRevenueEntryPermission() {
 
 	}
 
-	public RollingRevenueEntryPermission(Long rollingrevenueEntryPermissionId, Boolean isViewAllEntriesRequired,
+	public RollingRevenueEntryPermission(Long rollingrevenueEntryPermissionId,
+			Boolean isRollingRevenueEntryPermissionAll, Boolean isViewAllEntriesRequired,
 			Boolean isAddRevenueEntryRequired, Boolean isEditRevenueEntryRequired, Boolean isDeleteRevenueEntryRequired,
-			Boolean isCopyRevenueEntryRequired, Boolean isSubmitRevenueEntryRequired, Boolean isAllEntriesRequired,
-			Boolean isExportRequired, Boolean isOnlyIfCreatorRequired, Boolean isPrintRequired) {
+			Boolean isCopyRevenueEntryRequired, Boolean isSubmitRevenueEntryRequired, Boolean isExportRequired,
+			List<RevenuePermission> revenuePermission) {
 		super();
 		this.rollingrevenueEntryPermissionId = rollingrevenueEntryPermissionId;
+		this.isRollingRevenueEntryPermissionAll = isRollingRevenueEntryPermissionAll;
 		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
 		this.isAddRevenueEntryRequired = isAddRevenueEntryRequired;
 		this.isEditRevenueEntryRequired = isEditRevenueEntryRequired;
 		this.isDeleteRevenueEntryRequired = isDeleteRevenueEntryRequired;
 		this.isCopyRevenueEntryRequired = isCopyRevenueEntryRequired;
 		this.isSubmitRevenueEntryRequired = isSubmitRevenueEntryRequired;
-		this.isAllEntriesRequired = isAllEntriesRequired;
 		this.isExportRequired = isExportRequired;
-		this.isOnlyIfCreatorRequired = isOnlyIfCreatorRequired;
-		this.isPrintRequired = isPrintRequired;
+		this.revenuePermission = revenuePermission;
 	}
 
 	public Long getRollingrevenueEntryPermissionId() {
@@ -78,6 +82,14 @@ public class RollingRevenueEntryPermission extends Auditable<String> {
 
 	public void setRollingrevenueEntryPermissionId(Long rollingrevenueEntryPermissionId) {
 		this.rollingrevenueEntryPermissionId = rollingrevenueEntryPermissionId;
+	}
+
+	public Boolean getIsRollingRevenueEntryAll() {
+		return isRollingRevenueEntryPermissionAll;
+	}
+
+	public void setIsRollingRevenueEntryAll(Boolean isRollingRevenueEntryAll) {
+		this.isRollingRevenueEntryPermissionAll = isRollingRevenueEntryAll;
 	}
 
 	public Boolean getIsViewAllEntriesRequired() {
@@ -128,14 +140,6 @@ public class RollingRevenueEntryPermission extends Auditable<String> {
 		this.isSubmitRevenueEntryRequired = isSubmitRevenueEntryRequired;
 	}
 
-	public Boolean getIsAllEntriesRequired() {
-		return isAllEntriesRequired;
-	}
-
-	public void setIsAllEntriesRequired(Boolean isAllEntriesRequired) {
-		this.isAllEntriesRequired = isAllEntriesRequired;
-	}
-
 	public Boolean getIsExportRequired() {
 		return isExportRequired;
 	}
@@ -144,20 +148,12 @@ public class RollingRevenueEntryPermission extends Auditable<String> {
 		this.isExportRequired = isExportRequired;
 	}
 
-	public Boolean getIsOnlyIfCreatorRequired() {
-		return isOnlyIfCreatorRequired;
+	public List<RevenuePermission> getRevenuePermission() {
+		return revenuePermission;
 	}
 
-	public void setIsOnlyIfCreatorRequired(Boolean isOnlyIfCreatorRequired) {
-		this.isOnlyIfCreatorRequired = isOnlyIfCreatorRequired;
-	}
-
-	public Boolean getIsPrintRequired() {
-		return isPrintRequired;
-	}
-
-	public void setIsPrintRequired(Boolean isPrintRequired) {
-		this.isPrintRequired = isPrintRequired;
+	public void setRevenuePermission(List<RevenuePermission> revenuePermission) {
+		this.revenuePermission = revenuePermission;
 	}
 
 }

@@ -2,9 +2,6 @@ package com.nous.rollingrevenue.convertor;
 
 import org.springframework.stereotype.Component;
 
-import com.nous.rollingrevenue.model.FinancialYearPermission;
-import com.nous.rollingrevenue.vo.FinancialYearPermissionVO;
-
 @Component
 public class FinancialYearPermissionConverter {
 

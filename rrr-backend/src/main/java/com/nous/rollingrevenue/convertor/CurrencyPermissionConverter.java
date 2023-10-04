@@ -2,9 +2,6 @@ package com.nous.rollingrevenue.convertor;
 
 import org.springframework.stereotype.Component;
 
-import com.nous.rollingrevenue.model.CurrencyPermission;
-import com.nous.rollingrevenue.vo.CurrencyPermissionVO;
-
 @Component
 public class CurrencyPermissionConverter {
 

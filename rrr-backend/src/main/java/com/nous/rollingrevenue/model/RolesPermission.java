@@ -1,6 +1,11 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,6 +13,7 @@ import jakarta.persistence.EntityListeners;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,30 +26,35 @@ public class RolesPermission extends Auditable<String> {
 	@Column(name = "roles__permission_id")
 	private Long rolesPermissionId;
 
-	@Column(name = "is_create_role_required")
+	@Column(name = "rolesPermissionAll")
+	private Boolean isRolesPermissionAll;
+
+	@Column(name = "delete")
+	private Boolean isDeleteRequired;
+
+	@Column(name = "create_role")
 	private Boolean isCreateRoleRequired;
 
-	@Column(name = "is_copy_role_required")
-	private Boolean isCopyRoleRequired;
-
-	@Column(name = "is_edit_role_required")
+	@Column(name = "edit_role")
 	private Boolean isEditRoleRequired;
 
-	@Column(name = "is_delete_or_deactivate_required")
-	private Boolean isDeleteOrDeactivateRequired;
+	@OneToMany(mappedBy = "rolesPermission")
+	@JsonBackReference
+	private List<SettingsPermission> settingsPermission = new ArrayList<>();
 
 	public RolesPermission() {
 
 	}
 
-	public RolesPermission(Long rolesPermissionId, Boolean isCreateRoleRequired, Boolean isCopyRoleRequired,
-			Boolean isEditRoleRequired, Boolean isDeleteOrDeactivateRequired) {
+	public RolesPermission(Long rolesPermissionId, Boolean isRolesPermissionAll, Boolean isDeleteRequired,
+			Boolean isCreateRoleRequired, Boolean isEditRoleRequired, List<SettingsPermission> settingsPermission) {
 		super();
 		this.rolesPermissionId = rolesPermissionId;
+		this.isRolesPermissionAll = isRolesPermissionAll;
+		this.isDeleteRequired = isDeleteRequired;
 		this.isCreateRoleRequired = isCreateRoleRequired;
-		this.isCopyRoleRequired = isCopyRoleRequired;
 		this.isEditRoleRequired = isEditRoleRequired;
-		this.isDeleteOrDeactivateRequired = isDeleteOrDeactivateRequired;
+		this.settingsPermission = settingsPermission;
 	}
 
 	public Long getRolesPermissionId() {
@@ -54,20 +65,28 @@ public class RolesPermission extends Auditable<String> {
 		this.rolesPermissionId = rolesPermissionId;
 	}
 
+	public Boolean getIsRolesPermissionAll() {
+		return isRolesPermissionAll;
+	}
+
+	public void setIsRolesPermissionAll(Boolean isRolesPermissionAll) {
+		this.isRolesPermissionAll = isRolesPermissionAll;
+	}
+
+	public Boolean getIsDeleteRequired() {
+		return isDeleteRequired;
+	}
+
+	public void setIsDeleteRequired(Boolean isDeleteRequired) {
+		this.isDeleteRequired = isDeleteRequired;
+	}
+
 	public Boolean getIsCreateRoleRequired() {
 		return isCreateRoleRequired;
 	}
 
 	public void setIsCreateRoleRequired(Boolean isCreateRoleRequired) {
 		this.isCreateRoleRequired = isCreateRoleRequired;
-	}
-
-	public Boolean getIsCopyRoleRequired() {
-		return isCopyRoleRequired;
-	}
-
-	public void setIsCopyRoleRequired(Boolean isCopyRoleRequired) {
-		this.isCopyRoleRequired = isCopyRoleRequired;
 	}
 
 	public Boolean getIsEditRoleRequired() {
@@ -78,12 +97,12 @@ public class RolesPermission extends Auditable<String> {
 		this.isEditRoleRequired = isEditRoleRequired;
 	}
 
-	public Boolean getIsDeleteOrDeactivateRequired() {
-		return isDeleteOrDeactivateRequired;
+	public List<SettingsPermission> getSettingsPermission() {
+		return settingsPermission;
 	}
 
-	public void setIsDeleteOrDeactivateRequired(Boolean isDeleteOrDeactivateRequired) {
-		this.isDeleteOrDeactivateRequired = isDeleteOrDeactivateRequired;
+	public void setSettingsPermission(List<SettingsPermission> settingsPermission) {
+		this.settingsPermission = settingsPermission;
 	}
 
 }

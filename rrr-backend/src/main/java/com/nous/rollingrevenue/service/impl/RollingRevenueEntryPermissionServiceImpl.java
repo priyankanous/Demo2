@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
-import com.nous.rollingrevenue.convertor.RollingRevenueEntryPermissionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.RollingRevenueEntryPermission;
 import com.nous.rollingrevenue.repository.RollingRevenueEntryPermissionRepository;
@@ -69,11 +68,6 @@ public class RollingRevenueEntryPermissionServiceImpl implements RollingRevenueE
 	@Override
 	public List<RollingRevenueEntryPermissionVO> getAllRollingRevenueEntryPermissions() {
 		List<RollingRevenueEntryPermissionVO> rollingRevenueEntryPermissionVO = new ArrayList<>();
-//		rollingRevenueEntryPermissionRepository.findAll().stream()
-//				.forEach(rollingrevenueEntryPermission -> rollingRevenueEntryPermissionVO
-//						.add(RollingRevenueEntryPermissionConverter
-//								.convertRollingRevenueEntryPermissionToRollingRevenueEntryPermissionVO(
-//										rollingrevenueEntryPermission)));
 		return rollingRevenueEntryPermissionVO;
 	}
 

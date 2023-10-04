@@ -2,9 +2,6 @@ package com.nous.rollingrevenue.convertor;
 
 import org.springframework.stereotype.Component;
 
-import com.nous.rollingrevenue.model.RollingRevenueEntryPermission;
-import com.nous.rollingrevenue.vo.RollingRevenueEntryPermissionVO;
-
 @Component
 public class RollingRevenueEntryPermissionConverter {
 

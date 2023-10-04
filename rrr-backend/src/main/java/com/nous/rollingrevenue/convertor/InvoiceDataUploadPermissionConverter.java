@@ -2,9 +2,6 @@ package com.nous.rollingrevenue.convertor;
 
 import org.springframework.stereotype.Component;
 
-import com.nous.rollingrevenue.model.InvoiceDataUploadPermission;
-import com.nous.rollingrevenue.vo.InvoiceDataUploadPermissionVO;
-
 @Component
 public class InvoiceDataUploadPermissionConverter {
 

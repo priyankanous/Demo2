@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
-import com.nous.rollingrevenue.convertor.InvoiceDataUploadPermissionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.InvoiceDataUploadPermission;
 import com.nous.rollingrevenue.repository.InvoiceDataUploadPermissionRepository;
@@ -55,10 +54,6 @@ public class InvoiceDataUploadPermissionServiceImpl implements InvoiceDataUpload
 	@Override
 	public List<InvoiceDataUploadPermissionVO> getInvoiceDataUploadPermissions() {
 		List<InvoiceDataUploadPermissionVO> invoiceDataUploadPermissionVO = new ArrayList<>();
-//		invoiceDataUploadPermissionRepository.findAll().stream().forEach(
-//				invoiceDataUploadPermission -> invoiceDataUploadPermissionVO.add(InvoiceDataUploadPermissionConverter
-//						.convertInvoiceDataUploadPermissionToInvoiceDataUploadPermissionVO(
-//								invoiceDataUploadPermission)));
 		return invoiceDataUploadPermissionVO;
 	}
 

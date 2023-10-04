@@ -1,13 +1,23 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,30 +30,30 @@ public class CurrencyPermission extends Auditable<String> {
 	@Column(name = "currency_permission_id")
 	private Long currencyPermissionId;
 
-	@Column(name = "is_view")
-	private boolean isViewRequired;
+	@Column(name = "currency_permission_all")
+	private Long isCurrencyPermissionAll;
 
-	@Column(name = "is_Add")
-	private boolean isAddRequired;
-	
-	@Column(name = "is_Delete_Or_Deactive")
-	private boolean isDeleteOrDeactiveRequired;
-	
-	@Column(name = "is_Set_Conversion_For_Fy")
-	private boolean isSetConversionForFyRequired;
+	@OneToMany(mappedBy = "currencyPermission")
+	@JsonBackReference
+	private List<AdministrationPermission> administrationPermission = new ArrayList<>();
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
+	@JoinColumn(name = "administration_common_permission_id", referencedColumnName = "administration_common_permission_id")
+	private AdministrationCommonPermission administrationCommonPermission;
 
 	public CurrencyPermission() {
-		
+
 	}
 
-	public CurrencyPermission(Long currencyPermissionId, boolean isViewRequired, boolean isAddRequired,
-			boolean isDeleteOrDeactiveRequired, boolean isSetConversionForFyRequired) {
+	public CurrencyPermission(Long currencyPermissionId, Long isCurrencyPermissionAll,
+			List<AdministrationPermission> administrationPermission,
+			AdministrationCommonPermission administrationCommonPermission) {
 		super();
 		this.currencyPermissionId = currencyPermissionId;
-		this.isViewRequired = isViewRequired;
-		this.isAddRequired = isAddRequired;
-		this.isDeleteOrDeactiveRequired = isDeleteOrDeactiveRequired;
-		this.isSetConversionForFyRequired = isSetConversionForFyRequired;
+		this.isCurrencyPermissionAll = isCurrencyPermissionAll;
+		this.administrationPermission = administrationPermission;
+		this.administrationCommonPermission = administrationCommonPermission;
 	}
 
 	public Long getCurrencyPermissionId() {
@@ -54,36 +64,28 @@ public class CurrencyPermission extends Auditable<String> {
 		this.currencyPermissionId = currencyPermissionId;
 	}
 
-	public boolean getIsViewRequired() {
-		return isViewRequired;
+	public Long getIsCurrencyPermissionAll() {
+		return isCurrencyPermissionAll;
 	}
 
-	public void setViewRequired(boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
+	public void setIsCurrencyPermissionAll(Long isCurrencyPermissionAll) {
+		this.isCurrencyPermissionAll = isCurrencyPermissionAll;
 	}
 
-	public boolean getIsAddRequired() {
-		return isAddRequired;
+	public List<AdministrationPermission> getAdministrationPermission() {
+		return administrationPermission;
 	}
 
-	public void setAddRequired(boolean isAddRequired) {
-		this.isAddRequired = isAddRequired;
+	public void setAdministrationPermission(List<AdministrationPermission> administrationPermission) {
+		this.administrationPermission = administrationPermission;
 	}
 
-	public boolean getIsDeleteOrDeactiveRequired() {
-		return isDeleteOrDeactiveRequired;
+	public AdministrationCommonPermission getAdministrationCommonPermission() {
+		return administrationCommonPermission;
 	}
 
-	public void setDeleteOrDeactiveRequired(boolean isDeleteOrDeactiveRequired) {
-		this.isDeleteOrDeactiveRequired = isDeleteOrDeactiveRequired;
+	public void setAdministrationCommonPermission(AdministrationCommonPermission administrationCommonPermission) {
+		this.administrationCommonPermission = administrationCommonPermission;
 	}
 
-	public boolean getIsSetConversionForFyRequired() {
-		return isSetConversionForFyRequired;
-	}
-
-	public void setSetConversionForFyRequired(boolean isSetConversionForFyRequired) {
-		this.isSetConversionForFyRequired = isSetConversionForFyRequired;
-	}
-	
 }

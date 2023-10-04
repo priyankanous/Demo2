@@ -1,58 +1,59 @@
 package com.nous.rollingrevenue.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "notification_configuration_permission")
 @EntityListeners(AuditingEntityListener.class)
-public class NotificationConfigurationPermission extends Auditable<String>{
+public class NotificationConfigurationPermission extends Auditable<String> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "notification_configuration_permission_id")
 	private Long notificationConfigurationPermissionId;
-	
-	@Column(name = "is_create_new_notification_email_template")
-	private Boolean isCreateNewNotificationEmailTemplateRequired;
 
-	@Column(name = "is_view")
-	private Boolean isViewRequired;
-	
-	@Column(name = "is_copy")
-	private Boolean isCopyRequired;
-	
-	@Column(name = "is_edit")
-	private Boolean isEditRequired;
-	
-	@Column(name = "is_delete_or_deactivate")
-	private Boolean isDeleteOrDeactivateRequired;
-	
-	@Column(name = "is_assign_recipients")
-	private Boolean isAssignRecipientsRequired;
+	@Column(name = "notification_configuration_permission_all")
+	private Boolean isNotificationConfigurationPermissionAll;
+
+	@OneToMany(mappedBy = "notificationConfigurationPermission")
+	@JsonBackReference
+	private List<AdministrationPermission> administrationPermission = new ArrayList<>();
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
+	@JoinColumn(name = "administration_common_permission_id", referencedColumnName = "administration_common_permission_id")
+	private AdministrationCommonPermission administrationCommonPermission;
 
 	public NotificationConfigurationPermission() {
 
 	}
 
 	public NotificationConfigurationPermission(Long notificationConfigurationPermissionId,
-			Boolean isCreateNewNotificationEmailTemplateRequired, Boolean isViewRequired, Boolean isCopyRequired,
-			Boolean isEditRequired, Boolean isDeleteOrDeactivateRequired, Boolean isAssignRecipientsRequired) {
+			Boolean isNotificationConfigurationPermissionAll, List<AdministrationPermission> administrationPermission,
+			AdministrationCommonPermission administrationCommonPermission) {
 		super();
 		this.notificationConfigurationPermissionId = notificationConfigurationPermissionId;
-		this.isCreateNewNotificationEmailTemplateRequired = isCreateNewNotificationEmailTemplateRequired;
-		this.isViewRequired = isViewRequired;
-		this.isCopyRequired = isCopyRequired;
-		this.isEditRequired = isEditRequired;
-		this.isDeleteOrDeactivateRequired = isDeleteOrDeactivateRequired;
-		this.isAssignRecipientsRequired = isAssignRecipientsRequired;
+		this.isNotificationConfigurationPermissionAll = isNotificationConfigurationPermissionAll;
+		this.administrationPermission = administrationPermission;
+		this.administrationCommonPermission = administrationCommonPermission;
 	}
 
 	public Long getNotificationConfigurationPermissionId() {
@@ -63,52 +64,28 @@ public class NotificationConfigurationPermission extends Auditable<String>{
 		this.notificationConfigurationPermissionId = notificationConfigurationPermissionId;
 	}
 
-	public Boolean getIsCreateNewNotificationEmailTemplateRequired() {
-		return isCreateNewNotificationEmailTemplateRequired;
+	public Boolean getIsNotificationConfigurationPermissionAll() {
+		return isNotificationConfigurationPermissionAll;
 	}
 
-	public void setIsCreateNewNotificationEmailTemplateRequired(Boolean isCreateNewNotificationEmailTemplateRequired) {
-		this.isCreateNewNotificationEmailTemplateRequired = isCreateNewNotificationEmailTemplateRequired;
+	public void setIsNotificationConfigurationPermissionAll(Boolean isNotificationConfigurationPermissionAll) {
+		this.isNotificationConfigurationPermissionAll = isNotificationConfigurationPermissionAll;
 	}
 
-	public Boolean getIsViewRequired() {
-		return isViewRequired;
+	public List<AdministrationPermission> getAdministrationPermission() {
+		return administrationPermission;
 	}
 
-	public void setIsViewRequired(Boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
+	public void setAdministrationPermission(List<AdministrationPermission> administrationPermission) {
+		this.administrationPermission = administrationPermission;
 	}
 
-	public Boolean getIsCopyRequired() {
-		return isCopyRequired;
+	public AdministrationCommonPermission getAdministrationCommonPermission() {
+		return administrationCommonPermission;
 	}
 
-	public void setIsCopyRequired(Boolean isCopyRequired) {
-		this.isCopyRequired = isCopyRequired;
+	public void setAdministrationCommonPermission(AdministrationCommonPermission administrationCommonPermission) {
+		this.administrationCommonPermission = administrationCommonPermission;
 	}
 
-	public Boolean getIsEditRequired() {
-		return isEditRequired;
-	}
-
-	public void setIsEditRequired(Boolean isEditRequired) {
-		this.isEditRequired = isEditRequired;
-	}
-
-	public Boolean getIsDeleteOrDeactivateRequired() {
-		return isDeleteOrDeactivateRequired;
-	}
-
-	public void setIsDeleteOrDeactivateRequired(Boolean isDeleteOrDeactivateRequired) {
-		this.isDeleteOrDeactivateRequired = isDeleteOrDeactivateRequired;
-	}
-
-	public Boolean getIsAssignRecipientsRequired() {
-		return isAssignRecipientsRequired;
-	}
-
-	public void setIsAssignRecipientsRequired(Boolean isAssignRecipientsRequired) {
-		this.isAssignRecipientsRequired = isAssignRecipientsRequired;
-	}
-	
 }
