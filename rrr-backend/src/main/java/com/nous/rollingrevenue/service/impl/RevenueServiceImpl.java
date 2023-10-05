@@ -187,8 +187,10 @@ public class RevenueServiceImpl implements RevenueService {
 				revenueResourceEntry.setEmployeeId(revenueResourceEntryVO.getEmployeeId());
 				revenueResourceEntry.setResourceStartDate(revenueResourceEntryVO.getResourceStartDate());
 				revenueResourceEntry.setResourceEndDate(revenueResourceEntryVO.getResourceEndDate());
-				revenueResourceEntry.setCocPractice(CocPracticeConverter
-						.convertCocPracticeVOToCocPractice(revenueResourceEntryVO.getCocPractice()));
+				if (revenueResourceEntryVO.getCocPractice() != null) {
+					revenueResourceEntry.setCocPractice(CocPracticeConverter
+							.convertCocPracticeVOToCocPractice(revenueResourceEntryVO.getCocPractice()));
+				}
 				revenueResourceEntry.setBillingRateType(revenueResourceEntryVO.getBillingRateType());
 				revenueResourceEntry.setBillingRate(revenueResourceEntryVO.getBillingRate());
 				revenueResourceEntry.setLeaveLossFactor(revenueResourceEntryVO.getLeaveLossFactor());
@@ -199,9 +201,7 @@ public class RevenueServiceImpl implements RevenueService {
 				revenueResourceEntries.add(revenueResourceEntry);
 			}
 		}
-
 		revenueResourceEntryRepository.saveAll(revenueResourceEntries);
-
 	}
 
 	@Override
@@ -338,10 +338,12 @@ public class RevenueServiceImpl implements RevenueService {
 			revenueEntryVO.setRegion(revenueEntry.getRegion().getRegionDisplayName());
 			revenueEntryVO.setLocation(revenueResourceEntry.getLocation().getLocationDisplayName());
 			revenueEntryVO.setProbabilityType(revenueEntry.getProbabilityType().getProbabilityTypeName());
-			revenueEntryVO.setCocPractice(
-					Constants.NON_COC_BASED.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())
-							? Constants.NO
-							: Constants.YES);
+			if (revenueResourceEntry.getCocPractice() != null) {
+				revenueEntryVO.setCocPractice(
+						Constants.NON_COC_BASED.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())
+								? Constants.NO
+								: Constants.YES);
+			}
 			revenueEntryVO.setStatus(revenueEntry.getStatus());
 			revenueEntriesVO.add(revenueEntryVO);
 		}
@@ -775,13 +777,17 @@ public class RevenueServiceImpl implements RevenueService {
 					leaveLossFactor = revenueResourceEntry.getLeaveLossFactor();
 				}
 
-				BigInteger billingRate = revenueServiceTMCalculation.calculatingBillingRate(financialYear,
-						revenueResourceEntry.getRevenueEntry().getCurrency().getCurrencyId(),
-						revenueResourceEntry.getBillingRate());
-				revenueServiceTMCalculation.monthlyBillingSeparation(financialYearName,
-						revenueResourceEntry.getResourceStartDate(), revenueResourceEntry.getResourceEndDate(),
-						revenueResourceEntry.getBillingRateType(), billingRate, leaveLossFactor,
-						isDisplayAdditionalQuarter, fyRevenue);
+				if (revenueResourceEntry.getBillingRate() != null || revenueResourceEntry.getResourceStartDate() != null
+						|| revenueResourceEntry.getResourceEndDate() != null
+						|| revenueResourceEntry.getBillingRateType() != null) {
+					BigInteger billingRate = revenueServiceTMCalculation.calculatingBillingRate(financialYear,
+							revenueResourceEntry.getRevenueEntry().getCurrency().getCurrencyId(),
+							revenueResourceEntry.getBillingRate());
+					revenueServiceTMCalculation.monthlyBillingSeparation(financialYearName,
+							revenueResourceEntry.getResourceStartDate(), revenueResourceEntry.getResourceEndDate(),
+							revenueResourceEntry.getBillingRateType(), billingRate, leaveLossFactor,
+							isDisplayAdditionalQuarter, fyRevenue);
+				}
 
 				revenueServiceTMCalculation.setQuarterlyDetails(fyRevenue, isDisplayAdditionalQuarter);
 				financialYearTMRevenue.setDataMap(fyRevenue);

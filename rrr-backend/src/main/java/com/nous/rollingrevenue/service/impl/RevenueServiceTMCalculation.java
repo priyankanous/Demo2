@@ -70,12 +70,17 @@ public class RevenueServiceTMCalculation {
 					leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor();
 				}
 
-				BigInteger billingRate = calculatingBillingRate(financialYear,
-						revenueTMResourceEntry.getRevenueEntry().getCurrency().getCurrencyId(),
-						revenueTMResourceEntry.getBillingRate());
-				monthlyBillingSeparation(financialYearName, revenueTMResourceEntry.getResourceStartDate(),
-						revenueTMResourceEntry.getResourceEndDate(), revenueTMResourceEntry.getBillingRateType(),
-						billingRate, leaveLossFactor, isDisplayAdditionalQuarter, fyRevenue);
+				if (revenueTMResourceEntry.getBillingRate() != null
+						|| revenueTMResourceEntry.getResourceStartDate() != null
+						|| revenueTMResourceEntry.getResourceEndDate() != null
+						|| revenueTMResourceEntry.getBillingRateType() != null) {
+					BigInteger billingRate = calculatingBillingRate(financialYear,
+							revenueTMResourceEntry.getRevenueEntry().getCurrency().getCurrencyId(),
+							revenueTMResourceEntry.getBillingRate());
+					monthlyBillingSeparation(financialYearName, revenueTMResourceEntry.getResourceStartDate(),
+							revenueTMResourceEntry.getResourceEndDate(), revenueTMResourceEntry.getBillingRateType(),
+							billingRate, leaveLossFactor, isDisplayAdditionalQuarter, fyRevenue);
+				}
 			}
 		}
 		setQuarterlyDetails(fyRevenue, isDisplayAdditionalQuarter);
