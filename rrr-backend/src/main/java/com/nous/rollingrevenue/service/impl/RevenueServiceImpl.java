@@ -642,16 +642,18 @@ public class RevenueServiceImpl implements RevenueService {
 		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository
 				.getResourcesByOpportunity(resourceEntryRequest);
 
-		if (Constants.NO.equals(resourceEntryRequest.getCocPractice())) {
-			revenueResourceEntries = revenueResourceEntries.stream()
-					.filter(revenueResourceEntry -> Constants.NON_COC_BASED
-							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName()))
-					.collect(Collectors.toList());
-		} else {
-			revenueResourceEntries = revenueResourceEntries.stream()
-					.filter(revenueResourceEntry -> (!Constants.NON_COC_BASED
-							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())))
-					.collect(Collectors.toList());
+		if (resourceEntryRequest.getCocPractice() != null) {
+			if (Constants.NO.equals(resourceEntryRequest.getCocPractice())) {
+				revenueResourceEntries = revenueResourceEntries.stream()
+						.filter(revenueResourceEntry -> Constants.NON_COC_BASED
+								.equals(revenueResourceEntry.getCocPractice().getCocPracticeName()))
+						.collect(Collectors.toList());
+			} else {
+				revenueResourceEntries = revenueResourceEntries.stream()
+						.filter(revenueResourceEntry -> (!Constants.NON_COC_BASED
+								.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())))
+						.collect(Collectors.toList());
+			}
 		}
 
 		if (Constants.PRICING_TYPE_FP.equals(resourceEntryRequest.getPricingType())) {
@@ -695,7 +697,9 @@ public class RevenueServiceImpl implements RevenueService {
 				tmResourceEntry.setWorkOrderNumber(revenueResourceEntry.getRevenueEntry().getWorkOrder() != null
 						? revenueResourceEntry.getRevenueEntry().getWorkOrder().getWorkOrderNumber()
 						: null);
-				tmResourceEntry.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeName());
+				if (revenueResourceEntry.getCocPractice() != null) {
+					tmResourceEntry.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeName());
+				}
 				tmResourceEntry.setEmployeeId(revenueResourceEntry.getEmployeeId());
 				tmResourceEntry.setResourceName(revenueResourceEntry.getResourceName());
 				tmResourceEntry.setBillingRate(revenueResourceEntry.getBillingRate());// Add billing rate conversion and
