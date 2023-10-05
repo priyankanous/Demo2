@@ -292,8 +292,10 @@ public class RevenueServiceImpl implements RevenueService {
 					revenueResourceEntry.setEmployeeId(revenueResourceEntryVO.getEmployeeId());
 					revenueResourceEntry.setResourceStartDate(revenueResourceEntryVO.getResourceStartDate());
 					revenueResourceEntry.setResourceEndDate(revenueResourceEntryVO.getResourceEndDate());
-					revenueResourceEntry.setCocPractice(CocPracticeConverter
-							.convertCocPracticeVOToCocPractice(revenueResourceEntryVO.getCocPractice()));
+					if (revenueResourceEntryVO.getCocPractice() != null) {
+						revenueResourceEntry.setCocPractice(CocPracticeConverter
+								.convertCocPracticeVOToCocPractice(revenueResourceEntryVO.getCocPractice()));
+					}
 					revenueResourceEntry.setRevenue(revenueResourceEntryVO.getMilestoneResourceRevenue());
 					revenueResourceEntry.setBusinessType(BusinessTypeConverter
 							.convertBusinessTypeVOToBusinessType(revenueResourceEntryVO.getBusinessType()));
@@ -397,7 +399,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 			String milestoneBillingDate = formatter.format(milestoneEntry.getMilestoneBillingDate());
 
-			if (fyRevenue.containsKey(milestoneBillingDate)) {
+			if (resourceFPRevenue != null && fyRevenue.containsKey(milestoneBillingDate)) {
 				fyRevenue.put(milestoneBillingDate, fyRevenue.get(milestoneBillingDate).add(resourceFPRevenue));
 			}
 
@@ -670,7 +672,9 @@ public class RevenueServiceImpl implements RevenueService {
 				fpResourceEntry.setWorkOrderNumber(revenueResourceEntry.getRevenueEntry().getWorkOrder() != null
 						? revenueResourceEntry.getRevenueEntry().getWorkOrder().getWorkOrderNumber()
 						: null);
-				fpResourceEntry.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeName());
+				if (revenueResourceEntry.getCocPractice() != null) {
+					fpResourceEntry.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeName());
+				}
 				fpResourceEntry.setEmployeeId(revenueResourceEntry.getEmployeeId());
 				fpResourceEntry.setResourceName(revenueResourceEntry.getResourceName());
 				fpResourceEntry
