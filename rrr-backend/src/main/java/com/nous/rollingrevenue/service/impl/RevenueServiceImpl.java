@@ -530,7 +530,6 @@ public class RevenueServiceImpl implements RevenueService {
 
 		Map<Boolean, List<RevenueResourceEntry>> partitionResourceEntriesByPricingType = this
 				.getPartitionResourceEntriesByPricingType(revenueResourceEntries);
-
 		Set<Entry<Boolean, List<RevenueResourceEntry>>> entrySet = partitionResourceEntriesByPricingType.entrySet();
 
 		for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
@@ -544,7 +543,6 @@ public class RevenueServiceImpl implements RevenueService {
 				financialYearTMRevenue = tmCalculation.calculateTMRevenue(revenueEntryList, financialYear,
 						isDisplayAdditionalQuarter);
 			}
-
 		}
 
 		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
@@ -621,9 +619,9 @@ public class RevenueServiceImpl implements RevenueService {
 
 		List<RevenueResourceEntry> opportunityResources = revenueResourceEntryRepository
 				.getResourcesByOpportunity(resourceEntryRequest);
-
-		return opportunityResources.size();
-
+		
+		return opportunityResources.get(0).getRevenueEntry().getResourceCount();
+//		return opportunityResources.size();
 	}
 
 	@Override
@@ -1131,10 +1129,12 @@ public class RevenueServiceImpl implements RevenueService {
 				fpRevenueEntryVO.setProbabilityType(ProbabilityTypeConverter
 						.convertProbabilityTypeToProbabilityTypeVO(revenueEntry.getProbabilityType()));
 				fpRevenueEntryVO.setRegion(RegionConverter.convertRegionToRegionVO(revenueEntry.getRegion()));
-				fpRevenueEntryVO
-						.setWorkOrder(WorkOrderConverter.convertWorkOrderToWorkOrderVO(revenueEntry.getWorkOrder()));
-				fpRevenueEntryVO.setWorkOrderEndDate(revenueEntry.getWorkOrder().getWorkOrderEndDate());
-				fpRevenueEntryVO.setWorkOrderStatus(revenueEntry.getWorkOrder().getWoStatus());
+				if (revenueEntry.getWorkOrder() != null) {
+					fpRevenueEntryVO.setWorkOrder(
+							WorkOrderConverter.convertWorkOrderToWorkOrderVO(revenueEntry.getWorkOrder()));
+					fpRevenueEntryVO.setWorkOrderEndDate(revenueEntry.getWorkOrder().getWorkOrderEndDate());
+					fpRevenueEntryVO.setWorkOrderStatus(revenueEntry.getWorkOrder().getWoStatus());
+				}
 				fpRevenueEntryVO.setFinancialYear(
 						FinancialYearConverter.convertFinancialYearToFinancialYearVO(revenueEntry.getFinancialYear()));
 				fpRevenueEntryVO.setMilestoneCount(revenueEntry.getMilestoneCount());
@@ -1198,10 +1198,12 @@ public class RevenueServiceImpl implements RevenueService {
 				tmRevenueEntryVO.setProbabilityType(ProbabilityTypeConverter
 						.convertProbabilityTypeToProbabilityTypeVO(revenueEntry.getProbabilityType()));
 				tmRevenueEntryVO.setRegion(RegionConverter.convertRegionToRegionVO(revenueEntry.getRegion()));
-				tmRevenueEntryVO
-						.setWorkOrder(WorkOrderConverter.convertWorkOrderToWorkOrderVO(revenueEntry.getWorkOrder()));
-				tmRevenueEntryVO.setWorkOrderEndDate(revenueEntry.getWorkOrder().getWorkOrderEndDate());
-				tmRevenueEntryVO.setWorkOrderStatus(revenueEntry.getWorkOrder().getWoStatus());
+				if (revenueEntry.getWorkOrder() != null) {
+					tmRevenueEntryVO.setWorkOrder(
+							WorkOrderConverter.convertWorkOrderToWorkOrderVO(revenueEntry.getWorkOrder()));
+					tmRevenueEntryVO.setWorkOrderEndDate(revenueEntry.getWorkOrder().getWorkOrderEndDate());
+					tmRevenueEntryVO.setWorkOrderStatus(revenueEntry.getWorkOrder().getWoStatus());
+				}
 				tmRevenueEntryVO.setFinancialYear(
 						FinancialYearConverter.convertFinancialYearToFinancialYearVO(revenueEntry.getFinancialYear()));
 				tmRevenueEntryVO.setResourceCount(revenueEntry.getResourceCount());
