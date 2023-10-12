@@ -31,7 +31,7 @@ public class HolidayCalendarPermission extends Auditable<String> {
 	private Long holidayCalendarPermissionId;
 
 	@Column(name = "holiday_calendar_permission_all")
-	private Boolean isHolidayCalendarPermissionAll;
+	private boolean isHolidayCalendarPermissionAll;
 
 	@OneToMany(mappedBy = "holidayCalendarPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class HolidayCalendarPermission extends Auditable<String> {
 
 	}
 
-	public HolidayCalendarPermission(Long holidayCalendarPermissionId, Boolean isHolidayCalendarPermissionAll,
+	public HolidayCalendarPermission(Long holidayCalendarPermissionId, boolean isHolidayCalendarPermissionAll,
 			List<CalendarPermission> calendarPermission, CalendarCommonPermission calendarCommonPermission) {
 		super();
 		this.holidayCalendarPermissionId = holidayCalendarPermissionId;
@@ -63,11 +63,11 @@ public class HolidayCalendarPermission extends Auditable<String> {
 		this.holidayCalendarPermissionId = holidayCalendarPermissionId;
 	}
 
-	public Boolean getIsHolidayCalendarPermissionAll() {
+	public boolean isHolidayCalendarPermissionAll() {
 		return isHolidayCalendarPermissionAll;
 	}
 
-	public void setIsHolidayCalendarPermissionAll(Boolean isHolidayCalendarPermissionAll) {
+	public void setHolidayCalendarPermissionAll(boolean isHolidayCalendarPermissionAll) {
 		this.isHolidayCalendarPermissionAll = isHolidayCalendarPermissionAll;
 	}
 

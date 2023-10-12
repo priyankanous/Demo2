@@ -31,7 +31,7 @@ public class CurrencyPermission extends Auditable<String> {
 	private Long currencyPermissionId;
 
 	@Column(name = "currency_permission_all")
-	private Long isCurrencyPermissionAll;
+	private boolean isCurrencyPermissionAll;
 
 	@OneToMany(mappedBy = "currencyPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class CurrencyPermission extends Auditable<String> {
 
 	}
 
-	public CurrencyPermission(Long currencyPermissionId, Long isCurrencyPermissionAll,
+	public CurrencyPermission(Long currencyPermissionId, boolean isCurrencyPermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class CurrencyPermission extends Auditable<String> {
 		this.currencyPermissionId = currencyPermissionId;
 	}
 
-	public Long getIsCurrencyPermissionAll() {
+	public boolean isCurrencyPermissionAll() {
 		return isCurrencyPermissionAll;
 	}
 
-	public void setIsCurrencyPermissionAll(Long isCurrencyPermissionAll) {
+	public void setCurrencyPermissionAll(boolean isCurrencyPermissionAll) {
 		this.isCurrencyPermissionAll = isCurrencyPermissionAll;
 	}
 

@@ -31,10 +31,10 @@ public class AdministrationPermission extends Auditable<String> {
 	private Long administrationPermissionId;
 
 	@Column(name = "administration_permission_all")
-	private Boolean isAdministrationPermissionAll;
+	private boolean isAdministrationPermissionAll;
 
 	@Column(name = "view_all_entries")
-	private Boolean isViewAllEntriesRequired;
+	private boolean isViewAllEntriesRequired;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
@@ -88,8 +88,8 @@ public class AdministrationPermission extends Auditable<String> {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
-	@JoinColumn(name = "coc_practise_permission_id", referencedColumnName = "coc_practise_permission_id")
-	private COCPractisePermission cocPractisePermission;
+	@JoinColumn(name = "coc_practice_permission_id", referencedColumnName = "coc_practice_permission_id")
+	private COCPracticePermission cocPracticePermission;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
@@ -134,13 +134,13 @@ public class AdministrationPermission extends Auditable<String> {
 
 	}
 
-	public AdministrationPermission(Long administrationPermissionId, Boolean isAdministrationPermissionAll,
-			Boolean isViewAllEntriesRequired, AccountPermission accountPermission,
+	public AdministrationPermission(Long administrationPermissionId, boolean isAdministrationPermissionAll,
+			boolean isViewAllEntriesRequired, AccountPermission accountPermission,
 			OpportunityPermission opportunityPermission, BusinessUnitPermission businessUnitPermission,
 			RegionPermission regionPermission, SBUPermission sbuPermission, SBUHeadPermission sbuHeadPermission,
 			LocationPermission locationPermission, BDMPermission bdmPermission,
 			ProbabilityTypePermission probabilityTypePermission, BusinessTypePermission businessTypePermission,
-			COCPractisePermission cocPractisePermission, PricingTypePermission pricingTypePermission,
+			COCPracticePermission cocPracticePermission, PricingTypePermission pricingTypePermission,
 			BillingTypePermission billingTypePermission, WorkOrderPermission workOrderPermission,
 			FinancialYearPermission financialYearPermission, CurrencyPermission currencyPermission,
 			NotificationConfigurationPermission notificationConfigurationPermission,
@@ -159,7 +159,7 @@ public class AdministrationPermission extends Auditable<String> {
 		this.bdmPermission = bdmPermission;
 		this.probabilityTypePermission = probabilityTypePermission;
 		this.businessTypePermission = businessTypePermission;
-		this.cocPractisePermission = cocPractisePermission;
+		this.cocPracticePermission = cocPracticePermission;
 		this.pricingTypePermission = pricingTypePermission;
 		this.billingTypePermission = billingTypePermission;
 		this.workOrderPermission = workOrderPermission;
@@ -178,19 +178,19 @@ public class AdministrationPermission extends Auditable<String> {
 		this.administrationPermissionId = administrationPermissionId;
 	}
 
-	public Boolean getIsAdministrationPermissionAll() {
+	public boolean isAdministrationPermissionAll() {
 		return isAdministrationPermissionAll;
 	}
 
-	public void setIsAdministrationPermissionAll(Boolean isAdministrationPermissionAll) {
+	public void setAdministrationPermissionAll(boolean isAdministrationPermissionAll) {
 		this.isAdministrationPermissionAll = isAdministrationPermissionAll;
 	}
 
-	public Boolean getIsViewAllEntriesRequired() {
+	public boolean isViewAllEntriesRequired() {
 		return isViewAllEntriesRequired;
 	}
 
-	public void setIsViewAllEntriesRequired(Boolean isViewAllEntriesRequired) {
+	public void setViewAllEntriesRequired(boolean isViewAllEntriesRequired) {
 		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
 	}
 
@@ -274,12 +274,12 @@ public class AdministrationPermission extends Auditable<String> {
 		this.businessTypePermission = businessTypePermission;
 	}
 
-	public COCPractisePermission getCocPractisePermission() {
-		return cocPractisePermission;
+	public COCPracticePermission getCocPracticePermission() {
+		return cocPracticePermission;
 	}
 
-	public void setCocPractisePermission(COCPractisePermission cocPractisePermission) {
-		this.cocPractisePermission = cocPractisePermission;
+	public void setCocPracticePermission(COCPracticePermission cocPracticePermission) {
+		this.cocPracticePermission = cocPracticePermission;
 	}
 
 	public PricingTypePermission getPricingTypePermission() {

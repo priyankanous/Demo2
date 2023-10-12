@@ -31,7 +31,7 @@ public class OpportunityPermission extends Auditable<String> {
 	private Long opportunityPermissionId;
 
 	@Column(name = "opportunity_permission_all")
-	private Boolean isOpportunityPermissionAll;
+	private boolean isOpportunityPermissionAll;
 
 	@OneToMany(mappedBy = "opportunityPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class OpportunityPermission extends Auditable<String> {
 
 	}
 
-	public OpportunityPermission(Long opportunityPermissionId, Boolean isOpportunityPermissionAll,
+	public OpportunityPermission(Long opportunityPermissionId, boolean isOpportunityPermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class OpportunityPermission extends Auditable<String> {
 		this.opportunityPermissionId = opportunityPermissionId;
 	}
 
-	public Boolean getIsOpportunityPermissionAll() {
+	public boolean isOpportunityPermissionAll() {
 		return isOpportunityPermissionAll;
 	}
 
-	public void setIsOpportunityPermissionAll(Boolean isOpportunityPermissionAll) {
+	public void setOpportunityPermissionAll(boolean isOpportunityPermissionAll) {
 		this.isOpportunityPermissionAll = isOpportunityPermissionAll;
 	}
 

@@ -15,4 +15,28 @@ public class SBUClientViewPermissionVO implements Serializable {
 
 	private ReportsCommonPermissionVO reportsCommonPermissionVO;
 
+	public Long getSbuClientViewPermissionId() {
+		return sbuClientViewPermissionId;
+	}
+
+	public void setSbuClientViewPermissionId(Long sbuClientViewPermissionId) {
+		this.sbuClientViewPermissionId = sbuClientViewPermissionId;
+	}
+
+	public boolean isSbuClientViewPermissionAll() {
+		return sbuClientViewPermissionAll;
+	}
+
+	public void setSbuClientViewPermissionAll(boolean sbuClientViewPermissionAll) {
+		this.sbuClientViewPermissionAll = sbuClientViewPermissionAll;
+	}
+
+	public ReportsCommonPermissionVO getReportsCommonPermissionVO() {
+		return reportsCommonPermissionVO;
+	}
+
+	public void setReportsCommonPermissionVO(ReportsCommonPermissionVO reportsCommonPermissionVO) {
+		this.reportsCommonPermissionVO = reportsCommonPermissionVO;
+	}
+
 }

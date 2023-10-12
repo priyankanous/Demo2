@@ -27,19 +27,19 @@ public class AnnualTargetEntryPermission extends Auditable<String> {
 	private Long annualTargetEntryPermissionId;
 
 	@Column(name = "annual_target_entry_permission_all")
-	private Boolean annualTargetEntryPermissionAll;
+	private boolean annualTargetEntryPermissionAll;
 
 	@Column(name = "view")
-	private Boolean isViewRequired;
+	private boolean isViewRequired;
 
 	@Column(name = "add_or_upload")
-	private Boolean isAddOrUploadRequired;
+	private boolean isAddOrUploadRequired;
 
 	@Column(name = "reupload_or_edit")
-	private Boolean isReuploadOrEditRequired;
+	private boolean isReuploadOrEditRequired;
 
 	@Column(name = "delete")
-	private Boolean isDeleteRequired;
+	private boolean isDeleteRequired;
 
 	@OneToMany(mappedBy = "annualTargetEntryPermission")
 	@JsonBackReference
@@ -49,9 +49,9 @@ public class AnnualTargetEntryPermission extends Auditable<String> {
 
 	}
 
-	public AnnualTargetEntryPermission(Long annualTargetEntryPermissionId, Boolean annualTargetEntryPermissionAll,
-			Boolean isViewRequired, Boolean isAddOrUploadRequired, Boolean isReuploadOrEditRequired,
-			Boolean isDeleteRequired, List<SettingsPermission> settingsPermission) {
+	public AnnualTargetEntryPermission(Long annualTargetEntryPermissionId, boolean annualTargetEntryPermissionAll,
+			boolean isViewRequired, boolean isAddOrUploadRequired, boolean isReuploadOrEditRequired,
+			boolean isDeleteRequired, List<SettingsPermission> settingsPermission) {
 		super();
 		this.annualTargetEntryPermissionId = annualTargetEntryPermissionId;
 		this.annualTargetEntryPermissionAll = annualTargetEntryPermissionAll;
@@ -70,43 +70,43 @@ public class AnnualTargetEntryPermission extends Auditable<String> {
 		this.annualTargetEntryPermissionId = annualTargetEntryPermissionId;
 	}
 
-	public Boolean getAnnualTargetEntryPermissionAll() {
+	public boolean isAnnualTargetEntryPermissionAll() {
 		return annualTargetEntryPermissionAll;
 	}
 
-	public void setAnnualTargetEntryPermissionAll(Boolean annualTargetEntryPermissionAll) {
+	public void setAnnualTargetEntryPermissionAll(boolean annualTargetEntryPermissionAll) {
 		this.annualTargetEntryPermissionAll = annualTargetEntryPermissionAll;
 	}
 
-	public Boolean getIsViewRequired() {
+	public boolean isViewRequired() {
 		return isViewRequired;
 	}
 
-	public void setIsViewRequired(Boolean isViewRequired) {
+	public void setViewRequired(boolean isViewRequired) {
 		this.isViewRequired = isViewRequired;
 	}
 
-	public Boolean getIsAddOrUploadRequired() {
+	public boolean isAddOrUploadRequired() {
 		return isAddOrUploadRequired;
 	}
 
-	public void setIsAddOrUploadRequired(Boolean isAddOrUploadRequired) {
+	public void setAddOrUploadRequired(boolean isAddOrUploadRequired) {
 		this.isAddOrUploadRequired = isAddOrUploadRequired;
 	}
 
-	public Boolean getIsReuploadOrEditRequired() {
+	public boolean isReuploadOrEditRequired() {
 		return isReuploadOrEditRequired;
 	}
 
-	public void setIsReuploadOrEditRequired(Boolean isReuploadOrEditRequired) {
+	public void setReuploadOrEditRequired(boolean isReuploadOrEditRequired) {
 		this.isReuploadOrEditRequired = isReuploadOrEditRequired;
 	}
 
-	public Boolean getIsDeleteRequired() {
+	public boolean isDeleteRequired() {
 		return isDeleteRequired;
 	}
 
-	public void setIsDeleteRequired(Boolean isDeleteRequired) {
+	public void setDeleteRequired(boolean isDeleteRequired) {
 		this.isDeleteRequired = isDeleteRequired;
 	}
 

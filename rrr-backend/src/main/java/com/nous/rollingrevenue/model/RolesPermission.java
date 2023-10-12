@@ -27,16 +27,16 @@ public class RolesPermission extends Auditable<String> {
 	private Long rolesPermissionId;
 
 	@Column(name = "rolesPermissionAll")
-	private Boolean isRolesPermissionAll;
+	private boolean isRolesPermissionAll;
 
 	@Column(name = "delete")
-	private Boolean isDeleteRequired;
+	private boolean isDeleteRequired;
 
 	@Column(name = "create_role")
-	private Boolean isCreateRoleRequired;
+	private boolean isCreateRoleRequired;
 
 	@Column(name = "edit_role")
-	private Boolean isEditRoleRequired;
+	private boolean isEditRoleRequired;
 
 	@OneToMany(mappedBy = "rolesPermission")
 	@JsonBackReference
@@ -46,8 +46,8 @@ public class RolesPermission extends Auditable<String> {
 
 	}
 
-	public RolesPermission(Long rolesPermissionId, Boolean isRolesPermissionAll, Boolean isDeleteRequired,
-			Boolean isCreateRoleRequired, Boolean isEditRoleRequired, List<SettingsPermission> settingsPermission) {
+	public RolesPermission(Long rolesPermissionId, boolean isRolesPermissionAll, boolean isDeleteRequired,
+			boolean isCreateRoleRequired, boolean isEditRoleRequired, List<SettingsPermission> settingsPermission) {
 		super();
 		this.rolesPermissionId = rolesPermissionId;
 		this.isRolesPermissionAll = isRolesPermissionAll;
@@ -65,35 +65,35 @@ public class RolesPermission extends Auditable<String> {
 		this.rolesPermissionId = rolesPermissionId;
 	}
 
-	public Boolean getIsRolesPermissionAll() {
+	public boolean isRolesPermissionAll() {
 		return isRolesPermissionAll;
 	}
 
-	public void setIsRolesPermissionAll(Boolean isRolesPermissionAll) {
+	public void setRolesPermissionAll(boolean isRolesPermissionAll) {
 		this.isRolesPermissionAll = isRolesPermissionAll;
 	}
 
-	public Boolean getIsDeleteRequired() {
+	public boolean isDeleteRequired() {
 		return isDeleteRequired;
 	}
 
-	public void setIsDeleteRequired(Boolean isDeleteRequired) {
+	public void setDeleteRequired(boolean isDeleteRequired) {
 		this.isDeleteRequired = isDeleteRequired;
 	}
 
-	public Boolean getIsCreateRoleRequired() {
+	public boolean isCreateRoleRequired() {
 		return isCreateRoleRequired;
 	}
 
-	public void setIsCreateRoleRequired(Boolean isCreateRoleRequired) {
+	public void setCreateRoleRequired(boolean isCreateRoleRequired) {
 		this.isCreateRoleRequired = isCreateRoleRequired;
 	}
 
-	public Boolean getIsEditRoleRequired() {
+	public boolean isEditRoleRequired() {
 		return isEditRoleRequired;
 	}
 
-	public void setIsEditRoleRequired(Boolean isEditRoleRequired) {
+	public void setEditRoleRequired(boolean isEditRoleRequired) {
 		this.isEditRoleRequired = isEditRoleRequired;
 	}
 

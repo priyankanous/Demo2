@@ -27,16 +27,16 @@ public class CalendarCommonPermission extends Auditable<String> {
 	private Long calendarCommonPermissionId;
 
 	@Column(name = "view")
-	private Boolean isViewRequired;
+	private boolean isViewRequired;
 
 	@Column(name = "add")
-	private Boolean isAddRequired;
+	private boolean isAddRequired;
 
 	@Column(name = "edit")
-	private Boolean isEditRequired;
+	private boolean isEditRequired;
 
 	@Column(name = "delete")
-	private Boolean isDeleteRequired;
+	private boolean isDeleteRequired;
 
 	@OneToMany(mappedBy = "calendarCommonPermission")
 	@JsonBackReference
@@ -54,8 +54,8 @@ public class CalendarCommonPermission extends Auditable<String> {
 
 	}
 
-	public CalendarCommonPermission(Long calendarCommonPermissionId, Boolean isViewRequired, Boolean isAddRequired,
-			Boolean isEditRequired, Boolean isDeleteRequired, List<HolidayCalendarPermission> holidayCalendarPermission,
+	public CalendarCommonPermission(Long calendarCommonPermissionId, boolean isViewRequired, boolean isAddRequired,
+			boolean isEditRequired, boolean isDeleteRequired, List<HolidayCalendarPermission> holidayCalendarPermission,
 			List<FortnightlyMeetingsPermission> fortnightlyMeetingsPermission,
 			List<BDMMeetingsPermission> bdmMeetingsPermission) {
 		super();
@@ -77,35 +77,35 @@ public class CalendarCommonPermission extends Auditable<String> {
 		this.calendarCommonPermissionId = calendarCommonPermissionId;
 	}
 
-	public Boolean getIsViewRequired() {
+	public boolean isViewRequired() {
 		return isViewRequired;
 	}
 
-	public void setIsViewRequired(Boolean isViewRequired) {
+	public void setViewRequired(boolean isViewRequired) {
 		this.isViewRequired = isViewRequired;
 	}
 
-	public Boolean getIsAddRequired() {
+	public boolean isAddRequired() {
 		return isAddRequired;
 	}
 
-	public void setIsAddRequired(Boolean isAddRequired) {
+	public void setAddRequired(boolean isAddRequired) {
 		this.isAddRequired = isAddRequired;
 	}
 
-	public Boolean getIsEditRequired() {
+	public boolean isEditRequired() {
 		return isEditRequired;
 	}
 
-	public void setIsEditRequired(Boolean isEditRequired) {
+	public void setEditRequired(boolean isEditRequired) {
 		this.isEditRequired = isEditRequired;
 	}
 
-	public Boolean getIsDeleteRequired() {
+	public boolean isDeleteRequired() {
 		return isDeleteRequired;
 	}
 
-	public void setIsDeleteRequired(Boolean isDeleteRequired) {
+	public void setDeleteRequired(boolean isDeleteRequired) {
 		this.isDeleteRequired = isDeleteRequired;
 	}
 

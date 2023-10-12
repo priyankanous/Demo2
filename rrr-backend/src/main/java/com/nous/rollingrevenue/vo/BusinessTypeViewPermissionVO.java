@@ -15,4 +15,28 @@ public class BusinessTypeViewPermissionVO implements Serializable {
 
 	private ReportsCommonPermissionVO reportsCommonPermissionVO;
 
+	public Long getBusinessTypeViewPermissionId() {
+		return businessTypeViewPermissionId;
+	}
+
+	public void setBusinessTypeViewPermissionId(Long businessTypeViewPermissionId) {
+		this.businessTypeViewPermissionId = businessTypeViewPermissionId;
+	}
+
+	public boolean isBusinessTypeViewPermissionAll() {
+		return businessTypeViewPermissionAll;
+	}
+
+	public void setBusinessTypeViewPermissionAll(boolean businessTypeViewPermissionAll) {
+		this.businessTypeViewPermissionAll = businessTypeViewPermissionAll;
+	}
+
+	public ReportsCommonPermissionVO getReportsCommonPermissionVO() {
+		return reportsCommonPermissionVO;
+	}
+
+	public void setReportsCommonPermissionVO(ReportsCommonPermissionVO reportsCommonPermissionVO) {
+		this.reportsCommonPermissionVO = reportsCommonPermissionVO;
+	}
+
 }

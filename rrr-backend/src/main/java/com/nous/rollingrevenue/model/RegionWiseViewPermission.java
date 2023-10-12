@@ -31,7 +31,7 @@ public class RegionWiseViewPermission extends Auditable<String> {
 	private Long regionWiseViewPermissionId;
 
 	@Column(name = "region_wise_view_permission_all")
-	private Boolean isRegionWiseViewPermissionAll;
+	private boolean isRegionWiseViewPermissionAll;
 
 	@OneToMany(mappedBy = "regionWiseViewPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class RegionWiseViewPermission extends Auditable<String> {
 
 	}
 
-	public RegionWiseViewPermission(Long regionWiseViewPermissionId, Boolean isRegionWiseViewPermissionAll,
+	public RegionWiseViewPermission(Long regionWiseViewPermissionId, boolean isRegionWiseViewPermissionAll,
 			List<ReportsPermission> reportsPermission, ReportsCommonPermission reportsCommonPermission) {
 		super();
 		this.regionWiseViewPermissionId = regionWiseViewPermissionId;
@@ -63,11 +63,11 @@ public class RegionWiseViewPermission extends Auditable<String> {
 		this.regionWiseViewPermissionId = regionWiseViewPermissionId;
 	}
 
-	public Boolean getIsRegionWiseViewPermissionAll() {
+	public boolean isRegionWiseViewPermissionAll() {
 		return isRegionWiseViewPermissionAll;
 	}
 
-	public void setIsRegionWiseViewPermissionAll(Boolean isRegionWiseViewPermissionAll) {
+	public void setRegionWiseViewPermissionAll(boolean isRegionWiseViewPermissionAll) {
 		this.isRegionWiseViewPermissionAll = isRegionWiseViewPermissionAll;
 	}
 

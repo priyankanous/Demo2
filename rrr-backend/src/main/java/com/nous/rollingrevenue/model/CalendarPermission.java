@@ -31,10 +31,10 @@ public class CalendarPermission extends Auditable<String> {
 	private Long calendarPermissionId;
 
 	@Column(name = "calendar_permission_all")
-	private Boolean calendarPermissionAll;
+	private boolean calendarPermissionAll;
 
 	@Column(name = "view_all_entries")
-	private Boolean isViewAllEntriesRequired;
+	private boolean isViewAllEntriesRequired;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
@@ -59,8 +59,8 @@ public class CalendarPermission extends Auditable<String> {
 
 	}
 
-	public CalendarPermission(Long calendarPermissionId, Boolean calendarPermissionAll,
-			Boolean isViewAllEntriesRequired, HolidayCalendarPermission holidayCalendarPermission,
+	public CalendarPermission(Long calendarPermissionId, boolean calendarPermissionAll,
+			boolean isViewAllEntriesRequired, HolidayCalendarPermission holidayCalendarPermission,
 			FortnightlyMeetingsPermission fortnightlyMeetingsPermission, BDMMeetingsPermission bdmMeetingsPermission,
 			List<Roles> roles) {
 		super();
@@ -81,19 +81,19 @@ public class CalendarPermission extends Auditable<String> {
 		this.calendarPermissionId = calendarPermissionId;
 	}
 
-	public Boolean getCalendarPermissionAll() {
+	public boolean isCalendarPermissionAll() {
 		return calendarPermissionAll;
 	}
 
-	public void setCalendarPermissionAll(Boolean calendarPermissionAll) {
+	public void setCalendarPermissionAll(boolean calendarPermissionAll) {
 		this.calendarPermissionAll = calendarPermissionAll;
 	}
 
-	public Boolean getIsViewAllEntriesRequired() {
+	public boolean isViewAllEntriesRequired() {
 		return isViewAllEntriesRequired;
 	}
 
-	public void setIsViewAllEntriesRequired(Boolean isViewAllEntriesRequired) {
+	public void setViewAllEntriesRequired(boolean isViewAllEntriesRequired) {
 		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
 	}
 

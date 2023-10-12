@@ -31,10 +31,10 @@ public class RevenuePermission extends Auditable<String> {
 	private Long revenuePermissionId;
 
 	@Column(name = "view_all_entries")
-	private Boolean isViewAllEntriesRequired;
+	private boolean isViewAllEntriesRequired;
 
 	@Column(name = "revenue_all")
-	private Boolean revenuePermissionAll;
+	private boolean revenuePermissionAll;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
@@ -59,7 +59,7 @@ public class RevenuePermission extends Auditable<String> {
 
 	}
 
-	public RevenuePermission(Long revenuePermissionId, Boolean isViewAllEntriesRequired, Boolean revenuePermissionAll,
+	public RevenuePermission(Long revenuePermissionId, boolean isViewAllEntriesRequired, boolean revenuePermissionAll,
 			RollingRevenueEntryPermission rollingRevenueEntryPermission,
 			InvoiceDataUploadPermission invoiceDataUploadPermission,
 			ReviewandPublishPermission reviewandPublishPermission, List<Roles> roles) {
@@ -81,19 +81,19 @@ public class RevenuePermission extends Auditable<String> {
 		this.revenuePermissionId = revenuePermissionId;
 	}
 
-	public Boolean getIsViewAllEntriesRequired() {
+	public boolean isViewAllEntriesRequired() {
 		return isViewAllEntriesRequired;
 	}
 
-	public void setIsViewAllEntriesRequired(Boolean isViewAllEntriesRequired) {
+	public void setViewAllEntriesRequired(boolean isViewAllEntriesRequired) {
 		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
 	}
 
-	public Boolean getRevenuePermissionAll() {
+	public boolean isRevenuePermissionAll() {
 		return revenuePermissionAll;
 	}
 
-	public void setRevenuePermissionAll(Boolean revenuePermissionAll) {
+	public void setRevenuePermissionAll(boolean revenuePermissionAll) {
 		this.revenuePermissionAll = revenuePermissionAll;
 	}
 

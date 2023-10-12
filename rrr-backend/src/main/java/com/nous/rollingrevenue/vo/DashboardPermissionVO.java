@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import jakarta.validation.constraints.NotNull;
-
 public class DashboardPermissionVO implements Serializable {
 
 	/**
@@ -17,10 +15,8 @@ public class DashboardPermissionVO implements Serializable {
 
 	private boolean dashboardPermissionAll;
 
-	@NotNull(message = "isReadDashboardRequired cannot be null or empty")
 	private boolean isReadDashboardRequired;
 
-	@NotNull(message = "isEditDashboardRequired cannot be null or empty")
 	private boolean isEditDashboardRequired;
 
 	private boolean isActive;
@@ -29,10 +25,11 @@ public class DashboardPermissionVO implements Serializable {
 
 	}
 
-	public DashboardPermissionVO(Long dashboardPermissionId, boolean isReadDashboardRequired,
-			boolean isEditDashboardRequired, boolean isActive) {
+	public DashboardPermissionVO(Long dashboardPermissionId, boolean dashboardPermissionAll,
+			boolean isReadDashboardRequired, boolean isEditDashboardRequired, boolean isActive) {
 		super();
 		this.dashboardPermissionId = dashboardPermissionId;
+		this.dashboardPermissionAll = dashboardPermissionAll;
 		this.isReadDashboardRequired = isReadDashboardRequired;
 		this.isEditDashboardRequired = isEditDashboardRequired;
 		this.isActive = isActive;
@@ -46,19 +43,27 @@ public class DashboardPermissionVO implements Serializable {
 		this.dashboardPermissionId = dashboardPermissionId;
 	}
 
-	public boolean getIsReadDashboardRequired() {
+	public boolean isDashboardPermissionAll() {
+		return dashboardPermissionAll;
+	}
+
+	public void setDashboardPermissionAll(boolean dashboardPermissionAll) {
+		this.dashboardPermissionAll = dashboardPermissionAll;
+	}
+
+	public boolean isReadDashboardRequired() {
 		return isReadDashboardRequired;
 	}
 
-	public void setIsReadDashboardRequired(boolean isReadDashboardRequired) {
+	public void setReadDashboardRequired(boolean isReadDashboardRequired) {
 		this.isReadDashboardRequired = isReadDashboardRequired;
 	}
 
-	public boolean getIsEditDashboardRequired() {
+	public boolean isEditDashboardRequired() {
 		return isEditDashboardRequired;
 	}
 
-	public void setIsEditDashboardRequired(boolean isEditDashboardRequired) {
+	public void setEditDashboardRequired(boolean isEditDashboardRequired) {
 		this.isEditDashboardRequired = isEditDashboardRequired;
 	}
 

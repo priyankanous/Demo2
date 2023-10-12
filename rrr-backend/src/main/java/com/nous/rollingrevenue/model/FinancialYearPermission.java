@@ -6,13 +6,17 @@ import java.util.List;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -27,39 +31,29 @@ public class FinancialYearPermission extends Auditable<String> {
 	private Long financialYearPermissionId;
 
 	@Column(name = "financial_year_permission_all")
-	private Boolean isFinancialYearPermissionAll;
-
-	@Column(name = "view")
-	private Boolean isViewRequired;
-
-	@Column(name = "add")
-	private Boolean isAddRequired;
-
-	@Column(name = "edit")
-	private Boolean isEditRequired;
-
-	@Column(name = "activate_or_deactivate")
-	private Boolean isActivateOrDeactivateRequired;
+	private boolean isFinancialYearPermissionAll;
 
 	@OneToMany(mappedBy = "financialYearPermission")
 	@JsonBackReference
 	private List<AdministrationPermission> administrationPermission = new ArrayList<>();
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
+	@JoinColumn(name = "administration_common_permission_id", referencedColumnName = "administration_common_permission_id")
+	private AdministrationCommonPermission administrationCommonPermission;
+
 	public FinancialYearPermission() {
 
 	}
 
-	public FinancialYearPermission(Long financialYearPermissionId, Boolean isFinancialYearPermissionAll,
-			Boolean isViewRequired, Boolean isAddRequired, Boolean isEditRequired,
-			Boolean isActivateOrDeactivateRequired, List<AdministrationPermission> administrationPermission) {
+	public FinancialYearPermission(Long financialYearPermissionId, boolean isFinancialYearPermissionAll,
+			List<AdministrationPermission> administrationPermission,
+			AdministrationCommonPermission administrationCommonPermission) {
 		super();
 		this.financialYearPermissionId = financialYearPermissionId;
 		this.isFinancialYearPermissionAll = isFinancialYearPermissionAll;
-		this.isViewRequired = isViewRequired;
-		this.isAddRequired = isAddRequired;
-		this.isEditRequired = isEditRequired;
-		this.isActivateOrDeactivateRequired = isActivateOrDeactivateRequired;
 		this.administrationPermission = administrationPermission;
+		this.administrationCommonPermission = administrationCommonPermission;
 	}
 
 	public Long getFinancialYearPermissionId() {
@@ -70,44 +64,12 @@ public class FinancialYearPermission extends Auditable<String> {
 		this.financialYearPermissionId = financialYearPermissionId;
 	}
 
-	public Boolean getIsFinancialYearPermissionAll() {
+	public boolean isFinancialYearPermissionAll() {
 		return isFinancialYearPermissionAll;
 	}
 
-	public void setIsFinancialYearPermissionAll(Boolean isFinancialYearPermissionAll) {
+	public void setFinancialYearPermissionAll(boolean isFinancialYearPermissionAll) {
 		this.isFinancialYearPermissionAll = isFinancialYearPermissionAll;
-	}
-
-	public Boolean getIsViewRequired() {
-		return isViewRequired;
-	}
-
-	public void setIsViewRequired(Boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
-	}
-
-	public Boolean getIsAddRequired() {
-		return isAddRequired;
-	}
-
-	public void setIsAddRequired(Boolean isAddRequired) {
-		this.isAddRequired = isAddRequired;
-	}
-
-	public Boolean getIsEditRequired() {
-		return isEditRequired;
-	}
-
-	public void setIsEditRequired(Boolean isEditRequired) {
-		this.isEditRequired = isEditRequired;
-	}
-
-	public Boolean getIsActivateOrDeactivateRequired() {
-		return isActivateOrDeactivateRequired;
-	}
-
-	public void setIsActivateOrDeactivateRequired(Boolean isActivateOrDeactivateRequired) {
-		this.isActivateOrDeactivateRequired = isActivateOrDeactivateRequired;
 	}
 
 	public List<AdministrationPermission> getAdministrationPermission() {
@@ -116,6 +78,14 @@ public class FinancialYearPermission extends Auditable<String> {
 
 	public void setAdministrationPermission(List<AdministrationPermission> administrationPermission) {
 		this.administrationPermission = administrationPermission;
+	}
+
+	public AdministrationCommonPermission getAdministrationCommonPermission() {
+		return administrationCommonPermission;
+	}
+
+	public void setAdministrationCommonPermission(AdministrationCommonPermission administrationCommonPermission) {
+		this.administrationCommonPermission = administrationCommonPermission;
 	}
 
 }

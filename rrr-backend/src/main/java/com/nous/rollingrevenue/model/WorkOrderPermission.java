@@ -31,7 +31,7 @@ public class WorkOrderPermission extends Auditable<String> {
 	private Long workOrderPermissionId;
 
 	@Column(name = "work_order_permission_all")
-	private Boolean isWorkOrderPermissionAll;
+	private boolean isWorkOrderPermissionAll;
 
 	@OneToMany(mappedBy = "workOrderPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class WorkOrderPermission extends Auditable<String> {
 
 	}
 
-	public WorkOrderPermission(Long workOrderPermissionId, Boolean isWorkOrderPermissionAll,
+	public WorkOrderPermission(Long workOrderPermissionId, boolean isWorkOrderPermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class WorkOrderPermission extends Auditable<String> {
 		this.workOrderPermissionId = workOrderPermissionId;
 	}
 
-	public Boolean getIsWorkOrderPermissionAll() {
+	public boolean isWorkOrderPermissionAll() {
 		return isWorkOrderPermissionAll;
 	}
 
-	public void setIsWorkOrderPermissionAll(Boolean isWorkOrderPermissionAll) {
+	public void setWorkOrderPermissionAll(boolean isWorkOrderPermissionAll) {
 		this.isWorkOrderPermissionAll = isWorkOrderPermissionAll;
 	}
 

@@ -31,7 +31,7 @@ public class PricingTypePermission extends Auditable<String> {
 	private Long pricingTypePermissionId;
 
 	@Column(name = "pricing_type_permission_all")
-	private Boolean isPricingTypePermissionAll;
+	private boolean isPricingTypePermissionAll;
 
 	@OneToMany(mappedBy = "pricingTypePermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class PricingTypePermission extends Auditable<String> {
 
 	}
 
-	public PricingTypePermission(Long pricingTypePermissionId, Boolean isPricingTypePermissionAll,
+	public PricingTypePermission(Long pricingTypePermissionId, boolean isPricingTypePermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class PricingTypePermission extends Auditable<String> {
 		this.pricingTypePermissionId = pricingTypePermissionId;
 	}
 
-	public Boolean getIsPricingTypePermissionAll() {
+	public boolean isPricingTypePermissionAll() {
 		return isPricingTypePermissionAll;
 	}
 
-	public void setIsPricingTypePermissionAll(Boolean isPricingTypePermissionAll) {
+	public void setPricingTypePermissionAll(boolean isPricingTypePermissionAll) {
 		this.isPricingTypePermissionAll = isPricingTypePermissionAll;
 	}
 

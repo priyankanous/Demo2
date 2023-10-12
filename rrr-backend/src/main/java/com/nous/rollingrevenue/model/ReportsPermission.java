@@ -31,10 +31,10 @@ public class ReportsPermission extends Auditable<String> {
 	private Long reportsPermissionId;
 
 	@Column(name = "reports_permission_all")
-	private Boolean isReportsPermissionAll;
+	private boolean isReportsPermissionAll;
 
 	@Column(name = "view_all_entries")
-	private Boolean isViewAllEntriesRequired;
+	private boolean isViewAllEntriesRequired;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
@@ -79,7 +79,7 @@ public class ReportsPermission extends Auditable<String> {
 
 	}
 
-	public ReportsPermission(Long reportsPermissionId, Boolean isReportsPermissionAll, Boolean isViewAllEntriesRequired,
+	public ReportsPermission(Long reportsPermissionId, boolean isReportsPermissionAll, boolean isViewAllEntriesRequired,
 			BusinessTypeViewPermission businessTypeViewPermission, SBUClientViewPermission sbuClientViewPermission,
 			ProbabilityTypeViewPermission probabilityTypeViewPermission,
 			RegionWiseViewPermission regionWiseViewPermission,
@@ -108,19 +108,19 @@ public class ReportsPermission extends Auditable<String> {
 		this.reportsPermissionId = reportsPermissionId;
 	}
 
-	public Boolean getIsReportsPermissionAll() {
+	public boolean isReportsPermissionAll() {
 		return isReportsPermissionAll;
 	}
 
-	public void setIsReportsPermissionAll(Boolean isReportsPermissionAll) {
+	public void setReportsPermissionAll(boolean isReportsPermissionAll) {
 		this.isReportsPermissionAll = isReportsPermissionAll;
 	}
 
-	public Boolean getIsViewAllEntriesRequired() {
+	public boolean isViewAllEntriesRequired() {
 		return isViewAllEntriesRequired;
 	}
 
-	public void setIsViewAllEntriesRequired(Boolean isViewAllEntriesRequired) {
+	public void setViewAllEntriesRequired(boolean isViewAllEntriesRequired) {
 		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
 	}
 

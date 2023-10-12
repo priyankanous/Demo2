@@ -12,21 +12,21 @@ public class RollingRevenueEntryPermissionVO implements Serializable {
 
 	private Long rollingrevenueEntryPermissionId;
 
-	private Boolean rollingrevenueEntryPermissionAll;
+	private boolean rollingrevenueEntryPermissionAll;
 
-	private Boolean isViewAllEntriesRequired;
+	private boolean isViewAllEntriesRequired;
 
-	private Boolean isAddRevenueEntryRequired;
+	private boolean isAddRevenueEntryRequired;
 
-	private Boolean isEditRevenueEntryRequired;
+	private boolean isEditRevenueEntryRequired;
 
-	private Boolean isDeleteRevenueEntryRequired;
+	private boolean isDeleteRevenueEntryRequired;
 
-	private Boolean isCopyRevenueEntryRequired;
+	private boolean isCopyRevenueEntryRequired;
 
-	private Boolean isSubmitRevenueEntryRequired;
+	private boolean isSubmitRevenueEntryRequired;
 
-	private Boolean isExportRequired;
+	private boolean isExportRequired;
 
 	private boolean isActive;
 
@@ -35,9 +35,9 @@ public class RollingRevenueEntryPermissionVO implements Serializable {
 	}
 
 	public RollingRevenueEntryPermissionVO(Long rollingrevenueEntryPermissionId,
-			Boolean rollingrevenueEntryPermissionAll, Boolean isViewAllEntriesRequired,
-			Boolean isAddRevenueEntryRequired, Boolean isEditRevenueEntryRequired, Boolean isDeleteRevenueEntryRequired,
-			Boolean isCopyRevenueEntryRequired, Boolean isSubmitRevenueEntryRequired, Boolean isExportRequired,
+			boolean rollingrevenueEntryPermissionAll, boolean isViewAllEntriesRequired,
+			boolean isAddRevenueEntryRequired, boolean isEditRevenueEntryRequired, boolean isDeleteRevenueEntryRequired,
+			boolean isCopyRevenueEntryRequired, boolean isSubmitRevenueEntryRequired, boolean isExportRequired,
 			boolean isActive) {
 		super();
 		this.rollingrevenueEntryPermissionId = rollingrevenueEntryPermissionId;
@@ -52,14 +52,6 @@ public class RollingRevenueEntryPermissionVO implements Serializable {
 		this.isActive = isActive;
 	}
 
-	public Boolean getRollingrevenueEntryPermissionAll() {
-		return rollingrevenueEntryPermissionAll;
-	}
-
-	public void setRollingrevenueEntryPermissionAll(Boolean rollingrevenueEntryPermissionAll) {
-		this.rollingrevenueEntryPermissionAll = rollingrevenueEntryPermissionAll;
-	}
-
 	public Long getRollingrevenueEntryPermissionId() {
 		return rollingrevenueEntryPermissionId;
 	}
@@ -68,59 +60,67 @@ public class RollingRevenueEntryPermissionVO implements Serializable {
 		this.rollingrevenueEntryPermissionId = rollingrevenueEntryPermissionId;
 	}
 
-	public Boolean getIsViewAllEntriesRequired() {
+	public boolean isRollingrevenueEntryPermissionAll() {
+		return rollingrevenueEntryPermissionAll;
+	}
+
+	public void setRollingrevenueEntryPermissionAll(boolean rollingrevenueEntryPermissionAll) {
+		this.rollingrevenueEntryPermissionAll = rollingrevenueEntryPermissionAll;
+	}
+
+	public boolean isViewAllEntriesRequired() {
 		return isViewAllEntriesRequired;
 	}
 
-	public void setIsViewAllEntriesRequired(Boolean isViewAllEntriesRequired) {
+	public void setViewAllEntriesRequired(boolean isViewAllEntriesRequired) {
 		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
 	}
 
-	public Boolean getIsAddRevenueEntryRequired() {
+	public boolean isAddRevenueEntryRequired() {
 		return isAddRevenueEntryRequired;
 	}
 
-	public void setIsAddRevenueEntryRequired(Boolean isAddRevenueEntryRequired) {
+	public void setAddRevenueEntryRequired(boolean isAddRevenueEntryRequired) {
 		this.isAddRevenueEntryRequired = isAddRevenueEntryRequired;
 	}
 
-	public Boolean getIsEditRevenueEntryRequired() {
+	public boolean isEditRevenueEntryRequired() {
 		return isEditRevenueEntryRequired;
 	}
 
-	public void setIsEditRevenueEntryRequired(Boolean isEditRevenueEntryRequired) {
+	public void setEditRevenueEntryRequired(boolean isEditRevenueEntryRequired) {
 		this.isEditRevenueEntryRequired = isEditRevenueEntryRequired;
 	}
 
-	public Boolean getIsDeleteRevenueEntryRequired() {
+	public boolean isDeleteRevenueEntryRequired() {
 		return isDeleteRevenueEntryRequired;
 	}
 
-	public void setIsDeleteRevenueEntryRequired(Boolean isDeleteRevenueEntryRequired) {
+	public void setDeleteRevenueEntryRequired(boolean isDeleteRevenueEntryRequired) {
 		this.isDeleteRevenueEntryRequired = isDeleteRevenueEntryRequired;
 	}
 
-	public Boolean getIsCopyRevenueEntryRequired() {
+	public boolean isCopyRevenueEntryRequired() {
 		return isCopyRevenueEntryRequired;
 	}
 
-	public void setIsCopyRevenueEntryRequired(Boolean isCopyRevenueEntryRequired) {
+	public void setCopyRevenueEntryRequired(boolean isCopyRevenueEntryRequired) {
 		this.isCopyRevenueEntryRequired = isCopyRevenueEntryRequired;
 	}
 
-	public Boolean getIsSubmitRevenueEntryRequired() {
+	public boolean isSubmitRevenueEntryRequired() {
 		return isSubmitRevenueEntryRequired;
 	}
 
-	public void setIsSubmitRevenueEntryRequired(Boolean isSubmitRevenueEntryRequired) {
+	public void setSubmitRevenueEntryRequired(boolean isSubmitRevenueEntryRequired) {
 		this.isSubmitRevenueEntryRequired = isSubmitRevenueEntryRequired;
 	}
 
-	public Boolean getIsExportRequired() {
+	public boolean isExportRequired() {
 		return isExportRequired;
 	}
 
-	public void setIsExportRequired(Boolean isExportRequired) {
+	public void setExportRequired(boolean isExportRequired) {
 		this.isExportRequired = isExportRequired;
 	}
 

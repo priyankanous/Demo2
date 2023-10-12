@@ -15,4 +15,28 @@ public class AccountPermissionVO implements Serializable {
 
 	private CommonAdministrationPermissionVO commonAdministrationPermissionVO;
 
+	public Long getAccountPermissionId() {
+		return accountPermissionId;
+	}
+
+	public void setAccountPermissionId(Long accountPermissionId) {
+		this.accountPermissionId = accountPermissionId;
+	}
+
+	public boolean isAccountPermissionAll() {
+		return accountPermissionAll;
+	}
+
+	public void setAccountPermissionAll(boolean accountPermissionAll) {
+		this.accountPermissionAll = accountPermissionAll;
+	}
+
+	public CommonAdministrationPermissionVO getCommonAdministrationPermissionVO() {
+		return commonAdministrationPermissionVO;
+	}
+
+	public void setCommonAdministrationPermissionVO(CommonAdministrationPermissionVO commonAdministrationPermissionVO) {
+		this.commonAdministrationPermissionVO = commonAdministrationPermissionVO;
+	}
+
 }

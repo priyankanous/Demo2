@@ -30,10 +30,10 @@ public class DashboardPermission extends Auditable<String> {
 	private boolean dashboardPermissionAll;
 
 	@Column(name = "read_dashboard")
-	private boolean isReadDashboardRequired;
+	private boolean readDashboardRequired;
 
 	@Column(name = "edit_dashboard")
-	private boolean isEditDashboardRequired;
+	private boolean editDashboardRequired;
 
 	@OneToMany(mappedBy = "dashboardPermission")
 	@JsonBackReference
@@ -41,16 +41,6 @@ public class DashboardPermission extends Auditable<String> {
 
 	public DashboardPermission() {
 
-	}
-
-	public DashboardPermission(Long dashboardPermissionId, boolean dashboardPermissionAll,
-			boolean isReadDashboardRequired, boolean isEditDashboardRequired, List<Roles> roles) {
-		super();
-		this.dashboardPermissionId = dashboardPermissionId;
-		this.dashboardPermissionAll = dashboardPermissionAll;
-		this.isReadDashboardRequired = isReadDashboardRequired;
-		this.isEditDashboardRequired = isEditDashboardRequired;
-		this.roles = roles;
 	}
 
 	public Long getDashboardPermissionId() {
@@ -70,19 +60,19 @@ public class DashboardPermission extends Auditable<String> {
 	}
 
 	public boolean isReadDashboardRequired() {
-		return isReadDashboardRequired;
+		return readDashboardRequired;
 	}
 
-	public void setReadDashboardRequired(boolean isReadDashboardRequired) {
-		this.isReadDashboardRequired = isReadDashboardRequired;
+	public void setReadDashboardRequired(boolean readDashboardRequired) {
+		this.readDashboardRequired = readDashboardRequired;
 	}
 
 	public boolean isEditDashboardRequired() {
-		return isEditDashboardRequired;
+		return editDashboardRequired;
 	}
 
-	public void setEditDashboardRequired(boolean isEditDashboardRequired) {
-		this.isEditDashboardRequired = isEditDashboardRequired;
+	public void setEditDashboardRequired(boolean editDashboardRequired) {
+		this.editDashboardRequired = editDashboardRequired;
 	}
 
 	public List<Roles> getRoles() {
@@ -90,6 +80,16 @@ public class DashboardPermission extends Auditable<String> {
 	}
 
 	public void setRoles(List<Roles> roles) {
+		this.roles = roles;
+	}
+
+	public DashboardPermission(Long dashboardPermissionId, boolean dashboardPermissionAll,
+			boolean readDashboardRequired, boolean editDashboardRequired, List<Roles> roles) {
+		super();
+		this.dashboardPermissionId = dashboardPermissionId;
+		this.dashboardPermissionAll = dashboardPermissionAll;
+		this.readDashboardRequired = readDashboardRequired;
+		this.editDashboardRequired = editDashboardRequired;
 		this.roles = roles;
 	}
 

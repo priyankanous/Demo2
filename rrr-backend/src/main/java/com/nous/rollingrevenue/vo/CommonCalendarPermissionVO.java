@@ -19,4 +19,44 @@ public class CommonCalendarPermissionVO implements Serializable {
 
 	private boolean isDeleteRequired;
 
+	public Long getCommonCalendarPermissionId() {
+		return commonCalendarPermissionId;
+	}
+
+	public void setCommonCalendarPermissionId(Long commonCalendarPermissionId) {
+		this.commonCalendarPermissionId = commonCalendarPermissionId;
+	}
+
+	public boolean isViewRequired() {
+		return isViewRequired;
+	}
+
+	public void setViewRequired(boolean isViewRequired) {
+		this.isViewRequired = isViewRequired;
+	}
+
+	public boolean isAddRequired() {
+		return isAddRequired;
+	}
+
+	public void setAddRequired(boolean isAddRequired) {
+		this.isAddRequired = isAddRequired;
+	}
+
+	public boolean isEditRequired() {
+		return isEditRequired;
+	}
+
+	public void setEditRequired(boolean isEditRequired) {
+		this.isEditRequired = isEditRequired;
+	}
+
+	public boolean isDeleteRequired() {
+		return isDeleteRequired;
+	}
+
+	public void setDeleteRequired(boolean isDeleteRequired) {
+		this.isDeleteRequired = isDeleteRequired;
+	}
+
 }

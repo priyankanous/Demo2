@@ -13,15 +13,15 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 
 	private Long annualTargetEntryPermissionId;
 
-	private Boolean annualTargetEntryPermissionAll;
+	private boolean annualTargetEntryPermissionAll;
 
-	private Boolean isCreateRequired;
+	private boolean isCreateRequired;
 
-	private Boolean isEditRequired;
+	private boolean isEditRequired;
 
-	private Boolean isViewRequired;
+	private boolean isViewRequired;
 
-	private Boolean isDeleteRequired;
+	private boolean isDeleteRequired;
 
 	private boolean isActive;
 
@@ -29,8 +29,8 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 
 	}
 
-	public AnnualTargetEntryPermissionVO(Long annualTargetEntryPermissionId, Boolean annualTargetEntryPermissionAll,
-			Boolean isCreateRequired, Boolean isEditRequired, Boolean isViewRequired, Boolean isDeleteRequired,
+	public AnnualTargetEntryPermissionVO(Long annualTargetEntryPermissionId, boolean annualTargetEntryPermissionAll,
+			boolean isCreateRequired, boolean isEditRequired, boolean isViewRequired, boolean isDeleteRequired,
 			boolean isActive) {
 		super();
 		this.annualTargetEntryPermissionId = annualTargetEntryPermissionId;
@@ -50,6 +50,46 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 		this.annualTargetEntryPermissionId = annualTargetEntryPermissionId;
 	}
 
+	public boolean isAnnualTargetEntryPermissionAll() {
+		return annualTargetEntryPermissionAll;
+	}
+
+	public void setAnnualTargetEntryPermissionAll(boolean annualTargetEntryPermissionAll) {
+		this.annualTargetEntryPermissionAll = annualTargetEntryPermissionAll;
+	}
+
+	public boolean isCreateRequired() {
+		return isCreateRequired;
+	}
+
+	public void setCreateRequired(boolean isCreateRequired) {
+		this.isCreateRequired = isCreateRequired;
+	}
+
+	public boolean isEditRequired() {
+		return isEditRequired;
+	}
+
+	public void setEditRequired(boolean isEditRequired) {
+		this.isEditRequired = isEditRequired;
+	}
+
+	public boolean isViewRequired() {
+		return isViewRequired;
+	}
+
+	public void setViewRequired(boolean isViewRequired) {
+		this.isViewRequired = isViewRequired;
+	}
+
+	public boolean isDeleteRequired() {
+		return isDeleteRequired;
+	}
+
+	public void setDeleteRequired(boolean isDeleteRequired) {
+		this.isDeleteRequired = isDeleteRequired;
+	}
+
 	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
 	public boolean isActive() {
 		return isActive;
@@ -57,46 +97,6 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	public Boolean getAnnualTargetEntryPermissionAll() {
-		return annualTargetEntryPermissionAll;
-	}
-
-	public void setAnnualTargetEntryPermissionAll(Boolean annualTargetEntryPermissionAll) {
-		this.annualTargetEntryPermissionAll = annualTargetEntryPermissionAll;
-	}
-
-	public Boolean getIsCreateRequired() {
-		return isCreateRequired;
-	}
-
-	public void setIsCreateRequired(Boolean isCreateRequired) {
-		this.isCreateRequired = isCreateRequired;
-	}
-
-	public Boolean getIsEditRequired() {
-		return isEditRequired;
-	}
-
-	public void setIsEditRequired(Boolean isEditRequired) {
-		this.isEditRequired = isEditRequired;
-	}
-
-	public Boolean getIsViewRequired() {
-		return isViewRequired;
-	}
-
-	public void setIsViewRequired(Boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
-	}
-
-	public Boolean getIsDeleteRequired() {
-		return isDeleteRequired;
-	}
-
-	public void setIsDeleteRequired(Boolean isDeleteRequired) {
-		this.isDeleteRequired = isDeleteRequired;
 	}
 
 }

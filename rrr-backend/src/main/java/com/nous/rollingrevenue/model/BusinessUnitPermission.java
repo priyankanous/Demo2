@@ -31,7 +31,7 @@ public class BusinessUnitPermission extends Auditable<String> {
 	private Long businessUnitPermissionId;
 
 	@Column(name = "business_unit_permission_all")
-	private Boolean isBusinessUnitPermissionAll;
+	private boolean isBusinessUnitPermissionAll;
 
 	@OneToMany(mappedBy = "businessUnitPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class BusinessUnitPermission extends Auditable<String> {
 
 	}
 
-	public BusinessUnitPermission(Long businessUnitPermissionId, Boolean isBusinessUnitPermissionAll,
+	public BusinessUnitPermission(Long businessUnitPermissionId, boolean isBusinessUnitPermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class BusinessUnitPermission extends Auditable<String> {
 		this.businessUnitPermissionId = businessUnitPermissionId;
 	}
 
-	public Boolean getIsBusinessUnitPermissionAll() {
+	public boolean isBusinessUnitPermissionAll() {
 		return isBusinessUnitPermissionAll;
 	}
 
-	public void setIsBusinessUnitPermissionAll(Boolean isBusinessUnitPermissionAll) {
+	public void setBusinessUnitPermissionAll(boolean isBusinessUnitPermissionAll) {
 		this.isBusinessUnitPermissionAll = isBusinessUnitPermissionAll;
 	}
 

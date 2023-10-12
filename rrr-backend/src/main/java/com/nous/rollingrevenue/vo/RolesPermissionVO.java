@@ -11,29 +11,18 @@ public class RolesPermissionVO implements Serializable {
 
 	private Long rolesPermissionId;
 
-	private Boolean rolesPermissionAll;
+	private boolean rolesPermissionAll;
 
-	private Boolean isCreateRoleRequired;
+	private boolean isCreateRoleRequired;
 
-	private Boolean isEditRoleRequired;
+	private boolean isEditRoleRequired;
 
-	private Boolean isDeleteRequired;
+	private boolean isDeleteRequired;
 
 	private boolean isActive;
 
 	public RolesPermissionVO() {
 
-	}
-
-	public RolesPermissionVO(Long rolesPermissionId, Boolean rolesPermissionAll, Boolean isCreateRoleRequired,
-			Boolean isEditRoleRequired, Boolean isDeleteRequired, boolean isActive) {
-		super();
-		this.rolesPermissionId = rolesPermissionId;
-		this.rolesPermissionAll = rolesPermissionAll;
-		this.isCreateRoleRequired = isCreateRoleRequired;
-		this.isEditRoleRequired = isEditRoleRequired;
-		this.isDeleteRequired = isDeleteRequired;
-		this.isActive = isActive;
 	}
 
 	public Long getRolesPermissionId() {
@@ -44,20 +33,36 @@ public class RolesPermissionVO implements Serializable {
 		this.rolesPermissionId = rolesPermissionId;
 	}
 
-	public Boolean getIsCreateRoleRequired() {
+	public boolean isRolesPermissionAll() {
+		return rolesPermissionAll;
+	}
+
+	public void setRolesPermissionAll(boolean rolesPermissionAll) {
+		this.rolesPermissionAll = rolesPermissionAll;
+	}
+
+	public boolean isCreateRoleRequired() {
 		return isCreateRoleRequired;
 	}
 
-	public void setIsCreateRoleRequired(Boolean isCreateRoleRequired) {
+	public void setCreateRoleRequired(boolean isCreateRoleRequired) {
 		this.isCreateRoleRequired = isCreateRoleRequired;
 	}
 
-	public Boolean getIsEditRoleRequired() {
+	public boolean isEditRoleRequired() {
 		return isEditRoleRequired;
 	}
 
-	public void setIsEditRoleRequired(Boolean isEditRoleRequired) {
+	public void setEditRoleRequired(boolean isEditRoleRequired) {
 		this.isEditRoleRequired = isEditRoleRequired;
+	}
+
+	public boolean isDeleteRequired() {
+		return isDeleteRequired;
+	}
+
+	public void setDeleteRequired(boolean isDeleteRequired) {
+		this.isDeleteRequired = isDeleteRequired;
 	}
 
 	public boolean isActive() {
@@ -66,22 +71,6 @@ public class RolesPermissionVO implements Serializable {
 
 	public void setActive(boolean isActive) {
 		this.isActive = isActive;
-	}
-
-	public Boolean getRolesPermissionAll() {
-		return rolesPermissionAll;
-	}
-
-	public void setRolesPermissionAll(Boolean rolesPermissionAll) {
-		this.rolesPermissionAll = rolesPermissionAll;
-	}
-
-	public Boolean getIsDeleteRequired() {
-		return isDeleteRequired;
-	}
-
-	public void setIsDeleteRequired(Boolean isDeleteRequired) {
-		this.isDeleteRequired = isDeleteRequired;
 	}
 
 }

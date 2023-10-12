@@ -18,7 +18,55 @@ public class RevenuePermissionVO implements Serializable {
 	private RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO;
 
 	private InvoiceDataUploadPermissionVO invoiceDataUploadPermissionVO;
-	
+
 	private ReviewandPublishPermissionVO reviewandPublishPermissionVO;
+
+	public Long getRevenuePermissionId() {
+		return revenuePermissionId;
+	}
+
+	public void setRevenuePermissionId(Long revenuePermissionId) {
+		this.revenuePermissionId = revenuePermissionId;
+	}
+
+	public boolean isRevenuePermissionAll() {
+		return revenuePermissionAll;
+	}
+
+	public void setRevenuePermissionAll(boolean revenuePermissionAll) {
+		this.revenuePermissionAll = revenuePermissionAll;
+	}
+
+	public boolean isViewAllEntries() {
+		return isViewAllEntries;
+	}
+
+	public void setViewAllEntries(boolean isViewAllEntries) {
+		this.isViewAllEntries = isViewAllEntries;
+	}
+
+	public RollingRevenueEntryPermissionVO getRollingRevenueEntryPermissionVO() {
+		return rollingRevenueEntryPermissionVO;
+	}
+
+	public void setRollingRevenueEntryPermissionVO(RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO) {
+		this.rollingRevenueEntryPermissionVO = rollingRevenueEntryPermissionVO;
+	}
+
+	public InvoiceDataUploadPermissionVO getInvoiceDataUploadPermissionVO() {
+		return invoiceDataUploadPermissionVO;
+	}
+
+	public void setInvoiceDataUploadPermissionVO(InvoiceDataUploadPermissionVO invoiceDataUploadPermissionVO) {
+		this.invoiceDataUploadPermissionVO = invoiceDataUploadPermissionVO;
+	}
+
+	public ReviewandPublishPermissionVO getReviewandPublishPermissionVO() {
+		return reviewandPublishPermissionVO;
+	}
+
+	public void setReviewandPublishPermissionVO(ReviewandPublishPermissionVO reviewandPublishPermissionVO) {
+		this.reviewandPublishPermissionVO = reviewandPublishPermissionVO;
+	}
 
 }

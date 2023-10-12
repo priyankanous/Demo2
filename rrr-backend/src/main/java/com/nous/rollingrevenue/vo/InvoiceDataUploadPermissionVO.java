@@ -13,20 +13,33 @@ public class InvoiceDataUploadPermissionVO implements Serializable {
 
 	private Long invoiceDataUploadPermissionId;
 
-	private Boolean invoiceDataUploadPermissionAll;
+	private boolean invoiceDataUploadPermissionAll;
 
-	private Boolean isViewListRequired;
+	private boolean isViewListRequired;
 
-	private Boolean isUploadDataRequired;
+	private boolean isUploadDataRequired;
 
-	private Boolean isEditableRequired;
+	private boolean isEditableRequired;
 
-	private Boolean isDeleteRequired;
+	private boolean isDeleteRequired;
 
 	private boolean isActive;
 
 	public InvoiceDataUploadPermissionVO() {
 
+	}
+
+	public InvoiceDataUploadPermissionVO(Long invoiceDataUploadPermissionId, boolean invoiceDataUploadPermissionAll,
+			boolean isViewListRequired, boolean isUploadDataRequired, boolean isEditableRequired,
+			boolean isDeleteRequired, boolean isActive) {
+		super();
+		this.invoiceDataUploadPermissionId = invoiceDataUploadPermissionId;
+		this.invoiceDataUploadPermissionAll = invoiceDataUploadPermissionAll;
+		this.isViewListRequired = isViewListRequired;
+		this.isUploadDataRequired = isUploadDataRequired;
+		this.isEditableRequired = isEditableRequired;
+		this.isDeleteRequired = isDeleteRequired;
+		this.isActive = isActive;
 	}
 
 	public Long getInvoiceDataUploadPermissionId() {
@@ -37,20 +50,44 @@ public class InvoiceDataUploadPermissionVO implements Serializable {
 		this.invoiceDataUploadPermissionId = invoiceDataUploadPermissionId;
 	}
 
-	public Boolean getIsViewListRequired() {
+	public boolean isInvoiceDataUploadPermissionAll() {
+		return invoiceDataUploadPermissionAll;
+	}
+
+	public void setInvoiceDataUploadPermissionAll(boolean invoiceDataUploadPermissionAll) {
+		this.invoiceDataUploadPermissionAll = invoiceDataUploadPermissionAll;
+	}
+
+	public boolean isViewListRequired() {
 		return isViewListRequired;
 	}
 
-	public void setIsViewListRequired(Boolean isViewListRequired) {
+	public void setViewListRequired(boolean isViewListRequired) {
 		this.isViewListRequired = isViewListRequired;
 	}
 
-	public Boolean getIsUploadDataRequired() {
+	public boolean isUploadDataRequired() {
 		return isUploadDataRequired;
 	}
 
-	public void setIsUploadDataRequired(Boolean isUploadDataRequired) {
+	public void setUploadDataRequired(boolean isUploadDataRequired) {
 		this.isUploadDataRequired = isUploadDataRequired;
+	}
+
+	public boolean isEditableRequired() {
+		return isEditableRequired;
+	}
+
+	public void setEditableRequired(boolean isEditableRequired) {
+		this.isEditableRequired = isEditableRequired;
+	}
+
+	public boolean isDeleteRequired() {
+		return isDeleteRequired;
+	}
+
+	public void setDeleteRequired(boolean isDeleteRequired) {
+		this.isDeleteRequired = isDeleteRequired;
 	}
 
 	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
@@ -59,43 +96,6 @@ public class InvoiceDataUploadPermissionVO implements Serializable {
 	}
 
 	public void setActive(boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public Boolean getInvoiceDataUploadPermissionAll() {
-		return invoiceDataUploadPermissionAll;
-	}
-
-	public void setInvoiceDataUploadPermissionAll(Boolean invoiceDataUploadPermissionAll) {
-		this.invoiceDataUploadPermissionAll = invoiceDataUploadPermissionAll;
-	}
-
-	public Boolean getIsEditableRequired() {
-		return isEditableRequired;
-	}
-
-	public void setIsEditableRequired(Boolean isEditableRequired) {
-		this.isEditableRequired = isEditableRequired;
-	}
-
-	public Boolean getIsDeleteRequired() {
-		return isDeleteRequired;
-	}
-
-	public void setIsDeleteRequired(Boolean isDeleteRequired) {
-		this.isDeleteRequired = isDeleteRequired;
-	}
-
-	public InvoiceDataUploadPermissionVO(Long invoiceDataUploadPermissionId, Boolean invoiceDataUploadPermissionAll,
-			Boolean isViewListRequired, Boolean isUploadDataRequired, Boolean isEditableRequired,
-			Boolean isDeleteRequired, boolean isActive) {
-		super();
-		this.invoiceDataUploadPermissionId = invoiceDataUploadPermissionId;
-		this.invoiceDataUploadPermissionAll = invoiceDataUploadPermissionAll;
-		this.isViewListRequired = isViewListRequired;
-		this.isUploadDataRequired = isUploadDataRequired;
-		this.isEditableRequired = isEditableRequired;
-		this.isDeleteRequired = isDeleteRequired;
 		this.isActive = isActive;
 	}
 

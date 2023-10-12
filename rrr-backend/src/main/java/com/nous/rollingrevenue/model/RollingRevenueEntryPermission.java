@@ -27,28 +27,28 @@ public class RollingRevenueEntryPermission extends Auditable<String> {
 	private Long rollingrevenueEntryPermissionId;
 
 	@Column(name = "rolling_revenue_entry_permission_all")
-	private Boolean isRollingRevenueEntryPermissionAll;
+	private boolean isRollingRevenueEntryPermissionAll;
 
 	@Column(name = "view_all_entries")
-	private Boolean isViewAllEntriesRequired;
+	private boolean isViewAllEntriesRequired;
 
 	@Column(name = "add_revenue_entry")
-	private Boolean isAddRevenueEntryRequired;
+	private boolean isAddRevenueEntryRequired;
 
 	@Column(name = "edit_revenue_entry")
-	private Boolean isEditRevenueEntryRequired;
+	private boolean isEditRevenueEntryRequired;
 
 	@Column(name = "delete_revenue_entry")
-	private Boolean isDeleteRevenueEntryRequired;
+	private boolean isDeleteRevenueEntryRequired;
 
 	@Column(name = "copy_revenue_entry")
-	private Boolean isCopyRevenueEntryRequired;
+	private boolean isCopyRevenueEntryRequired;
 
 	@Column(name = "submit_revenue_entry")
-	private Boolean isSubmitRevenueEntryRequired;
+	private boolean isSubmitRevenueEntryRequired;
 
 	@Column(name = "export")
-	private Boolean isExportRequired;
+	private boolean isExportRequired;
 
 	@OneToMany(mappedBy = "rollingRevenueEntryPermission")
 	@JsonBackReference
@@ -59,9 +59,9 @@ public class RollingRevenueEntryPermission extends Auditable<String> {
 	}
 
 	public RollingRevenueEntryPermission(Long rollingrevenueEntryPermissionId,
-			Boolean isRollingRevenueEntryPermissionAll, Boolean isViewAllEntriesRequired,
-			Boolean isAddRevenueEntryRequired, Boolean isEditRevenueEntryRequired, Boolean isDeleteRevenueEntryRequired,
-			Boolean isCopyRevenueEntryRequired, Boolean isSubmitRevenueEntryRequired, Boolean isExportRequired,
+			boolean isRollingRevenueEntryPermissionAll, boolean isViewAllEntriesRequired,
+			boolean isAddRevenueEntryRequired, boolean isEditRevenueEntryRequired, boolean isDeleteRevenueEntryRequired,
+			boolean isCopyRevenueEntryRequired, boolean isSubmitRevenueEntryRequired, boolean isExportRequired,
 			List<RevenuePermission> revenuePermission) {
 		super();
 		this.rollingrevenueEntryPermissionId = rollingrevenueEntryPermissionId;
@@ -84,67 +84,67 @@ public class RollingRevenueEntryPermission extends Auditable<String> {
 		this.rollingrevenueEntryPermissionId = rollingrevenueEntryPermissionId;
 	}
 
-	public Boolean getIsRollingRevenueEntryAll() {
+	public boolean isRollingRevenueEntryPermissionAll() {
 		return isRollingRevenueEntryPermissionAll;
 	}
 
-	public void setIsRollingRevenueEntryAll(Boolean isRollingRevenueEntryAll) {
-		this.isRollingRevenueEntryPermissionAll = isRollingRevenueEntryAll;
+	public void setRollingRevenueEntryPermissionAll(boolean isRollingRevenueEntryPermissionAll) {
+		this.isRollingRevenueEntryPermissionAll = isRollingRevenueEntryPermissionAll;
 	}
 
-	public Boolean getIsViewAllEntriesRequired() {
+	public boolean isViewAllEntriesRequired() {
 		return isViewAllEntriesRequired;
 	}
 
-	public void setIsViewAllEntriesRequired(Boolean isViewAllEntriesRequired) {
+	public void setViewAllEntriesRequired(boolean isViewAllEntriesRequired) {
 		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
 	}
 
-	public Boolean getIsAddRevenueEntryRequired() {
+	public boolean isAddRevenueEntryRequired() {
 		return isAddRevenueEntryRequired;
 	}
 
-	public void setIsAddRevenueEntryRequired(Boolean isAddRevenueEntryRequired) {
+	public void setAddRevenueEntryRequired(boolean isAddRevenueEntryRequired) {
 		this.isAddRevenueEntryRequired = isAddRevenueEntryRequired;
 	}
 
-	public Boolean getIsEditRevenueEntryRequired() {
+	public boolean isEditRevenueEntryRequired() {
 		return isEditRevenueEntryRequired;
 	}
 
-	public void setIsEditRevenueEntryRequired(Boolean isEditRevenueEntryRequired) {
+	public void setEditRevenueEntryRequired(boolean isEditRevenueEntryRequired) {
 		this.isEditRevenueEntryRequired = isEditRevenueEntryRequired;
 	}
 
-	public Boolean getIsDeleteRevenueEntryRequired() {
+	public boolean isDeleteRevenueEntryRequired() {
 		return isDeleteRevenueEntryRequired;
 	}
 
-	public void setIsDeleteRevenueEntryRequired(Boolean isDeleteRevenueEntryRequired) {
+	public void setDeleteRevenueEntryRequired(boolean isDeleteRevenueEntryRequired) {
 		this.isDeleteRevenueEntryRequired = isDeleteRevenueEntryRequired;
 	}
 
-	public Boolean getIsCopyRevenueEntryRequired() {
+	public boolean isCopyRevenueEntryRequired() {
 		return isCopyRevenueEntryRequired;
 	}
 
-	public void setIsCopyRevenueEntryRequired(Boolean isCopyRevenueEntryRequired) {
+	public void setCopyRevenueEntryRequired(boolean isCopyRevenueEntryRequired) {
 		this.isCopyRevenueEntryRequired = isCopyRevenueEntryRequired;
 	}
 
-	public Boolean getIsSubmitRevenueEntryRequired() {
+	public boolean isSubmitRevenueEntryRequired() {
 		return isSubmitRevenueEntryRequired;
 	}
 
-	public void setIsSubmitRevenueEntryRequired(Boolean isSubmitRevenueEntryRequired) {
+	public void setSubmitRevenueEntryRequired(boolean isSubmitRevenueEntryRequired) {
 		this.isSubmitRevenueEntryRequired = isSubmitRevenueEntryRequired;
 	}
 
-	public Boolean getIsExportRequired() {
+	public boolean isExportRequired() {
 		return isExportRequired;
 	}
 
-	public void setIsExportRequired(Boolean isExportRequired) {
+	public void setExportRequired(boolean isExportRequired) {
 		this.isExportRequired = isExportRequired;
 	}
 

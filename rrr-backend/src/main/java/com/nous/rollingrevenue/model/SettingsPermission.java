@@ -31,10 +31,10 @@ public class SettingsPermission extends Auditable<String> {
 	private Long settingsPermissionId;
 
 	@Column(name = "settings_permission_all")
-	private Boolean isSettingsPermissionAll;
+	private boolean isSettingsPermissionAll;
 
 	@Column(name = "view_all_entries")
-	private Boolean isViewAllEntriesRequired;
+	private boolean isViewAllEntriesRequired;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
@@ -64,8 +64,8 @@ public class SettingsPermission extends Auditable<String> {
 
 	}
 
-	public SettingsPermission(Long settingsPermissionId, Boolean isSettingsPermissionAll,
-			Boolean isViewAllEntriesRequired, RolesPermission rolesPermission, RoleUserPermission roleUserPermission,
+	public SettingsPermission(Long settingsPermissionId, boolean isSettingsPermissionAll,
+			boolean isViewAllEntriesRequired, RolesPermission rolesPermission, RoleUserPermission roleUserPermission,
 			ExplicitPermission explicitPermission, AnnualTargetEntryPermission annualTargetEntryPermission,
 			List<Roles> roles) {
 		super();
@@ -87,19 +87,19 @@ public class SettingsPermission extends Auditable<String> {
 		this.settingsPermissionId = settingsPermissionId;
 	}
 
-	public Boolean getIsSettingsPermissionAll() {
+	public boolean isSettingsPermissionAll() {
 		return isSettingsPermissionAll;
 	}
 
-	public void setIsSettingsPermissionAll(Boolean isSettingsPermissionAll) {
+	public void setSettingsPermissionAll(boolean isSettingsPermissionAll) {
 		this.isSettingsPermissionAll = isSettingsPermissionAll;
 	}
 
-	public Boolean getIsViewAllEntriesRequired() {
+	public boolean isViewAllEntriesRequired() {
 		return isViewAllEntriesRequired;
 	}
 
-	public void setIsViewAllEntriesRequired(Boolean isViewAllEntriesRequired) {
+	public void setViewAllEntriesRequired(boolean isViewAllEntriesRequired) {
 		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
 	}
 

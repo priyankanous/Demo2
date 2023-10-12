@@ -27,19 +27,19 @@ public class AdministrationCommonPermission extends Auditable<String> {
 	private Long administrationCommonPermissionId;
 
 	@Column(name = "view")
-	private Boolean isViewRequired;
+	private boolean isViewRequired;
 
 	@Column(name = "add")
-	private Boolean isAddRequired;
+	private boolean isAddRequired;
 
 	@Column(name = "edit")
-	private Boolean isEditRequired;
+	private boolean isEditRequired;
 
 	@Column(name = "activate_or_deactivate")
-	private Boolean isActivateOrDeactivateRequired;
+	private boolean isActivateOrDeactivateRequired;
 
 	@Column(name = "delete")
-	private Boolean isDeleteRequired;
+	private boolean isDeleteRequired;
 
 	@OneToMany(mappedBy = "administrationCommonPermission")
 	@JsonBackReference
@@ -83,7 +83,7 @@ public class AdministrationCommonPermission extends Auditable<String> {
 
 	@OneToMany(mappedBy = "administrationCommonPermission")
 	@JsonBackReference
-	private List<COCPractisePermission> cocPractisePermission = new ArrayList<>();
+	private List<COCPracticePermission> cocPracticePermission = new ArrayList<>();
 
 	@OneToMany(mappedBy = "administrationCommonPermission")
 	@JsonBackReference
@@ -99,6 +99,14 @@ public class AdministrationCommonPermission extends Auditable<String> {
 
 	@OneToMany(mappedBy = "administrationCommonPermission")
 	@JsonBackReference
+	private List<FinancialYearPermission> financialYearPermission = new ArrayList<>();
+
+	@OneToMany(mappedBy = "administrationCommonPermission")
+	@JsonBackReference
+	private List<GlobalLeaveLossFactorPermission> globalLeaveLossFactorPermission = new ArrayList<>();
+
+	@OneToMany(mappedBy = "administrationCommonPermission")
+	@JsonBackReference
 	private List<CurrencyPermission> currencyPermission = new ArrayList<>();
 
 	@OneToMany(mappedBy = "administrationCommonPermission")
@@ -109,16 +117,18 @@ public class AdministrationCommonPermission extends Auditable<String> {
 
 	}
 
-	public AdministrationCommonPermission(Long administrationCommonPermissionId, Boolean isViewRequired,
-			Boolean isAddRequired, Boolean isEditRequired, Boolean isActivateOrDeactivateRequired,
-			Boolean isDeleteRequired, List<AccountPermission> accountPermission,
+	public AdministrationCommonPermission(Long administrationCommonPermissionId, boolean isViewRequired,
+			boolean isAddRequired, boolean isEditRequired, boolean isActivateOrDeactivateRequired,
+			boolean isDeleteRequired, List<AccountPermission> accountPermission,
 			List<OpportunityPermission> opportunityPermission, List<BusinessUnitPermission> businessUnitPermission,
 			List<RegionPermission> regionPermission, List<SBUPermission> sbuPermission,
 			List<SBUHeadPermission> sbuHeadPermission, List<LocationPermission> locationPermission,
 			List<BDMPermission> bdmPermission, List<ProbabilityTypePermission> probabilityTypePermission,
-			List<BusinessTypePermission> businessTypePermission, List<COCPractisePermission> cocPractisePermission,
+			List<BusinessTypePermission> businessTypePermission, List<COCPracticePermission> cocPracticePermission,
 			List<PricingTypePermission> pricingTypePermission, List<BillingTypePermission> billingTypePermission,
-			List<WorkOrderPermission> workOrderPermission, List<CurrencyPermission> currencyPermission,
+			List<WorkOrderPermission> workOrderPermission, List<FinancialYearPermission> financialYearPermission,
+			List<GlobalLeaveLossFactorPermission> globalLeaveLossFactorPermission,
+			List<CurrencyPermission> currencyPermission,
 			List<NotificationConfigurationPermission> notificationConfigurationPermission) {
 		super();
 		this.administrationCommonPermissionId = administrationCommonPermissionId;
@@ -137,10 +147,12 @@ public class AdministrationCommonPermission extends Auditable<String> {
 		this.bdmPermission = bdmPermission;
 		this.probabilityTypePermission = probabilityTypePermission;
 		this.businessTypePermission = businessTypePermission;
-		this.cocPractisePermission = cocPractisePermission;
+		this.cocPracticePermission = cocPracticePermission;
 		this.pricingTypePermission = pricingTypePermission;
 		this.billingTypePermission = billingTypePermission;
 		this.workOrderPermission = workOrderPermission;
+		this.financialYearPermission = financialYearPermission;
+		this.globalLeaveLossFactorPermission = globalLeaveLossFactorPermission;
 		this.currencyPermission = currencyPermission;
 		this.notificationConfigurationPermission = notificationConfigurationPermission;
 	}
@@ -153,43 +165,43 @@ public class AdministrationCommonPermission extends Auditable<String> {
 		this.administrationCommonPermissionId = administrationCommonPermissionId;
 	}
 
-	public Boolean getIsViewRequired() {
+	public boolean isViewRequired() {
 		return isViewRequired;
 	}
 
-	public void setIsViewRequired(Boolean isViewRequired) {
+	public void setViewRequired(boolean isViewRequired) {
 		this.isViewRequired = isViewRequired;
 	}
 
-	public Boolean getIsAddRequired() {
+	public boolean isAddRequired() {
 		return isAddRequired;
 	}
 
-	public void setIsAddRequired(Boolean isAddRequired) {
+	public void setAddRequired(boolean isAddRequired) {
 		this.isAddRequired = isAddRequired;
 	}
 
-	public Boolean getIsEditRequired() {
+	public boolean isEditRequired() {
 		return isEditRequired;
 	}
 
-	public void setIsEditRequired(Boolean isEditRequired) {
+	public void setEditRequired(boolean isEditRequired) {
 		this.isEditRequired = isEditRequired;
 	}
 
-	public Boolean getIsActivateOrDeactivateRequired() {
+	public boolean isActivateOrDeactivateRequired() {
 		return isActivateOrDeactivateRequired;
 	}
 
-	public void setIsActivateOrDeactivateRequired(Boolean isActivateOrDeactivateRequired) {
+	public void setActivateOrDeactivateRequired(boolean isActivateOrDeactivateRequired) {
 		this.isActivateOrDeactivateRequired = isActivateOrDeactivateRequired;
 	}
 
-	public Boolean getIsDeleteRequired() {
+	public boolean isDeleteRequired() {
 		return isDeleteRequired;
 	}
 
-	public void setIsDeleteRequired(Boolean isDeleteRequired) {
+	public void setDeleteRequired(boolean isDeleteRequired) {
 		this.isDeleteRequired = isDeleteRequired;
 	}
 
@@ -273,12 +285,12 @@ public class AdministrationCommonPermission extends Auditable<String> {
 		this.businessTypePermission = businessTypePermission;
 	}
 
-	public List<COCPractisePermission> getCocPractisePermission() {
-		return cocPractisePermission;
+	public List<COCPracticePermission> getCocPracticePermission() {
+		return cocPracticePermission;
 	}
 
-	public void setCocPractisePermission(List<COCPractisePermission> cocPractisePermission) {
-		this.cocPractisePermission = cocPractisePermission;
+	public void setCocPracticePermission(List<COCPracticePermission> cocPracticePermission) {
+		this.cocPracticePermission = cocPracticePermission;
 	}
 
 	public List<PricingTypePermission> getPricingTypePermission() {
@@ -320,6 +332,23 @@ public class AdministrationCommonPermission extends Auditable<String> {
 	public void setNotificationConfigurationPermission(
 			List<NotificationConfigurationPermission> notificationConfigurationPermission) {
 		this.notificationConfigurationPermission = notificationConfigurationPermission;
+	}
+
+	public List<FinancialYearPermission> getFinancialYearPermission() {
+		return financialYearPermission;
+	}
+
+	public void setFinancialYearPermission(List<FinancialYearPermission> financialYearPermission) {
+		this.financialYearPermission = financialYearPermission;
+	}
+
+	public List<GlobalLeaveLossFactorPermission> getGlobalLeaveLossFactorPermission() {
+		return globalLeaveLossFactorPermission;
+	}
+
+	public void setGlobalLeaveLossFactorPermission(
+			List<GlobalLeaveLossFactorPermission> globalLeaveLossFactorPermission) {
+		this.globalLeaveLossFactorPermission = globalLeaveLossFactorPermission;
 	}
 
 }

@@ -31,7 +31,7 @@ public class ClientWiseViewPermission extends Auditable<String> {
 	private Long clientWiseViewPermissionId;
 
 	@Column(name = "client_wise_view_permission_all")
-	private Boolean isClientWiseViewPermissionAll;
+	private boolean isClientWiseViewPermissionAll;
 
 	@OneToMany(mappedBy = "clientWiseViewPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class ClientWiseViewPermission extends Auditable<String> {
 
 	}
 
-	public ClientWiseViewPermission(Long clientWiseViewPermissionId, Boolean isClientWiseViewPermissionAll,
+	public ClientWiseViewPermission(Long clientWiseViewPermissionId, boolean isClientWiseViewPermissionAll,
 			List<ReportsPermission> reportsPermission, ReportsCommonPermission reportsCommonPermission) {
 		super();
 		this.clientWiseViewPermissionId = clientWiseViewPermissionId;
@@ -63,11 +63,11 @@ public class ClientWiseViewPermission extends Auditable<String> {
 		this.clientWiseViewPermissionId = clientWiseViewPermissionId;
 	}
 
-	public Boolean getIsClientWiseViewPermissionAll() {
+	public boolean isClientWiseViewPermissionAll() {
 		return isClientWiseViewPermissionAll;
 	}
 
-	public void setIsClientWiseViewPermissionAll(Boolean isClientWiseViewPermissionAll) {
+	public void setClientWiseViewPermissionAll(boolean isClientWiseViewPermissionAll) {
 		this.isClientWiseViewPermissionAll = isClientWiseViewPermissionAll;
 	}
 

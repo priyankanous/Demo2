@@ -31,7 +31,7 @@ public class BDMMeetingsPermission extends Auditable<String> {
 	private Long bdmMeetingsPermissionId;
 
 	@Column(name = "bdm_meetings_permission_all")
-	private Boolean isBdmMeetingsPermissionAll;
+	private boolean isBdmMeetingsPermissionAll;
 
 	@OneToMany(mappedBy = "bdmMeetingsPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class BDMMeetingsPermission extends Auditable<String> {
 
 	}
 
-	public BDMMeetingsPermission(Long bdmMeetingsPermissionId, Boolean isBdmMeetingsPermissionAll,
+	public BDMMeetingsPermission(Long bdmMeetingsPermissionId, boolean isBdmMeetingsPermissionAll,
 			List<CalendarPermission> calendarPermission, CalendarCommonPermission calendarCommonPermission) {
 		super();
 		this.bdmMeetingsPermissionId = bdmMeetingsPermissionId;
@@ -63,11 +63,11 @@ public class BDMMeetingsPermission extends Auditable<String> {
 		this.bdmMeetingsPermissionId = bdmMeetingsPermissionId;
 	}
 
-	public Boolean getIsBdmMeetingsPermissionAll() {
+	public boolean isBdmMeetingsPermissionAll() {
 		return isBdmMeetingsPermissionAll;
 	}
 
-	public void setIsBdmMeetingsPermissionAll(Boolean isBdmMeetingsPermissionAll) {
+	public void setBdmMeetingsPermissionAll(boolean isBdmMeetingsPermissionAll) {
 		this.isBdmMeetingsPermissionAll = isBdmMeetingsPermissionAll;
 	}
 

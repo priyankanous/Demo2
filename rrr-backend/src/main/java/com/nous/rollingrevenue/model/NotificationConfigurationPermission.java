@@ -31,7 +31,7 @@ public class NotificationConfigurationPermission extends Auditable<String> {
 	private Long notificationConfigurationPermissionId;
 
 	@Column(name = "notification_configuration_permission_all")
-	private Boolean isNotificationConfigurationPermissionAll;
+	private boolean isNotificationConfigurationPermissionAll;
 
 	@OneToMany(mappedBy = "notificationConfigurationPermission")
 	@JsonBackReference
@@ -47,7 +47,7 @@ public class NotificationConfigurationPermission extends Auditable<String> {
 	}
 
 	public NotificationConfigurationPermission(Long notificationConfigurationPermissionId,
-			Boolean isNotificationConfigurationPermissionAll, List<AdministrationPermission> administrationPermission,
+			boolean isNotificationConfigurationPermissionAll, List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
 		this.notificationConfigurationPermissionId = notificationConfigurationPermissionId;
@@ -64,11 +64,11 @@ public class NotificationConfigurationPermission extends Auditable<String> {
 		this.notificationConfigurationPermissionId = notificationConfigurationPermissionId;
 	}
 
-	public Boolean getIsNotificationConfigurationPermissionAll() {
+	public boolean isNotificationConfigurationPermissionAll() {
 		return isNotificationConfigurationPermissionAll;
 	}
 
-	public void setIsNotificationConfigurationPermissionAll(Boolean isNotificationConfigurationPermissionAll) {
+	public void setNotificationConfigurationPermissionAll(boolean isNotificationConfigurationPermissionAll) {
 		this.isNotificationConfigurationPermissionAll = isNotificationConfigurationPermissionAll;
 	}
 

@@ -31,7 +31,7 @@ public class BDMPermission extends Auditable<String> {
 	private Long bdmPermissionId;
 
 	@Column(name = "bdm_permission_all")
-	private Boolean isBdmPermissionAll;
+	private boolean isBdmPermissionAll;
 
 	@OneToMany(mappedBy = "bdmPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class BDMPermission extends Auditable<String> {
 
 	}
 
-	public BDMPermission(Long bdmPermissionId, Boolean isBdmPermissionAll,
+	public BDMPermission(Long bdmPermissionId, boolean isBdmPermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class BDMPermission extends Auditable<String> {
 		this.bdmPermissionId = bdmPermissionId;
 	}
 
-	public Boolean getIsBdmPermissionAll() {
+	public boolean isBdmPermissionAll() {
 		return isBdmPermissionAll;
 	}
 
-	public void setIsBdmPermissionAll(Boolean isBdmPermissionAll) {
+	public void setBdmPermissionAll(boolean isBdmPermissionAll) {
 		this.isBdmPermissionAll = isBdmPermissionAll;
 	}
 

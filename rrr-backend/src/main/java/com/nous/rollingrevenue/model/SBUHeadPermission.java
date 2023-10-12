@@ -31,7 +31,7 @@ public class SBUHeadPermission extends Auditable<String> {
 	private Long sbuHeadPermissionId;
 
 	@Column(name = "sbu_head_permission_all")
-	private Boolean isSbuHeadPermissionAll;
+	private boolean isSbuHeadPermissionAll;
 
 	@OneToMany(mappedBy = "sbuHeadPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class SBUHeadPermission extends Auditable<String> {
 
 	}
 
-	public SBUHeadPermission(Long sbuHeadPermissionId, Boolean isSbuHeadPermissionAll,
+	public SBUHeadPermission(Long sbuHeadPermissionId, boolean isSbuHeadPermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class SBUHeadPermission extends Auditable<String> {
 		this.sbuHeadPermissionId = sbuHeadPermissionId;
 	}
 
-	public Boolean getIsSbuHeadPermissionAll() {
+	public boolean isSbuHeadPermissionAll() {
 		return isSbuHeadPermissionAll;
 	}
 
-	public void setIsSbuHeadPermissionAll(Boolean isSbuHeadPermissionAll) {
+	public void setSbuHeadPermissionAll(boolean isSbuHeadPermissionAll) {
 		this.isSbuHeadPermissionAll = isSbuHeadPermissionAll;
 	}
 

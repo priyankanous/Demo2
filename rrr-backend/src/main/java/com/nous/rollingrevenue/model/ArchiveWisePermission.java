@@ -31,7 +31,7 @@ public class ArchiveWisePermission extends Auditable<String> {
 	private Long archiveWisePermissionId;
 
 	@Column(name = "archive_wise_permission_all")
-	private Boolean isArchiveWisePermissionAll;
+	private boolean isArchiveWisePermissionAll;
 
 	@OneToMany(mappedBy = "archiveWisePermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class ArchiveWisePermission extends Auditable<String> {
 
 	}
 
-	public ArchiveWisePermission(Long archiveWisePermissionId, Boolean isArchiveWisePermissionAll,
+	public ArchiveWisePermission(Long archiveWisePermissionId, boolean isArchiveWisePermissionAll,
 			List<ReportsPermission> reportsPermission, ReportsCommonPermission reportsCommonPermission) {
 		super();
 		this.archiveWisePermissionId = archiveWisePermissionId;
@@ -63,11 +63,11 @@ public class ArchiveWisePermission extends Auditable<String> {
 		this.archiveWisePermissionId = archiveWisePermissionId;
 	}
 
-	public Boolean getIsArchiveWisePermissionAll() {
+	public boolean isArchiveWisePermissionAll() {
 		return isArchiveWisePermissionAll;
 	}
 
-	public void setIsArchiveWisePermissionAll(Boolean isArchiveWisePermissionAll) {
+	public void setArchiveWisePermissionAll(boolean isArchiveWisePermissionAll) {
 		this.isArchiveWisePermissionAll = isArchiveWisePermissionAll;
 	}
 

@@ -31,7 +31,7 @@ public class ProbabilityTypePermission extends Auditable<String> {
 	private Long probabilityTypePermissionId;
 
 	@Column(name = "probability_type_permission_all")
-	private Boolean isProbabilityTypePermissionAll;
+	private boolean isProbabilityTypePermissionAll;
 
 	@OneToMany(mappedBy = "probabilityTypePermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class ProbabilityTypePermission extends Auditable<String> {
 
 	}
 
-	public ProbabilityTypePermission(Long probabilityTypePermissionId, Boolean isProbabilityTypePermissionAll,
+	public ProbabilityTypePermission(Long probabilityTypePermissionId, boolean isProbabilityTypePermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class ProbabilityTypePermission extends Auditable<String> {
 		this.probabilityTypePermissionId = probabilityTypePermissionId;
 	}
 
-	public Boolean getIsProbabilityTypePermissionAll() {
+	public boolean isProbabilityTypePermissionAll() {
 		return isProbabilityTypePermissionAll;
 	}
 
-	public void setIsProbabilityTypePermissionAll(Boolean isProbabilityTypePermissionAll) {
+	public void setProbabilityTypePermissionAll(boolean isProbabilityTypePermissionAll) {
 		this.isProbabilityTypePermissionAll = isProbabilityTypePermissionAll;
 	}
 

@@ -6,13 +6,17 @@ import java.util.List;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -27,19 +31,12 @@ public class GlobalLeaveLossFactorPermission extends Auditable<String> {
 	private Long globalLeaveLossFactorPermissionId;
 
 	@Column(name = "global_leave_loss_factor_permission_all")
-	private Boolean isGlobalLeaveLossFactorPermissionAll;
+	private boolean isGlobalLeaveLossFactorPermissionAll;
 
-	@Column(name = "view")
-	private Boolean isViewRequired;
-
-	@Column(name = "add")
-	private Boolean isAddRequired;
-
-	@Column(name = "edit")
-	private Boolean isEditRequired;
-
-	@Column(name = "activate_or_deactivate")
-	private Boolean isActivateOrDeactivateRequired;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonManagedReference
+	@JoinColumn(name = "administration_common_permission_id", referencedColumnName = "administration_common_permission_id")
+	private AdministrationCommonPermission administrationCommonPermission;
 
 	@OneToMany(mappedBy = "globalLeaveLossFactorPermission")
 	@JsonBackReference
@@ -50,16 +47,12 @@ public class GlobalLeaveLossFactorPermission extends Auditable<String> {
 	}
 
 	public GlobalLeaveLossFactorPermission(Long globalLeaveLossFactorPermissionId,
-			Boolean isGlobalLeaveLossFactorPermissionAll, Boolean isViewRequired, Boolean isAddRequired,
-			Boolean isEditRequired, Boolean isActivateOrDeactivateRequired,
+			boolean isGlobalLeaveLossFactorPermissionAll, AdministrationCommonPermission administrationCommonPermission,
 			List<AdministrationPermission> administrationPermission) {
 		super();
 		this.globalLeaveLossFactorPermissionId = globalLeaveLossFactorPermissionId;
 		this.isGlobalLeaveLossFactorPermissionAll = isGlobalLeaveLossFactorPermissionAll;
-		this.isViewRequired = isViewRequired;
-		this.isAddRequired = isAddRequired;
-		this.isEditRequired = isEditRequired;
-		this.isActivateOrDeactivateRequired = isActivateOrDeactivateRequired;
+		this.administrationCommonPermission = administrationCommonPermission;
 		this.administrationPermission = administrationPermission;
 	}
 
@@ -71,44 +64,20 @@ public class GlobalLeaveLossFactorPermission extends Auditable<String> {
 		this.globalLeaveLossFactorPermissionId = globalLeaveLossFactorPermissionId;
 	}
 
-	public Boolean getIsGlobalLeaveLossFactorPermissionAll() {
+	public boolean isGlobalLeaveLossFactorPermissionAll() {
 		return isGlobalLeaveLossFactorPermissionAll;
 	}
 
-	public void setIsGlobalLeaveLossFactorPermissionAll(Boolean isGlobalLeaveLossFactorPermissionAll) {
+	public void setGlobalLeaveLossFactorPermissionAll(boolean isGlobalLeaveLossFactorPermissionAll) {
 		this.isGlobalLeaveLossFactorPermissionAll = isGlobalLeaveLossFactorPermissionAll;
 	}
 
-	public Boolean getIsViewRequired() {
-		return isViewRequired;
+	public AdministrationCommonPermission getAdministrationCommonPermission() {
+		return administrationCommonPermission;
 	}
 
-	public void setIsViewRequired(Boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
-	}
-
-	public Boolean getIsAddRequired() {
-		return isAddRequired;
-	}
-
-	public void setIsAddRequired(Boolean isAddRequired) {
-		this.isAddRequired = isAddRequired;
-	}
-
-	public Boolean getIsEditRequired() {
-		return isEditRequired;
-	}
-
-	public void setIsEditRequired(Boolean isEditRequired) {
-		this.isEditRequired = isEditRequired;
-	}
-
-	public Boolean getIsActivateOrDeactivateRequired() {
-		return isActivateOrDeactivateRequired;
-	}
-
-	public void setIsActivateOrDeactivateRequired(Boolean isActivateOrDeactivateRequired) {
-		this.isActivateOrDeactivateRequired = isActivateOrDeactivateRequired;
+	public void setAdministrationCommonPermission(AdministrationCommonPermission administrationCommonPermission) {
+		this.administrationCommonPermission = administrationCommonPermission;
 	}
 
 	public List<AdministrationPermission> getAdministrationPermission() {

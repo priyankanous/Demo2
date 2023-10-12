@@ -31,7 +31,7 @@ public class RegionPermission extends Auditable<String> {
 	private Long regionPermissionId;
 
 	@Column(name = "region_permission_all")
-	private Boolean isRegionPermissionAll;
+	private boolean isRegionPermissionAll;
 
 	@OneToMany(mappedBy = "regionPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class RegionPermission extends Auditable<String> {
 
 	}
 
-	public RegionPermission(Long regionPermissionId, Boolean isRegionPermissionAll,
+	public RegionPermission(Long regionPermissionId, boolean isRegionPermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class RegionPermission extends Auditable<String> {
 		this.regionPermissionId = regionPermissionId;
 	}
 
-	public Boolean getIsRegionPermissionAll() {
+	public boolean isRegionPermissionAll() {
 		return isRegionPermissionAll;
 	}
 
-	public void setIsRegionPermissionAll(Boolean isRegionPermissionAll) {
+	public void setRegionPermissionAll(boolean isRegionPermissionAll) {
 		this.isRegionPermissionAll = isRegionPermissionAll;
 	}
 

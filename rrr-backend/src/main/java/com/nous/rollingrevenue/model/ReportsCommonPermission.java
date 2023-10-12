@@ -27,13 +27,13 @@ public class ReportsCommonPermission extends Auditable<String> {
 	private Long reportsCommonPermissionId;
 
 	@Column(name = "view_all")
-	private Boolean isViewAllDataRequired;
+	private boolean isViewAllDataRequired;
 
 	@Column(name = "set_filter")
-	private Boolean isSetFilterRequired;
+	private boolean isSetFilterRequired;
 
 	@Column(name = "export")
-	private Boolean isExportRequired;
+	private boolean isExportRequired;
 
 	@OneToMany(mappedBy = "reportsCommonPermission")
 	@JsonBackReference
@@ -67,8 +67,8 @@ public class ReportsCommonPermission extends Auditable<String> {
 
 	}
 
-	public ReportsCommonPermission(Long reportsCommonPermissionId, Boolean isViewAllDataRequired,
-			Boolean isSetFilterRequired, Boolean isExportRequired,
+	public ReportsCommonPermission(Long reportsCommonPermissionId, boolean isViewAllDataRequired,
+			boolean isSetFilterRequired, boolean isExportRequired,
 			List<BusinessTypeViewPermission> businessTypeViewPermission,
 			List<SBUClientViewPermission> sbuClientViewPermission,
 			List<ProbabilityTypeViewPermission> probabilityTypeViewPermission,
@@ -98,27 +98,27 @@ public class ReportsCommonPermission extends Auditable<String> {
 		this.reportsCommonPermissionId = reportsCommonPermissionId;
 	}
 
-	public Boolean getIsViewAllDataRequired() {
+	public boolean isViewAllDataRequired() {
 		return isViewAllDataRequired;
 	}
 
-	public void setIsViewAllDataRequired(Boolean isViewAllDataRequired) {
+	public void setViewAllDataRequired(boolean isViewAllDataRequired) {
 		this.isViewAllDataRequired = isViewAllDataRequired;
 	}
 
-	public Boolean getIsSetFilterRequired() {
+	public boolean isSetFilterRequired() {
 		return isSetFilterRequired;
 	}
 
-	public void setIsSetFilterRequired(Boolean isSetFilterRequired) {
+	public void setSetFilterRequired(boolean isSetFilterRequired) {
 		this.isSetFilterRequired = isSetFilterRequired;
 	}
 
-	public Boolean getIsExportRequired() {
+	public boolean isExportRequired() {
 		return isExportRequired;
 	}
 
-	public void setIsExportRequired(Boolean isExportRequired) {
+	public void setExportRequired(boolean isExportRequired) {
 		this.isExportRequired = isExportRequired;
 	}
 

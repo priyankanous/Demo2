@@ -15,4 +15,28 @@ public class HolidayCalendarPermissionVO implements Serializable {
 
 	private CommonCalendarPermissionVO commonCalendarPermissionVO;
 
+	public Long getHolidayCalendarPermissionId() {
+		return holidayCalendarPermissionId;
+	}
+
+	public void setHolidayCalendarPermissionId(Long holidayCalendarPermissionId) {
+		this.holidayCalendarPermissionId = holidayCalendarPermissionId;
+	}
+
+	public boolean isHolidayCalendarPermissionAll() {
+		return holidayCalendarPermissionAll;
+	}
+
+	public void setHolidayCalendarPermissionAll(boolean holidayCalendarPermissionAll) {
+		this.holidayCalendarPermissionAll = holidayCalendarPermissionAll;
+	}
+
+	public CommonCalendarPermissionVO getCommonCalendarPermissionVO() {
+		return commonCalendarPermissionVO;
+	}
+
+	public void setCommonCalendarPermissionVO(CommonCalendarPermissionVO commonCalendarPermissionVO) {
+		this.commonCalendarPermissionVO = commonCalendarPermissionVO;
+	}
+
 }

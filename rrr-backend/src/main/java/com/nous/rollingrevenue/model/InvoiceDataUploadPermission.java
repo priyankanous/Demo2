@@ -27,19 +27,19 @@ public class InvoiceDataUploadPermission extends Auditable<String> {
 	private Long invoiceDataUploadPermissionId;
 
 	@Column(name = "invoice_data_upload_permission_all")
-	private Boolean isInvoiceDataUploadPermissionAll;
+	private boolean isInvoiceDataUploadPermissionAll;
 
 	@Column(name = "view_list")
-	private Boolean isViewListRequired;
+	private boolean isViewListRequired;
 
 	@Column(name = "upload_data")
-	private Boolean isUploadDataRequired;
+	private boolean isUploadDataRequired;
 
 	@Column(name = "edit_or_reupload")
-	private Boolean isEditOrReupload;
+	private boolean isEditOrReupload;
 
 	@Column(name = "delete_data")
-	private Boolean isDeleteDataRequired;
+	private boolean isDeleteDataRequired;
 
 	@OneToMany(mappedBy = "invoiceDataUploadPermission")
 	@JsonBackReference
@@ -49,9 +49,9 @@ public class InvoiceDataUploadPermission extends Auditable<String> {
 
 	}
 
-	public InvoiceDataUploadPermission(Long invoiceDataUploadPermissionId, Boolean isInvoiceDataUploadPermissionAll,
-			Boolean isViewListRequired, Boolean isUploadDataRequired, Boolean isEditOrReupload,
-			Boolean isDeleteDataRequired, List<RevenuePermission> revenuePermission) {
+	public InvoiceDataUploadPermission(Long invoiceDataUploadPermissionId, boolean isInvoiceDataUploadPermissionAll,
+			boolean isViewListRequired, boolean isUploadDataRequired, boolean isEditOrReupload,
+			boolean isDeleteDataRequired, List<RevenuePermission> revenuePermission) {
 		super();
 		this.invoiceDataUploadPermissionId = invoiceDataUploadPermissionId;
 		this.isInvoiceDataUploadPermissionAll = isInvoiceDataUploadPermissionAll;
@@ -70,43 +70,43 @@ public class InvoiceDataUploadPermission extends Auditable<String> {
 		this.invoiceDataUploadPermissionId = invoiceDataUploadPermissionId;
 	}
 
-	public Boolean getIsInvoiceDataUploadPermissionAll() {
+	public boolean isInvoiceDataUploadPermissionAll() {
 		return isInvoiceDataUploadPermissionAll;
 	}
 
-	public void setIsInvoiceDataUploadPermissionAll(Boolean isInvoiceDataUploadPermissionAll) {
+	public void setInvoiceDataUploadPermissionAll(boolean isInvoiceDataUploadPermissionAll) {
 		this.isInvoiceDataUploadPermissionAll = isInvoiceDataUploadPermissionAll;
 	}
 
-	public Boolean getIsViewListRequired() {
+	public boolean isViewListRequired() {
 		return isViewListRequired;
 	}
 
-	public void setIsViewListRequired(Boolean isViewListRequired) {
+	public void setViewListRequired(boolean isViewListRequired) {
 		this.isViewListRequired = isViewListRequired;
 	}
 
-	public Boolean getIsUploadDataRequired() {
+	public boolean isUploadDataRequired() {
 		return isUploadDataRequired;
 	}
 
-	public void setIsUploadDataRequired(Boolean isUploadDataRequired) {
+	public void setUploadDataRequired(boolean isUploadDataRequired) {
 		this.isUploadDataRequired = isUploadDataRequired;
 	}
 
-	public Boolean getIsEditOrReupload() {
+	public boolean isEditOrReupload() {
 		return isEditOrReupload;
 	}
 
-	public void setIsEditOrReupload(Boolean isEditOrReupload) {
+	public void setEditOrReupload(boolean isEditOrReupload) {
 		this.isEditOrReupload = isEditOrReupload;
 	}
 
-	public Boolean getIsDeleteDataRequired() {
+	public boolean isDeleteDataRequired() {
 		return isDeleteDataRequired;
 	}
 
-	public void setIsDeleteDataRequired(Boolean isDeleteDataRequired) {
+	public void setDeleteDataRequired(boolean isDeleteDataRequired) {
 		this.isDeleteDataRequired = isDeleteDataRequired;
 	}
 

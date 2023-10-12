@@ -31,7 +31,7 @@ public class AccountPermission extends Auditable<String> {
 	private Long accountPermissionId;
 
 	@Column(name = "account_permission_all")
-	private Boolean isAccountPermissionAll;
+	private boolean isAccountPermissionAll;
 
 	@OneToMany(mappedBy = "accountPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class AccountPermission extends Auditable<String> {
 
 	}
 
-	public AccountPermission(Long accountPermissionId, Boolean isAccountPermissionAll,
+	public AccountPermission(Long accountPermissionId, boolean isAccountPermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class AccountPermission extends Auditable<String> {
 		this.accountPermissionId = accountPermissionId;
 	}
 
-	public Boolean getIsAccountPermissionAll() {
+	public boolean isAccountPermissionAll() {
 		return isAccountPermissionAll;
 	}
 
-	public void setIsAccountPermissionAll(Boolean isAccountPermissionAll) {
+	public void setAccountPermissionAll(boolean isAccountPermissionAll) {
 		this.isAccountPermissionAll = isAccountPermissionAll;
 	}
 

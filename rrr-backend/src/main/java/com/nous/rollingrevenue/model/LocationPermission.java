@@ -31,7 +31,7 @@ public class LocationPermission extends Auditable<String> {
 	private Long locationPermissionId;
 
 	@Column(name = "location_permission_all")
-	private Boolean isLocationPermissionAll;
+	private boolean isLocationPermissionAll;
 
 	@OneToMany(mappedBy = "locationPermission")
 	@JsonBackReference
@@ -46,7 +46,7 @@ public class LocationPermission extends Auditable<String> {
 
 	}
 
-	public LocationPermission(Long locationPermissionId, Boolean isLocationPermissionAll,
+	public LocationPermission(Long locationPermissionId, boolean isLocationPermissionAll,
 			List<AdministrationPermission> administrationPermission,
 			AdministrationCommonPermission administrationCommonPermission) {
 		super();
@@ -64,11 +64,11 @@ public class LocationPermission extends Auditable<String> {
 		this.locationPermissionId = locationPermissionId;
 	}
 
-	public Boolean getIsLocationPermissionAll() {
+	public boolean isLocationPermissionAll() {
 		return isLocationPermissionAll;
 	}
 
-	public void setIsLocationPermissionAll(Boolean isLocationPermissionAll) {
+	public void setLocationPermissionAll(boolean isLocationPermissionAll) {
 		this.isLocationPermissionAll = isLocationPermissionAll;
 	}
 

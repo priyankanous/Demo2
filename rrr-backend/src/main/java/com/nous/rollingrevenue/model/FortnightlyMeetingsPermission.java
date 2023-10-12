@@ -31,7 +31,7 @@ public class FortnightlyMeetingsPermission extends Auditable<String> {
 	private Long fortnightlyMeetingsPermissionId;
 
 	@Column(name = "fortnightly_meetings_permission_all")
-	private Boolean isFortnightlyMeetingsPermissionAll;
+	private boolean isFortnightlyMeetingsPermissionAll;
 
 	@OneToMany(mappedBy = "fortnightlyMeetingsPermission")
 	@JsonBackReference
@@ -47,7 +47,7 @@ public class FortnightlyMeetingsPermission extends Auditable<String> {
 	}
 
 	public FortnightlyMeetingsPermission(Long fortnightlyMeetingsPermissionId,
-			Boolean isFortnightlyMeetingsPermissionAll, List<CalendarPermission> calendarPermission,
+			boolean isFortnightlyMeetingsPermissionAll, List<CalendarPermission> calendarPermission,
 			CalendarCommonPermission calendarCommonPermission) {
 		super();
 		this.fortnightlyMeetingsPermissionId = fortnightlyMeetingsPermissionId;
@@ -64,11 +64,11 @@ public class FortnightlyMeetingsPermission extends Auditable<String> {
 		this.fortnightlyMeetingsPermissionId = fortnightlyMeetingsPermissionId;
 	}
 
-	public Boolean getIsFortnightlyMeetingsPermissionAll() {
+	public boolean isFortnightlyMeetingsPermissionAll() {
 		return isFortnightlyMeetingsPermissionAll;
 	}
 
-	public void setIsFortnightlyMeetingsPermissionAll(Boolean isFortnightlyMeetingsPermissionAll) {
+	public void setFortnightlyMeetingsPermissionAll(boolean isFortnightlyMeetingsPermissionAll) {
 		this.isFortnightlyMeetingsPermissionAll = isFortnightlyMeetingsPermissionAll;
 	}
 
