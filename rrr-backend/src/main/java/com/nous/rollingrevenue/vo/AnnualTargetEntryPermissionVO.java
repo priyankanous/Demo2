@@ -15,13 +15,13 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 
 	private boolean annualTargetEntryPermissionAll;
 
-	private boolean isCreateRequired;
+	private boolean createRequired;
 
-	private boolean isEditRequired;
+	private boolean editRequired;
 
-	private boolean isViewRequired;
+	private boolean viewRequired;
 
-	private boolean isDeleteRequired;
+	private boolean deleteRequired;
 
 	private boolean isActive;
 
@@ -30,15 +30,15 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 	}
 
 	public AnnualTargetEntryPermissionVO(Long annualTargetEntryPermissionId, boolean annualTargetEntryPermissionAll,
-			boolean isCreateRequired, boolean isEditRequired, boolean isViewRequired, boolean isDeleteRequired,
+			boolean createRequired, boolean editRequired, boolean viewRequired, boolean deleteRequired,
 			boolean isActive) {
 		super();
 		this.annualTargetEntryPermissionId = annualTargetEntryPermissionId;
 		this.annualTargetEntryPermissionAll = annualTargetEntryPermissionAll;
-		this.isCreateRequired = isCreateRequired;
-		this.isEditRequired = isEditRequired;
-		this.isViewRequired = isViewRequired;
-		this.isDeleteRequired = isDeleteRequired;
+		this.createRequired = createRequired;
+		this.editRequired = editRequired;
+		this.viewRequired = viewRequired;
+		this.deleteRequired = deleteRequired;
 		this.isActive = isActive;
 	}
 
@@ -59,35 +59,35 @@ public class AnnualTargetEntryPermissionVO implements Serializable {
 	}
 
 	public boolean isCreateRequired() {
-		return isCreateRequired;
+		return createRequired;
 	}
 
-	public void setCreateRequired(boolean isCreateRequired) {
-		this.isCreateRequired = isCreateRequired;
+	public void setCreateRequired(boolean createRequired) {
+		this.createRequired = createRequired;
 	}
 
 	public boolean isEditRequired() {
-		return isEditRequired;
+		return editRequired;
 	}
 
-	public void setEditRequired(boolean isEditRequired) {
-		this.isEditRequired = isEditRequired;
+	public void setEditRequired(boolean editRequired) {
+		this.editRequired = editRequired;
 	}
 
 	public boolean isViewRequired() {
-		return isViewRequired;
+		return viewRequired;
 	}
 
-	public void setViewRequired(boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
+	public void setViewRequired(boolean viewRequired) {
+		this.viewRequired = viewRequired;
 	}
 
 	public boolean isDeleteRequired() {
-		return isDeleteRequired;
+		return deleteRequired;
 	}
 
-	public void setDeleteRequired(boolean isDeleteRequired) {
-		this.isDeleteRequired = isDeleteRequired;
+	public void setDeleteRequired(boolean deleteRequired) {
+		this.deleteRequired = deleteRequired;
 	}
 
 	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)

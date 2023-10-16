@@ -15,13 +15,13 @@ public class InvoiceDataUploadPermissionVO implements Serializable {
 
 	private boolean invoiceDataUploadPermissionAll;
 
-	private boolean isViewListRequired;
+	private boolean viewListRequired;
 
-	private boolean isUploadDataRequired;
+	private boolean uploadDataRequired;
 
-	private boolean isEditableRequired;
+	private boolean editableRequired;
 
-	private boolean isDeleteRequired;
+	private boolean deleteRequired;
 
 	private boolean isActive;
 
@@ -30,15 +30,15 @@ public class InvoiceDataUploadPermissionVO implements Serializable {
 	}
 
 	public InvoiceDataUploadPermissionVO(Long invoiceDataUploadPermissionId, boolean invoiceDataUploadPermissionAll,
-			boolean isViewListRequired, boolean isUploadDataRequired, boolean isEditableRequired,
-			boolean isDeleteRequired, boolean isActive) {
+			boolean viewListRequired, boolean uploadDataRequired, boolean editableRequired, boolean deleteRequired,
+			boolean isActive) {
 		super();
 		this.invoiceDataUploadPermissionId = invoiceDataUploadPermissionId;
 		this.invoiceDataUploadPermissionAll = invoiceDataUploadPermissionAll;
-		this.isViewListRequired = isViewListRequired;
-		this.isUploadDataRequired = isUploadDataRequired;
-		this.isEditableRequired = isEditableRequired;
-		this.isDeleteRequired = isDeleteRequired;
+		this.viewListRequired = viewListRequired;
+		this.uploadDataRequired = uploadDataRequired;
+		this.editableRequired = editableRequired;
+		this.deleteRequired = deleteRequired;
 		this.isActive = isActive;
 	}
 
@@ -59,35 +59,35 @@ public class InvoiceDataUploadPermissionVO implements Serializable {
 	}
 
 	public boolean isViewListRequired() {
-		return isViewListRequired;
+		return viewListRequired;
 	}
 
-	public void setViewListRequired(boolean isViewListRequired) {
-		this.isViewListRequired = isViewListRequired;
+	public void setViewListRequired(boolean viewListRequired) {
+		this.viewListRequired = viewListRequired;
 	}
 
 	public boolean isUploadDataRequired() {
-		return isUploadDataRequired;
+		return uploadDataRequired;
 	}
 
-	public void setUploadDataRequired(boolean isUploadDataRequired) {
-		this.isUploadDataRequired = isUploadDataRequired;
+	public void setUploadDataRequired(boolean uploadDataRequired) {
+		this.uploadDataRequired = uploadDataRequired;
 	}
 
 	public boolean isEditableRequired() {
-		return isEditableRequired;
+		return editableRequired;
 	}
 
-	public void setEditableRequired(boolean isEditableRequired) {
-		this.isEditableRequired = isEditableRequired;
+	public void setEditableRequired(boolean editableRequired) {
+		this.editableRequired = editableRequired;
 	}
 
 	public boolean isDeleteRequired() {
-		return isDeleteRequired;
+		return deleteRequired;
 	}
 
-	public void setDeleteRequired(boolean isDeleteRequired) {
-		this.isDeleteRequired = isDeleteRequired;
+	public void setDeleteRequired(boolean deleteRequired) {
+		this.deleteRequired = deleteRequired;
 	}
 
 	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)

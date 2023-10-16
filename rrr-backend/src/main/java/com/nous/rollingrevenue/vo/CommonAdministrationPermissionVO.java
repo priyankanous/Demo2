@@ -11,15 +11,15 @@ public class CommonAdministrationPermissionVO implements Serializable {
 
 	private Long commonAdministrationPermissionId;
 
-	private boolean isView;
+	private boolean view;
 
-	private boolean isAdd;
+	private boolean add;
 
-	private boolean isEdit;
+	private boolean edit;
 
-	private boolean isActiveOrDeactive;
+	private boolean activeOrDeactive;
 
-	private boolean isDelete;
+	private boolean delete;
 
 	public Long getCommonAdministrationPermissionId() {
 		return commonAdministrationPermissionId;
@@ -30,43 +30,43 @@ public class CommonAdministrationPermissionVO implements Serializable {
 	}
 
 	public boolean isView() {
-		return isView;
+		return view;
 	}
 
-	public void setView(boolean isView) {
-		this.isView = isView;
+	public void setView(boolean view) {
+		this.view = view;
 	}
 
 	public boolean isAdd() {
-		return isAdd;
+		return add;
 	}
 
-	public void setAdd(boolean isAdd) {
-		this.isAdd = isAdd;
+	public void setAdd(boolean add) {
+		this.add = add;
 	}
 
 	public boolean isEdit() {
-		return isEdit;
+		return edit;
 	}
 
-	public void setEdit(boolean isEdit) {
-		this.isEdit = isEdit;
+	public void setEdit(boolean edit) {
+		this.edit = edit;
 	}
 
 	public boolean isActiveOrDeactive() {
-		return isActiveOrDeactive;
+		return activeOrDeactive;
 	}
 
-	public void setActiveOrDeactive(boolean isActiveOrDeactive) {
-		this.isActiveOrDeactive = isActiveOrDeactive;
+	public void setActiveOrDeactive(boolean activeOrDeactive) {
+		this.activeOrDeactive = activeOrDeactive;
 	}
 
 	public boolean isDelete() {
-		return isDelete;
+		return delete;
 	}
 
-	public void setDelete(boolean isDelete) {
-		this.isDelete = isDelete;
+	public void setDelete(boolean delete) {
+		this.delete = delete;
 	}
 
 }

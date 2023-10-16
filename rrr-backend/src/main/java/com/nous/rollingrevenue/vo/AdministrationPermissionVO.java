@@ -13,7 +13,7 @@ public class AdministrationPermissionVO implements Serializable {
 
 	private boolean administrationPermissionAll;
 
-	private boolean isViewAllAdministrationPermission;
+	private boolean viewAllAdministrationPermission;
 
 	private AccountPermissionVO accountPermissionVO;
 
@@ -66,11 +66,11 @@ public class AdministrationPermissionVO implements Serializable {
 	}
 
 	public boolean isViewAllAdministrationPermission() {
-		return isViewAllAdministrationPermission;
+		return viewAllAdministrationPermission;
 	}
 
-	public void setViewAllAdministrationPermission(boolean isViewAllAdministrationPermission) {
-		this.isViewAllAdministrationPermission = isViewAllAdministrationPermission;
+	public void setViewAllAdministrationPermission(boolean viewAllAdministrationPermission) {
+		this.viewAllAdministrationPermission = viewAllAdministrationPermission;
 	}
 
 	public AccountPermissionVO getAccountPermissionVO() {

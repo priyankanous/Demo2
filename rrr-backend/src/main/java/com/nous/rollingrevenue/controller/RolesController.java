@@ -1,5 +1,6 @@
 package com.nous.rollingrevenue.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import jakarta.validation.Valid;
 @CrossOrigin(origins = "*")
 public class RolesController {
 
+	@Autowired
 	private RolesService roleService;
 
 	@Operation(summary = "Save Roles")

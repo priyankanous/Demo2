@@ -2,6 +2,7 @@ package com.nous.rollingrevenue.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.model.AccountPermission;
 import com.nous.rollingrevenue.model.AdministrationCommonPermission;
@@ -65,6 +66,7 @@ import com.nous.rollingrevenue.repository.CalendarPermissionRepository;
 import com.nous.rollingrevenue.repository.ClientWiseViewPermissionRepository;
 import com.nous.rollingrevenue.repository.CurrencyPermissionRepository;
 import com.nous.rollingrevenue.repository.DashboardPermissionRepository;
+import com.nous.rollingrevenue.repository.ExplicitPermissionRepository;
 import com.nous.rollingrevenue.repository.FinancialYearPermissionRepository;
 import com.nous.rollingrevenue.repository.FortnightlyMeetingsPermissionRepository;
 import com.nous.rollingrevenue.repository.GlobalLeaveLossFactorPermissionRepository;
@@ -139,6 +141,7 @@ import com.nous.rollingrevenue.vo.SettingsPermissionVO;
 import com.nous.rollingrevenue.vo.WorkOrderPermissionVO;
 
 @Service
+@Transactional(readOnly = true)
 public class RolesServiceImpl implements RolesService {
 
 	@Autowired
@@ -194,6 +197,9 @@ public class RolesServiceImpl implements RolesService {
 
 	@Autowired
 	private RoleUserPermissionRepository roleUserPermissionRepository;
+
+	@Autowired
+	private ExplicitPermissionRepository explicitPermissionRepository;
 
 	@Autowired
 	private SettingsCommonPermissionRepository settingsCommonPermissionRepository;
@@ -274,12 +280,13 @@ public class RolesServiceImpl implements RolesService {
 	private AdministrationCommonPermissionRepository administrationCommonPermissionRepository;
 
 	@Override
+	@Transactional
 	public void saveRolesDetails(RolesVO rolesVO) {
 
 		if (rolesVO != null) {
 			Roles roles = new Roles();
-			roles.setRoleName(null);
-			roles.setRoleDisplayName(null);
+			roles.setRoleName(rolesVO.getRoleName());
+			roles.setRoleDisplayName(rolesVO.getRoleDisplayName());
 			roles.setSelectAll(rolesVO.isSelectAllPermissions());
 
 			// Dashboard permission
@@ -542,7 +549,8 @@ public class RolesServiceImpl implements RolesService {
 					SettingsCommonPermission savedSettingsCommonPermission = settingsCommonPermissionRepository
 							.save(settingsCommonPermission);
 					explicitPermission.setSettingsCommonPermission(savedSettingsCommonPermission);
-					settingsPermission.setExplicitPermission(explicitPermission);
+					ExplicitPermission savedExplicitPermission = explicitPermissionRepository.save(explicitPermission);
+					settingsPermission.setExplicitPermission(savedExplicitPermission);
 				}
 				if (settingsPermissionVO.getAnnualTargetEntryPermissionVO() != null) {
 					AnnualTargetEntryPermissionVO targetEntryPermissionVO = settingsPermissionVO

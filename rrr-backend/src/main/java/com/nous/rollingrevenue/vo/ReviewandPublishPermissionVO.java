@@ -15,19 +15,19 @@ public class ReviewandPublishPermissionVO implements Serializable {
 
 	private boolean reviewandPublishPermissionAll;
 
-	private boolean isViewRequired;
+	private boolean viewRequired;
 
-	private boolean isReviewAndSubmitRequired;
+	private boolean reviewAndSubmitRequired;
 
-	private boolean isSaveRequired;
+	private boolean saveRequired;
 
-	private boolean isCopyRequired;
+	private boolean copyRequired;
 
-	private boolean isEditRequired;
+	private boolean editRequired;
 
-	private boolean isPublishRequired;
+	private boolean publishRequired;
 
-	private boolean isSaveRecipientsRequired;
+	private boolean saveRecipientsRequired;
 
 	private boolean isActive;
 
@@ -35,18 +35,18 @@ public class ReviewandPublishPermissionVO implements Serializable {
 	}
 
 	public ReviewandPublishPermissionVO(Long reviewandPublishPermissionId, boolean reviewandPublishPermissionAll,
-			boolean isViewRequired, boolean isReviewAndSubmitRequired, boolean isSaveRequired, boolean isCopyRequired,
-			boolean isEditRequired, boolean isPublishRequired, boolean isSaveRecipientsRequired, boolean isActive) {
+			boolean viewRequired, boolean reviewAndSubmitRequired, boolean saveRequired, boolean copyRequired,
+			boolean editRequired, boolean publishRequired, boolean saveRecipientsRequired, boolean isActive) {
 		super();
 		this.reviewandPublishPermissionId = reviewandPublishPermissionId;
 		this.reviewandPublishPermissionAll = reviewandPublishPermissionAll;
-		this.isViewRequired = isViewRequired;
-		this.isReviewAndSubmitRequired = isReviewAndSubmitRequired;
-		this.isSaveRequired = isSaveRequired;
-		this.isCopyRequired = isCopyRequired;
-		this.isEditRequired = isEditRequired;
-		this.isPublishRequired = isPublishRequired;
-		this.isSaveRecipientsRequired = isSaveRecipientsRequired;
+		this.viewRequired = viewRequired;
+		this.reviewAndSubmitRequired = reviewAndSubmitRequired;
+		this.saveRequired = saveRequired;
+		this.copyRequired = copyRequired;
+		this.editRequired = editRequired;
+		this.publishRequired = publishRequired;
+		this.saveRecipientsRequired = saveRecipientsRequired;
 		this.isActive = isActive;
 	}
 
@@ -67,59 +67,59 @@ public class ReviewandPublishPermissionVO implements Serializable {
 	}
 
 	public boolean isViewRequired() {
-		return isViewRequired;
+		return viewRequired;
 	}
 
-	public void setViewRequired(boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
+	public void setViewRequired(boolean viewRequired) {
+		this.viewRequired = viewRequired;
 	}
 
 	public boolean isReviewAndSubmitRequired() {
-		return isReviewAndSubmitRequired;
+		return reviewAndSubmitRequired;
 	}
 
-	public void setReviewAndSubmitRequired(boolean isReviewAndSubmitRequired) {
-		this.isReviewAndSubmitRequired = isReviewAndSubmitRequired;
+	public void setReviewAndSubmitRequired(boolean reviewAndSubmitRequired) {
+		this.reviewAndSubmitRequired = reviewAndSubmitRequired;
 	}
 
 	public boolean isSaveRequired() {
-		return isSaveRequired;
+		return saveRequired;
 	}
 
-	public void setSaveRequired(boolean isSaveRequired) {
-		this.isSaveRequired = isSaveRequired;
+	public void setSaveRequired(boolean saveRequired) {
+		this.saveRequired = saveRequired;
 	}
 
 	public boolean isCopyRequired() {
-		return isCopyRequired;
+		return copyRequired;
 	}
 
-	public void setCopyRequired(boolean isCopyRequired) {
-		this.isCopyRequired = isCopyRequired;
+	public void setCopyRequired(boolean copyRequired) {
+		this.copyRequired = copyRequired;
 	}
 
 	public boolean isEditRequired() {
-		return isEditRequired;
+		return editRequired;
 	}
 
-	public void setEditRequired(boolean isEditRequired) {
-		this.isEditRequired = isEditRequired;
+	public void setEditRequired(boolean editRequired) {
+		this.editRequired = editRequired;
 	}
 
 	public boolean isPublishRequired() {
-		return isPublishRequired;
+		return publishRequired;
 	}
 
-	public void setPublishRequired(boolean isPublishRequired) {
-		this.isPublishRequired = isPublishRequired;
+	public void setPublishRequired(boolean publishRequired) {
+		this.publishRequired = publishRequired;
 	}
 
 	public boolean isSaveRecipientsRequired() {
-		return isSaveRecipientsRequired;
+		return saveRecipientsRequired;
 	}
 
-	public void setSaveRecipientsRequired(boolean isSaveRecipientsRequired) {
-		this.isSaveRecipientsRequired = isSaveRecipientsRequired;
+	public void setSaveRecipientsRequired(boolean saveRecipientsRequired) {
+		this.saveRecipientsRequired = saveRecipientsRequired;
 	}
 
 	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)

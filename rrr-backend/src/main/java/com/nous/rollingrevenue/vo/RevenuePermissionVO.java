@@ -13,7 +13,7 @@ public class RevenuePermissionVO implements Serializable {
 
 	private boolean revenuePermissionAll;
 
-	private boolean isViewAllEntries;
+	private boolean viewAllEntries;
 
 	private RollingRevenueEntryPermissionVO rollingRevenueEntryPermissionVO;
 
@@ -38,11 +38,11 @@ public class RevenuePermissionVO implements Serializable {
 	}
 
 	public boolean isViewAllEntries() {
-		return isViewAllEntries;
+		return viewAllEntries;
 	}
 
-	public void setViewAllEntries(boolean isViewAllEntries) {
-		this.isViewAllEntries = isViewAllEntries;
+	public void setViewAllEntries(boolean viewAllEntries) {
+		this.viewAllEntries = viewAllEntries;
 	}
 
 	public RollingRevenueEntryPermissionVO getRollingRevenueEntryPermissionVO() {

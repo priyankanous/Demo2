@@ -13,16 +13,27 @@ public class RolesPermissionVO implements Serializable {
 
 	private boolean rolesPermissionAll;
 
-	private boolean isCreateRoleRequired;
+	private boolean createRoleRequired;
 
-	private boolean isEditRoleRequired;
+	private boolean editRoleRequired;
 
-	private boolean isDeleteRequired;
+	private boolean deleteRequired;
 
 	private boolean isActive;
 
 	public RolesPermissionVO() {
 
+	}
+
+	public RolesPermissionVO(Long rolesPermissionId, boolean rolesPermissionAll, boolean createRoleRequired,
+			boolean editRoleRequired, boolean deleteRequired, boolean isActive) {
+		super();
+		this.rolesPermissionId = rolesPermissionId;
+		this.rolesPermissionAll = rolesPermissionAll;
+		this.createRoleRequired = createRoleRequired;
+		this.editRoleRequired = editRoleRequired;
+		this.deleteRequired = deleteRequired;
+		this.isActive = isActive;
 	}
 
 	public Long getRolesPermissionId() {
@@ -42,27 +53,27 @@ public class RolesPermissionVO implements Serializable {
 	}
 
 	public boolean isCreateRoleRequired() {
-		return isCreateRoleRequired;
+		return createRoleRequired;
 	}
 
-	public void setCreateRoleRequired(boolean isCreateRoleRequired) {
-		this.isCreateRoleRequired = isCreateRoleRequired;
+	public void setCreateRoleRequired(boolean createRoleRequired) {
+		this.createRoleRequired = createRoleRequired;
 	}
 
 	public boolean isEditRoleRequired() {
-		return isEditRoleRequired;
+		return editRoleRequired;
 	}
 
-	public void setEditRoleRequired(boolean isEditRoleRequired) {
-		this.isEditRoleRequired = isEditRoleRequired;
+	public void setEditRoleRequired(boolean editRoleRequired) {
+		this.editRoleRequired = editRoleRequired;
 	}
 
 	public boolean isDeleteRequired() {
-		return isDeleteRequired;
+		return deleteRequired;
 	}
 
-	public void setDeleteRequired(boolean isDeleteRequired) {
-		this.isDeleteRequired = isDeleteRequired;
+	public void setDeleteRequired(boolean deleteRequired) {
+		this.deleteRequired = deleteRequired;
 	}
 
 	public boolean isActive() {

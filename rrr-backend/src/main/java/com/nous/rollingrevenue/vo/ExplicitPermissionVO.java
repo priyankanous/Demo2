@@ -13,13 +13,13 @@ public class ExplicitPermissionVO implements Serializable {
 
 	private boolean explicitPermissionAll;
 
-	private boolean isCreateRequired;
+	private boolean createRequired;
 
-	private boolean isEditRequired;
+	private boolean editRequired;
 
-	private boolean isViewRequired;
+	private boolean viewRequired;
 
-	private boolean isDeleteRequired;
+	private boolean deleteRequired;
 
 	public Long getExplicitPermissionId() {
 		return explicitPermissionId;
@@ -38,37 +38,35 @@ public class ExplicitPermissionVO implements Serializable {
 	}
 
 	public boolean isCreateRequired() {
-		return isCreateRequired;
+		return createRequired;
 	}
 
-	public void setCreateRequired(boolean isCreateRequired) {
-		this.isCreateRequired = isCreateRequired;
+	public void setCreateRequired(boolean createRequired) {
+		this.createRequired = createRequired;
 	}
 
 	public boolean isEditRequired() {
-		return isEditRequired;
+		return editRequired;
 	}
 
-	public void setEditRequired(boolean isEditRequired) {
-		this.isEditRequired = isEditRequired;
+	public void setEditRequired(boolean editRequired) {
+		this.editRequired = editRequired;
 	}
 
 	public boolean isViewRequired() {
-		return isViewRequired;
+		return viewRequired;
 	}
 
-	public void setViewRequired(boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
+	public void setViewRequired(boolean viewRequired) {
+		this.viewRequired = viewRequired;
 	}
 
 	public boolean isDeleteRequired() {
-		return isDeleteRequired;
+		return deleteRequired;
 	}
 
-	public void setDeleteRequired(boolean isDeleteRequired) {
-		this.isDeleteRequired = isDeleteRequired;
+	public void setDeleteRequired(boolean deleteRequired) {
+		this.deleteRequired = deleteRequired;
 	}
-	
-	
 
 }

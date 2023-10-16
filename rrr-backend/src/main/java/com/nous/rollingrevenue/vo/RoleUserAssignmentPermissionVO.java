@@ -15,13 +15,13 @@ public class RoleUserAssignmentPermissionVO implements Serializable {
 
 	private boolean roleUserAssignmentPermissionAll;
 
-	private boolean isCreateOrUploadRequired;
+	private boolean createOrUploadRequired;
 
-	private boolean isEditOrReUploadRequired;
+	private boolean editOrReUploadRequired;
 
-	private boolean isViewRequired;
+	private boolean viewRequired;
 
-	private boolean isDeleteRequired;
+	private boolean deleteRequired;
 
 	private boolean isActive;
 
@@ -30,15 +30,15 @@ public class RoleUserAssignmentPermissionVO implements Serializable {
 	}
 
 	public RoleUserAssignmentPermissionVO(Long roleUserAssignmentPermissionId, boolean roleUserAssignmentPermissionAll,
-			boolean isCreateOrUploadRequired, boolean isEditOrReUploadRequired, boolean isViewRequired,
-			boolean isDeleteRequired, boolean isActive) {
+			boolean createOrUploadRequired, boolean editOrReUploadRequired, boolean viewRequired,
+			boolean deleteRequired, boolean isActive) {
 		super();
 		this.roleUserAssignmentPermissionId = roleUserAssignmentPermissionId;
 		this.roleUserAssignmentPermissionAll = roleUserAssignmentPermissionAll;
-		this.isCreateOrUploadRequired = isCreateOrUploadRequired;
-		this.isEditOrReUploadRequired = isEditOrReUploadRequired;
-		this.isViewRequired = isViewRequired;
-		this.isDeleteRequired = isDeleteRequired;
+		this.createOrUploadRequired = createOrUploadRequired;
+		this.editOrReUploadRequired = editOrReUploadRequired;
+		this.viewRequired = viewRequired;
+		this.deleteRequired = deleteRequired;
 		this.isActive = isActive;
 	}
 
@@ -59,35 +59,35 @@ public class RoleUserAssignmentPermissionVO implements Serializable {
 	}
 
 	public boolean isCreateOrUploadRequired() {
-		return isCreateOrUploadRequired;
+		return createOrUploadRequired;
 	}
 
-	public void setCreateOrUploadRequired(boolean isCreateOrUploadRequired) {
-		this.isCreateOrUploadRequired = isCreateOrUploadRequired;
+	public void setCreateOrUploadRequired(boolean createOrUploadRequired) {
+		this.createOrUploadRequired = createOrUploadRequired;
 	}
 
 	public boolean isEditOrReUploadRequired() {
-		return isEditOrReUploadRequired;
+		return editOrReUploadRequired;
 	}
 
-	public void setEditOrReUploadRequired(boolean isEditOrReUploadRequired) {
-		this.isEditOrReUploadRequired = isEditOrReUploadRequired;
+	public void setEditOrReUploadRequired(boolean editOrReUploadRequired) {
+		this.editOrReUploadRequired = editOrReUploadRequired;
 	}
 
 	public boolean isViewRequired() {
-		return isViewRequired;
+		return viewRequired;
 	}
 
-	public void setViewRequired(boolean isViewRequired) {
-		this.isViewRequired = isViewRequired;
+	public void setViewRequired(boolean viewRequired) {
+		this.viewRequired = viewRequired;
 	}
 
 	public boolean isDeleteRequired() {
-		return isDeleteRequired;
+		return deleteRequired;
 	}
 
-	public void setDeleteRequired(boolean isDeleteRequired) {
-		this.isDeleteRequired = isDeleteRequired;
+	public void setDeleteRequired(boolean deleteRequired) {
+		this.deleteRequired = deleteRequired;
 	}
 
 	@JsonProperty(value = "isActive", access = JsonProperty.Access.READ_ONLY)
