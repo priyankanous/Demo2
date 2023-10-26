@@ -10,28 +10,32 @@ import org.hibernate.validator.constraints.Range;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public class MilestoneEntryVO implements Serializable {
-	
+
 	/**
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long milestoneEntryId;
-	
+
+	@NotBlank(message = "MilestoneNumber cannot be null or empty")
 	private String milestoneNumber;
-	
+
+	@NotNull(message = "MilestoneBillingDate cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate milestoneBillingDate;
-	
+
+	@NotNull(message = "MilestoneRevenue cannot be null or empty")
 	private BigInteger milestoneRevenue;
-	
+
 	@NotNull(message = "MilestoneResourceCount cannot be null or empty")
 	@Range(min = 1, message = "MilestoneResourceCount can't be zero")
 	private Integer milestoneResourceCount;
-	
+
 	List<RevenueResourceEntryVO> revenueResourceEntries = new ArrayList<>();
 
 	public MilestoneEntryVO() {
@@ -39,7 +43,8 @@ public class MilestoneEntryVO implements Serializable {
 	}
 
 	public MilestoneEntryVO(Long milestoneEntryId, String milestoneNumber, LocalDate milestoneBillingDate,
-			BigInteger milestoneRevenue, Integer milestoneResourceCount, List<RevenueResourceEntryVO> revenueResourceEntries) {
+			BigInteger milestoneRevenue, Integer milestoneResourceCount,
+			List<RevenueResourceEntryVO> revenueResourceEntries) {
 		super();
 		this.milestoneEntryId = milestoneEntryId;
 		this.milestoneNumber = milestoneNumber;
@@ -97,5 +102,4 @@ public class MilestoneEntryVO implements Serializable {
 		this.milestoneResourceCount = milestoneResourceCount;
 	}
 
-	
 }
