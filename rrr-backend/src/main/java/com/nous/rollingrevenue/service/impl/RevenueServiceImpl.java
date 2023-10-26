@@ -584,7 +584,7 @@ public class RevenueServiceImpl implements RevenueService {
 		}
 		double leaveLossFactor = (leaveLoss.doubleValue() / resourceCount);
 		opportunityEntryVO.setLeaveLossFactor(String.valueOf(leaveLossFactor));
-//		opportunityEntriesVO.add(opportunityEntryVO);
+		opportunityEntriesVO.add(opportunityEntryVO);
 
 		opportunityEntryResponse.setOpportunities(opportunityEntriesVO);
 		opportunityEntryResponse.setFinancialYearRevenue(financialYearRevenue);
