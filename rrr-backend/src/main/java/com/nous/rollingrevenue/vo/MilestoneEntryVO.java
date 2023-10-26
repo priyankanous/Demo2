@@ -22,7 +22,7 @@ public class MilestoneEntryVO implements Serializable {
 
 	private Long milestoneEntryId;
 
-	@NotBlank(message = "MilestoneNumber cannot be null or empty")
+	@NotBlank(message = "Projectcode cannot be null or empty")
 	private String milestoneNumber;
 
 	@NotNull(message = "MilestoneBillingDate cannot be null or empty")

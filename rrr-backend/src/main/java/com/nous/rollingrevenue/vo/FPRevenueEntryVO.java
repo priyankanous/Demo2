@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Range;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -29,7 +30,7 @@ public class FPRevenueEntryVO implements Serializable {
 	@NotBlank(message = "Projectcode cannot be null or empty")
 	private String projectCode;
 
-	@NotNull
+	@NotNull(message = "ProjectStartDate cannot be null or empty")
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy")
 	private LocalDate projectStartDate;
 
@@ -65,6 +66,7 @@ public class FPRevenueEntryVO implements Serializable {
 
 	private String status;
 
+	@Valid
 	private List<MilestoneEntryVO> milestones = new ArrayList<>();
 
 	public FPRevenueEntryVO() {
