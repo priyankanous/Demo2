@@ -85,4 +85,11 @@ public class CocPracticeController {
 		cocpracticeService.activateOrDeactivateById(id);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
+
+	@Operation(summary = "Get COC by BU")
+	@GetMapping(path = "/businessUnitId/{businessUnitId}")
+	public WSResponse<List<CocPracticeVO>> getCocPracticeBybusinessUnitId(@PathVariable Long businessUnitId) {
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS,
+				cocpracticeService.getCocPracticeBybusinessUnitId(businessUnitId));
+	}
 }

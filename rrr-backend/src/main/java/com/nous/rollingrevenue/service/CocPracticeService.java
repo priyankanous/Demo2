@@ -53,12 +53,14 @@ public interface CocPracticeService {
 	public void updateCocPractice(Long id, CocPracticeVO cocpracticeVO);
 
 	public List<CocPracticeVO> getPagination(int pagenumber, int pagesize, String sortBy);
-	
+
 	/**
 	 * Activate or Deactivate the record
+	 * 
 	 * @param id
 	 */
 	public void activateOrDeactivateById(Long id);
-	
+
+	public List<CocPracticeVO> getCocPracticeBybusinessUnitId(Long businessUnitId);
 
 }

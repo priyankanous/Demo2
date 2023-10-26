@@ -151,4 +151,16 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 		cocpractice.setActive(!cocpractice.isActive());
 		cocpracticeRepository.save(cocpractice);
 	}
+
+	@Override
+	public List<CocPracticeVO> getCocPracticeBybusinessUnitId(Long businessUnitId) {
+		List<CocPracticeVO> list = new ArrayList<>();
+		BusinessUnit businessUnit = businessUnitRepository.findById(businessUnitId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessUnitId));
+		List<CocPractice> practices = businessUnit.getCocPractices();
+		for (CocPractice cocPractice : practices) {
+			list.add(CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocPractice));
+		}
+		return list;
+	}
 }
