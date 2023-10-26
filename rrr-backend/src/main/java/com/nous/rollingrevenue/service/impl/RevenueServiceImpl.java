@@ -554,11 +554,11 @@ public class RevenueServiceImpl implements RevenueService {
 		}
 		financialYearRevenue.setDataMap(map);
 
+		Long leaveLoss = 0l;
+		int resourceCount = 0;
 		Set<OpportunityEntryVO> opportunityEntriesVO = new HashSet<>();
+		OpportunityEntryVO opportunityEntryVO = new OpportunityEntryVO();
 		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
-
-			OpportunityEntryVO opportunityEntryVO = new OpportunityEntryVO();
-
 			opportunityEntryVO
 					.setOpportunityId(revenueResourceEntry.getRevenueEntry().getOpportunity().getOpportunityId());
 			opportunityEntryVO.setProjectCode(revenueResourceEntry.getRevenueEntry().getOpportunity().getProjectCode());
@@ -569,24 +569,22 @@ public class RevenueServiceImpl implements RevenueService {
 			opportunityEntryVO
 					.setProjectEndDate(revenueResourceEntry.getRevenueEntry().getOpportunity().getProjectEndDate());
 			opportunityEntryVO.setPricingType(revenueResourceEntry.getRevenueEntry().getPricingType());
-//			opportunityEntryVO.setCocPractice(revenueResourceEntry.getCocPractice().getCocPracticeName());
 
-			opportunityEntryVO.setNoOfResources(
-					this.getNoOfResourcesForOpportunity(opportunityRevenueRequest, opportunityEntryVO));
+			resourceCount = getNoOfResourcesForOpportunity(opportunityRevenueRequest, opportunityEntryVO);
+			opportunityEntryVO.setNoOfResources(resourceCount);
 
 			if (Constants.PRICING_TYPE_FP.equals(revenueResourceEntry.getRevenueEntry().getPricingType())) {
 				opportunityEntryVO.setLeaveLossFactor("Not Applicable");
 			} else {
 				if (revenueResourceEntry.getLeaveLossFactor() != null) {
-					if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
-						opportunityEntryVO.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().toString());
-					} else {
-						opportunityEntryVO.setLeaveLossFactor(revenueResourceEntry.getLeaveLossFactor().toString());
-					}
+					leaveLoss = leaveLoss + revenueResourceEntry.getLeaveLossFactor();
 				}
 			}
 			opportunityEntriesVO.add(opportunityEntryVO);
 		}
+		double leaveLossFactor = (leaveLoss.doubleValue() / resourceCount);
+		opportunityEntryVO.setLeaveLossFactor(String.valueOf(leaveLossFactor));
+//		opportunityEntriesVO.add(opportunityEntryVO);
 
 		opportunityEntryResponse.setOpportunities(opportunityEntriesVO);
 		opportunityEntryResponse.setFinancialYearRevenue(financialYearRevenue);
@@ -619,7 +617,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 		List<RevenueResourceEntry> opportunityResources = revenueResourceEntryRepository
 				.getResourcesByOpportunity(resourceEntryRequest);
-		
+
 		return opportunityResources.get(0).getRevenueEntry().getResourceCount();
 //		return opportunityResources.size();
 	}
