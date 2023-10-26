@@ -11,4 +11,11 @@ public interface RolesService {
 	 */
 	void saveRolesDetails(RolesVO rolesVO);
 
+	/**
+	 * Update an Role Details to the database
+	 * 
+	 * @param roleId, rolesVO
+	 */
+	void updateRolesDetails(Long roleId, RolesVO rolesVO);
+
 }
