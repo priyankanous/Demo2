@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -36,37 +37,37 @@ public class ReportsPermission extends Auditable<String> {
 	@Column(name = "view_all_entries")
 	private boolean isViewAllEntriesRequired;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "business_type_view_permission_id", referencedColumnName = "business_type_view_permission_id")
 	private BusinessTypeViewPermission businessTypeViewPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "sbu_client_view_permission_id", referencedColumnName = "sbu_client_view_permission_id")
 	private SBUClientViewPermission sbuClientViewPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "probability_type_view_permission_id", referencedColumnName = "probability_type_view_permission_id")
 	private ProbabilityTypeViewPermission probabilityTypeViewPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "region_wise_view_permission_id", referencedColumnName = "region_wise_view_permission_id")
 	private RegionWiseViewPermission regionWiseViewPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "business_unit_wise_view_permission_id", referencedColumnName = "business_unit_wise_view_permission_id")
 	private BusinessUnitWiseViewPermission businessUnitWiseViewPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "client_wise_View_permission_id", referencedColumnName = "client_wise_View_permission_id")
 	private ClientWiseViewPermission clientWiseViewPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "archive_wise_permission_id", referencedColumnName = "archive_wise_permission_id")
 	private ArchiveWisePermission archiveWisePermission;

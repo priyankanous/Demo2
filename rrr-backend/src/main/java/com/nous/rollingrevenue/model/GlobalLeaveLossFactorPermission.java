@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -33,7 +34,7 @@ public class GlobalLeaveLossFactorPermission extends Auditable<String> {
 	@Column(name = "global_leave_loss_factor_permission_all")
 	private boolean isGlobalLeaveLossFactorPermissionAll;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "administration_common_permission_id", referencedColumnName = "administration_common_permission_id")
 	private AdministrationCommonPermission administrationCommonPermission;

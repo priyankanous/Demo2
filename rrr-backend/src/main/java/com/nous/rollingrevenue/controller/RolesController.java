@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -38,6 +39,13 @@ public class RolesController {
 	public WSResponse<String> updateRolesDetails(@PathVariable @Valid Long roleId,
 			@RequestBody @Valid RolesVO rolesVO) {
 		roleService.updateRolesDetails(roleId, rolesVO);
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
+	}
+
+	@Operation(summary = "Delete Role by Id")
+	@DeleteMapping(path = "{roleId}")
+	public WSResponse<String> deleteRoles(@PathVariable Long roleId) {
+		roleService.deleteRolesById(roleId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
 

@@ -1651,4 +1651,11 @@ public class RolesServiceImpl implements RolesService {
 		return administrationCommonPermissionRepository.save(administrationCommonPermission);
 	}
 
+	@Override
+	@Transactional
+	public void deleteRolesById(Long roleId) {
+		rolesRepository.findById(roleId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + roleId));
+		rolesRepository.deleteById(roleId);
+	}
 }

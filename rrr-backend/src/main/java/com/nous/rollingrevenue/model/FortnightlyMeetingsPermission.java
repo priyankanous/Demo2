@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -37,7 +38,7 @@ public class FortnightlyMeetingsPermission extends Auditable<String> {
 	@JsonBackReference
 	private List<CalendarPermission> calendarPermission = new ArrayList<>();
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "calendar_common_permission_id", referencedColumnName = "calendar_common_permission_id")
 	private CalendarCommonPermission calendarCommonPermission;

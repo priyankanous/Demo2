@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -36,22 +37,22 @@ public class SettingsPermission extends Auditable<String> {
 	@Column(name = "view_all_entries")
 	private boolean isViewAllEntriesRequired;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "roles__permission_id", referencedColumnName = "roles__permission_id")
 	private RolesPermission rolesPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "role_user_permission_id", referencedColumnName = "role_user_permission_id")
 	private RoleUserPermission roleUserPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "explicit_permission_id", referencedColumnName = "explicit_permission_id")
 	private ExplicitPermission explicitPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "annual_target_entry_permission_id", referencedColumnName = "annual_target_entry_permission_id")
 	private AnnualTargetEntryPermission annualTargetEntryPermission;

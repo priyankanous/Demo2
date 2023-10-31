@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
@@ -36,17 +37,17 @@ public class RevenuePermission extends Auditable<String> {
 	@Column(name = "revenue_all")
 	private boolean revenuePermissionAll;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "rolling_revenue_entry_permission_id", referencedColumnName = "rolling_revenue_entry_permission_id")
 	private RollingRevenueEntryPermission rollingRevenueEntryPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "invoice_data_upload_permission_id", referencedColumnName = "invoice_data_upload_permission_id")
 	private InvoiceDataUploadPermission invoiceDataUploadPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "review_and_publish_permission_id", referencedColumnName = "review_and_publish_permission_id")
 	private ReviewandPublishPermission reviewandPublishPermission;
