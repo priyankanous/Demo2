@@ -27,4 +27,13 @@ public interface RolesService {
 	 */
 	void updateRolesDetails(Long roleId, RolesVO rolesVO);
 
+	/**
+	 * Get the Roles details by given Id
+	 * 
+	 * @param roleId The roleId for retrieving the details
+	 * @return The Role details matching the Role id. Throws
+	 *         {@link RecordNotFoundException} if no match is found
+	 */
+	public RolesVO getRolesById(Long roleId);
+
 }

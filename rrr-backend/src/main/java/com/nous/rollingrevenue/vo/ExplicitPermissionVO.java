@@ -21,6 +21,8 @@ public class ExplicitPermissionVO implements Serializable {
 
 	private boolean deleteRequired;
 
+	private boolean isActive;
+
 	public Long getExplicitPermissionId() {
 		return explicitPermissionId;
 	}
@@ -67,6 +69,14 @@ public class ExplicitPermissionVO implements Serializable {
 
 	public void setDeleteRequired(boolean deleteRequired) {
 		this.deleteRequired = deleteRequired;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 }

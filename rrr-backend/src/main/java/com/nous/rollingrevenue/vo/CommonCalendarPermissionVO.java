@@ -19,6 +19,20 @@ public class CommonCalendarPermissionVO implements Serializable {
 
 	private boolean deleteRequired;
 
+	public CommonCalendarPermissionVO() {
+
+	}
+
+	public CommonCalendarPermissionVO(Long commonCalendarPermissionId, boolean viewRequired, boolean addRequired,
+			boolean editRequired, boolean deleteRequired) {
+		super();
+		this.commonCalendarPermissionId = commonCalendarPermissionId;
+		this.viewRequired = viewRequired;
+		this.addRequired = addRequired;
+		this.editRequired = editRequired;
+		this.deleteRequired = deleteRequired;
+	}
+
 	public Long getCommonCalendarPermissionId() {
 		return commonCalendarPermissionId;
 	}

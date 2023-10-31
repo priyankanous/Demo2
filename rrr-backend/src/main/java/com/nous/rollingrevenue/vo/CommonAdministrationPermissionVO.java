@@ -21,6 +21,21 @@ public class CommonAdministrationPermissionVO implements Serializable {
 
 	private boolean delete;
 
+	public CommonAdministrationPermissionVO() {
+
+	}
+
+	public CommonAdministrationPermissionVO(Long commonAdministrationPermissionId, boolean view, boolean add,
+			boolean edit, boolean activeOrDeactive, boolean delete) {
+		super();
+		this.commonAdministrationPermissionId = commonAdministrationPermissionId;
+		this.view = view;
+		this.add = add;
+		this.edit = edit;
+		this.activeOrDeactive = activeOrDeactive;
+		this.delete = delete;
+	}
+
 	public Long getCommonAdministrationPermissionId() {
 		return commonAdministrationPermissionId;
 	}
