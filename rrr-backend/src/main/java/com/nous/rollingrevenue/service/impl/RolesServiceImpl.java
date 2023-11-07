@@ -1,9 +1,15 @@
 package com.nous.rollingrevenue.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -2440,4 +2446,19 @@ public class RolesServiceImpl implements RolesService {
 		rolesRepository.findAll().stream().forEach(roles -> rolesVOs.add(RolesConverter.convertRolesToRolesVO(roles)));
 		return rolesVOs;
 	}
+
+	@Override
+	public List<RolesVO> getPagination(int pagenumber, int pagesize, String sortBy) {
+		List<RolesVO> rolesVOs = new ArrayList<>();
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
+		Page<Roles> pageResult = rolesRepository.findAll(paging);
+		if (pageResult.hasContent()) {
+			pageResult.getContent().stream().forEach(e -> {
+				rolesVOs.add(RolesConverter.convertRolesToRolesVO(e));
+			});
+			return rolesVOs;
+		}
+		return Collections.emptyList();
+	}
+
 }

@@ -28,6 +28,8 @@ public interface RolesService {
 	 * @param roleId, rolesVO
 	 */
 	void updateRolesDetails(Long roleId, RolesVO rolesVO);
+	
+	public List<RolesVO> getPagination(int pagenumber, int pagesize, String sortBy);
 
 	/**
 	 * Get the Roles details by given Id

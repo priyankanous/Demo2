@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.nous.rollingrevenue.common.rest.RestMessage;
@@ -63,6 +64,14 @@ public class RolesController {
 	public WSResponse<List<RolesVO>> getAllRoles() {
 		List<RolesVO> rolesVOs = roleService.getAllRoles();
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, rolesVOs);
+	}
+
+	@Operation(summary = "Get Roles  By Pagination")
+	@GetMapping("/page")
+	public WSResponse<List<RolesVO>> getRolesByPagination(@RequestParam(defaultValue = "1") int pagenumber,
+			@RequestParam(defaultValue = "10") int pagesize,
+			@RequestParam(defaultValue = "roleId", required = false) String sortBy) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, roleService.getPagination(pagenumber, pagesize, sortBy));
 	}
 
 }
