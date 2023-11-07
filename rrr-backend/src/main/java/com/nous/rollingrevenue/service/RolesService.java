@@ -1,5 +1,7 @@
 package com.nous.rollingrevenue.service;
 
+import java.util.List;
+
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.vo.RolesVO;
 
@@ -11,12 +13,12 @@ public interface RolesService {
 	 * @param rolesVO
 	 */
 	void saveRolesDetails(RolesVO rolesVO);
-	
-    /**
+
+	/**
 	 * Delete an Delete record by given Id
 	 * 
 	 * @param roleId The roleId of the Role to be deleted. Throws
-	 *         {@link RecordNotFoundException} if no match is found
+	 *               {@link RecordNotFoundException} if no match is found
 	 */
 	void deleteRolesById(Long roleId);
 
@@ -35,5 +37,12 @@ public interface RolesService {
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
 	public RolesVO getRolesById(Long roleId);
+
+	/**
+	 * Get all the Roles
+	 * 
+	 * @return List of all Roles in the database
+	 */
+	public List<RolesVO> getAllRoles();
 
 }

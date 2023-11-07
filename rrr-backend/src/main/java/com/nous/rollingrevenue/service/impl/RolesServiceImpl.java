@@ -1,10 +1,14 @@
 package com.nous.rollingrevenue.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
+import com.nous.rollingrevenue.convertor.RolesConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.AccountPermission;
 import com.nous.rollingrevenue.model.AdministrationCommonPermission;
@@ -2428,5 +2432,12 @@ public class RolesServiceImpl implements RolesService {
 			rolesVO.setAdministrationPermissionVO(administrationPermissionVO);
 		}
 		return rolesVO;
+	}
+
+	@Override
+	public List<RolesVO> getAllRoles() {
+		List<RolesVO> rolesVOs = new ArrayList<>();
+		rolesRepository.findAll().stream().forEach(roles -> rolesVOs.add(RolesConverter.convertRolesToRolesVO(roles)));
+		return rolesVOs;
 	}
 }

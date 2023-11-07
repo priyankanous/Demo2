@@ -1,5 +1,7 @@
 package com.nous.rollingrevenue.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -54,6 +56,13 @@ public class RolesController {
 	@GetMapping(path = "{roleId}")
 	public WSResponse<RolesVO> getRolesById(@PathVariable Long roleId) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, roleService.getRolesById(roleId));
+	}
+
+	@Operation(summary = "Get All Roles")
+	@GetMapping
+	public WSResponse<List<RolesVO>> getAllRoles() {
+		List<RolesVO> rolesVOs = roleService.getAllRoles();
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, rolesVOs);
 	}
 
 }
