@@ -31,7 +31,7 @@ public class WorkOrderStatusController {
 	@Autowired
 	private WorkOrderStatusService woStatusService;
 
-	@Operation(summary = "Get All WorkOrderStatus")
+	@Operation(summary = "Get All WorkOrderStatus", description = "Getting all the work order status list")
 	@GetMapping
 	public WSResponse<List<WorkOrderStatusVO>> getAllWorkOrderStatus() {
 		List<WorkOrderStatusVO> woStatusVOs = woStatusService.getAllWorkOrderStatus();

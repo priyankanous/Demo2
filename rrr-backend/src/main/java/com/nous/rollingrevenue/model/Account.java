@@ -19,10 +19,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "accounts")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class Account extends Auditable<String> {
 
 	@Id
@@ -53,77 +55,5 @@ public class Account extends Auditable<String> {
 	@OneToMany(mappedBy = "account")
 	@JsonBackReference
 	private List<RevenueEntry> revenueEntry = new ArrayList<>();
-
-	public Account() {
-
-	}
-
-	public Account(Long accountId, String accountName, Region regions, List<Opportunity> opportunities,
-			List<WorkOrder> workOrders, List<AnnualTargetEntry> annualTargetEntries, List<RevenueEntry> revenueEntry) {
-		super();
-		this.accountId = accountId;
-		this.accountName = accountName;
-		this.regions = regions;
-		this.opportunities = opportunities;
-		this.workOrders = workOrders;
-		this.annualTargetEntries = annualTargetEntries;
-		this.revenueEntry = revenueEntry;
-	}
-
-	public Long getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
-	}
-
-	public String getAccountName() {
-		return accountName;
-	}
-
-	public void setAccountName(String accountName) {
-		this.accountName = accountName;
-	}
-
-	public Region getRegions() {
-		return regions;
-	}
-
-	public void setRegions(Region regions) {
-		this.regions = regions;
-	}
-
-	public List<Opportunity> getOpportunities() {
-		return opportunities;
-	}
-
-	public void setOpportunities(List<Opportunity> opportunities) {
-		this.opportunities = opportunities;
-	}
-
-	public List<AnnualTargetEntry> getAnnualTargetEntries() {
-		return annualTargetEntries;
-	}
-
-	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public List<WorkOrder> getWorkOrders() {
-		return workOrders;
-	}
-
-	public void setWorkOrders(List<WorkOrder> workOrders) {
-		this.workOrders = workOrders;
-	}
-
-	public List<RevenueEntry> getRevenueEntry() {
-		return revenueEntry;
-	}
-
-	public void setRevenueEntry(List<RevenueEntry> revenueEntry) {
-		this.revenueEntry = revenueEntry;
-	}
 
 }
