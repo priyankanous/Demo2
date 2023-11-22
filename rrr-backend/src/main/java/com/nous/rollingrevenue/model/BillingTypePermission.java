@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "billing_type_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class BillingTypePermission extends Auditable<String> {
 
 	@Id
@@ -42,51 +44,5 @@ public class BillingTypePermission extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "administration_common_permission_id", referencedColumnName = "administration_common_permission_id")
 	private AdministrationCommonPermission administrationCommonPermission;
-
-	public BillingTypePermission() {
-
-	}
-
-	public BillingTypePermission(Long billingTypePermissionId, Boolean isBillingTypePermissionAll,
-			List<AdministrationPermission> administrationPermission,
-			AdministrationCommonPermission administrationCommonPermission) {
-		super();
-		this.billingTypePermissionId = billingTypePermissionId;
-		this.isBillingTypePermissionAll = isBillingTypePermissionAll;
-		this.administrationPermission = administrationPermission;
-		this.administrationCommonPermission = administrationCommonPermission;
-	}
-
-	public Long getBillingTypePermissionId() {
-		return billingTypePermissionId;
-	}
-
-	public void setBillingTypePermissionId(Long billingTypePermissionId) {
-		this.billingTypePermissionId = billingTypePermissionId;
-	}
-
-	public Boolean getIsBillingTypePermissionAll() {
-		return isBillingTypePermissionAll;
-	}
-
-	public void setIsBillingTypePermissionAll(Boolean isBillingTypePermissionAll) {
-		this.isBillingTypePermissionAll = isBillingTypePermissionAll;
-	}
-
-	public List<AdministrationPermission> getAdministrationPermission() {
-		return administrationPermission;
-	}
-
-	public void setAdministrationPermission(List<AdministrationPermission> administrationPermission) {
-		this.administrationPermission = administrationPermission;
-	}
-
-	public AdministrationCommonPermission getAdministrationCommonPermission() {
-		return administrationCommonPermission;
-	}
-
-	public void setAdministrationCommonPermission(AdministrationCommonPermission administrationCommonPermission) {
-		this.administrationCommonPermission = administrationCommonPermission;
-	}
 
 }

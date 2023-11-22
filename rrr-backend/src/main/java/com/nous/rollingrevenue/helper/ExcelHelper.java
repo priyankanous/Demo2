@@ -15,11 +15,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.nous.rollingrevenue.convertor.AccountConverter;
-import com.nous.rollingrevenue.convertor.WorkOrderConverter;
 import com.nous.rollingrevenue.exception.ExcelParserException;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Account;
-import com.nous.rollingrevenue.model.WorkOrder;
 import com.nous.rollingrevenue.repository.AccountRepository;
 import com.nous.rollingrevenue.repository.BusinessDevelopmentManagerRepository;
 import com.nous.rollingrevenue.repository.BusinessTypeRepository;
@@ -47,43 +45,42 @@ import com.nous.rollingrevenue.vo.WorkOrderVO;
 
 @Component
 public class ExcelHelper {
-	
+
 	@Autowired
 	private FinancialYearService financialYearService;
-	
+
 	@Autowired
 	private FinancialYearRepository financialYearRepository;
-	
+
 	@Autowired
 	private BusinessUnitRepository businessUnitRepository;
-	
+
 	@Autowired
 	private StrategicBusinessUnitRepository sbuRepository;
-	
+
 	@Autowired
 	private StrategicBusinessUnitHeadRepository sbuHeadRepository;
-	
+
 	@Autowired
 	private LocationRepository locationRepository;
-	
+
 	@Autowired
 	private RegionRepository regionRepository;
-	
+
 	@Autowired
 	private AccountRepository accountRepository;
-	
+
 	@Autowired
 	private BusinessTypeRepository businessTypeRepository;
-	
+
 	@Autowired
 	private CocPracticeRepository cocPracticeRepository;
-	
+
 	@Autowired
 	private BusinessDevelopmentManagerRepository bdmRepository;
-	
+
 	@Autowired
 	private WorkOrderRepository workOrderRepository;
-
 
 	public static final String EXCEL_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
@@ -97,8 +94,7 @@ public class ExcelHelper {
 	}
 
 	// convert excel to list of AnnualTargetEntries
-	public List<AnnualTargetEntryVO> convertExceltoListOfAnnualTargetEntry(MultipartFile file,
-			String financialYear) {
+	public List<AnnualTargetEntryVO> convertExceltoListOfAnnualTargetEntry(MultipartFile file, String financialYear) {
 		FinancialYearVO financialYearByName = financialYearService.getFinancialYearByName(financialYear);
 		List<AnnualTargetEntryVO> annualTargetEntryVOs = new ArrayList<>();
 		int rowNumber = 0;
@@ -123,7 +119,8 @@ public class ExcelHelper {
 
 					case 0:
 						BusinessUnitVO businessUnit = new BusinessUnitVO();
-						String businessUnitName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
+						String businessUnitName = cell.getStringCellValue().isBlank() ? null
+								: cell.getStringCellValue();
 						annualTargetEntryVO.setBusinessUnit(businessUnit);
 						break;
 					case 1:
@@ -153,12 +150,13 @@ public class ExcelHelper {
 						break;
 					case 6:
 						BusinessTypeVO businessType = new BusinessTypeVO();
-						String businessTypeName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
+						String businessTypeName = cell.getStringCellValue().isBlank() ? null
+								: cell.getStringCellValue();
 						annualTargetEntryVO.setBusinessType(businessType);
 						break;
 					case 7:
 						CocPracticeVO cocPractice = new CocPracticeVO();
-						String cocPracticeName =  cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
+						String cocPracticeName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
 						annualTargetEntryVO.setCocPractice(cocPractice);
 						break;
 					case 8:
@@ -221,7 +219,7 @@ public class ExcelHelper {
 	// convert excel to list of WorkOrderEntries
 	public List<WorkOrderVO> convertExceltoListOfWorkOrder(MultipartFile file) {
 		List<WorkOrderVO> excelWorkOrderVOs = new ArrayList<>();
-		List<String> UnMatchedAccountNames = new ArrayList<>();
+		List<String> unMatchedAccountNames = new ArrayList<>();
 		List<Account> accounts = accountRepository.findAll();
 		int rowNumber = 0;
 
@@ -258,15 +256,17 @@ public class ExcelHelper {
 
 					case 7:
 						String accountName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
-						if(!accounts.isEmpty()) {
-						Optional<Account> accountNameMatch = accounts.stream().filter(account -> account.getAccountName().replaceAll(" ", "")
-								.equalsIgnoreCase(accountName.replaceAll(" ", ""))).findFirst();
-						if(accountNameMatch.isPresent()) {
-							workOrderVO.setAccount(AccountConverter.convertAccountToAccountVO(accountNameMatch.get()));
-						}
-						else {
-							UnMatchedAccountNames.add(accountName);
-						}
+						if (!accounts.isEmpty()) {
+							Optional<Account> accountNameMatch = accounts.stream()
+									.filter(account -> account.getAccountName().replaceAll(" ", "")
+											.equalsIgnoreCase(accountName.replaceAll(" ", "")))
+									.findFirst();
+							if (accountNameMatch.isPresent()) {
+								workOrderVO
+										.setAccount(AccountConverter.convertAccountToAccountVO(accountNameMatch.get()));
+							} else {
+								unMatchedAccountNames.add(accountName);
+							}
 						}
 						break;
 
@@ -280,8 +280,8 @@ public class ExcelHelper {
 		} catch (Exception e) {
 			throw new ExcelParserException(e.getLocalizedMessage());
 		}
-		if(UnMatchedAccountNames.size() > 0) {
-			throw new RecordNotFoundException(UnMatchedAccountNames.toString());
+		if (unMatchedAccountNames.isEmpty()) {
+			throw new RecordNotFoundException(unMatchedAccountNames.toString());
 		}
 		return excelWorkOrderVOs;
 	}

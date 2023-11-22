@@ -14,10 +14,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "global_monthly_leave_loss_factor")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class GlobalMonthlyLeaveLossFactor extends Auditable<String> {
 
 	@Id
@@ -38,61 +40,5 @@ public class GlobalMonthlyLeaveLossFactor extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
 	private FinancialYear financialYear;
-
-
-	public GlobalMonthlyLeaveLossFactor() {
-
-	}
-
-	public GlobalMonthlyLeaveLossFactor(Long leaveLossFactorId, String month, Long offShore, Long onSite,
-			FinancialYear financialYear) {
-		super();
-		this.leaveLossFactorId = leaveLossFactorId;
-		this.month = month;
-		this.offShore = offShore;
-		this.onSite = onSite;
-		this.financialYear = financialYear;
-	}
-
-	public Long getLeaveLossFactorId() {
-		return leaveLossFactorId;
-	}
-
-	public void setLeaveLossFactorId(Long leaveLossFactorId) {
-		this.leaveLossFactorId = leaveLossFactorId;
-	}
-
-	public String getMonth() {
-		return month;
-	}
-
-	public void setMonth(String month) {
-		this.month = month;
-	}
-
-	public Long getOffShore() {
-		return offShore;
-	}
-
-	public void setOffShore(Long offShore) {
-		this.offShore = offShore;
-	}
-
-	public Long getOnSite() {
-		return onSite;
-	}
-
-	public void setOnSite(Long onSite) {
-		this.onSite = onSite;
-	}
-
-	public FinancialYear getFinancialYear() {
-		return financialYear;
-	}
-
-	public void setFinancialYear(FinancialYear financialYear) {
-		this.financialYear = financialYear;
-	}
-
 
 }

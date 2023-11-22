@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "bdm_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class BDMPermission extends Auditable<String> {
 
 	@Id
@@ -42,51 +44,5 @@ public class BDMPermission extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "administration_common_permission_id", referencedColumnName = "administration_common_permission_id")
 	private AdministrationCommonPermission administrationCommonPermission;
-
-	public BDMPermission() {
-
-	}
-
-	public BDMPermission(Long bdmPermissionId, boolean isBdmPermissionAll,
-			List<AdministrationPermission> administrationPermission,
-			AdministrationCommonPermission administrationCommonPermission) {
-		super();
-		this.bdmPermissionId = bdmPermissionId;
-		this.isBdmPermissionAll = isBdmPermissionAll;
-		this.administrationPermission = administrationPermission;
-		this.administrationCommonPermission = administrationCommonPermission;
-	}
-
-	public Long getBdmPermissionId() {
-		return bdmPermissionId;
-	}
-
-	public void setBdmPermissionId(Long bdmPermissionId) {
-		this.bdmPermissionId = bdmPermissionId;
-	}
-
-	public boolean isBdmPermissionAll() {
-		return isBdmPermissionAll;
-	}
-
-	public void setBdmPermissionAll(boolean isBdmPermissionAll) {
-		this.isBdmPermissionAll = isBdmPermissionAll;
-	}
-
-	public List<AdministrationPermission> getAdministrationPermission() {
-		return administrationPermission;
-	}
-
-	public void setAdministrationPermission(List<AdministrationPermission> administrationPermission) {
-		this.administrationPermission = administrationPermission;
-	}
-
-	public AdministrationCommonPermission getAdministrationCommonPermission() {
-		return administrationCommonPermission;
-	}
-
-	public void setAdministrationCommonPermission(AdministrationCommonPermission administrationCommonPermission) {
-		this.administrationCommonPermission = administrationCommonPermission;
-	}
 
 }

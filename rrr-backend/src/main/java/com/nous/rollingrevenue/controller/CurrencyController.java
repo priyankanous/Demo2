@@ -34,8 +34,8 @@ public class CurrencyController {
 	@Operation(summary = "Get All Currency")
 	@GetMapping
 	public WSResponse<List<CurrencyVO>> getAllCurrency() {
-		List<CurrencyVO> CurrencyVOs = currencyService.getAllCurrency();
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, CurrencyVOs);
+		List<CurrencyVO> currencyVOs = currencyService.getAllCurrency();
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, currencyVOs);
 	}
 
 	@Operation(summary = "Save Currency")
@@ -54,8 +54,7 @@ public class CurrencyController {
 
 	@Operation(summary = "Update Currency by Id")
 	@PutMapping(path = "{currencyId}")
-	public WSResponse<String> updateCurrency(@PathVariable Long currencyId,
-			@RequestBody @Valid CurrencyVO currencyVO) {
+	public WSResponse<String> updateCurrency(@PathVariable Long currencyId, @RequestBody @Valid CurrencyVO currencyVO) {
 		currencyService.updateCurrency(currencyId, currencyVO);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
@@ -82,15 +81,13 @@ public class CurrencyController {
 		currencyService.activateOrDeactivateById(currencyId);
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS);
 	}
-	
+
 	@Operation(summary = "Get Currency By FinancialYear")
 	@GetMapping(path = "/financialyear/{year}")
-	public WSResponse<List<CurrencyVO>> getCurrencyByFinancialYear(
-			@PathVariable @Valid String year) {
-		return WSResponse.buildWSResponse(RestMessage.SUCCESS,
-				currencyService.getCurrencyByFinancialYear(year));
+	public WSResponse<List<CurrencyVO>> getCurrencyByFinancialYear(@PathVariable @Valid String year) {
+		return WSResponse.buildWSResponse(RestMessage.SUCCESS, currencyService.getCurrencyByFinancialYear(year));
 	}
-	
+
 	@Operation(summary = "Save List of Currency")
 	@PostMapping(path = "/save-all")
 	public WSResponse<String> saveListOfCurrency(@RequestBody @Valid List<CurrencyVO> currencyVOs) {

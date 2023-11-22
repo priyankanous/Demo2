@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "region_wise_view_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class RegionWiseViewPermission extends Auditable<String> {
 
 	@Id
@@ -42,50 +44,5 @@ public class RegionWiseViewPermission extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "reports_common_permission_id", referencedColumnName = "reports_common_permission_id")
 	private ReportsCommonPermission reportsCommonPermission;
-
-	public RegionWiseViewPermission() {
-
-	}
-
-	public RegionWiseViewPermission(Long regionWiseViewPermissionId, boolean isRegionWiseViewPermissionAll,
-			List<ReportsPermission> reportsPermission, ReportsCommonPermission reportsCommonPermission) {
-		super();
-		this.regionWiseViewPermissionId = regionWiseViewPermissionId;
-		this.isRegionWiseViewPermissionAll = isRegionWiseViewPermissionAll;
-		this.reportsPermission = reportsPermission;
-		this.reportsCommonPermission = reportsCommonPermission;
-	}
-
-	public Long getRegionWiseViewPermissionId() {
-		return regionWiseViewPermissionId;
-	}
-
-	public void setRegionWiseViewPermissionId(Long regionWiseViewPermissionId) {
-		this.regionWiseViewPermissionId = regionWiseViewPermissionId;
-	}
-
-	public boolean isRegionWiseViewPermissionAll() {
-		return isRegionWiseViewPermissionAll;
-	}
-
-	public void setRegionWiseViewPermissionAll(boolean isRegionWiseViewPermissionAll) {
-		this.isRegionWiseViewPermissionAll = isRegionWiseViewPermissionAll;
-	}
-
-	public List<ReportsPermission> getReportsPermission() {
-		return reportsPermission;
-	}
-
-	public void setReportsPermission(List<ReportsPermission> reportsPermission) {
-		this.reportsPermission = reportsPermission;
-	}
-
-	public ReportsCommonPermission getReportsCommonPermission() {
-		return reportsCommonPermission;
-	}
-
-	public void setReportsCommonPermission(ReportsCommonPermission reportsCommonPermission) {
-		this.reportsCommonPermission = reportsCommonPermission;
-	}
 
 }

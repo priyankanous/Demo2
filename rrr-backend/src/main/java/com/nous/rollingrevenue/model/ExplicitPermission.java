@@ -20,16 +20,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "ExplicitPermission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class ExplicitPermission extends Auditable<String> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "explicit_permission_id")
-	private Long ExplicitPermissionId;
+	private Long explicitPermissionId;
 
 	@Column(name = "explicit_permission_all")
 	private boolean isExplicitPermissionAll;
@@ -38,54 +40,9 @@ public class ExplicitPermission extends Auditable<String> {
 	@JsonBackReference
 	private List<SettingsPermission> settingsPermission = new ArrayList<>();
 
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "settings_common_permission_id", referencedColumnName = "settings_common_permission_id")
 	private SettingsCommonPermission settingsCommonPermission;
-
-	public ExplicitPermission() {
-
-	}
-
-	public ExplicitPermission(Long explicitPermissionId, boolean isExplicitPermissionAll,
-			List<SettingsPermission> settingsPermission, SettingsCommonPermission settingsCommonPermission) {
-		super();
-		ExplicitPermissionId = explicitPermissionId;
-		this.isExplicitPermissionAll = isExplicitPermissionAll;
-		this.settingsPermission = settingsPermission;
-		this.settingsCommonPermission = settingsCommonPermission;
-	}
-
-	public Long getExplicitPermissionId() {
-		return ExplicitPermissionId;
-	}
-
-	public void setExplicitPermissionId(Long explicitPermissionId) {
-		ExplicitPermissionId = explicitPermissionId;
-	}
-
-	public boolean isExplicitPermissionAll() {
-		return isExplicitPermissionAll;
-	}
-
-	public void setExplicitPermissionAll(boolean isExplicitPermissionAll) {
-		this.isExplicitPermissionAll = isExplicitPermissionAll;
-	}
-
-	public List<SettingsPermission> getSettingsPermission() {
-		return settingsPermission;
-	}
-
-	public void setSettingsPermission(List<SettingsPermission> settingsPermission) {
-		this.settingsPermission = settingsPermission;
-	}
-
-	public SettingsCommonPermission getSettingsCommonPermission() {
-		return settingsCommonPermission;
-	}
-
-	public void setSettingsCommonPermission(SettingsCommonPermission settingsCommonPermission) {
-		this.settingsCommonPermission = settingsCommonPermission;
-	}
 
 }

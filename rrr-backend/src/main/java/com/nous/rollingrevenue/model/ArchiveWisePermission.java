@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "archive_wise_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class ArchiveWisePermission extends Auditable<String> {
 
 	@Id
@@ -42,50 +44,5 @@ public class ArchiveWisePermission extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "reports_common_permission_id", referencedColumnName = "reports_common_permission_id")
 	private ReportsCommonPermission reportsCommonPermission;
-
-	public ArchiveWisePermission() {
-
-	}
-
-	public ArchiveWisePermission(Long archiveWisePermissionId, boolean isArchiveWisePermissionAll,
-			List<ReportsPermission> reportsPermission, ReportsCommonPermission reportsCommonPermission) {
-		super();
-		this.archiveWisePermissionId = archiveWisePermissionId;
-		this.isArchiveWisePermissionAll = isArchiveWisePermissionAll;
-		this.reportsPermission = reportsPermission;
-		this.reportsCommonPermission = reportsCommonPermission;
-	}
-
-	public Long getArchiveWisePermissionId() {
-		return archiveWisePermissionId;
-	}
-
-	public void setArchiveWisePermissionId(Long archiveWisePermissionId) {
-		this.archiveWisePermissionId = archiveWisePermissionId;
-	}
-
-	public boolean isArchiveWisePermissionAll() {
-		return isArchiveWisePermissionAll;
-	}
-
-	public void setArchiveWisePermissionAll(boolean isArchiveWisePermissionAll) {
-		this.isArchiveWisePermissionAll = isArchiveWisePermissionAll;
-	}
-
-	public List<ReportsPermission> getReportsPermission() {
-		return reportsPermission;
-	}
-
-	public void setReportsPermission(List<ReportsPermission> reportsPermission) {
-		this.reportsPermission = reportsPermission;
-	}
-
-	public ReportsCommonPermission getReportsCommonPermission() {
-		return reportsCommonPermission;
-	}
-
-	public void setReportsCommonPermission(ReportsCommonPermission reportsCommonPermission) {
-		this.reportsCommonPermission = reportsCommonPermission;
-	}
 
 }

@@ -19,10 +19,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "strategic_business_unit_head")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class StrategicBusinessUnitHead extends Auditable<String> {
 
 	@Id
@@ -52,86 +54,5 @@ public class StrategicBusinessUnitHead extends Auditable<String> {
 	@OneToMany(mappedBy = "strategicBusinessUnitHead")
 	@JsonBackReference
 	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
-
-	public StrategicBusinessUnitHead() {
-
-	}
-
-	public StrategicBusinessUnitHead(Long sbuHeadId, String sbuHeadName, String sbuHeadDisplayName,
-			StrategicBusinessUnit strategicbusinessUnit, LocalDate activeFrom, LocalDate activeUntil,
-			List<AnnualTargetEntry> annualTargetEntries) {
-		super();
-		this.sbuHeadId = sbuHeadId;
-		this.sbuHeadName = sbuHeadName;
-		this.sbuHeadDisplayName = sbuHeadDisplayName;
-		this.strategicbusinessUnit = strategicbusinessUnit;
-		this.activeFrom = activeFrom;
-		this.activeUntil = activeUntil;
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public Long getSbuHeadId() {
-		return sbuHeadId;
-	}
-
-	public void setSbuHeadId(Long sbuHeadId) {
-		this.sbuHeadId = sbuHeadId;
-	}
-
-	public String getSbuHeadName() {
-		return sbuHeadName;
-	}
-
-	public void setSbuHeadName(String sbuHeadName) {
-		this.sbuHeadName = sbuHeadName;
-	}
-
-	public String getSbuHeadDisplayName() {
-		return sbuHeadDisplayName;
-	}
-
-	public void setSbuHeadDisplayName(String sbuHeadDisplayName) {
-		this.sbuHeadDisplayName = sbuHeadDisplayName;
-	}
-
-	public StrategicBusinessUnit getStrategicbusinessUnit() {
-		return strategicbusinessUnit;
-	}
-
-	public void setStrategicbusinessUnit(StrategicBusinessUnit strategicbusinessUnit) {
-		this.strategicbusinessUnit = strategicbusinessUnit;
-	}
-
-	public LocalDate getActiveFrom() {
-		return activeFrom;
-	}
-
-	public void setActiveFrom(LocalDate activeFrom) {
-		this.activeFrom = activeFrom;
-	}
-
-	public LocalDate getActiveUntil() {
-		return activeUntil;
-	}
-
-	public void setActiveUntil(LocalDate activeUntil) {
-		this.activeUntil = activeUntil;
-	}
-
-	public List<AnnualTargetEntry> getAnnualTargetEntries() {
-		return annualTargetEntries;
-	}
-
-	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public List<RevenueResourceEntry> getRevenueResourceEntry() {
-		return revenueResourceEntry;
-	}
-
-	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
-		this.revenueResourceEntry = revenueResourceEntry;
-	}
 
 }

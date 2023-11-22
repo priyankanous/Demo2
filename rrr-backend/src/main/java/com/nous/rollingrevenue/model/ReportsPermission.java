@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "reports_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class ReportsPermission extends Auditable<String> {
 
 	@Id
@@ -37,7 +39,7 @@ public class ReportsPermission extends Auditable<String> {
 	@Column(name = "view_all_entries")
 	private boolean isViewAllEntriesRequired;
 
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "business_type_view_permission_id", referencedColumnName = "business_type_view_permission_id")
 	private BusinessTypeViewPermission businessTypeViewPermission;
@@ -75,118 +77,5 @@ public class ReportsPermission extends Auditable<String> {
 	@OneToMany(mappedBy = "reportsPermission")
 	@JsonBackReference
 	private List<Roles> roles = new ArrayList<>();
-
-	public ReportsPermission() {
-
-	}
-
-	public ReportsPermission(Long reportsPermissionId, boolean isReportsPermissionAll, boolean isViewAllEntriesRequired,
-			BusinessTypeViewPermission businessTypeViewPermission, SBUClientViewPermission sbuClientViewPermission,
-			ProbabilityTypeViewPermission probabilityTypeViewPermission,
-			RegionWiseViewPermission regionWiseViewPermission,
-			BusinessUnitWiseViewPermission businessUnitWiseViewPermission,
-			ClientWiseViewPermission clientWiseViewPermission, ArchiveWisePermission archiveWisePermission,
-			List<Roles> roles) {
-		super();
-		this.reportsPermissionId = reportsPermissionId;
-		this.isReportsPermissionAll = isReportsPermissionAll;
-		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
-		this.businessTypeViewPermission = businessTypeViewPermission;
-		this.sbuClientViewPermission = sbuClientViewPermission;
-		this.probabilityTypeViewPermission = probabilityTypeViewPermission;
-		this.regionWiseViewPermission = regionWiseViewPermission;
-		this.businessUnitWiseViewPermission = businessUnitWiseViewPermission;
-		this.clientWiseViewPermission = clientWiseViewPermission;
-		this.archiveWisePermission = archiveWisePermission;
-		this.roles = roles;
-	}
-
-	public Long getReportsPermissionId() {
-		return reportsPermissionId;
-	}
-
-	public void setReportsPermissionId(Long reportsPermissionId) {
-		this.reportsPermissionId = reportsPermissionId;
-	}
-
-	public boolean isReportsPermissionAll() {
-		return isReportsPermissionAll;
-	}
-
-	public void setReportsPermissionAll(boolean isReportsPermissionAll) {
-		this.isReportsPermissionAll = isReportsPermissionAll;
-	}
-
-	public boolean isViewAllEntriesRequired() {
-		return isViewAllEntriesRequired;
-	}
-
-	public void setViewAllEntriesRequired(boolean isViewAllEntriesRequired) {
-		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
-	}
-
-	public BusinessTypeViewPermission getBusinessTypeViewPermission() {
-		return businessTypeViewPermission;
-	}
-
-	public void setBusinessTypeViewPermission(BusinessTypeViewPermission businessTypeViewPermission) {
-		this.businessTypeViewPermission = businessTypeViewPermission;
-	}
-
-	public SBUClientViewPermission getSbuClientViewPermission() {
-		return sbuClientViewPermission;
-	}
-
-	public void setSbuClientViewPermission(SBUClientViewPermission sbuClientViewPermission) {
-		this.sbuClientViewPermission = sbuClientViewPermission;
-	}
-
-	public ProbabilityTypeViewPermission getProbabilityTypeViewPermission() {
-		return probabilityTypeViewPermission;
-	}
-
-	public void setProbabilityTypeViewPermission(ProbabilityTypeViewPermission probabilityTypeViewPermission) {
-		this.probabilityTypeViewPermission = probabilityTypeViewPermission;
-	}
-
-	public RegionWiseViewPermission getRegionWiseViewPermission() {
-		return regionWiseViewPermission;
-	}
-
-	public void setRegionWiseViewPermission(RegionWiseViewPermission regionWiseViewPermission) {
-		this.regionWiseViewPermission = regionWiseViewPermission;
-	}
-
-	public BusinessUnitWiseViewPermission getBusinessUnitWiseViewPermission() {
-		return businessUnitWiseViewPermission;
-	}
-
-	public void setBusinessUnitWiseViewPermission(BusinessUnitWiseViewPermission businessUnitWiseViewPermission) {
-		this.businessUnitWiseViewPermission = businessUnitWiseViewPermission;
-	}
-
-	public ClientWiseViewPermission getClientWiseViewPermission() {
-		return clientWiseViewPermission;
-	}
-
-	public void setClientWiseViewPermission(ClientWiseViewPermission clientWiseViewPermission) {
-		this.clientWiseViewPermission = clientWiseViewPermission;
-	}
-
-	public ArchiveWisePermission getArchiveWisePermission() {
-		return archiveWisePermission;
-	}
-
-	public void setArchiveWisePermission(ArchiveWisePermission archiveWisePermission) {
-		this.archiveWisePermission = archiveWisePermission;
-	}
-
-	public List<Roles> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Roles> roles) {
-		this.roles = roles;
-	}
 
 }

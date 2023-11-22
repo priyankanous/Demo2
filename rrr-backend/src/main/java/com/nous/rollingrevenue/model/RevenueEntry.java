@@ -19,10 +19,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "revenue_entry")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class RevenueEntry extends Auditable<String> {
 
 	@Id
@@ -92,158 +94,5 @@ public class RevenueEntry extends Auditable<String> {
 	@OneToMany(mappedBy = "revenueEntry")
 	@JsonBackReference
 	private List<MilestoneEntry> milestoneEntry = new ArrayList<>();
-
-	public RevenueEntry() {
-
-	}
-
-	public RevenueEntry(Long revenueEntryId, Account account, Opportunity opportunity,
-			BusinessDevelopmentManager businessDevelopmentManager, Currency currency, ProbabilityType probabilityType,
-			Region region, WorkOrder workOrder, FinancialYear financialYear, Integer resourceCount,
-			Integer milestoneCount, String pricingType, String remarks, String status) {
-		super();
-		this.revenueEntryId = revenueEntryId;
-		this.account = account;
-		this.opportunity = opportunity;
-		this.businessDevelopmentManager = businessDevelopmentManager;
-		this.currency = currency;
-		this.probabilityType = probabilityType;
-		this.region = region;
-		this.workOrder = workOrder;
-		this.financialYear = financialYear;
-		this.resourceCount = resourceCount;
-		this.milestoneCount = milestoneCount;
-		this.pricingType = pricingType;
-		this.remarks = remarks;
-		this.status = status;
-	}
-
-	public Long getRevenueEntryId() {
-		return revenueEntryId;
-	}
-
-	public void setRevenueEntryId(Long revenueEntryId) {
-		this.revenueEntryId = revenueEntryId;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public Opportunity getOpportunity() {
-		return opportunity;
-	}
-
-	public void setOpportunity(Opportunity opportunity) {
-		this.opportunity = opportunity;
-	}
-
-	public BusinessDevelopmentManager getBusinessDevelopmentManager() {
-		return businessDevelopmentManager;
-	}
-
-	public void setBusinessDevelopmentManager(BusinessDevelopmentManager businessDevelopmentManager) {
-		this.businessDevelopmentManager = businessDevelopmentManager;
-	}
-
-	public Currency getCurrency() {
-		return currency;
-	}
-
-	public void setCurrency(Currency currency) {
-		this.currency = currency;
-	}
-
-	public ProbabilityType getProbabilityType() {
-		return probabilityType;
-	}
-
-	public void setProbabilityType(ProbabilityType probabilityType) {
-		this.probabilityType = probabilityType;
-	}
-
-	public Region getRegion() {
-		return region;
-	}
-
-	public void setRegion(Region region) {
-		this.region = region;
-	}
-
-	public WorkOrder getWorkOrder() {
-		return workOrder;
-	}
-
-	public void setWorkOrder(WorkOrder workOrder) {
-		this.workOrder = workOrder;
-	}
-
-	public FinancialYear getFinancialYear() {
-		return financialYear;
-	}
-
-	public void setFinancialYear(FinancialYear financialYear) {
-		this.financialYear = financialYear;
-	}
-
-	public Integer getResourceCount() {
-		return resourceCount;
-	}
-
-	public void setResourceCount(Integer resourceCount) {
-		this.resourceCount = resourceCount;
-	}
-
-	public Integer getMilestoneCount() {
-		return milestoneCount;
-	}
-
-	public void setMilestoneCount(Integer milestoneCount) {
-		this.milestoneCount = milestoneCount;
-	}
-
-	public String getPricingType() {
-		return pricingType;
-	}
-
-	public void setPricingType(String pricingType) {
-		this.pricingType = pricingType;
-	}
-
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
-	public List<RevenueResourceEntry> getRevenueResourceEntry() {
-		return revenueResourceEntry;
-	}
-
-	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
-		this.revenueResourceEntry = revenueResourceEntry;
-	}
-
-	public List<MilestoneEntry> getMilestoneEntry() {
-		return milestoneEntry;
-	}
-
-	public void setMilestoneEntry(List<MilestoneEntry> milestoneEntry) {
-		this.milestoneEntry = milestoneEntry;
-	}
 
 }

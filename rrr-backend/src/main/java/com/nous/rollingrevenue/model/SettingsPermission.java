@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "settings_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class SettingsPermission extends Auditable<String> {
 
 	@Id
@@ -47,7 +49,7 @@ public class SettingsPermission extends Auditable<String> {
 	@JoinColumn(name = "role_user_permission_id", referencedColumnName = "role_user_permission_id")
 	private RoleUserPermission roleUserPermission;
 
-	@ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JsonManagedReference
 	@JoinColumn(name = "explicit_permission_id", referencedColumnName = "explicit_permission_id")
 	private ExplicitPermission explicitPermission;
@@ -60,88 +62,5 @@ public class SettingsPermission extends Auditable<String> {
 	@OneToMany(mappedBy = "settingsPermission")
 	@JsonBackReference
 	private List<Roles> roles = new ArrayList<>();
-
-	public SettingsPermission() {
-
-	}
-
-	public SettingsPermission(Long settingsPermissionId, boolean isSettingsPermissionAll,
-			boolean isViewAllEntriesRequired, RolesPermission rolesPermission, RoleUserPermission roleUserPermission,
-			ExplicitPermission explicitPermission, AnnualTargetEntryPermission annualTargetEntryPermission,
-			List<Roles> roles) {
-		super();
-		this.settingsPermissionId = settingsPermissionId;
-		this.isSettingsPermissionAll = isSettingsPermissionAll;
-		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
-		this.rolesPermission = rolesPermission;
-		this.roleUserPermission = roleUserPermission;
-		this.explicitPermission = explicitPermission;
-		this.annualTargetEntryPermission = annualTargetEntryPermission;
-		this.roles = roles;
-	}
-
-	public Long getSettingsPermissionId() {
-		return settingsPermissionId;
-	}
-
-	public void setSettingsPermissionId(Long settingsPermissionId) {
-		this.settingsPermissionId = settingsPermissionId;
-	}
-
-	public boolean isSettingsPermissionAll() {
-		return isSettingsPermissionAll;
-	}
-
-	public void setSettingsPermissionAll(boolean isSettingsPermissionAll) {
-		this.isSettingsPermissionAll = isSettingsPermissionAll;
-	}
-
-	public boolean isViewAllEntriesRequired() {
-		return isViewAllEntriesRequired;
-	}
-
-	public void setViewAllEntriesRequired(boolean isViewAllEntriesRequired) {
-		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
-	}
-
-	public RolesPermission getRolesPermission() {
-		return rolesPermission;
-	}
-
-	public void setRolesPermission(RolesPermission rolesPermission) {
-		this.rolesPermission = rolesPermission;
-	}
-
-	public RoleUserPermission getRoleUserPermission() {
-		return roleUserPermission;
-	}
-
-	public void setRoleUserPermission(RoleUserPermission roleUserPermission) {
-		this.roleUserPermission = roleUserPermission;
-	}
-
-	public ExplicitPermission getExplicitPermission() {
-		return explicitPermission;
-	}
-
-	public void setExplicitPermission(ExplicitPermission explicitPermission) {
-		this.explicitPermission = explicitPermission;
-	}
-
-	public AnnualTargetEntryPermission getAnnualTargetEntryPermission() {
-		return annualTargetEntryPermission;
-	}
-
-	public void setAnnualTargetEntryPermission(AnnualTargetEntryPermission annualTargetEntryPermission) {
-		this.annualTargetEntryPermission = annualTargetEntryPermission;
-	}
-
-	public List<Roles> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Roles> roles) {
-		this.roles = roles;
-	}
 
 }

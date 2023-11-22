@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "business_unit_wise_view_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class BusinessUnitWiseViewPermission extends Auditable<String> {
 
 	@Id
@@ -42,51 +44,5 @@ public class BusinessUnitWiseViewPermission extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "reports_common_permission_id", referencedColumnName = "reports_common_permission_id")
 	private ReportsCommonPermission reportsCommonPermission;
-
-	public BusinessUnitWiseViewPermission() {
-
-	}
-
-	public BusinessUnitWiseViewPermission(Long businessUnitWiseViewPermissionId,
-			boolean isBusinessUnitWiseViewPermissionAll, List<ReportsPermission> reportsPermission,
-			ReportsCommonPermission reportsCommonPermission) {
-		super();
-		this.businessUnitWiseViewPermissionId = businessUnitWiseViewPermissionId;
-		this.isBusinessUnitWiseViewPermissionAll = isBusinessUnitWiseViewPermissionAll;
-		this.reportsPermission = reportsPermission;
-		this.reportsCommonPermission = reportsCommonPermission;
-	}
-
-	public Long getBusinessUnitWiseViewPermissionId() {
-		return businessUnitWiseViewPermissionId;
-	}
-
-	public void setBusinessUnitWiseViewPermissionId(Long businessUnitWiseViewPermissionId) {
-		this.businessUnitWiseViewPermissionId = businessUnitWiseViewPermissionId;
-	}
-
-	public boolean isBusinessUnitWiseViewPermissionAll() {
-		return isBusinessUnitWiseViewPermissionAll;
-	}
-
-	public void setBusinessUnitWiseViewPermissionAll(boolean isBusinessUnitWiseViewPermissionAll) {
-		this.isBusinessUnitWiseViewPermissionAll = isBusinessUnitWiseViewPermissionAll;
-	}
-
-	public List<ReportsPermission> getReportsPermission() {
-		return reportsPermission;
-	}
-
-	public void setReportsPermission(List<ReportsPermission> reportsPermission) {
-		this.reportsPermission = reportsPermission;
-	}
-
-	public ReportsCommonPermission getReportsCommonPermission() {
-		return reportsCommonPermission;
-	}
-
-	public void setReportsCommonPermission(ReportsCommonPermission reportsCommonPermission) {
-		this.reportsCommonPermission = reportsCommonPermission;
-	}
 
 }

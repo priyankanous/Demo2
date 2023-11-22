@@ -16,10 +16,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "fortnightly_meeting")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class FortnightlyMeeting extends Auditable<String> {
 
 	@Id
@@ -29,7 +31,7 @@ public class FortnightlyMeeting extends Auditable<String> {
 
 	@Column(name = "meeting_date")
 	private LocalDate meetingDate;
-	
+
 	@Column(name = "meeting_day")
 	private String meetingDay;
 
@@ -37,7 +39,7 @@ public class FortnightlyMeeting extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
 	private FinancialYear financialYear;
-	
+
 	@Column(name = "meeting_name1")
 	private String meetingName1;
 
@@ -49,88 +51,5 @@ public class FortnightlyMeeting extends Auditable<String> {
 
 	@Column(name = "meeting_name4")
 	private String meetingName4;
-
-
-	public FortnightlyMeeting() {
-
-	}
-
-	public FortnightlyMeeting(Long meetingId, LocalDate meetingDate, String meetingDay, FinancialYear financialYear,
-			String meetingName1, String meetingName2, String meetingName3, String meetingName4) {
-		super();
-		this.meetingId = meetingId;
-		this.meetingDate = meetingDate;
-		this.meetingDay = meetingDay;
-		this.financialYear = financialYear;
-		this.meetingName1 = meetingName1;
-		this.meetingName2 = meetingName2;
-		this.meetingName3 = meetingName3;
-		this.meetingName4 = meetingName4;
-	}
-
-	public Long getMeetingId() {
-		return meetingId;
-	}
-
-	public void setMeetingId(Long meetingId) {
-		this.meetingId = meetingId;
-	}
-
-	public LocalDate getMeetingDate() {
-		return meetingDate;
-	}
-
-	public void setMeetingDate(LocalDate meetingDate) {
-		this.meetingDate = meetingDate;
-	}
-
-	public String getMeetingDay() {
-		return meetingDay;
-	}
-
-	public void setMeetingDay(String meetingDay) {
-		this.meetingDay = meetingDay;
-	}
-
-	public FinancialYear getFinancialYear() {
-		return financialYear;
-	}
-
-	public void setFinancialYear(FinancialYear financialYear) {
-		this.financialYear = financialYear;
-	}
-
-	public String getMeetingName1() {
-		return meetingName1;
-	}
-
-	public void setMeetingName1(String meetingName1) {
-		this.meetingName1 = meetingName1;
-	}
-
-	public String getMeetingName2() {
-		return meetingName2;
-	}
-
-	public void setMeetingName2(String meetingName2) {
-		this.meetingName2 = meetingName2;
-	}
-
-	public String getMeetingName3() {
-		return meetingName3;
-	}
-
-	public void setMeetingName3(String meetingName3) {
-		this.meetingName3 = meetingName3;
-	}
-
-	public String getMeetingName4() {
-		return meetingName4;
-	}
-
-	public void setMeetingName4(String meetingName4) {
-		this.meetingName4 = meetingName4;
-	}
-
 
 }

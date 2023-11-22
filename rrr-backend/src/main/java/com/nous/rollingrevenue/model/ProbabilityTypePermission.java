@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "probability_type_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class ProbabilityTypePermission extends Auditable<String> {
 
 	@Id
@@ -42,51 +44,5 @@ public class ProbabilityTypePermission extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "administration_common_permission_id", referencedColumnName = "administration_common_permission_id")
 	private AdministrationCommonPermission administrationCommonPermission;
-
-	public ProbabilityTypePermission() {
-
-	}
-
-	public ProbabilityTypePermission(Long probabilityTypePermissionId, boolean isProbabilityTypePermissionAll,
-			List<AdministrationPermission> administrationPermission,
-			AdministrationCommonPermission administrationCommonPermission) {
-		super();
-		this.probabilityTypePermissionId = probabilityTypePermissionId;
-		this.isProbabilityTypePermissionAll = isProbabilityTypePermissionAll;
-		this.administrationPermission = administrationPermission;
-		this.administrationCommonPermission = administrationCommonPermission;
-	}
-
-	public Long getProbabilityTypePermissionId() {
-		return probabilityTypePermissionId;
-	}
-
-	public void setProbabilityTypePermissionId(Long probabilityTypePermissionId) {
-		this.probabilityTypePermissionId = probabilityTypePermissionId;
-	}
-
-	public boolean isProbabilityTypePermissionAll() {
-		return isProbabilityTypePermissionAll;
-	}
-
-	public void setProbabilityTypePermissionAll(boolean isProbabilityTypePermissionAll) {
-		this.isProbabilityTypePermissionAll = isProbabilityTypePermissionAll;
-	}
-
-	public List<AdministrationPermission> getAdministrationPermission() {
-		return administrationPermission;
-	}
-
-	public void setAdministrationPermission(List<AdministrationPermission> administrationPermission) {
-		this.administrationPermission = administrationPermission;
-	}
-
-	public AdministrationCommonPermission getAdministrationCommonPermission() {
-		return administrationCommonPermission;
-	}
-
-	public void setAdministrationCommonPermission(AdministrationCommonPermission administrationCommonPermission) {
-		this.administrationCommonPermission = administrationCommonPermission;
-	}
 
 }

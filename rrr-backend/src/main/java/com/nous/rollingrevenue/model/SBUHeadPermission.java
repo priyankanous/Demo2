@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "sbu_head_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class SBUHeadPermission extends Auditable<String> {
 
 	@Id
@@ -42,51 +44,5 @@ public class SBUHeadPermission extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "administration_common_permission_id", referencedColumnName = "administration_common_permission_id")
 	private AdministrationCommonPermission administrationCommonPermission;
-
-	public SBUHeadPermission() {
-
-	}
-
-	public SBUHeadPermission(Long sbuHeadPermissionId, boolean isSbuHeadPermissionAll,
-			List<AdministrationPermission> administrationPermission,
-			AdministrationCommonPermission administrationCommonPermission) {
-		super();
-		this.sbuHeadPermissionId = sbuHeadPermissionId;
-		this.isSbuHeadPermissionAll = isSbuHeadPermissionAll;
-		this.administrationPermission = administrationPermission;
-		this.administrationCommonPermission = administrationCommonPermission;
-	}
-
-	public Long getSbuHeadPermissionId() {
-		return sbuHeadPermissionId;
-	}
-
-	public void setSbuHeadPermissionId(Long sbuHeadPermissionId) {
-		this.sbuHeadPermissionId = sbuHeadPermissionId;
-	}
-
-	public boolean isSbuHeadPermissionAll() {
-		return isSbuHeadPermissionAll;
-	}
-
-	public void setSbuHeadPermissionAll(boolean isSbuHeadPermissionAll) {
-		this.isSbuHeadPermissionAll = isSbuHeadPermissionAll;
-	}
-
-	public List<AdministrationPermission> getAdministrationPermission() {
-		return administrationPermission;
-	}
-
-	public void setAdministrationPermission(List<AdministrationPermission> administrationPermission) {
-		this.administrationPermission = administrationPermission;
-	}
-
-	public AdministrationCommonPermission getAdministrationCommonPermission() {
-		return administrationCommonPermission;
-	}
-
-	public void setAdministrationCommonPermission(AdministrationCommonPermission administrationCommonPermission) {
-		this.administrationCommonPermission = administrationCommonPermission;
-	}
 
 }

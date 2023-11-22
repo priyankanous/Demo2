@@ -49,8 +49,8 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 	@Override
 	public BusinessTypeResponse getBusinessTypeReportDetails(BusinessTypeReportRequest businessTypeReportRequest,
 			boolean isDisplayAdditionalQuarter) {
-		BusinessTypeReportInDTO InDTO = businessTypeReportRequest.getData();
-		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(InDTO.getFinancialYearName())
+		BusinessTypeReportInDTO inDTO = businessTypeReportRequest.getData();
+		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(inDTO.getFinancialYearName())
 				.orElseThrow(() -> new RecordNotFoundException(
 						ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
 
@@ -360,8 +360,8 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 	@Override
 	public BusinessTypeResponse getProbabilityTypeReportDetails(BusinessTypeReportRequest businessTypeReportRequest,
 			boolean isDisplayAdditionalQuarter) {
-		BusinessTypeReportInDTO InDTO = businessTypeReportRequest.getData();
-		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(InDTO.getFinancialYearName())
+		BusinessTypeReportInDTO inDTO = businessTypeReportRequest.getData();
+		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(inDTO.getFinancialYearName())
 				.orElseThrow(() -> new RecordNotFoundException(
 						ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
 

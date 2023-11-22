@@ -26,7 +26,6 @@ import com.nous.rollingrevenue.repository.FinancialYearRepository;
 import com.nous.rollingrevenue.repository.RevenueResourceEntryCustomRepository;
 import com.nous.rollingrevenue.service.BusinessUnitReportService;
 import com.nous.rollingrevenue.vo.BusinessUnitOutDTO;
-//import com.nous.rollingrevenue.vo.BusinessUnitOutDTO;
 import com.nous.rollingrevenue.vo.BusinessUnitReportInDTO;
 import com.nous.rollingrevenue.vo.BusinessUnitReportRequest;
 import com.nous.rollingrevenue.vo.BusinessUnitResponse;
@@ -51,8 +50,8 @@ public class BusinessUnitReportServiceImpl implements BusinessUnitReportService 
 	@Override
 	public BusinessUnitResponse getBusinessUnitReportDetails(BusinessUnitReportRequest businessUnitReportRequest,
 			boolean isDisplayAdditionalQuarter) {
-		BusinessUnitReportInDTO InDTO = businessUnitReportRequest.getData();
-		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(InDTO.getFinancialYearName())
+		BusinessUnitReportInDTO inDTO = businessUnitReportRequest.getData();
+		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(inDTO.getFinancialYearName())
 				.orElseThrow(() -> new RecordNotFoundException(
 						ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
 
@@ -85,8 +84,8 @@ public class BusinessUnitReportServiceImpl implements BusinessUnitReportService 
 
 		FinancialYearRevenue financialYearRevenueGSS = calculatingBasedOnBusinessUnit(gssrevenueResourceEntryList,
 				financialYear, isDisplayAdditionalQuarter);
-		FinancialYearRevenue financialYearRevenueTESTREE = calculatingBasedOnBusinessUnit(testreerevenueResourceEntryList,
-				financialYear, isDisplayAdditionalQuarter);
+		FinancialYearRevenue financialYearRevenueTESTREE = calculatingBasedOnBusinessUnit(
+				testreerevenueResourceEntryList, financialYear, isDisplayAdditionalQuarter);
 		FinancialYearRevenue financialYearRevenueVSERVE = calculatingBasedOnBusinessUnit(vserverevenueResourceEntryList,
 				financialYear, isDisplayAdditionalQuarter);
 
@@ -203,7 +202,7 @@ public class BusinessUnitReportServiceImpl implements BusinessUnitReportService 
 		Set<Entry<Boolean, List<RevenueResourceEntry>>> entrySet = partitionResourceEntriesByPricingType.entrySet();
 
 		for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
-			if (entry.getKey()) {
+			if (Boolean.TRUE.equals(entry.getKey())) {
 				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
 				financialYearRevenue = revenueServiceImpl.calculateFPRevenue(revenueFPResourceEntries, financialYear,
 						isDisplayAdditionalQuarter);

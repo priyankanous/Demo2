@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "region_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class RegionPermission extends Auditable<String> {
 
 	@Id
@@ -42,51 +44,5 @@ public class RegionPermission extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "administration_common_permission_id", referencedColumnName = "administration_common_permission_id")
 	private AdministrationCommonPermission administrationCommonPermission;
-
-	public RegionPermission() {
-
-	}
-
-	public RegionPermission(Long regionPermissionId, boolean isRegionPermissionAll,
-			List<AdministrationPermission> administrationPermission,
-			AdministrationCommonPermission administrationCommonPermission) {
-		super();
-		this.regionPermissionId = regionPermissionId;
-		this.isRegionPermissionAll = isRegionPermissionAll;
-		this.administrationPermission = administrationPermission;
-		this.administrationCommonPermission = administrationCommonPermission;
-	}
-
-	public Long getRegionPermissionId() {
-		return regionPermissionId;
-	}
-
-	public void setRegionPermissionId(Long regionPermissionId) {
-		this.regionPermissionId = regionPermissionId;
-	}
-
-	public boolean isRegionPermissionAll() {
-		return isRegionPermissionAll;
-	}
-
-	public void setRegionPermissionAll(boolean isRegionPermissionAll) {
-		this.isRegionPermissionAll = isRegionPermissionAll;
-	}
-
-	public List<AdministrationPermission> getAdministrationPermission() {
-		return administrationPermission;
-	}
-
-	public void setAdministrationPermission(List<AdministrationPermission> administrationPermission) {
-		this.administrationPermission = administrationPermission;
-	}
-
-	public AdministrationCommonPermission getAdministrationCommonPermission() {
-		return administrationCommonPermission;
-	}
-
-	public void setAdministrationCommonPermission(AdministrationCommonPermission administrationCommonPermission) {
-		this.administrationCommonPermission = administrationCommonPermission;
-	}
 
 }

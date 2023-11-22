@@ -20,10 +20,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "calendar_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class CalendarPermission extends Auditable<String> {
 
 	@Id
@@ -55,79 +57,5 @@ public class CalendarPermission extends Auditable<String> {
 	@OneToMany(mappedBy = "calendarPermission")
 	@JsonBackReference
 	private List<Roles> roles = new ArrayList<>();
-
-	public CalendarPermission() {
-
-	}
-
-	public CalendarPermission(Long calendarPermissionId, boolean calendarPermissionAll,
-			boolean isViewAllEntriesRequired, HolidayCalendarPermission holidayCalendarPermission,
-			FortnightlyMeetingsPermission fortnightlyMeetingsPermission, BDMMeetingsPermission bdmMeetingsPermission,
-			List<Roles> roles) {
-		super();
-		this.calendarPermissionId = calendarPermissionId;
-		this.calendarPermissionAll = calendarPermissionAll;
-		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
-		this.holidayCalendarPermission = holidayCalendarPermission;
-		this.fortnightlyMeetingsPermission = fortnightlyMeetingsPermission;
-		this.bdmMeetingsPermission = bdmMeetingsPermission;
-		this.roles = roles;
-	}
-
-	public Long getCalendarPermissionId() {
-		return calendarPermissionId;
-	}
-
-	public void setCalendarPermissionId(Long calendarPermissionId) {
-		this.calendarPermissionId = calendarPermissionId;
-	}
-
-	public boolean isCalendarPermissionAll() {
-		return calendarPermissionAll;
-	}
-
-	public void setCalendarPermissionAll(boolean calendarPermissionAll) {
-		this.calendarPermissionAll = calendarPermissionAll;
-	}
-
-	public boolean isViewAllEntriesRequired() {
-		return isViewAllEntriesRequired;
-	}
-
-	public void setViewAllEntriesRequired(boolean isViewAllEntriesRequired) {
-		this.isViewAllEntriesRequired = isViewAllEntriesRequired;
-	}
-
-	public HolidayCalendarPermission getHolidayCalendarPermission() {
-		return holidayCalendarPermission;
-	}
-
-	public void setHolidayCalendarPermission(HolidayCalendarPermission holidayCalendarPermission) {
-		this.holidayCalendarPermission = holidayCalendarPermission;
-	}
-
-	public FortnightlyMeetingsPermission getFortnightlyMeetingsPermission() {
-		return fortnightlyMeetingsPermission;
-	}
-
-	public void setFortnightlyMeetingsPermission(FortnightlyMeetingsPermission fortnightlyMeetingsPermission) {
-		this.fortnightlyMeetingsPermission = fortnightlyMeetingsPermission;
-	}
-
-	public BDMMeetingsPermission getBdmMeetingsPermission() {
-		return bdmMeetingsPermission;
-	}
-
-	public void setBdmMeetingsPermission(BDMMeetingsPermission bdmMeetingsPermission) {
-		this.bdmMeetingsPermission = bdmMeetingsPermission;
-	}
-
-	public List<Roles> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<Roles> roles) {
-		this.roles = roles;
-	}
 
 }

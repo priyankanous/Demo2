@@ -19,10 +19,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "work_order")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class WorkOrder extends Auditable<String> {
 
 	@Id
@@ -46,67 +48,5 @@ public class WorkOrder extends Auditable<String> {
 	@OneToMany(mappedBy = "workOrder")
 	@JsonBackReference
 	private List<RevenueEntry> revenueEntry = new ArrayList<>();
-
-	public WorkOrder() {
-		super();
-	}
-
-	public WorkOrder(Long workOrderId, String workOrderNumber, LocalDate workOrderEndDate, String woStatus,
-			Account account) {
-		super();
-		this.workOrderId = workOrderId;
-		this.workOrderNumber = workOrderNumber;
-		this.workOrderEndDate = workOrderEndDate;
-		this.woStatus = woStatus;
-		this.account = account;
-	}
-
-	public Long getWorkOrderId() {
-		return workOrderId;
-	}
-
-	public void setWorkOrderId(Long workOrderId) {
-		this.workOrderId = workOrderId;
-	}
-
-	public String getWorkOrderNumber() {
-		return workOrderNumber;
-	}
-
-	public void setWorkOrderNumber(String workOrderNumber) {
-		this.workOrderNumber = workOrderNumber;
-	}
-
-	public LocalDate getWorkOrderEndDate() {
-		return workOrderEndDate;
-	}
-
-	public void setWorkOrderEndDate(LocalDate workOrderEndDate) {
-		this.workOrderEndDate = workOrderEndDate;
-	}
-
-	public String getWoStatus() {
-		return woStatus;
-	}
-
-	public void setWoStatus(String woStatus) {
-		this.woStatus = woStatus;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	public List<RevenueEntry> getRevenueEntry() {
-		return revenueEntry;
-	}
-
-	public void setRevenueEntry(List<RevenueEntry> revenueEntry) {
-		this.revenueEntry = revenueEntry;
-	}
 
 }

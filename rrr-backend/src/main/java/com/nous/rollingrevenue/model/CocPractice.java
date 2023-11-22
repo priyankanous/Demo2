@@ -19,10 +19,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "coc_practice")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class CocPractice extends Auditable<String> {
 
 	@Id
@@ -48,67 +50,5 @@ public class CocPractice extends Auditable<String> {
 	@OneToMany(mappedBy = "cocPractice")
 	@JsonBackReference
 	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
-
-	public CocPractice() {
-
-	}
-
-	public CocPractice(Long cocPracticeId, String cocPracticeName, String cocPracticeDisplayName,
-			BusinessUnit businessUnit, List<AnnualTargetEntry> annualTargetEntries) {
-		super();
-		this.cocPracticeId = cocPracticeId;
-		this.cocPracticeName = cocPracticeName;
-		this.cocPracticeDisplayName = cocPracticeDisplayName;
-		this.businessUnit = businessUnit;
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public Long getCocPracticeId() {
-		return cocPracticeId;
-	}
-
-	public void setCocPracticeId(Long cocPracticeId) {
-		this.cocPracticeId = cocPracticeId;
-	}
-
-	public String getCocPracticeName() {
-		return cocPracticeName;
-	}
-
-	public void setCocPracticeName(String cocPracticeName) {
-		this.cocPracticeName = cocPracticeName;
-	}
-
-	public String getCocPracticeDisplayName() {
-		return cocPracticeDisplayName;
-	}
-
-	public void setCocPracticeDisplayName(String cocPracticeDisplayName) {
-		this.cocPracticeDisplayName = cocPracticeDisplayName;
-	}
-
-	public BusinessUnit getBusinessUnit() {
-		return businessUnit;
-	}
-
-	public void setBusinessUnit(BusinessUnit businessUnit) {
-		this.businessUnit = businessUnit;
-	}
-
-	public List<AnnualTargetEntry> getAnnualTargetEntries() {
-		return annualTargetEntries;
-	}
-
-	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public List<RevenueResourceEntry> getRevenueResourceEntry() {
-		return revenueResourceEntry;
-	}
-
-	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
-		this.revenueResourceEntry = revenueResourceEntry;
-	}
 
 }

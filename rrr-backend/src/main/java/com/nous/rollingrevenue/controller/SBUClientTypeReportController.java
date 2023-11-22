@@ -24,14 +24,14 @@ import jakarta.validation.Valid;
 public class SBUClientTypeReportController {
 
 	@Autowired
-	private SBUClientTypeReportService SBUClientTypeReportService;
+	private SBUClientTypeReportService sbuClientTypeReportService;
 
 	@Operation(summary = "Get SBUClientType Report Details")
 	@PostMapping(path = "/sbuclientType")
 	public WSResponse<BusinessTypeResponse> getSBUClientTypeReportDetails(
-			@RequestBody @Valid SBUClientTypeReportRequest SBUClientTypeReportRequest,
+			@RequestBody @Valid SBUClientTypeReportRequest sbuClientTypeReportRequest,
 			@RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
-		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, SBUClientTypeReportService
-				.getSBUClientTypeReportDetails(SBUClientTypeReportRequest, isDisplayAdditionalQuarter));
+		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuClientTypeReportService
+				.getSBUClientTypeReportDetails(sbuClientTypeReportRequest, isDisplayAdditionalQuarter));
 	}
 }

@@ -17,10 +17,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "business_unit")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class BusinessUnit extends Auditable<String> {
 
 	@Id
@@ -53,87 +55,5 @@ public class BusinessUnit extends Auditable<String> {
 	@OneToMany(mappedBy = "businessUnit")
 	@JsonBackReference
 	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
-
-	public BusinessUnit() {
-
-	}
-
-	public BusinessUnit(Long businessUnitId, String businessUnitName, String businessUnitDisplayName,
-			List<BusinessDevelopmentManager> businessDevlopmentManagers,
-			List<StrategicBusinessUnit> strategicBusinessUnits, List<CocPractice> cocPractices,
-			List<AnnualTargetEntry> annualTargetEntries) {
-		super();
-		this.businessUnitId = businessUnitId;
-		this.businessUnitName = businessUnitName;
-		this.businessUnitDisplayName = businessUnitDisplayName;
-		this.businessDevlopmentManagers = businessDevlopmentManagers;
-		this.strategicBusinessUnits = strategicBusinessUnits;
-		this.cocPractices = cocPractices;
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public Long getBusinessUnitId() {
-		return businessUnitId;
-	}
-
-	public void setBusinessUnitId(Long businessUnitId) {
-		this.businessUnitId = businessUnitId;
-	}
-
-	public String getBusinessUnitName() {
-		return businessUnitName;
-	}
-
-	public void setBusinessUnitName(String businessUnitName) {
-		this.businessUnitName = businessUnitName;
-	}
-
-	public String getBusinessUnitDisplayName() {
-		return businessUnitDisplayName;
-	}
-
-	public void setBusinessUnitDisplayName(String businessUnitDisplayName) {
-		this.businessUnitDisplayName = businessUnitDisplayName;
-	}
-
-	public List<BusinessDevelopmentManager> getBusinessDevlopmentManagers() {
-		return businessDevlopmentManagers;
-	}
-
-	public void setBusinessDevlopmentManagers(List<BusinessDevelopmentManager> businessDevlopmentManagers) {
-		this.businessDevlopmentManagers = businessDevlopmentManagers;
-	}
-
-	public List<StrategicBusinessUnit> getStrategicBusinessUnits() {
-		return strategicBusinessUnits;
-	}
-
-	public void setStrategicBusinessUnits(List<StrategicBusinessUnit> strategicBusinessUnits) {
-		this.strategicBusinessUnits = strategicBusinessUnits;
-	}
-
-	public List<CocPractice> getCocPractices() {
-		return cocPractices;
-	}
-
-	public void setCocPractices(List<CocPractice> cocPractices) {
-		this.cocPractices = cocPractices;
-	}
-
-	public List<AnnualTargetEntry> getAnnualTargetEntries() {
-		return annualTargetEntries;
-	}
-
-	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public List<RevenueResourceEntry> getRevenueResourceEntry() {
-		return revenueResourceEntry;
-	}
-
-	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
-		this.revenueResourceEntry = revenueResourceEntry;
-	}
 
 }

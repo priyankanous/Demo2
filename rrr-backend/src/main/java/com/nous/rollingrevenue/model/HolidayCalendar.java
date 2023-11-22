@@ -16,10 +16,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "holiday_calendar")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class HolidayCalendar extends Auditable<String> {
 
 	@Id
@@ -35,7 +37,7 @@ public class HolidayCalendar extends Auditable<String> {
 
 	@Column(name = "holiday_day")
 	private String holidayDay;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
 	@JoinColumn(name = "fy_id", referencedColumnName = "fy_id")
@@ -45,70 +47,5 @@ public class HolidayCalendar extends Auditable<String> {
 	@JsonManagedReference
 	@JoinColumn(name = "location_id", referencedColumnName = "location_id")
 	private Location location;
-
-
-	public HolidayCalendar() {
-
-	}
-
-	public HolidayCalendar(Long holidayId, String holidayName, LocalDate holidayDate, String holidayDay,
-			FinancialYear financialYear, Location location) {
-		super();
-		this.holidayId = holidayId;
-		this.holidayName = holidayName;
-		this.holidayDate = holidayDate;
-		this.holidayDay = holidayDay;
-		this.financialYear = financialYear;
-		this.location = location;
-	}
-
-	public Long getHolidayId() {
-		return holidayId;
-	}
-
-	public void setHolidayId(Long holidayId) {
-		this.holidayId = holidayId;
-	}
-
-	public String getHolidayName() {
-		return holidayName;
-	}
-
-	public void setHolidayName(String holidayName) {
-		this.holidayName = holidayName;
-	}
-
-	public LocalDate getHolidayDate() {
-		return holidayDate;
-	}
-
-	public void setHolidayDate(LocalDate holidayDate) {
-		this.holidayDate = holidayDate;
-	}
-
-	public String getHolidayDay() {
-		return holidayDay;
-	}
-
-	public void setHolidayDay(String holidayDay) {
-		this.holidayDay = holidayDay;
-	}
-
-	public FinancialYear getFinancialYear() {
-		return financialYear;
-	}
-
-	public void setFinancialYear(FinancialYear financialYear) {
-		this.financialYear = financialYear;
-	}
-
-	public Location getLocation() {
-		return location;
-	}
-
-	public void setLocation(Location location) {
-		this.location = location;
-	}
-
 
 }

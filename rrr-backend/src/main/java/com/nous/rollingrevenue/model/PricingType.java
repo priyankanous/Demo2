@@ -9,10 +9,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "pricing_type")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class PricingType extends Auditable<String> {
 
 	@Id
@@ -25,42 +27,5 @@ public class PricingType extends Auditable<String> {
 
 	@Column(name = "pricing_type_display_name")
 	private String pricingTypeDisplayName;
-	
-
-	public PricingType() {
-
-	}
-
-	public PricingType(Long pricingTypeId, String pricingTypeName, String pricingTypeDisplayName) {
-		super();
-		this.pricingTypeId = pricingTypeId;
-		this.pricingTypeName = pricingTypeName;
-		this.pricingTypeDisplayName = pricingTypeDisplayName;
-	}
-
-	public Long getPricingTypeId() {
-		return pricingTypeId;
-	}
-
-	public void setPricingTypeId(Long pricingTypeId) {
-		this.pricingTypeId = pricingTypeId;
-	}
-
-	public String getPricingTypeName() {
-		return pricingTypeName;
-	}
-
-	public void setPricingTypeName(String pricingTypeName) {
-		this.pricingTypeName = pricingTypeName;
-	}
-
-	public String getPricingTypeDisplayName() {
-		return pricingTypeDisplayName;
-	}
-
-	public void setPricingTypeDisplayName(String pricingTypeDisplayName) {
-		this.pricingTypeDisplayName = pricingTypeDisplayName;
-	}
-
 
 }

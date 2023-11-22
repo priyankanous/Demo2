@@ -15,10 +15,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "roles_permission")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class RolesPermission extends Auditable<String> {
 
 	@Id
@@ -41,68 +43,5 @@ public class RolesPermission extends Auditable<String> {
 	@OneToMany(mappedBy = "rolesPermission")
 	@JsonBackReference
 	private List<SettingsPermission> settingsPermission = new ArrayList<>();
-
-	public RolesPermission() {
-
-	}
-
-	public RolesPermission(Long rolesPermissionId, boolean isRolesPermissionAll, boolean isDeleteRequired,
-			boolean isCreateRoleRequired, boolean isEditRoleRequired, List<SettingsPermission> settingsPermission) {
-		super();
-		this.rolesPermissionId = rolesPermissionId;
-		this.isRolesPermissionAll = isRolesPermissionAll;
-		this.isDeleteRequired = isDeleteRequired;
-		this.isCreateRoleRequired = isCreateRoleRequired;
-		this.isEditRoleRequired = isEditRoleRequired;
-		this.settingsPermission = settingsPermission;
-	}
-
-	public Long getRolesPermissionId() {
-		return rolesPermissionId;
-	}
-
-	public void setRolesPermissionId(Long rolesPermissionId) {
-		this.rolesPermissionId = rolesPermissionId;
-	}
-
-	public boolean isRolesPermissionAll() {
-		return isRolesPermissionAll;
-	}
-
-	public void setRolesPermissionAll(boolean isRolesPermissionAll) {
-		this.isRolesPermissionAll = isRolesPermissionAll;
-	}
-
-	public boolean isDeleteRequired() {
-		return isDeleteRequired;
-	}
-
-	public void setDeleteRequired(boolean isDeleteRequired) {
-		this.isDeleteRequired = isDeleteRequired;
-	}
-
-	public boolean isCreateRoleRequired() {
-		return isCreateRoleRequired;
-	}
-
-	public void setCreateRoleRequired(boolean isCreateRoleRequired) {
-		this.isCreateRoleRequired = isCreateRoleRequired;
-	}
-
-	public boolean isEditRoleRequired() {
-		return isEditRoleRequired;
-	}
-
-	public void setEditRoleRequired(boolean isEditRoleRequired) {
-		this.isEditRoleRequired = isEditRoleRequired;
-	}
-
-	public List<SettingsPermission> getSettingsPermission() {
-		return settingsPermission;
-	}
-
-	public void setSettingsPermission(List<SettingsPermission> settingsPermission) {
-		this.settingsPermission = settingsPermission;
-	}
 
 }

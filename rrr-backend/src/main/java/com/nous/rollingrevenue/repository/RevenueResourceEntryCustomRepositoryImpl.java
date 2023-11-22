@@ -83,8 +83,7 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
 
 		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
-		List<RevenueResourceEntry> result = entityManager.createQuery(criteriaQuery).getResultList();
-		return result;
+		return entityManager.createQuery(criteriaQuery).getResultList();
 	}
 
 	@Override
@@ -131,9 +130,7 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
 
 		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
-		List<RevenueResourceEntry> result = entityManager.createQuery(criteriaQuery).getResultList();
-		return result;
-
+		return entityManager.createQuery(criteriaQuery).getResultList();
 	}
 
 	@Override
@@ -184,8 +181,7 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
 
 		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
-		List<RevenueResourceEntry> result = entityManager.createQuery(criteriaQuery).getResultList();
-		return result;
+		return entityManager.createQuery(criteriaQuery).getResultList();
 	}
 
 	@Override
@@ -229,8 +225,7 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
 
 		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
-		List<RevenueResourceEntry> result = entityManager.createQuery(criteriaQuery).getResultList();
-		return result;
+		return entityManager.createQuery(criteriaQuery).getResultList();
 	}
 
 	@Override
@@ -275,9 +270,7 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
 
 		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
-		List<RevenueResourceEntry> result = entityManager.createQuery(criteriaQuery).getResultList();
-		return result;
-
+		return entityManager.createQuery(criteriaQuery).getResultList();
 	}
 
 }

@@ -348,4 +348,14 @@ public class AdministrationPermission extends Auditable<String> {
 		this.roles = roles;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		return super.equals(o);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
 }

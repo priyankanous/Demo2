@@ -43,7 +43,7 @@ public class AccountServiceImpl implements AccountService {
 	private RegionRepository regionRepository;
 
 	@Autowired
-	private OpportunityRepository OpportunityRepository;
+	private OpportunityRepository opportunityRepository;
 
 	@Autowired
 	private WorkOrderRepository workOrderRepository;
@@ -80,7 +80,7 @@ public class AccountServiceImpl implements AccountService {
 			throw new RecordNotFoundException(
 					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
 		}
-		List<Opportunity> opportunityList = OpportunityRepository.findByAccountId(accountId);
+		List<Opportunity> opportunityList = opportunityRepository.findByAccountId(accountId);
 		if (!opportunityList.isEmpty()) {
 			throw new RecordNotFoundException(
 					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
@@ -145,7 +145,7 @@ public class AccountServiceImpl implements AccountService {
 				throw new RecordNotFoundException("Region is not active and its already linked to Account");
 			}
 		}
-		List<Opportunity> opportunityList = OpportunityRepository.findByAccountId(accountId);
+		List<Opportunity> opportunityList = opportunityRepository.findByAccountId(accountId);
 		for (Opportunity opportunity : opportunityList) {
 			if (account.isActive() && opportunity.isActive()) {
 				throw new RecordNotFoundException(

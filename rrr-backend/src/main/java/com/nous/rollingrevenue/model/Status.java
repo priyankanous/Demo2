@@ -9,10 +9,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "status")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class Status extends Auditable<String> {
 
 	@Id
@@ -25,42 +27,5 @@ public class Status extends Auditable<String> {
 
 	@Column(name = "status_display_name")
 	private String statusDisplayName;
-
-
-	public Status() {
-
-	}
-
-	public Status(Long statusId, String statusName, String statusDisplayName) {
-		super();
-		this.statusId = statusId;
-		this.statusName = statusName;
-		this.statusDisplayName = statusDisplayName;
-	}
-
-	public Long getStatusId() {
-		return statusId;
-	}
-
-	public void setStatusId(Long statusId) {
-		this.statusId = statusId;
-	}
-
-	public String getStatusName() {
-		return statusName;
-	}
-
-	public void setStatusName(String statusName) {
-		this.statusName = statusName;
-	}
-
-	public String getStatusDisplayName() {
-		return statusDisplayName;
-	}
-
-	public void setStatusDisplayName(String statusDisplayName) {
-		this.statusDisplayName = statusDisplayName;
-	}
-
 
 }

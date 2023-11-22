@@ -15,10 +15,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "location")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class Location extends Auditable<String> {
 
 	@Id
@@ -43,67 +45,5 @@ public class Location extends Auditable<String> {
 	@OneToMany(mappedBy = "location")
 	@JsonBackReference
 	private List<RevenueResourceEntry> revenueResourceEntry = new ArrayList<>();
-
-	public Location() {
-
-	}
-
-	public Location(Long locationId, String locationName, String locationDisplayName,
-			List<HolidayCalendar> holidayCalendar, List<AnnualTargetEntry> annualTargetEntries) {
-		super();
-		this.locationId = locationId;
-		this.locationName = locationName;
-		this.locationDisplayName = locationDisplayName;
-		this.holidayCalendar = holidayCalendar;
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public Long getLocationId() {
-		return locationId;
-	}
-
-	public void setLocationId(Long locationId) {
-		this.locationId = locationId;
-	}
-
-	public String getLocationName() {
-		return locationName;
-	}
-
-	public void setLocationName(String locationName) {
-		this.locationName = locationName;
-	}
-
-	public String getLocationDisplayName() {
-		return locationDisplayName;
-	}
-
-	public void setLocationDisplayName(String locationDisplayName) {
-		this.locationDisplayName = locationDisplayName;
-	}
-
-	public List<HolidayCalendar> getHolidayCalendar() {
-		return holidayCalendar;
-	}
-
-	public void setHolidayCalendar(List<HolidayCalendar> holidayCalendar) {
-		this.holidayCalendar = holidayCalendar;
-	}
-
-	public List<AnnualTargetEntry> getAnnualTargetEntries() {
-		return annualTargetEntries;
-	}
-
-	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public List<RevenueResourceEntry> getRevenueResourceEntry() {
-		return revenueResourceEntry;
-	}
-
-	public void setRevenueResourceEntry(List<RevenueResourceEntry> revenueResourceEntry) {
-		this.revenueResourceEntry = revenueResourceEntry;
-	}
 
 }
