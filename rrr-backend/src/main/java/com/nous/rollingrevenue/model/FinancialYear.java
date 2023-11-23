@@ -41,7 +41,7 @@ public class FinancialYear extends Auditable<String> {
 
 	@OneToMany(mappedBy = "financialYear")
 	@JsonBackReference
-	private List<Currency> currencies = new ArrayList<>();
+	private List<CurrencyEntity> currencies = new ArrayList<>();
 
 	@OneToMany(mappedBy = "financialYear")
 	@JsonBackReference
@@ -72,7 +72,7 @@ public class FinancialYear extends Auditable<String> {
 	}
 
 	public FinancialYear(Long financialYearId, String financialYearName, String financialYearCustomName,
-			LocalDate startingFrom, LocalDate endingOn, List<Currency> currencies,
+			LocalDate startingFrom, LocalDate endingOn, List<CurrencyEntity> currencies,
 			List<GlobalMonthlyLeaveLossFactor> leaveLossFactors, List<HolidayCalendar> holidayCalendar,
 			List<BDMMeeting> bdmMeetings, List<FortnightlyMeeting> fortnightlyMeetings,
 			List<AnnualTargetEntry> annualTargetEntries) {
@@ -131,11 +131,11 @@ public class FinancialYear extends Auditable<String> {
 		this.endingOn = endingOn;
 	}
 
-	public List<Currency> getCurrencies() {
+	public List<CurrencyEntity> getCurrencies() {
 		return currencies;
 	}
 
-	public void setCurrencies(List<Currency> currencies) {
+	public void setCurrencies(List<CurrencyEntity> currencies) {
 		this.currencies = currencies;
 	}
 

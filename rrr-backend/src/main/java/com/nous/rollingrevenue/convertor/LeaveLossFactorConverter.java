@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.GlobalMonthlyLeaveLossFactorVO;
 @Component
 public class LeaveLossFactorConverter {
 
+	private LeaveLossFactorConverter() {
+		super();
+	}
+
 	/**
 	 * Convert GlobalMonthlyLeaveLossFactorVO to GlobalMonthlyLeaveLossFactor
 	 * 
@@ -22,8 +26,8 @@ public class LeaveLossFactorConverter {
 			leaveLossFactor.setMonth(leaveLossFactorVO.getMonth());
 			leaveLossFactor.setOffShore(leaveLossFactorVO.getOffShore());
 			leaveLossFactor.setOnSite(leaveLossFactorVO.getOnSite());
-			leaveLossFactor.setFinancialYear(FinancialYearConverter
-					.convertFinancialYearVOToFinancialYear(leaveLossFactorVO.getFinancialYear()));
+			leaveLossFactor.setFinancialYear(
+					FinancialYearConverter.convertFinancialYearVOToFinancialYear(leaveLossFactorVO.getFinancialYear()));
 		}
 		return leaveLossFactor;
 	}

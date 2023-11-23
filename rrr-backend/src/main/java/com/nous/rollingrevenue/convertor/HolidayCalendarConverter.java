@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.HolidayCalendarVO;
 @Component
 public class HolidayCalendarConverter {
 
+	private HolidayCalendarConverter() {
+		super();
+	}
+
 	/**
 	 * Convert HolidayCalendarVO to HolidayCalendar
 	 * 
@@ -21,7 +25,8 @@ public class HolidayCalendarConverter {
 			holidayCalendar.setHolidayName(holidayCalendarVO.getHolidayName());
 			holidayCalendar.setHolidayDate(holidayCalendarVO.getHolidayDate());
 			holidayCalendar.setHolidayDay(holidayCalendarVO.getHolidayDay());
-			holidayCalendar.setFinancialYear(FinancialYearConverter.convertFinancialYearVOToFinancialYear(holidayCalendarVO.getFinancialYear()));
+			holidayCalendar.setFinancialYear(
+					FinancialYearConverter.convertFinancialYearVOToFinancialYear(holidayCalendarVO.getFinancialYear()));
 			holidayCalendar.setLocation(LocationConverter.convertLocationVOToLocation(holidayCalendarVO.getLocation()));
 
 		}
@@ -41,7 +46,8 @@ public class HolidayCalendarConverter {
 			holidayCalendarVO.setHolidayName(holidayCalendar.getHolidayName());
 			holidayCalendarVO.setHolidayDate(holidayCalendar.getHolidayDate());
 			holidayCalendarVO.setHolidayDay(holidayCalendar.getHolidayDay());
-			holidayCalendarVO.setFinancialYear(FinancialYearConverter.convertFinancialYearToFinancialYearVO(holidayCalendar.getFinancialYear()));
+			holidayCalendarVO.setFinancialYear(
+					FinancialYearConverter.convertFinancialYearToFinancialYearVO(holidayCalendar.getFinancialYear()));
 			holidayCalendarVO.setLocation(LocationConverter.convertLocationToLocationVO(holidayCalendar.getLocation()));
 			holidayCalendarVO.setActive(holidayCalendar.isActive());
 		}

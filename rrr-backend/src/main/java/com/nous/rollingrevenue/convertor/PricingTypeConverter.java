@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.PricingTypeVO;
 @Component
 public class PricingTypeConverter {
 
+	private PricingTypeConverter() {
+		super();
+	}
+
 	/**
 	 * Convert PricingTypeVO to PricingType
 	 * 

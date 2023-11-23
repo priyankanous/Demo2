@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.LocationVO;
 @Component
 public class LocationConverter {
 
+	private LocationConverter() {
+		super();
+	}
+
 	/**
 	 * Convert LocationVO to Location
 	 * 

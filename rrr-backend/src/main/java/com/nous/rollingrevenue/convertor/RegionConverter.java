@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.RegionVO;
 @Component
 public class RegionConverter {
 
+	private RegionConverter() {
+		super();
+	}
+
 	/**
 	 * Convert RegionVO to Region
 	 * 

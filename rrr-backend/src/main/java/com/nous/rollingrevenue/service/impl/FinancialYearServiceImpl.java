@@ -18,7 +18,7 @@ import com.nous.rollingrevenue.convertor.FinancialYearConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.AnnualTargetEntry;
 import com.nous.rollingrevenue.model.BDMMeeting;
-import com.nous.rollingrevenue.model.Currency;
+import com.nous.rollingrevenue.model.CurrencyEntity;
 import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.FortnightlyMeeting;
 import com.nous.rollingrevenue.model.GlobalMonthlyLeaveLossFactor;
@@ -80,7 +80,7 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	@Override
 	@Transactional
 	public void deleteFinancialYearById(Long financialYearId) {
-		List<Currency> currencyList = currencyRepository.findByFinancialYearId(financialYearId);
+		List<CurrencyEntity> currencyList = currencyRepository.findByFinancialYearId(financialYearId);
 		if (!currencyList.isEmpty()) {
 			throw new RecordNotFoundException(
 					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
@@ -161,8 +161,8 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	public void activateOrDeactivateById(Long financialYearId) {
 		FinancialYear financialYear = financialYearRepository.findById(financialYearId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
-		List<Currency> currencyList = currencyRepository.findByFinancialYearId(financialYearId);
-		for (Currency currency : currencyList) {
+		List<CurrencyEntity> currencyList = currencyRepository.findByFinancialYearId(financialYearId);
+		for (CurrencyEntity currency : currencyList) {
 			if (financialYear.isActive() && currency.isActive()) {
 				throw new RecordNotFoundException(
 						"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");

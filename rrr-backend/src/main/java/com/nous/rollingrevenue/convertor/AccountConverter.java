@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.AccountVO;
 @Component
 public class AccountConverter {
 
+	private AccountConverter() {
+		super();
+	}
+
 	/**
 	 * Convert AccountVO to Account
 	 * 

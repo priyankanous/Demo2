@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.RolesVO;
 @Component
 public class RolesConverter {
 
+	private RolesConverter() {
+		super();
+	}
+
 	/**
 	 * Convert RolesVO to Roles
 	 * 

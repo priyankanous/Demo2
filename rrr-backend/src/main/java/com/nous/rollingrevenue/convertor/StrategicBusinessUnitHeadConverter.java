@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.StrategicBusinessUnitHeadVO;
 @Component
 public class StrategicBusinessUnitHeadConverter {
 
+	private StrategicBusinessUnitHeadConverter() {
+		super();
+	}
+
 	/**
 	 * Convert StrategicBusinessUnitHeadVO to StrategicBusinessHeadUnit
 	 * 

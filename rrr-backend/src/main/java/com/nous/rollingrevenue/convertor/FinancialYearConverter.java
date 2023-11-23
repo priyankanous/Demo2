@@ -7,7 +7,11 @@ import com.nous.rollingrevenue.vo.FinancialYearVO;
 
 @Component
 public class FinancialYearConverter {
-	
+
+	private FinancialYearConverter() {
+		super();
+	}
+
 	/**
 	 * Convert FinancialYearVO to FinancialYear
 	 * 
@@ -26,8 +30,7 @@ public class FinancialYearConverter {
 		}
 		return financialYear;
 	}
-	
-	
+
 	/**
 	 * Convert FinancialYear to FinancialYearVO
 	 * 
@@ -47,6 +50,5 @@ public class FinancialYearConverter {
 		}
 		return financialYearVO;
 	}
-
 
 }

@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.StatusVO;
 @Component
 public class StatusConverter {
 
+	private StatusConverter() {
+		super();
+	}
+
 	/**
 	 * Convert StatusVO to Status
 	 * 

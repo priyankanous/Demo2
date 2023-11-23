@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.ProbabilityTypeVO;
 @Component
 public class ProbabilityTypeConverter {
 
+	private ProbabilityTypeConverter() {
+		super();
+	}
+
 	/**
 	 * Convert ProbabilityTypeVO to ProbabilityType
 	 * 

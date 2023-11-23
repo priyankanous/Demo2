@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.BusinessUnitVO;
 @Component
 public class BusinessUnitConverter {
 
+	private BusinessUnitConverter() {
+		super();
+	}
+
 	/**
 	 * Convert BusinessUnitVO to BusinessUnit
 	 * 

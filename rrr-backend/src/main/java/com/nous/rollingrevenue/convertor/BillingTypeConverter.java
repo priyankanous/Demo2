@@ -4,7 +4,11 @@ import com.nous.rollingrevenue.model.BillingType;
 import com.nous.rollingrevenue.vo.BillingTypeVO;
 
 public class BillingTypeConverter {
-	
+
+	private BillingTypeConverter() {
+		super();
+	}
+
 	/**
 	 * Convert BillingTypeVO to BillingType
 	 * 
@@ -21,7 +25,7 @@ public class BillingTypeConverter {
 		}
 		return billingType;
 	}
-	
+
 	/**
 	 * Convert BillingType to BillingTypeVO
 	 * 

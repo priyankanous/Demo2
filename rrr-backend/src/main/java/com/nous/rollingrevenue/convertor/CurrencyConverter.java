@@ -2,11 +2,15 @@ package com.nous.rollingrevenue.convertor;
 
 import org.springframework.stereotype.Component;
 
-import com.nous.rollingrevenue.model.Currency;
+import com.nous.rollingrevenue.model.CurrencyEntity;
 import com.nous.rollingrevenue.vo.CurrencyVO;
 
 @Component
 public class CurrencyConverter {
+
+	private CurrencyConverter() {
+		super();
+	}
 
 	/**
 	 * Convert CurrencyVO to Currency
@@ -15,8 +19,8 @@ public class CurrencyConverter {
 	 * @return Currency
 	 */
 
-	public static Currency convertCurrencyVOToCurrency(CurrencyVO currencyVO) {
-		Currency currency = new Currency();
+	public static CurrencyEntity convertCurrencyVOToCurrency(CurrencyVO currencyVO) {
+		CurrencyEntity currency = new CurrencyEntity();
 		if (currencyVO != null) {
 			currency.setCurrencyId(currencyVO.getCurrencyId());
 			currency.setCurrency(currencyVO.getCurrency());
@@ -33,11 +37,11 @@ public class CurrencyConverter {
 	/**
 	 * Convert Currency to CurrencyVO
 	 * 
-	 * @param Currency
+	 * @param CurrencyEntity
 	 * @return CurrencyVO
 	 */
 
-	public static CurrencyVO convertCurrencyToCurrencyVO(Currency currency) {
+	public static CurrencyVO convertCurrencyToCurrencyVO(CurrencyEntity currency) {
 		CurrencyVO currencyVO = new CurrencyVO();
 		if (currency != null) {
 			currencyVO.setCurrencyId(currency.getCurrencyId());

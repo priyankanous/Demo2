@@ -6,14 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.nous.rollingrevenue.model.Currency;
+import com.nous.rollingrevenue.model.CurrencyEntity;
 
 @Repository
-public interface CurrencyRepository extends JpaRepository<Currency, Long> {
+public interface CurrencyRepository extends JpaRepository<CurrencyEntity, Long> {
 
-	List<Currency> findByFinancialYear(String financialYear);
+	List<CurrencyEntity> findByFinancialYear(String financialYear);
 
-	@Query("SELECT c from Currency c where c.financialYear.financialYearId = ?1")
-	List<Currency> findByFinancialYearId(Long financialYearId);
+	@Query("SELECT c from CurrencyEntity c where c.financialYear.financialYearId = ?1")
+	List<CurrencyEntity> findByFinancialYearId(Long financialYearId);
 
 }

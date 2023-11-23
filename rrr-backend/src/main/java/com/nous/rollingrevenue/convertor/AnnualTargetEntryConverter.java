@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.AnnualTargetEntryVO;
 @Component
 public class AnnualTargetEntryConverter {
 
+	private AnnualTargetEntryConverter() {
+		super();
+	}
+
 	/**
 	 * Convert AnnualTargetEntryVO to AnnualTargetEntry
 	 * 
@@ -15,20 +19,29 @@ public class AnnualTargetEntryConverter {
 	 * @return AnnualTargetEntry
 	 */
 
-	public static AnnualTargetEntry convertAnnualTargetEntryVOToAnnualTargetEntry(AnnualTargetEntryVO annualTargetEntryVO) {
+	public static AnnualTargetEntry convertAnnualTargetEntryVOToAnnualTargetEntry(
+			AnnualTargetEntryVO annualTargetEntryVO) {
 		AnnualTargetEntry annualTargetEntry = new AnnualTargetEntry();
 		if (annualTargetEntryVO != null) {
 			annualTargetEntry.setAnnualTargetEntryId(annualTargetEntryVO.getAnnualTargetEntryId());
-			annualTargetEntry.setFinancialYear(FinancialYearConverter.convertFinancialYearVOToFinancialYear(annualTargetEntryVO.getFinancialYear()));
-			annualTargetEntry.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(annualTargetEntryVO.getBusinessUnit()));
-			annualTargetEntry.setStartegicBusinessUnit(StrategicBusinessUnitConverter.convertSBUVOToSBU(annualTargetEntryVO.getStartegicBusinessUnit()));
-			annualTargetEntry.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter.convertSBUHeadVOToSBUHead(annualTargetEntryVO.getStrategicBusinessUnitHead()));
-			annualTargetEntry.setLocation(LocationConverter.convertLocationVOToLocation(annualTargetEntryVO.getLocation()));
+			annualTargetEntry.setFinancialYear(FinancialYearConverter
+					.convertFinancialYearVOToFinancialYear(annualTargetEntryVO.getFinancialYear()));
+			annualTargetEntry.setBusinessUnit(
+					BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(annualTargetEntryVO.getBusinessUnit()));
+			annualTargetEntry.setStartegicBusinessUnit(
+					StrategicBusinessUnitConverter.convertSBUVOToSBU(annualTargetEntryVO.getStartegicBusinessUnit()));
+			annualTargetEntry.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter
+					.convertSBUHeadVOToSBUHead(annualTargetEntryVO.getStrategicBusinessUnitHead()));
+			annualTargetEntry
+					.setLocation(LocationConverter.convertLocationVOToLocation(annualTargetEntryVO.getLocation()));
 			annualTargetEntry.setRegion(RegionConverter.convertRegionVOToRegion(annualTargetEntryVO.getRegion()));
 			annualTargetEntry.setAccount(AccountConverter.convertAccountVOToAccount(annualTargetEntryVO.getAccount()));
-			annualTargetEntry.setBusinessType(BusinessTypeConverter.convertBusinessTypeVOToBusinessType(annualTargetEntryVO.getBusinessType()));
-			annualTargetEntry.setCocPractice(CocPracticeConverter.convertCocPracticeVOToCocPractice(annualTargetEntryVO.getCocPractice()));
-			annualTargetEntry.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter.convertBdmVOToBdm(annualTargetEntryVO.getBusinessDevelopmentManager()));
+			annualTargetEntry.setBusinessType(
+					BusinessTypeConverter.convertBusinessTypeVOToBusinessType(annualTargetEntryVO.getBusinessType()));
+			annualTargetEntry.setCocPractice(
+					CocPracticeConverter.convertCocPracticeVOToCocPractice(annualTargetEntryVO.getCocPractice()));
+			annualTargetEntry.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter
+					.convertBdmVOToBdm(annualTargetEntryVO.getBusinessDevelopmentManager()));
 			annualTargetEntry.setQ1FYB(annualTargetEntryVO.getQ1FYB());
 			annualTargetEntry.setQ1FYS(annualTargetEntryVO.getQ1FYS());
 			annualTargetEntry.setQ1FYT(annualTargetEntryVO.getQ1FYT());
@@ -42,12 +55,11 @@ public class AnnualTargetEntryConverter {
 			annualTargetEntry.setQ4FYS(annualTargetEntryVO.getQ4FYS());
 			annualTargetEntry.setQ4FYT(annualTargetEntryVO.getQ4FYT());
 			annualTargetEntry.setFY(annualTargetEntryVO.getFY());
-			
+
 		}
 		return annualTargetEntry;
 	}
-	
-	
+
 	/**
 	 * Convert AnnualTargetEntry to AnnualTargetEntryVO
 	 * 
@@ -55,20 +67,29 @@ public class AnnualTargetEntryConverter {
 	 * @return AnnualTargetEntryVO
 	 */
 
-	public static AnnualTargetEntryVO convertAnnualTargetEntryToAnnualTargetEntryVO(AnnualTargetEntry annualTargetEntry) {
+	public static AnnualTargetEntryVO convertAnnualTargetEntryToAnnualTargetEntryVO(
+			AnnualTargetEntry annualTargetEntry) {
 		AnnualTargetEntryVO annualTargetEntryVO = new AnnualTargetEntryVO();
 		if (annualTargetEntry != null) {
 			annualTargetEntryVO.setAnnualTargetEntryId(annualTargetEntry.getAnnualTargetEntryId());
-			annualTargetEntryVO.setFinancialYear(FinancialYearConverter.convertFinancialYearToFinancialYearVO(annualTargetEntry.getFinancialYear()));
-			annualTargetEntryVO.setBusinessUnit(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(annualTargetEntry.getBusinessUnit()));
-			annualTargetEntryVO.setStartegicBusinessUnit(StrategicBusinessUnitConverter.convertSBUToSBUVO(annualTargetEntry.getStartegicBusinessUnit()));
-			annualTargetEntryVO.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(annualTargetEntry.getStrategicBusinessUnitHead()));
-			annualTargetEntryVO.setLocation(LocationConverter.convertLocationToLocationVO(annualTargetEntry.getLocation()));
+			annualTargetEntryVO.setFinancialYear(
+					FinancialYearConverter.convertFinancialYearToFinancialYearVO(annualTargetEntry.getFinancialYear()));
+			annualTargetEntryVO.setBusinessUnit(
+					BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(annualTargetEntry.getBusinessUnit()));
+			annualTargetEntryVO.setStartegicBusinessUnit(
+					StrategicBusinessUnitConverter.convertSBUToSBUVO(annualTargetEntry.getStartegicBusinessUnit()));
+			annualTargetEntryVO.setStrategicBusinessUnitHead(StrategicBusinessUnitHeadConverter
+					.convertSBUHeadToSBUHeadVO(annualTargetEntry.getStrategicBusinessUnitHead()));
+			annualTargetEntryVO
+					.setLocation(LocationConverter.convertLocationToLocationVO(annualTargetEntry.getLocation()));
 			annualTargetEntryVO.setRegion(RegionConverter.convertRegionToRegionVO(annualTargetEntry.getRegion()));
 			annualTargetEntryVO.setAccount(AccountConverter.convertAccountToAccountVO(annualTargetEntry.getAccount()));
-			annualTargetEntryVO.setBusinessType(BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(annualTargetEntry.getBusinessType()));
-			annualTargetEntryVO.setCocPractice(CocPracticeConverter.convertCocPracticeToCocPracticeVO(annualTargetEntry.getCocPractice()));
-			annualTargetEntryVO.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter.convertBdmToBdmVO(annualTargetEntry.getBusinessDevelopmentManager()));
+			annualTargetEntryVO.setBusinessType(
+					BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(annualTargetEntry.getBusinessType()));
+			annualTargetEntryVO.setCocPractice(
+					CocPracticeConverter.convertCocPracticeToCocPracticeVO(annualTargetEntry.getCocPractice()));
+			annualTargetEntryVO.setBusinessDevelopmentManager(BusinessDevelopmentManagerConverter
+					.convertBdmToBdmVO(annualTargetEntry.getBusinessDevelopmentManager()));
 			annualTargetEntryVO.setQ1FYB(annualTargetEntry.getQ1FYB());
 			annualTargetEntryVO.setQ1FYS(annualTargetEntry.getQ1FYS());
 			annualTargetEntryVO.setQ1FYT(annualTargetEntry.getQ1FYT());
@@ -83,7 +104,7 @@ public class AnnualTargetEntryConverter {
 			annualTargetEntryVO.setQ4FYT(annualTargetEntry.getQ4FYT());
 			annualTargetEntryVO.setFY(annualTargetEntry.getFY());
 			annualTargetEntryVO.setActive(annualTargetEntry.isActive());
-			
+
 		}
 		return annualTargetEntryVO;
 	}

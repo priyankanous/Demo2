@@ -20,7 +20,6 @@ import com.nous.rollingrevenue.exception.ExcelParserException;
 import com.nous.rollingrevenue.exception.InvalidFileTypeException;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 
-
 @RestControllerAdvice
 public class RollingRevenueExceptionAdvice {
 
@@ -35,18 +34,18 @@ public class RollingRevenueExceptionAdvice {
 		LOGGER.warn(ex.getMessage());
 		return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
 	}
-	
+
 	@ExceptionHandler(InvalidFileTypeException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public final ResponseEntity<Object> handleInvalidFileTypeException(InvalidFileTypeException ex, WebRequest request) {
+	public final ResponseEntity<Object> handleInvalidFileTypeException(InvalidFileTypeException ex,
+			WebRequest request) {
 		List<String> details = new ArrayList<>();
 		details.add(ex.getLocalizedMessage());
 		ErrorResponse error = new ErrorResponse(ErrorConstants.INVALID_FILE_TYPE, details);
 		LOGGER.warn(ex.getMessage());
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
-	
-	
+
 	@ExceptionHandler(ExcelParserException.class)
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	public final ResponseEntity<Object> handleInvalidFileTypeException(ExcelParserException ex, WebRequest request) {
@@ -63,7 +62,7 @@ public class RollingRevenueExceptionAdvice {
 		List<String> details = new ArrayList<>();
 		ex.getBindingResult().getFieldErrors().stream().forEach(error -> details.add(error.getDefaultMessage()));
 		ErrorResponse error = new ErrorResponse(ErrorConstants.VALIDATION_FAIL, details);
-		LOGGER.error(error.toString());
+		LOGGER.error(error.getMessage());
 		return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
 	}
 

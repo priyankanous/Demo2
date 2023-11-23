@@ -1,11 +1,16 @@
 package com.nous.rollingrevenue.convertor;
 
 import org.springframework.stereotype.Component;
+
 import com.nous.rollingrevenue.model.WorkOrder;
 import com.nous.rollingrevenue.vo.WorkOrderVO;
 
 @Component
 public class WorkOrderConverter {
+
+	private WorkOrderConverter() {
+		super();
+	}
 
 	/**
 	 * Convert WorkOrderVO to WorkOrder

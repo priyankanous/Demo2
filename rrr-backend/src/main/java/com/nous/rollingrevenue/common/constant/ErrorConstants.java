@@ -2,6 +2,10 @@ package com.nous.rollingrevenue.common.constant;
 
 public class ErrorConstants {
 
+	private ErrorConstants() {
+		super();
+	}
+
 	public static final String INPUT_FILE_MISSING = "Please select a file to Upload";
 
 	public static final String INVALID_INPUT_FILE = "Upload File must be Excel";

@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.OpportunityVO;
 @Component
 public class OpportunityConverter {
 
+	private OpportunityConverter() {
+		super();
+	}
+
 	/**
 	 * Convert OpportunityVO to Opportunity
 	 * 

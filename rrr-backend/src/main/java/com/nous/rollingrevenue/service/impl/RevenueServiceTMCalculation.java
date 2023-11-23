@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
 import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
-import com.nous.rollingrevenue.model.Currency;
+import com.nous.rollingrevenue.model.CurrencyEntity;
 import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.HolidayCalendar;
 import com.nous.rollingrevenue.model.RevenueResourceEntry;
@@ -94,12 +94,12 @@ public class RevenueServiceTMCalculation {
 	}
 
 	private BigDecimal getConversionRateValue(FinancialYear financialYear, long currencyId) {
-		List<Currency> currencyList = financialYear.getCurrencies();
-		Currency currency = currencyRepository.findById(currencyId)
+		List<CurrencyEntity> currencyList = financialYear.getCurrencies();
+		CurrencyEntity currency = currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "Currency"));
 
 		return currencyList.stream().filter(c -> currency.getCurrencyName().equalsIgnoreCase(c.getCurrencyName()))
-				.map(Currency::getConversionRate).findFirst().orElse(null);
+				.map(CurrencyEntity::getConversionRate).findFirst().orElse(null);
 	}
 
 	public Map<String, BigInteger> setQuarterlyDetails(Map<String, BigInteger> fyRevenue,

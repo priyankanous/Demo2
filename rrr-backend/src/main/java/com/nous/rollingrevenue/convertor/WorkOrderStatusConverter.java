@@ -8,6 +8,10 @@ import com.nous.rollingrevenue.vo.WorkOrderStatusVO;
 @Component
 public class WorkOrderStatusConverter {
 
+	private WorkOrderStatusConverter() {
+		super();
+	}
+
 	/**
 	 * Convert WorkOrderStatusVO to WorkOrderStatus
 	 * 

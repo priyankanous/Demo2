@@ -7,7 +7,11 @@ import com.nous.rollingrevenue.vo.BusinessTypeVO;
 
 @Component
 public class BusinessTypeConverter {
-	
+
+	private BusinessTypeConverter() {
+		super();
+	}
+
 	/**
 	 * Convert BusinessTypeVO to BusinessType
 	 * 
@@ -24,8 +28,7 @@ public class BusinessTypeConverter {
 		}
 		return businessType;
 	}
-	
-	
+
 	/**
 	 * Convert BusinessType to BusinessTypeVO
 	 * 
@@ -43,6 +46,5 @@ public class BusinessTypeConverter {
 		}
 		return businessTypeVO;
 	}
-
 
 }

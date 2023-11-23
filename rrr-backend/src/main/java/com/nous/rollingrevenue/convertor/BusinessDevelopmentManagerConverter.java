@@ -15,6 +15,10 @@ import com.nous.rollingrevenue.vo.RegionVO;
 @Component
 public class BusinessDevelopmentManagerConverter {
 
+	private BusinessDevelopmentManagerConverter() {
+		super();
+	}
+
 	/**
 	 * Convert BDM VO to BDM
 	 * 
@@ -29,11 +33,13 @@ public class BusinessDevelopmentManagerConverter {
 			bdm.setBdmDisplayName(bdmVO.getBdmDisplayName());
 			bdm.setActiveFrom(bdmVO.getActiveFrom());
 			bdm.setActiveUntil(bdmVO.getActiveUntil());
-			List<BusinessUnit> businessUnits=new ArrayList<>();
-			bdmVO.getBusinessUnits().stream().forEach(businessUnitVO -> businessUnits.add(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(businessUnitVO)));
+			List<BusinessUnit> businessUnits = new ArrayList<>();
+			bdmVO.getBusinessUnits().stream().forEach(businessUnitVO -> businessUnits
+					.add(BusinessUnitConverter.convertBusinessUnitVOToBusinessUnit(businessUnitVO)));
 			bdm.setBusinessUnits(businessUnits);
 			List<Region> regions = new ArrayList<>();
-			bdmVO.getRegions().stream().forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
+			bdmVO.getRegions().stream()
+					.forEach(regionVO -> regions.add(RegionConverter.convertRegionVOToRegion(regionVO)));
 			bdm.setRegions(regions);
 		}
 		return bdm;
@@ -53,8 +59,9 @@ public class BusinessDevelopmentManagerConverter {
 			bdmVO.setBdmDisplayName(bdm.getBdmDisplayName());
 			bdmVO.setActiveFrom(bdm.getActiveFrom());
 			bdmVO.setActiveUntil(bdm.getActiveUntil());
-			List<BusinessUnitVO> businessUnitVOs=new ArrayList<>();
-			bdm.getBusinessUnits().stream().forEach(businessUnit -> businessUnitVOs.add(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnit)));
+			List<BusinessUnitVO> businessUnitVOs = new ArrayList<>();
+			bdm.getBusinessUnits().stream().forEach(businessUnit -> businessUnitVOs
+					.add(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(businessUnit)));
 			bdmVO.setBusinessUnits(businessUnitVOs);
 			List<RegionVO> regionVOs = new ArrayList<>();
 			bdm.getRegions().stream().forEach(region -> regionVOs.add(RegionConverter.convertRegionToRegionVO(region)));

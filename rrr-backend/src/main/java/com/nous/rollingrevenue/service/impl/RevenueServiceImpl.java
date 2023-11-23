@@ -45,7 +45,7 @@ import com.nous.rollingrevenue.convertor.StrategicBusinessUnitConverter;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitHeadConverter;
 import com.nous.rollingrevenue.convertor.WorkOrderConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
-import com.nous.rollingrevenue.model.Currency;
+import com.nous.rollingrevenue.model.CurrencyEntity;
 import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.MilestoneEntry;
 import com.nous.rollingrevenue.model.Opportunity;
@@ -483,15 +483,15 @@ public class RevenueServiceImpl implements RevenueService {
 	private BigInteger getResourceFPRevenueInFYBaseCurrency(RevenueResourceEntry revenueFPResourceEntry,
 			FinancialYear financialYear) {
 		BigInteger resourceFPRevenue = revenueFPResourceEntry.getRevenue();
-		List<Currency> currencies = financialYear.getCurrencies();
-		Optional<Currency> baseCurrencyOfFinancialYear = currencies.stream().filter(Currency::isBaseCurrency)
+		List<CurrencyEntity> currencies = financialYear.getCurrencies();
+		Optional<CurrencyEntity> baseCurrencyOfFinancialYear = currencies.stream().filter(CurrencyEntity::isBaseCurrency)
 				.findFirst();
 
 		if (baseCurrencyOfFinancialYear.isPresent()) {
-			Currency baseCurrency = baseCurrencyOfFinancialYear.get();
+			CurrencyEntity baseCurrency = baseCurrencyOfFinancialYear.get();
 			if (!(baseCurrency.getCurrencyName()
 					.equals(revenueFPResourceEntry.getRevenueEntry().getCurrency().getCurrencyName()))) {
-				Currency resourceCurrencyType = currencies.stream().filter(currency -> revenueFPResourceEntry
+				CurrencyEntity resourceCurrencyType = currencies.stream().filter(currency -> revenueFPResourceEntry
 						.getRevenueEntry().getCurrency().getCurrencyName().equals(currency.getCurrencyName()))
 						.findFirst().get();
 				resourceFPRevenue = new BigDecimal(resourceFPRevenue)

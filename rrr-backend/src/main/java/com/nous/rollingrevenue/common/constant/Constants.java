@@ -3,6 +3,10 @@ package com.nous.rollingrevenue.common.constant;
 
 public class Constants {
 
+	private Constants() {
+		super();
+	}
+
 	public static final String REG_SUCC_EMAIL_SUB = "You registered sucessfully";
 
 	public static final String PRICING_TYPE_TM = "T&M";
@@ -22,13 +26,13 @@ public class Constants {
 	public static final String HOURLY = "Hourly";
 
 	public static final String DAILY = "Daily";
-	
+
 	public static final String WEEKLY = "Weekly";
-	
+
 	public static final String TWOWEEKS = "TwoWeeks";
 
 	public static final String MONTHLY = "Monthly";
-	
+
 	public static final String TWO_MONTHS = "TwoMonths";
 
 	public static final String QUARTERLY = "Quarterly";
@@ -50,11 +54,11 @@ public class Constants {
 	public static final String PROBABILITY_TYPE_UPSIDE = "Upside";
 
 	public static final String PROBABILITY_TYPE_HIGH_UPSIDE = "High-Upside";
-	
+
 	public static final String BUSINESS_UNIT_GSS = "GSS";
-	
+
 	public static final String BUSINESS_UNIT_TESTREE = "Testree";
-	
+
 	public static final String BUSINESS_UNIT_VSERVE = "VServe";
 
 	public static final String REGION_NA = "NA";
@@ -62,7 +66,7 @@ public class Constants {
 	public static final String REGION_EU = "EU";
 
 	public static final String REGION_APAC = "APAC";
-	
+
 	public static final String SBU_CLIENT_TYPE_AMU = "AMU";
 
 	public static final String SBU_CLIENT_TYPE_APAC1 = "APAC1";
@@ -80,6 +84,5 @@ public class Constants {
 	public static final String SBU_CLIENT_TYPE_TESTREE2 = "TESTREE2";
 
 	public static final String SBU_CLIENT_TYPE_VSERVE = "VSERVE";
-
 
 }

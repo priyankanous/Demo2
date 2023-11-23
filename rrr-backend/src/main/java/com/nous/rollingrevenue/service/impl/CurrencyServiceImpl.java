@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.CurrencyConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
-import com.nous.rollingrevenue.model.Currency;
+import com.nous.rollingrevenue.model.CurrencyEntity;
 import com.nous.rollingrevenue.model.FinancialYear;
 import com.nous.rollingrevenue.model.RevenueEntry;
 import com.nous.rollingrevenue.repository.CurrencyRepository;
@@ -50,7 +50,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@Override
 	@Transactional
 	public void saveCurrency(CurrencyVO currencyVO) {
-		Currency currency = CurrencyConverter.convertCurrencyVOToCurrency(currencyVO);
+		CurrencyEntity currency = CurrencyConverter.convertCurrencyVOToCurrency(currencyVO);
 		FinancialYear financialYear = financialYearRepository
 				.findById(currencyVO.getFinancialYear().getFinancialYearId())
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_DOES_NOT_EXIST + "FinancialYear"));
@@ -72,7 +72,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Override
 	public CurrencyVO getCurrencyById(Long currencyId) {
-		Currency currency = currencyRepository.findById(currencyId)
+		CurrencyEntity currency = currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
 		return CurrencyConverter.convertCurrencyToCurrencyVO(currency);
 	}
@@ -80,7 +80,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@Override
 	@Transactional
 	public void updateCurrency(Long currencyId, CurrencyVO currencyVO) {
-		Currency currency = currencyRepository.findById(currencyId)
+		CurrencyEntity currency = currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
 		currency.setCurrency(currencyVO.getCurrency());
 		currency.setCurrencyName(currencyVO.getCurrencyName());
@@ -98,7 +98,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 	public List<CurrencyVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<CurrencyVO> currencyVOs = new ArrayList<>();
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
-		Page<Currency> pageResult = currencyRepository.findAll(paging);
+		Page<CurrencyEntity> pageResult = currencyRepository.findAll(paging);
 		if (pageResult.hasContent()) {
 			pageResult.getContent().stream().forEach(e -> {
 				currencyVOs.add(CurrencyConverter.convertCurrencyToCurrencyVO(e));
@@ -111,7 +111,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@Override
 	@Transactional
 	public void activateOrDeactivateById(Long currencyId) {
-		Currency currency = currencyRepository.findById(currencyId)
+		CurrencyEntity currency = currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
 		Optional<FinancialYear> optional = financialYearRepository
 				.findById(currency.getFinancialYear().getFinancialYearId());
@@ -146,7 +146,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 	@Override
 	@Transactional
 	public void saveListOfCurrency(List<CurrencyVO> currencyVOs) {
-		List<Currency> currencies = new ArrayList<>();
+		List<CurrencyEntity> currencies = new ArrayList<>();
 		currencyVOs.stream()
 				.forEach(currencyVO -> currencies.add(CurrencyConverter.convertCurrencyVOToCurrency(currencyVO)));
 		currencyRepository.saveAll(currencies);

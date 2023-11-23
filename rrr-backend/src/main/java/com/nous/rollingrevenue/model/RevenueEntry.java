@@ -50,7 +50,7 @@ public class RevenueEntry extends Auditable<String> {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
 	@JoinColumn(name = "currency_id", referencedColumnName = "currency_id")
-	private Currency currency;
+	private CurrencyEntity currency;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonManagedReference
