@@ -206,7 +206,7 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 		Set<Entry<Boolean, List<RevenueResourceEntry>>> entrySet = partitionResourceEntriesByPricingType.entrySet();
 
 		for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
-			if (entry.getKey()) {
+			if (Boolean.TRUE.equals(entry.getKey())) {
 				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
 				financialYearRevenue = revenueServiceImpl.calculateFPRevenue(revenueFPResourceEntries, financialYear,
 						isDisplayAdditionalQuarter);

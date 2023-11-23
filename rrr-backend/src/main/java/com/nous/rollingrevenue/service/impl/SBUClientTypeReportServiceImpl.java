@@ -58,7 +58,7 @@ public class SBUClientTypeReportServiceImpl implements SBUClientTypeReportServic
 		LocalDate fyStartDate = LocalDate.of(financialYearStartingFrom.getYear(), 4, 1);
 		LocalDate fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 3, 31);
 
-		BusinessTypeResponse BusinessTypeResponse = new BusinessTypeResponse();
+		BusinessTypeResponse businessTypeResponse = new BusinessTypeResponse();
 		List<BusinessTypeOutDTO> outDTOList = new ArrayList<>();
 		List<RevenueResourceEntry> revenueResourceEntryList = revenueResourceEntryCustomRepository
 				.findRevenueResourceDetailsForSBUClient(sbuClientTypeReportRequest);
@@ -145,24 +145,24 @@ public class SBUClientTypeReportServiceImpl implements SBUClientTypeReportServic
 		List<String> quarterlyDetails = setQuarterlyDetails(fyStartDate);
 
 		if ("Monthly".equalsIgnoreCase(sbuClientTypeReportRequest.getViewType())) {
-			BusinessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
+			businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
 			outDTOList = setBusinessTypeDetails(listOfMonthsBetweenFinancialYear, financialYearRevenueAMU,
 					financialYearRevenueAPAC1, financialYearRevenueEURASIAUSRTM1, financialYearRevenueUSBFSIE,
 					financialYearRevenueUSFITCHRTM3, financialYearRevenueUSHLCEMVRTM2, financialYearRevenueTESTREE1,
 					financialYearRevenueTESTREE2, financialYearRevenueVSERVE);
 
-			BusinessTypeResponse.setOutDTOList(outDTOList);
+			businessTypeResponse.setOutDTOList(outDTOList);
 		} else {
-			BusinessTypeResponse.setLabels(quarterlyDetails);
+			businessTypeResponse.setLabels(quarterlyDetails);
 			outDTOList = setBusinessTypeDetails(quarterlyDetails, financialYearRevenueAMU, financialYearRevenueAPAC1,
 					financialYearRevenueEURASIAUSRTM1, financialYearRevenueUSBFSIE, financialYearRevenueUSFITCHRTM3,
 					financialYearRevenueUSHLCEMVRTM2, financialYearRevenueTESTREE1, financialYearRevenueTESTREE2,
 					financialYearRevenueVSERVE);
 
-			BusinessTypeResponse.setOutDTOList(outDTOList);
+			businessTypeResponse.setOutDTOList(outDTOList);
 		}
-		BusinessTypeResponse.setFinancialYearName(financialYear.getFinancialYearName());
-		return BusinessTypeResponse;
+		businessTypeResponse.setFinancialYearName(financialYear.getFinancialYearName());
+		return businessTypeResponse;
 	}
 
 	private List<BusinessTypeOutDTO> setBusinessTypeDetails(List<String> list,
@@ -306,7 +306,7 @@ public class SBUClientTypeReportServiceImpl implements SBUClientTypeReportServic
 		Set<Entry<Boolean, List<RevenueResourceEntry>>> entrySet = partitionResourceEntriesByPricingType.entrySet();
 
 		for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
-			if (entry.getKey()) {
+			if (Boolean.TRUE.equals(entry.getKey())) {
 				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
 				financialYearRevenue = revenueServiceImpl.calculateFPRevenue(revenueFPResourceEntries, financialYear,
 						isDisplayAdditionalQuarter);

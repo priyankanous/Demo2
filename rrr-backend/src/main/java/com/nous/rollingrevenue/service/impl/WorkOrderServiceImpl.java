@@ -53,7 +53,7 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 					.getPartitionWorkOrdersByWorkOrderNumber(excelWorkOrderVOs, dbworkOrders);
 			Set<Entry<Boolean, List<WorkOrderVO>>> entrySet = partitionWorkOrdersByWorkOrderNumber.entrySet();
 			for (Entry<Boolean, List<WorkOrderVO>> entry : entrySet) {
-				if (entry.getKey()) {
+				if (Boolean.TRUE.equals(entry.getKey())) {
 					List<WorkOrderVO> workOrderNumberMatch = entry.getValue();
 					if (!workOrderNumberMatch.isEmpty()) {
 						List<WorkOrderVO> unmatchedWorkOrders = this

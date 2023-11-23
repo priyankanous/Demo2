@@ -232,7 +232,7 @@ public class RevenueServiceTMCalculation {
 			Month month = localDate.getMonth();
 			Integer year = localDate.getYear();
 			monthlyBillRate = convertBillingTypeToMonthly(billingRateType, financialYear, month.getValue(),
-					month.name().toString(), billingRate, leaveLossFactor, year.toString());
+					month.name(), billingRate, leaveLossFactor, year.toString());
 			if (fyRevenue.containsKey(monthAndYear)) {
 				fyRevenue.put(monthAndYear,
 						fyRevenue.get(monthAndYear).add(BigDecimal.valueOf(monthlyBillRate).toBigInteger()));
@@ -251,7 +251,7 @@ public class RevenueServiceTMCalculation {
 		long billRate = billingRate.longValue();
 
 		if (Constants.HOURLY.equalsIgnoreCase(billingType)) {
-			cal = billRate * totalHours;
+			cal = (double) billRate * totalHours;
 		} else if (Constants.DAILY.equalsIgnoreCase(billingType)) {
 			cal = billRate * (totalHours / 8);
 		} else if (Constants.WEEKLY.equalsIgnoreCase(billingType)) {

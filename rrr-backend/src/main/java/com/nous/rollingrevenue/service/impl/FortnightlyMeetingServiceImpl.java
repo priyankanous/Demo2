@@ -99,21 +99,19 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 				.findById(fortnightlyMeetingVO.getFinancialYear().getFinancialYearId()).get().getFortnightlyMeetings();
 		if (!findByFinancialYear.isEmpty()) {
 			if (!fortnightlyMeetingVO.getMeetingDate()
-					.equals(findByFinancialYear.stream()
-							.filter(fortnightlyMeeting -> fortnightlyMeeting.isActive() == true)
+					.equals(findByFinancialYear.stream().filter(FortnightlyMeeting::isActive)
 							.sorted(Comparator.comparing(FortnightlyMeeting::getMeetingDate))
 							.map(FortnightlyMeeting::getMeetingDate).findFirst().get())) {
 				findByFinancialYear.stream().map(fortnightlyMeeting -> fortnightlyMeeting.getMeetingId())
 						.forEach(id -> this.activateOrDeactivateById(id));
 				this.generateFortnightlyMeetings(fortnightlyMeetingVO);
 			} else {
-				findByFinancialYear.stream().filter(fortnightlyMeeting -> fortnightlyMeeting.isActive() == true)
-						.forEach(fortnightlyMeeting -> {
-							fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
-							fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
-							fortnightlyMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
-							fortnightlyMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
-						});
+				findByFinancialYear.stream().filter(FortnightlyMeeting::isActive).forEach(fortnightlyMeeting -> {
+					fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
+					fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
+					fortnightlyMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
+					fortnightlyMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
+				});
 				fortnightlyMeetingRepository.saveAll(findByFinancialYear);
 			}
 		}
@@ -168,12 +166,12 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 		}
 		return recurringDates;
 	}
-	
+
 	@Override
 	public FortnightlyMeetingVO getFortnightlyMeetingsById(Long meetingId) {
-	FortnightlyMeeting fortnightlyMeeting = fortnightlyMeetingRepository.findById(meetingId)
-	.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + meetingId));
-	return FortnightlyMeetingConverter.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeeting);
+		FortnightlyMeeting fortnightlyMeeting = fortnightlyMeetingRepository.findById(meetingId)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + meetingId));
+		return FortnightlyMeetingConverter.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeeting);
 	}
 
 }

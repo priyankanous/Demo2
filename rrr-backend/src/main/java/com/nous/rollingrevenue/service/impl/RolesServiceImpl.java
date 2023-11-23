@@ -1292,7 +1292,7 @@ public class RolesServiceImpl implements RolesService {
 				if (holidayCalendarPermissionVO.getCommonCalendarPermissionVO() != null) {
 					CommonCalendarPermissionVO commonCalendarPermissionVO = holidayCalendarPermissionVO
 							.getCommonCalendarPermissionVO();
-					holidayCalendarPermission.setCalendarCommonPermission(UpdateCommonCalendarPermission(
+					holidayCalendarPermission.setCalendarCommonPermission(updateCommonCalendarPermission(
 							holidayCalendarPermission.getCalendarCommonPermission(), commonCalendarPermissionVO));
 				}
 				HolidayCalendarPermission savedHolidayCalendar = holidayCalendarPermissionRepository
@@ -1311,7 +1311,7 @@ public class RolesServiceImpl implements RolesService {
 				if (fortnightlyMeetingPermissionVO.getCommonCalendarPermissionVO() != null) {
 					CommonCalendarPermissionVO commonCalendarPermissionVO = fortnightlyMeetingPermissionVO
 							.getCommonCalendarPermissionVO();
-					meetingsPermission.setCalendarCommonPermission(UpdateCommonCalendarPermission(
+					meetingsPermission.setCalendarCommonPermission(updateCommonCalendarPermission(
 							meetingsPermission.getCalendarCommonPermission(), commonCalendarPermissionVO));
 				}
 				FortnightlyMeetingsPermission savedFortnightlyMeetings = fortnightlyMeetingsPermissionRepository
@@ -1326,7 +1326,7 @@ public class RolesServiceImpl implements RolesService {
 				if (bdmMeetingPermissionVO.getCommonCalendarPermissionVO() != null) {
 					CommonCalendarPermissionVO commonCalendarPermissionVO = bdmMeetingPermissionVO
 							.getCommonCalendarPermissionVO();
-					bdmMeetingsPermission.setCalendarCommonPermission(UpdateCommonCalendarPermission(
+					bdmMeetingsPermission.setCalendarCommonPermission(updateCommonCalendarPermission(
 							bdmMeetingsPermission.getCalendarCommonPermission(), commonCalendarPermissionVO));
 				}
 				BDMMeetingsPermission savedBDMMeetingsPermission = bdmMeetingsPermissionRepository
@@ -1636,7 +1636,7 @@ public class RolesServiceImpl implements RolesService {
 		return reportsCommonPermissionRepository.save(reportsCommonPermission);
 	}
 
-	private CalendarCommonPermission UpdateCommonCalendarPermission(CalendarCommonPermission calendarCommonPermission,
+	private CalendarCommonPermission updateCommonCalendarPermission(CalendarCommonPermission calendarCommonPermission,
 			CommonCalendarPermissionVO commonCalendarPermissionVO) {
 		calendarCommonPermission
 				.setCalendarCommonPermissionId(commonCalendarPermissionVO.getCommonCalendarPermissionId());

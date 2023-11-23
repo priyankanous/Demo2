@@ -484,8 +484,8 @@ public class RevenueServiceImpl implements RevenueService {
 			FinancialYear financialYear) {
 		BigInteger resourceFPRevenue = revenueFPResourceEntry.getRevenue();
 		List<Currency> currencies = financialYear.getCurrencies();
-		Optional<Currency> baseCurrencyOfFinancialYear = currencies.stream()
-				.filter(currency -> currency.isBaseCurrency() == true).findFirst();
+		Optional<Currency> baseCurrencyOfFinancialYear = currencies.stream().filter(Currency::isBaseCurrency)
+				.findFirst();
 
 		if (baseCurrencyOfFinancialYear.isPresent()) {
 			Currency baseCurrency = baseCurrencyOfFinancialYear.get();
@@ -533,7 +533,7 @@ public class RevenueServiceImpl implements RevenueService {
 		Set<Entry<Boolean, List<RevenueResourceEntry>>> entrySet = partitionResourceEntriesByPricingType.entrySet();
 
 		for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
-			if (entry.getKey()) {
+			if (Boolean.TRUE.equals(entry.getKey())) {
 
 				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
 				financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYear,
@@ -1296,7 +1296,7 @@ public class RevenueServiceImpl implements RevenueService {
 		Set<Entry<Boolean, List<RevenueResourceEntry>>> entrySet = partitionResourceEntriesByPricingType.entrySet();
 
 		for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
-			if (entry.getKey()) {
+			if (Boolean.TRUE.equals(entry.getKey())) {
 				List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
 				financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYear,
 						isDisplayAdditionalQuarter);

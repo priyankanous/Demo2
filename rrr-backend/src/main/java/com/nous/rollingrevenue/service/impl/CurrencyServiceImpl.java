@@ -41,10 +41,10 @@ public class CurrencyServiceImpl implements CurrencyService {
 
 	@Override
 	public List<CurrencyVO> getAllCurrency() {
-		List<CurrencyVO> CurrencyVOs = new ArrayList<>();
+		List<CurrencyVO> currencyVOs = new ArrayList<>();
 		currencyRepository.findAll().stream()
-				.forEach(currency -> CurrencyVOs.add(CurrencyConverter.convertCurrencyToCurrencyVO(currency)));
-		return CurrencyVOs;
+				.forEach(currency -> currencyVOs.add(CurrencyConverter.convertCurrencyToCurrencyVO(currency)));
+		return currencyVOs;
 	}
 
 	@Override
@@ -63,8 +63,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 	public void deleteCurrencyById(Long currencyId) {
 		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByCurrencyId(currencyId);
 		if (!revenueEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Currency is already linked to RevenueEntry");
+			throw new RecordNotFoundException("Currency is already linked to RevenueEntry");
 		}
 		currencyRepository.findById(currencyId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
