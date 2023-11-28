@@ -383,8 +383,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
 
-		listOfMonthsBetweenFinancialYear = this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate,
-				isDisplayAdditionalQuarter);
+		this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate, isDisplayAdditionalQuarter);
 
 		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
 
@@ -414,7 +413,7 @@ public class RevenueServiceImpl implements RevenueService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private List<RevenueResourceEntry> filterRevenueEntriesByStartDateAndEndDate(
@@ -425,7 +424,7 @@ public class RevenueServiceImpl implements RevenueService {
 						.isBefore(financialYearStartingFrom.minusDays(1))
 						&& fpEntry.getMilestoneEntry().getMilestoneBillingDate()
 								.isBefore(financialYearEndingOn.plusDays(1)))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyEndDate,
@@ -484,8 +483,8 @@ public class RevenueServiceImpl implements RevenueService {
 			FinancialYear financialYear) {
 		BigInteger resourceFPRevenue = revenueFPResourceEntry.getRevenue();
 		List<CurrencyEntity> currencies = financialYear.getCurrencies();
-		Optional<CurrencyEntity> baseCurrencyOfFinancialYear = currencies.stream().filter(CurrencyEntity::isBaseCurrency)
-				.findFirst();
+		Optional<CurrencyEntity> baseCurrencyOfFinancialYear = currencies.stream()
+				.filter(CurrencyEntity::isBaseCurrency).findFirst();
 
 		if (baseCurrencyOfFinancialYear.isPresent()) {
 			CurrencyEntity baseCurrency = baseCurrencyOfFinancialYear.get();
@@ -515,18 +514,6 @@ public class RevenueServiceImpl implements RevenueService {
 
 		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository
 				.getOpportunities(opportunityRevenueRequest);
-
-//		if (Constants.NO.equals(opportunityRevenueRequest.getCocPractice())) {
-//			revenueResourceEntries = revenueResourceEntries.stream()
-//					.filter(revenueResourceEntry -> Constants.NON_COC_BASED
-//							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName()))
-//					.collect(Collectors.toList());
-//		} else {
-//			revenueResourceEntries = revenueResourceEntries.stream()
-//					.filter(revenueResourceEntry -> (!Constants.NON_COC_BASED
-//							.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())))
-//					.collect(Collectors.toList());
-//		}
 
 		Map<Boolean, List<RevenueResourceEntry>> partitionResourceEntriesByPricingType = this
 				.getPartitionResourceEntriesByPricingType(revenueResourceEntries);
@@ -584,7 +571,6 @@ public class RevenueServiceImpl implements RevenueService {
 		}
 		double leaveLossFactor = (leaveLoss.doubleValue() / resourceCount);
 		opportunityEntryVO.setLeaveLossFactor(String.valueOf(leaveLossFactor));
-//		opportunityEntriesVO.add(opportunityEntryVO);
 
 		opportunityEntryResponse.setOpportunities(opportunityEntriesVO);
 		opportunityEntryResponse.setFinancialYearRevenue(financialYearRevenue);
@@ -613,13 +599,10 @@ public class RevenueServiceImpl implements RevenueService {
 		resourceEntryRequest.setProjectStartDate(opportunityEntryVO.getProjectStartDate());
 		resourceEntryRequest.setProjectEndDate(opportunityEntryVO.getProjectEndDate());
 		resourceEntryRequest.setPricingType(opportunityEntryVO.getPricingType());
-//		resourceEntryRequest.setCocPractice(opportunityEntryVO.getCocPractice());
 
 		List<RevenueResourceEntry> opportunityResources = revenueResourceEntryRepository
 				.getResourcesByOpportunity(resourceEntryRequest);
-
 		return opportunityResources.get(0).getRevenueEntry().getResourceCount();
-//		return opportunityResources.size();
 	}
 
 	@Override
@@ -629,8 +612,6 @@ public class RevenueServiceImpl implements RevenueService {
 		List<TandMResourceEntryVO> tmResourceEntriesVO = new ArrayList<>();
 		List<FPResourceEntryVO> fpResourceEntriesVO = new ArrayList<>();
 		ResourceEntryResponse resourceEntryResponse = new ResourceEntryResponse();
-		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
-		FinancialYearTMRevenue financialYearTMRevenue = new FinancialYearTMRevenue();
 
 		FinancialYear financialYear = financialYearRepository
 				.findByFinancialYearName(resourceEntryRequest.getFinancialYearName())
@@ -645,18 +626,18 @@ public class RevenueServiceImpl implements RevenueService {
 				revenueResourceEntries = revenueResourceEntries.stream()
 						.filter(revenueResourceEntry -> Constants.NON_COC_BASED
 								.equals(revenueResourceEntry.getCocPractice().getCocPracticeName()))
-						.collect(Collectors.toList());
+						.toList();
 			} else {
 				revenueResourceEntries = revenueResourceEntries.stream()
 						.filter(revenueResourceEntry -> (!Constants.NON_COC_BASED
 								.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())))
-						.collect(Collectors.toList());
+						.toList();
 			}
 		}
 
 		if (Constants.PRICING_TYPE_FP.equals(resourceEntryRequest.getPricingType())) {
 
-			financialYearRevenue = this.calculateFPRevenue(revenueResourceEntries, financialYear,
+			FinancialYearRevenue financialYearRevenue = this.calculateFPRevenue(revenueResourceEntries, financialYear,
 					isDisplayAdditionalQuarter);
 
 			for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
@@ -686,9 +667,8 @@ public class RevenueServiceImpl implements RevenueService {
 
 		} else {
 
-			financialYearTMRevenue = tmCalculation.calculateTMRevenue(revenueResourceEntries, financialYear,
-					isDisplayAdditionalQuarter);
-
+			FinancialYearTMRevenue financialYearTMRevenue = tmCalculation.calculateTMRevenue(revenueResourceEntries,
+					financialYear, isDisplayAdditionalQuarter);
 			for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntries) {
 
 				TandMResourceEntryVO tmResourceEntry = new TandMResourceEntryVO();
@@ -714,11 +694,8 @@ public class RevenueServiceImpl implements RevenueService {
 			resourceEntryResponse.setTmResourceEntries(tmResourceEntriesVO);
 			resourceEntryResponse.setFinancialYearTMRevenue(financialYearTMRevenue);
 		}
-
 		resourceEntryResponse.setFinancialYearName(resourceEntryRequest.getFinancialYearName());
-
 		return resourceEntryResponse;
-
 	}
 
 	@Override
@@ -747,15 +724,12 @@ public class RevenueServiceImpl implements RevenueService {
 
 		if (isDisplayAdditionalQuarter) {
 			fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 6, 30);
-			financialYearEndingOn = fyEndDate;
 		}
-
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-		listOfMonthsBetweenFinancialYear = this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate,
-				isDisplayAdditionalQuarter);
+		this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate, isDisplayAdditionalQuarter);
 		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
 
-		if (revenueResourceEntry != null)
+		if (revenueResourceEntry != null) {
 			if (Constants.PRICING_TYPE_FP.equals(resourceRevenueRequest.getPricingType())) {
 				BigInteger resourceFPRevenue = this.getResourceFPRevenueInFYBaseCurrency(revenueResourceEntry,
 						financialYear);
@@ -775,9 +749,8 @@ public class RevenueServiceImpl implements RevenueService {
 
 			} else {
 				long leaveLossFactor = 0;
-				if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
-					leaveLossFactor = revenueResourceEntry.getLeaveLossFactor();
-				} else {
+				if ("Offshore".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())
+						|| "Onsite".equalsIgnoreCase(revenueResourceEntry.getLocation().getLocationName())) {
 					leaveLossFactor = revenueResourceEntry.getLeaveLossFactor();
 				}
 
@@ -789,14 +762,14 @@ public class RevenueServiceImpl implements RevenueService {
 							revenueResourceEntry.getBillingRate());
 					revenueServiceTMCalculation.monthlyBillingSeparation(financialYearName,
 							revenueResourceEntry.getResourceStartDate(), revenueResourceEntry.getResourceEndDate(),
-							revenueResourceEntry.getBillingRateType(), billingRate, leaveLossFactor,
-							isDisplayAdditionalQuarter, fyRevenue);
+							revenueResourceEntry.getBillingRateType(), billingRate, leaveLossFactor, fyRevenue);
 				}
 
 				revenueServiceTMCalculation.setQuarterlyDetails(fyRevenue, isDisplayAdditionalQuarter);
 				financialYearTMRevenue.setDataMap(fyRevenue);
 				resourceRevenueResponse.setFinancialYearTMRevenue(financialYearTMRevenue);
 			}
+		}
 		return resourceRevenueResponse;
 	}
 
@@ -900,7 +873,7 @@ public class RevenueServiceImpl implements RevenueService {
 					}
 				}
 				for (MilestoneEntry milestoneEntry : milestoneEntryList) {
-					if (milestoneEntry.getMilestoneEntryId() == milestoneEntryVO.getMilestoneEntryId()) {
+					if (milestoneEntry.getMilestoneEntryId().equals(milestoneEntryVO.getMilestoneEntryId())) {
 						milestoneEntry.setMilestoneNumber(milestoneEntryVO.getMilestoneNumber());
 						milestoneEntry.setMilestoneBillingDate(milestoneEntryVO.getMilestoneBillingDate());
 						milestoneEntry.setMilestoneRevenue(milestoneEntryVO.getMilestoneRevenue());
@@ -942,8 +915,8 @@ public class RevenueServiceImpl implements RevenueService {
 									revenueResourceEntryRepository.save(revenueResource);
 								} else {
 									for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
-										if (revenueResourceEntry.getRevenueResourceEntryId() == revenueResourceEntryVO
-												.getRevenueResourceEntryId()) {
+										if (revenueResourceEntry.getRevenueResourceEntryId()
+												.equals(revenueResourceEntryVO.getRevenueResourceEntryId())) {
 											revenueResourceEntry.setStrategicBusinessUnit(
 													StrategicBusinessUnitConverter.convertSBUVOToSBU(
 															revenueResourceEntryVO.getStrategicBusinessUnit()));
@@ -1069,8 +1042,8 @@ public class RevenueServiceImpl implements RevenueService {
 						revenueResourceEntryRepository.save(revenueResource);
 					} else {
 						for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
-							if (revenueResourceEntry.getRevenueResourceEntryId() == revenueResourceEntryVO
-									.getRevenueResourceEntryId()) {
+							if (revenueResourceEntry.getRevenueResourceEntryId()
+									.equals(revenueResourceEntryVO.getRevenueResourceEntryId())) {
 								revenueResourceEntry.setStrategicBusinessUnit(StrategicBusinessUnitConverter
 										.convertSBUVOToSBU(revenueResourceEntryVO.getStrategicBusinessUnit()));
 								revenueResourceEntry.setStrategicBusinessUnitHead(

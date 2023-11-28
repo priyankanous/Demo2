@@ -17,8 +17,6 @@ public class ProjectCodesVO implements Serializable {
 
 	private String pricingType;
 
-//	private String practice;
-
 	private String cocPractice;
 
 	private Long noOfResources;
@@ -56,14 +54,6 @@ public class ProjectCodesVO implements Serializable {
 	public void setPricingType(String pricingType) {
 		this.pricingType = pricingType;
 	}
-
-//	public String getPractice() {
-//		return practice;
-//	}
-//
-//	public void setPractice(String practice) {
-//		this.practice = practice;
-//	}
 
 	public String getCocPractice() {
 		return cocPractice;

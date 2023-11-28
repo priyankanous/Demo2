@@ -60,7 +60,7 @@ public class RegionReportServiceImpl implements RegionReportService {
 		LocalDate fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 3, 31);
 
 		RegionResponse regionResponse = new RegionResponse();
-		List<RegionOutDTO> outDTOList = new ArrayList<>();
+		List<RegionOutDTO> outDTOList = null;
 		List<RevenueResourceEntry> revenueResourceEntryList = revenueResourceEntryCustomRepository
 				.findRevenueResourceDetailsByRegion(regionReportRequest);
 
@@ -186,7 +186,7 @@ public class RegionReportServiceImpl implements RegionReportService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private FinancialYearRevenue calculatingBasedOnRegion(List<RevenueResourceEntry> revenueResourceEntries,

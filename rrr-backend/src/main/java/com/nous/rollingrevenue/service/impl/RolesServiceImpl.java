@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -1664,9 +1665,12 @@ public class RolesServiceImpl implements RolesService {
 	@Override
 	@Transactional
 	public void deleteRolesById(Long roleId) {
-		rolesRepository.findById(roleId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + roleId));
-		rolesRepository.deleteById(roleId);
+		Optional<Roles> findById = rolesRepository.findById(roleId);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + roleId);
+		} else {
+			rolesRepository.deleteById(roleId);
+		}
 	}
 
 	@Override

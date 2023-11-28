@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,16 +46,18 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 	@Override
 	@Transactional
 	public void deletePricingTypeById(Long pricingTypeId) {
-		pricingTypeRepository.findById(pricingTypeId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
-		pricingTypeRepository.deleteById(pricingTypeId);
-
+		Optional<PricingType> findById = pricingTypeRepository.findById(pricingTypeId);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId);
+		} else {
+			pricingTypeRepository.deleteById(pricingTypeId);
+		}
 	}
 
 	@Override
 	public PricingTypeVO getPricingTypeById(Long pricingTypeId) {
 		PricingType pricingType = pricingTypeRepository.findById(pricingTypeId)
-                .orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + pricingTypeId));
 		return PricingTypeConverter.convertPricingTypeToPricingTypeVO(pricingType);
 	}
 
@@ -67,7 +70,7 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 		pricingType.setPricingTypeDisplayName(pricingTypeVO.getPricingTypeDisplayName());
 		pricingTypeRepository.save(pricingType);
 	}
-	
+
 	@Override
 	public List<PricingTypeVO> getPagination(int pagenumber, int pagesize, String sortBy) {
 		List<PricingTypeVO> pricingTypeVOs = new ArrayList<>();
@@ -81,7 +84,7 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 		}
 		return Collections.emptyList();
 	}
-	
+
 	@Override
 	@Transactional
 	public void activateOrDeactivateById(Long pricingTypeId) {

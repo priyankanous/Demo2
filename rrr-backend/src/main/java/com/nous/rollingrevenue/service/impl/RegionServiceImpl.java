@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -95,9 +96,12 @@ public class RegionServiceImpl implements RegionService {
 			throw new RecordNotFoundException(
 					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
 		}
-		regionRepository.findById(regionId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId));
-		regionRepository.deleteById(regionId);
+		Optional<Region> findById = regionRepository.findById(regionId);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + regionId);
+		} else {
+			regionRepository.deleteById(regionId);
+		}
 	}
 
 	@Override

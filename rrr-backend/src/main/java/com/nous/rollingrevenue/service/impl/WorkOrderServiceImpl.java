@@ -102,13 +102,12 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 						.noneMatch(wo2 -> wo1.getWorkOrderNumber().equals(wo2.getWorkOrderNumber())
 								&& wo1.getWorkOrderEndDate().equals(wo2.getWorkOrderEndDate())
 								&& wo1.getWorkOrderStatus().equals(wo2.getWoStatus())))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private Map<Boolean, List<WorkOrderVO>> getPartitionWorkOrdersByWorkOrderNumber(List<WorkOrderVO> excelWorkOrderVOs,
 			List<WorkOrder> dbworkOrders) {
-		List<String> dbWorkOrderNumbers = dbworkOrders.stream().map(WorkOrder::getWorkOrderNumber)
-				.collect(Collectors.toList());
+		List<String> dbWorkOrderNumbers = dbworkOrders.stream().map(WorkOrder::getWorkOrderNumber).toList();
 		return excelWorkOrderVOs.stream()
 				.collect(Collectors.partitioningBy(wo -> dbWorkOrderNumbers.contains(wo.getWorkOrderNumber())));
 	}

@@ -53,7 +53,6 @@ public class RevenueServiceTMCalculation {
 
 		if (isDisplayAdditionalQuarter) {
 			fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 6, 30);
-			financialYearEndingOn = fyEndDate;
 		}
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
@@ -64,9 +63,8 @@ public class RevenueServiceTMCalculation {
 		for (RevenueResourceEntry revenueTMResourceEntry : revenueEntryList) {
 			if (revenueTMResourceEntry.getLeaveLossFactor() != null) {
 				long leaveLossFactor = 0;
-				if ("Offshore".equalsIgnoreCase(revenueTMResourceEntry.getLocation().getLocationName())) {
-					leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor();
-				} else {
+				if ("Offshore".equalsIgnoreCase(revenueTMResourceEntry.getLocation().getLocationName())
+						|| "Onsite".equalsIgnoreCase(revenueTMResourceEntry.getLocation().getLocationName())) {
 					leaveLossFactor = revenueTMResourceEntry.getLeaveLossFactor();
 				}
 
@@ -79,7 +77,7 @@ public class RevenueServiceTMCalculation {
 							revenueTMResourceEntry.getBillingRate());
 					monthlyBillingSeparation(financialYearName, revenueTMResourceEntry.getResourceStartDate(),
 							revenueTMResourceEntry.getResourceEndDate(), revenueTMResourceEntry.getBillingRateType(),
-							billingRate, leaveLossFactor, isDisplayAdditionalQuarter, fyRevenue);
+							billingRate, leaveLossFactor, fyRevenue);
 				}
 			}
 		}
@@ -163,7 +161,7 @@ public class RevenueServiceTMCalculation {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyEndDate,
@@ -220,11 +218,9 @@ public class RevenueServiceTMCalculation {
 
 	public Map<String, BigInteger> monthlyBillingSeparation(String financialYear, LocalDate startDate,
 			LocalDate endDate, String billingRateType, BigInteger billingRate, Long leaveLossFactor,
-			boolean isDisplayAdditionalQuarter, Map<String, BigInteger> fyRevenue) {
+			Map<String, BigInteger> fyRevenue) {
 		List<String> projectMonthAndYear = getListOfMonthsBetweenDates(startDate, endDate);
-
 		double monthlyBillRate = 0;
-
 		for (String monthAndYear : projectMonthAndYear) {
 			DateTimeFormatter formatter = new DateTimeFormatterBuilder().parseCaseInsensitive()
 					.append(DateTimeFormatter.ofPattern("MMMM-yyyy")).toFormatter(Locale.ENGLISH);

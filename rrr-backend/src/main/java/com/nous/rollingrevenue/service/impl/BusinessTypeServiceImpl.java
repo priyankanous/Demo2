@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -67,9 +68,12 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 			throw new RecordNotFoundException(
 					"BusinessType is already linked to AnnualTargetEntry or RevenueResourceEntry");
 		}
-		businessTypeRepository.findById(businessTypeId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId));
-		businessTypeRepository.deleteById(businessTypeId);
+		Optional<BusinessType> findById = businessTypeRepository.findById(businessTypeId);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + businessTypeId);
+		} else {
+			businessTypeRepository.deleteById(businessTypeId);
+		}
 	}
 
 	@Override

@@ -86,9 +86,12 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 			throw new RecordNotFoundException(
 					"SBU is already linked to SBU Head or AnnualTargetEntry or RevenueResourceEntry");
 		}
-		sbuRepository.findById(sbuId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId));
-		sbuRepository.deleteById(sbuId);
+		Optional<StrategicBusinessUnit> findById = sbuRepository.findById(sbuId);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + sbuId);
+		} else {
+			sbuRepository.deleteById(sbuId);
+		}
 	}
 
 	@Override

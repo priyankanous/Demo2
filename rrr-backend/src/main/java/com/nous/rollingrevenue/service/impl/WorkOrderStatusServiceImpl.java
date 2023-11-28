@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,9 +46,12 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 	@Override
 	@Transactional
 	public void deleteWorkOrderStatusById(Long woStatusId) {
-		woStatusRepository.findById(woStatusId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId));
-		woStatusRepository.deleteById(woStatusId);
+		Optional<WorkOrderStatus> findById = woStatusRepository.findById(woStatusId);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + woStatusId);
+		} else {
+			woStatusRepository.deleteById(woStatusId);
+		}
 	}
 
 	@Override

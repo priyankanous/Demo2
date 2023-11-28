@@ -14,8 +14,6 @@ public class EntryResourcesVO implements Serializable {
 
 	private LocalDate endDate;
 
-//	private String opportunityName;
-
 	private String workOrderNumber;
 
 	private String resourceName;

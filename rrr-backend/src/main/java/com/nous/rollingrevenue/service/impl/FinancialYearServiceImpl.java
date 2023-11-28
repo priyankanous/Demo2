@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -118,9 +119,12 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 			throw new RecordNotFoundException(
 					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
 		}
-		financialYearRepository.findById(financialYearId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId));
-		financialYearRepository.deleteById(financialYearId);
+		Optional<FinancialYear> findById = financialYearRepository.findById(financialYearId);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + financialYearId);
+		} else {
+			financialYearRepository.deleteById(financialYearId);
+		}
 	}
 
 	@Override
@@ -208,7 +212,7 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 		}
 		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByFinancialYearId(financialYearId);
 		for (RevenueEntry revenueEntry : revenueEntryList) {
-			if (revenueEntry.isActive() && revenueEntry.isActive()) {
+			if (financialYear.isActive() && revenueEntry.isActive()) {
 				throw new RecordNotFoundException(
 						"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
 			}

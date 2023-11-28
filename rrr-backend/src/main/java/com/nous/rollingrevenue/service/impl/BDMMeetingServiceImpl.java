@@ -81,9 +81,12 @@ public class BDMMeetingServiceImpl implements BDMMeetingService {
 	@Override
 	@Transactional
 	public void deleteBDMMeetingById(Long bdmMeetingId) {
-		bdmMeetingRepository.findById(bdmMeetingId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmMeetingId));
-		bdmMeetingRepository.deleteById(bdmMeetingId);
+		Optional<BDMMeeting> optional = bdmMeetingRepository.findById(bdmMeetingId);
+		if (optional.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + bdmMeetingId);
+		} else {
+			bdmMeetingRepository.deleteById(bdmMeetingId);
+		}
 	}
 
 	@Override

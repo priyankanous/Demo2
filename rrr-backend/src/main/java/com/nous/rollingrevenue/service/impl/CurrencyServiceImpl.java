@@ -65,9 +65,12 @@ public class CurrencyServiceImpl implements CurrencyService {
 		if (!revenueEntryList.isEmpty()) {
 			throw new RecordNotFoundException("Currency is already linked to RevenueEntry");
 		}
-		currencyRepository.findById(currencyId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId));
-		currencyRepository.deleteById(currencyId);
+		Optional<CurrencyEntity> findById = currencyRepository.findById(currencyId);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + currencyId);
+		} else {
+			currencyRepository.deleteById(currencyId);
+		}
 	}
 
 	@Override

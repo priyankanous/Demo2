@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -61,13 +62,14 @@ public class OpportunityServiceImpl implements OpportunityService {
 	public void deleteOpportunityById(Long opportunityId) {
 		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByOpportunityId(opportunityId);
 		if (!revenueEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Opportunity is already linked to RevenueEntry");
+			throw new RecordNotFoundException("Opportunity is already linked to RevenueEntry");
 		}
-		opportunityRepository.findById(opportunityId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId));
-		opportunityRepository.deleteById(opportunityId);
-
+		Optional<Opportunity> findById = opportunityRepository.findById(opportunityId);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + opportunityId);
+		} else {
+			opportunityRepository.deleteById(opportunityId);
+		}
 	}
 
 	@Override

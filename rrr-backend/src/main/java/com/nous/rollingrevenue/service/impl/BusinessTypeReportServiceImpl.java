@@ -60,7 +60,6 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		LocalDate fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 3, 31);
 
 		BusinessTypeResponse businessTypeResponse = new BusinessTypeResponse();
-		List<BusinessTypeOutDTO> outDTOList = new ArrayList<>();
 		List<RevenueResourceEntry> revenueResourceEntryList = revenueResourceEntryCustomRepository
 				.findRevenueResourceDetails(businessTypeReportRequest);
 
@@ -170,7 +169,7 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
 		List<String> quarterlyDetails = setQuarterlyDetails(fyStartDate);
-
+		List<BusinessTypeOutDTO> outDTOList = null;
 		if ("Monthly".equalsIgnoreCase(businessTypeReportRequest.getViewType())) {
 			businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
 			outDTOList = setBusinessTypeDetails(listOfMonthsBetweenFinancialYear, financialYearRevenueECEB,
@@ -309,7 +308,7 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private FinancialYearRevenue calculatingBasedOnBusinessType(List<RevenueResourceEntry> revenueResourceEntries,

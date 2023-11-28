@@ -62,7 +62,7 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 		LocalDate fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 3, 31);
 
 		BusinessTypeResponse businessTypeResponse = new BusinessTypeResponse();
-		List<BusinessTypeOutDTO> outDTOList = new ArrayList<>();
+		List<BusinessTypeOutDTO> outDTOList = null;
 		List<RevenueResourceEntry> revenueResourceList = new ArrayList<>();
 		FinancialYearRevenue financialYearRevenue = null;
 		Map<String, FinancialYearRevenue> clientMap = new HashMap<>();
@@ -193,7 +193,7 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private FinancialYearRevenue calculatingRevenueDetails(List<RevenueResourceEntry> revenueResourceEntries,

@@ -3,6 +3,7 @@ package com.nous.rollingrevenue.service.impl;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,9 +46,12 @@ public class StatusServiceImpl implements StatusService {
 	@Override
 	@Transactional
 	public void deleteStatusById(Long statusId) {
-		statusRepository.findById(statusId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId));
-		statusRepository.deleteById(statusId);
+		Optional<Status> findById = statusRepository.findById(statusId);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + statusId);
+		} else {
+			statusRepository.deleteById(statusId);
+		}
 	}
 
 	@Override

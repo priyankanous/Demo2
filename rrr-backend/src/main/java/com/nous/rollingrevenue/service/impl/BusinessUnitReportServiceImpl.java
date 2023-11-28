@@ -61,7 +61,7 @@ public class BusinessUnitReportServiceImpl implements BusinessUnitReportService 
 		LocalDate fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 3, 31);
 
 		BusinessUnitResponse businessUnitResponse = new BusinessUnitResponse();
-		List<BusinessUnitOutDTO> outDTOList = new ArrayList<>();
+		List<BusinessUnitOutDTO> outDTOList = null;
 		List<RevenueResourceEntry> revenueResourceEntryList = revenueResourceEntryCustomRepository
 				.findRevenueResourceDetailsForBUOrSBU(businessUnitReportRequest);
 
@@ -189,7 +189,7 @@ public class BusinessUnitReportServiceImpl implements BusinessUnitReportService 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	private FinancialYearRevenue calculatingBasedOnBusinessUnit(List<RevenueResourceEntry> revenueResourceEntries,

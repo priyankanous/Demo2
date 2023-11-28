@@ -71,9 +71,12 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 	@Override
 	@Transactional
 	public void deleteLeaveLossFactor(Long id) {
-		globalMonthlyLeaveLossFactorRepository.findById(id)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
-		globalMonthlyLeaveLossFactorRepository.deleteById(id);
+		Optional<GlobalMonthlyLeaveLossFactor> findById = globalMonthlyLeaveLossFactorRepository.findById(id);
+		if (findById.isEmpty()) {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id);
+		} else {
+			globalMonthlyLeaveLossFactorRepository.deleteById(id);
+		}
 	}
 
 	@Override
