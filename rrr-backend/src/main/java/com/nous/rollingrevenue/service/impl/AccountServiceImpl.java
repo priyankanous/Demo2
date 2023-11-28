@@ -95,9 +95,11 @@ public class AccountServiceImpl implements AccountService {
 			throw new RecordNotFoundException(
 					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
 		}
-		accountRepository.findById(accountId)
-				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId));
-		accountRepository.deleteById(accountId);
+		Optional<Account> findById = accountRepository.findById(accountId);
+		if (findById.isPresent()) {
+			accountRepository.deleteById(accountId);
+		}
+		throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId);
 	}
 
 	@Override

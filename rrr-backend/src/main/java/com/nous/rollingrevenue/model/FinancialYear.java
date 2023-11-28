@@ -16,10 +16,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "financial_year")
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class FinancialYear extends Auditable<String> {
 
 	@Id
@@ -66,125 +68,5 @@ public class FinancialYear extends Auditable<String> {
 	@OneToMany(mappedBy = "financialYear")
 	@JsonBackReference
 	private List<RevenueEntry> revenueEntry = new ArrayList<>();
-
-	public FinancialYear() {
-
-	}
-
-	public FinancialYear(Long financialYearId, String financialYearName, String financialYearCustomName,
-			LocalDate startingFrom, LocalDate endingOn, List<CurrencyEntity> currencies,
-			List<GlobalMonthlyLeaveLossFactor> leaveLossFactors, List<HolidayCalendar> holidayCalendar,
-			List<BDMMeeting> bdmMeetings, List<FortnightlyMeeting> fortnightlyMeetings,
-			List<AnnualTargetEntry> annualTargetEntries) {
-
-		super();
-		this.financialYearId = financialYearId;
-		this.financialYearName = financialYearName;
-		this.financialYearCustomName = financialYearCustomName;
-		this.startingFrom = startingFrom;
-		this.endingOn = endingOn;
-		this.currencies = currencies;
-		this.leaveLossFactors = leaveLossFactors;
-		this.holidayCalendar = holidayCalendar;
-		this.bdmMeetings = bdmMeetings;
-		this.fortnightlyMeetings = fortnightlyMeetings;
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public Long getFinancialYearId() {
-		return financialYearId;
-	}
-
-	public void setFinancialYearId(Long financialYearId) {
-		this.financialYearId = financialYearId;
-	}
-
-	public String getFinancialYearName() {
-		return financialYearName;
-	}
-
-	public void setFinancialYearName(String financialYearName) {
-		this.financialYearName = financialYearName;
-	}
-
-	public String getFinancialYearCustomName() {
-		return financialYearCustomName;
-	}
-
-	public void setFinancialYearCustomName(String financialYearCustomName) {
-		this.financialYearCustomName = financialYearCustomName;
-	}
-
-	public LocalDate getStartingFrom() {
-		return startingFrom;
-	}
-
-	public void setStartingFrom(LocalDate startingFrom) {
-		this.startingFrom = startingFrom;
-	}
-
-	public LocalDate getEndingOn() {
-		return endingOn;
-	}
-
-	public void setEndingOn(LocalDate endingOn) {
-		this.endingOn = endingOn;
-	}
-
-	public List<CurrencyEntity> getCurrencies() {
-		return currencies;
-	}
-
-	public void setCurrencies(List<CurrencyEntity> currencies) {
-		this.currencies = currencies;
-	}
-
-	public List<GlobalMonthlyLeaveLossFactor> getLeaveLossFactors() {
-		return leaveLossFactors;
-	}
-
-	public void setLeaveLossFactors(List<GlobalMonthlyLeaveLossFactor> leaveLossFactors) {
-		this.leaveLossFactors = leaveLossFactors;
-	}
-
-	public List<HolidayCalendar> getHolidayCalendar() {
-		return holidayCalendar;
-	}
-
-	public void setHolidayCalendar(List<HolidayCalendar> holidayCalendar) {
-		this.holidayCalendar = holidayCalendar;
-	}
-
-	public List<BDMMeeting> getBdmMeetings() {
-		return bdmMeetings;
-	}
-
-	public void setBdmMeetings(List<BDMMeeting> bdmMeetings) {
-		this.bdmMeetings = bdmMeetings;
-	}
-
-	public List<FortnightlyMeeting> getFortnightlyMeetings() {
-		return fortnightlyMeetings;
-	}
-
-	public void setFortnightlyMeetings(List<FortnightlyMeeting> fortnightlyMeetings) {
-		this.fortnightlyMeetings = fortnightlyMeetings;
-	}
-
-	public List<AnnualTargetEntry> getAnnualTargetEntries() {
-		return annualTargetEntries;
-	}
-
-	public void setAnnualTargetEntries(List<AnnualTargetEntry> annualTargetEntries) {
-		this.annualTargetEntries = annualTargetEntries;
-	}
-
-	public List<RevenueEntry> getRevenueEntry() {
-		return revenueEntry;
-	}
-
-	public void setRevenueEntry(List<RevenueEntry> revenueEntry) {
-		this.revenueEntry = revenueEntry;
-	}
 
 }

@@ -102,9 +102,9 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 	@Override
 	@Transactional
 	public void deleteAnnualTargetEntryById(Long annualTargetEntryId) {
-		annualTargetEntryRepository.findById(annualTargetEntryId)
+		AnnualTargetEntry annualTargetEntry = annualTargetEntryRepository.findById(annualTargetEntryId)
 				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + annualTargetEntryId));
-		annualTargetEntryRepository.deleteById(annualTargetEntryId);
+		annualTargetEntryRepository.deleteById(annualTargetEntry.getAnnualTargetEntryId());
 	}
 
 	@Override
