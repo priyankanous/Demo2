@@ -145,9 +145,8 @@ public class WorkOrderServiceImpl implements WorkOrderService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<WorkOrder> pageResult = workOrderRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				workOrderVOs.add(WorkOrderConverter.convertWorkOrderToWorkOrderVO(e));
-			});
+			pageResult.getContent().stream()
+					.forEach(e -> workOrderVOs.add(WorkOrderConverter.convertWorkOrderToWorkOrderVO(e)));
 			return workOrderVOs;
 		}
 		return Collections.emptyList();

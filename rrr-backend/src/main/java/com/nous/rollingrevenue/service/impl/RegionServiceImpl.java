@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.RegionConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
@@ -73,28 +74,23 @@ public class RegionServiceImpl implements RegionService {
 	public void deleteRegionById(Long regionId) {
 		List<Account> accountList = accountRepository.findByRegionId(regionId);
 		if (!accountList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.REGION_IS_ALREADY_LINKED);
 		}
 		List<BusinessDevelopmentManager> bdmList = bdmRepository.findByRegionId(regionId);
 		if (!bdmList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.REGION_IS_ALREADY_LINKED);
 		}
 		List<BDMMeeting> bdmMeetingList = bdmMeetingRepository.findByRegionId(regionId);
 		if (!bdmMeetingList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.REGION_IS_ALREADY_LINKED);
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByRegionId(regionId);
 		if (!annualTargetEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.REGION_IS_ALREADY_LINKED);
 		}
 		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByRegionId(regionId);
 		if (!revenueEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.REGION_IS_ALREADY_LINKED);
 		}
 		Optional<Region> findById = regionRepository.findById(regionId);
 		if (findById.isEmpty()) {
@@ -127,9 +123,7 @@ public class RegionServiceImpl implements RegionService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<Region> pageResult = regionRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				regionVOs.add(RegionConverter.convertRegionToRegionVO(e));
-			});
+			pageResult.getContent().stream().forEach(e -> regionVOs.add(RegionConverter.convertRegionToRegionVO(e)));
 			return regionVOs;
 		}
 		return Collections.emptyList();
@@ -143,36 +137,31 @@ public class RegionServiceImpl implements RegionService {
 		List<BusinessDevelopmentManager> bdmList = bdmRepository.findByRegionId(regionId);
 		for (BusinessDevelopmentManager bdm : bdmList) {
 			if (region.isActive() && bdm.isActive()) {
-				throw new RecordNotFoundException(
-						"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.REGION_IS_ALREADY_LINKED);
 			}
 		}
 		List<BDMMeeting> bdmMeetingList = bdmMeetingRepository.findByRegionId(regionId);
 		for (BDMMeeting bdmMeeting : bdmMeetingList) {
 			if (region.isActive() && bdmMeeting.isActive()) {
-				throw new RecordNotFoundException(
-						"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.REGION_IS_ALREADY_LINKED);
 			}
 		}
 		List<Account> accountList = accountRepository.findByRegionId(regionId);
 		for (Account account : accountList) {
 			if (region.isActive() && account.isActive()) {
-				throw new RecordNotFoundException(
-						"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.REGION_IS_ALREADY_LINKED);
 			}
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByRegionId(regionId);
 		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
 			if (region.isActive() && targetEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.REGION_IS_ALREADY_LINKED);
 			}
 		}
 		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByRegionId(regionId);
 		for (RevenueEntry revenueEntry : revenueEntryList) {
 			if (region.isActive() && revenueEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.REGION_IS_ALREADY_LINKED);
 			}
 		}
 		region.setActive(!region.isActive());

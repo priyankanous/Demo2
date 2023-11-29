@@ -82,9 +82,8 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 	@Override
 	public List<GlobalMonthlyLeaveLossFactorVO> getLeaveLossFactors() {
 		List<GlobalMonthlyLeaveLossFactorVO> leaveLossFactorVOs = new ArrayList<>();
-		globalMonthlyLeaveLossFactorRepository.findAll().stream().forEach(leaveLossFactor -> {
-			leaveLossFactorVOs.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(leaveLossFactor));
-		});
+		globalMonthlyLeaveLossFactorRepository.findAll().stream().forEach(leaveLossFactor -> leaveLossFactorVOs
+				.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(leaveLossFactor)));
 		return leaveLossFactorVOs;
 	}
 
@@ -94,10 +93,8 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<GlobalMonthlyLeaveLossFactor> pageResult = globalMonthlyLeaveLossFactorRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				globalMonthlyLeaveLossFactorVOs
-						.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(e));
-			});
+			pageResult.getContent().stream().forEach(e -> globalMonthlyLeaveLossFactorVOs
+					.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(e)));
 			return globalMonthlyLeaveLossFactorVOs;
 		}
 		return Collections.emptyList();
@@ -109,10 +106,8 @@ public class GlobalMonthlyLeaveLossFactorServiceImpl implements GlobalMonthlyLea
 		Optional<FinancialYear> findByFinancialYearName = financialYearRepository
 				.findByFinancialYearName(financialYear);
 		if (findByFinancialYearName.isPresent()) {
-			findByFinancialYearName.get().getLeaveLossFactors().stream().forEach(leaveLossFactor -> {
-				leaveLossFactorVOs
-						.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(leaveLossFactor));
-			});
+			findByFinancialYearName.get().getLeaveLossFactors().stream().forEach(leaveLossFactor -> leaveLossFactorVOs
+					.add(LeaveLossFactorConverter.convertLeaveLossFactorToLeaveLossFactorVO(leaveLossFactor)));
 		}
 		return leaveLossFactorVOs;
 	}

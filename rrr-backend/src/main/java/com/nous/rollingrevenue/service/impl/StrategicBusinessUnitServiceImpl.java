@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
@@ -73,18 +74,15 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 	public void deleteSBUById(Long sbuId) {
 		List<StrategicBusinessUnitHead> sbuHeadList = sbuHeadRepository.findBySBUId(sbuId);
 		if (!sbuHeadList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"SBU is already linked to SBU Head or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.SBU_IS_ALREADY_LINKED);
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findBySBUId(sbuId);
 		if (!annualTargetEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"SBU is already linked to SBU Head or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.SBU_IS_ALREADY_LINKED);
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findBySBUId(sbuId);
 		if (!revenueResourceList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"SBU is already linked to SBU Head or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.SBU_IS_ALREADY_LINKED);
 		}
 		Optional<StrategicBusinessUnit> findById = sbuRepository.findById(sbuId);
 		if (findById.isEmpty()) {
@@ -121,9 +119,8 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<StrategicBusinessUnit> pageResult = sbuRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				strategicBusinessUnitVOs.add(StrategicBusinessUnitConverter.convertSBUToSBUVO(e));
-			});
+			pageResult.getContent().stream()
+					.forEach(e -> strategicBusinessUnitVOs.add(StrategicBusinessUnitConverter.convertSBUToSBUVO(e)));
 			return strategicBusinessUnitVOs;
 		}
 		return Collections.emptyList();
@@ -144,23 +141,20 @@ public class StrategicBusinessUnitServiceImpl implements StrategicBusinessUnitSe
 		List<StrategicBusinessUnitHead> sbuHeadList = sbuHeadRepository.findBySBUId(sbuId);
 		for (StrategicBusinessUnitHead sbuHead : sbuHeadList) {
 			if (sbu.isActive() && sbuHead.isActive()) {
-				throw new RecordNotFoundException(
-						"SBU is already linked to SBUHead or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.SBU_IS_ALREADY_LINKED);
 			}
 
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findBySBUId(sbuId);
 		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
 			if (sbu.isActive() && targetEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"SBU is already linked to SBUHead or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.SBU_IS_ALREADY_LINKED);
 			}
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findBySBUId(sbuId);
 		for (RevenueResourceEntry revenueResource : revenueResourceList) {
 			if (sbu.isActive() && revenueResource.isActive()) {
-				throw new RecordNotFoundException(
-						"SBU is already linked to SBUHead or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.SBU_IS_ALREADY_LINKED);
 			}
 		}
 		sbu.setActive(!sbu.isActive());

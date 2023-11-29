@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.LocationConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
@@ -86,18 +87,15 @@ public class LocationServiceImpl implements LocationService {
 		Optional<Location> locationOptional = locationRepository.findById(locationId);
 		List<HolidayCalendar> holidayCalenderList = holidayCalendarRepository.findByLocationId(locationId);
 		if (!holidayCalenderList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.LOCATION_IS_ALREADY_LINKED);
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByLocationId(locationId);
 		if (!annualTargetEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.LOCATION_IS_ALREADY_LINKED);
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByLocationId(locationId);
 		if (!revenueResourceList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.LOCATION_IS_ALREADY_LINKED);
 		}
 		if (locationOptional.isPresent()) {
 			locationRepository.deleteById(locationId);
@@ -109,9 +107,8 @@ public class LocationServiceImpl implements LocationService {
 	@Override
 	public List<LocationVO> getLocations() {
 		List<LocationVO> locationVOs = new ArrayList<>();
-		locationRepository.findAll().stream().forEach(location -> {
-			locationVOs.add(LocationConverter.convertLocationToLocationVO(location));
-		});
+		locationRepository.findAll().stream()
+				.forEach(location -> locationVOs.add(LocationConverter.convertLocationToLocationVO(location)));
 		return locationVOs;
 	}
 
@@ -121,9 +118,8 @@ public class LocationServiceImpl implements LocationService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<Location> pageResult = locationRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				locationVOs.add(LocationConverter.convertLocationToLocationVO(e));
-			});
+			pageResult.getContent().stream()
+					.forEach(e -> locationVOs.add(LocationConverter.convertLocationToLocationVO(e)));
 			return locationVOs;
 		}
 		return Collections.emptyList();
@@ -137,22 +133,19 @@ public class LocationServiceImpl implements LocationService {
 		List<HolidayCalendar> holidayCalenderList = holidayCalendarRepository.findByLocationId(locationId);
 		for (HolidayCalendar holidayCalender : holidayCalenderList) {
 			if (location.isActive() && holidayCalender.isActive()) {
-				throw new RecordNotFoundException(
-						"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.LOCATION_IS_ALREADY_LINKED);
 			}
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByLocationId(locationId);
 		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
 			if (location.isActive() && targetEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.LOCATION_IS_ALREADY_LINKED);
 			}
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByLocationId(locationId);
 		for (RevenueResourceEntry revenueResource : revenueResourceList) {
 			if (location.isActive() && revenueResource.isActive()) {
-				throw new RecordNotFoundException(
-						"Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.LOCATION_IS_ALREADY_LINKED);
 			}
 		}
 		location.setActive(!location.isActive());

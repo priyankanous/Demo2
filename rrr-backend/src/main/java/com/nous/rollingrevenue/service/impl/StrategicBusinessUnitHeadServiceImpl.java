@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.StrategicBusinessUnitHeadConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
@@ -67,13 +68,11 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 	public void deleteSBUHeadById(Long sbuHeadId) {
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findBySBUHeadId(sbuHeadId);
 		if (!annualTargetEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"SBU Head is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.SBU_HEAD_IS_ALREADY_LINKED);
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findBySBUHeadId(sbuHeadId);
 		if (!revenueResourceList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"SBU Head is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.SBU_HEAD_IS_ALREADY_LINKED);
 		}
 		Optional<StrategicBusinessUnitHead> findById = sbuHeadRepository.findById(sbuHeadId);
 		if (findById.isEmpty()) {
@@ -111,9 +110,8 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<StrategicBusinessUnitHead> pageResult = sbuHeadRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				strategicBusinessUnitHeadVOs.add(StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(e));
-			});
+			pageResult.getContent().stream().forEach(e -> strategicBusinessUnitHeadVOs
+					.add(StrategicBusinessUnitHeadConverter.convertSBUHeadToSBUHeadVO(e)));
 			return strategicBusinessUnitHeadVOs;
 		}
 		return Collections.emptyList();
@@ -135,15 +133,13 @@ public class StrategicBusinessUnitHeadServiceImpl implements StrategicBusinessUn
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findBySBUHeadId(sbuHeadId);
 		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
 			if (sbuHead.isActive() && targetEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"SBU Head is already linked to AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.SBU_HEAD_IS_ALREADY_LINKED);
 			}
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findBySBUHeadId(sbuHeadId);
 		for (RevenueResourceEntry revenueResource : revenueResourceList) {
 			if (sbuHead.isActive() && revenueResource.isActive()) {
-				throw new RecordNotFoundException(
-						"SBU Head is already linked to AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.SBU_HEAD_IS_ALREADY_LINKED);
 			}
 		}
 		sbuHead.setActive(!sbuHead.isActive());

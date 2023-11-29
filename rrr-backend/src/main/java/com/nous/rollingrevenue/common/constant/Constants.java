@@ -136,7 +136,15 @@ public class Constants {
 	public static final String BU_IS_ALREADY_LINKED = "BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry";
 
 	public static final String COC_IS_ALREADY_LINKED = "CocPractice is already linked to AnnualTargetEntry or RevenueResourceEntry";
-	
+
 	public static final String FINANCIALYEAR_IS_ALREADY_LINKED = "FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry";
+
+	public static final String LOCATION_IS_ALREADY_LINKED = "Location is already linked to HolidayCalendar or AnnualTargetEntry or RevenueResourceEntry";
+
+	public static final String REGION_IS_ALREADY_LINKED = "Region is already linked to BDM or Account or BDM Meeting or AnnualTargetEntry or RevenueEntry";
+
+	public static final String SBU_HEAD_IS_ALREADY_LINKED = "SBU Head is already linked to AnnualTargetEntry or RevenueResourceEntry";
+
+	public static final String SBU_IS_ALREADY_LINKED = "SBU is already linked to SBU Head or AnnualTargetEntry or RevenueResourceEntry";
 
 }

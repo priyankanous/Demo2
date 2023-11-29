@@ -2457,9 +2457,7 @@ public class RolesServiceImpl implements RolesService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<Roles> pageResult = rolesRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				rolesVOs.add(RolesConverter.convertRolesToRolesVO(e));
-			});
+			pageResult.getContent().stream().forEach(e -> rolesVOs.add(RolesConverter.convertRolesToRolesVO(e)));
 			return rolesVOs;
 		}
 		return Collections.emptyList();

@@ -58,36 +58,34 @@ public class BillingTypeServiceImpl implements BillingTypeService {
 	@Override
 	@Transactional
 	public void deleteBillingType(Long id) {
-			Optional<BillingType> billingTypeOptional = billingTypeRepository.findById(id);
-			if (billingTypeOptional.isPresent()) {
-				billingTypeRepository.deleteById(id);
-			} else {
-				throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id);
-			}
+		Optional<BillingType> billingTypeOptional = billingTypeRepository.findById(id);
+		if (billingTypeOptional.isPresent()) {
+			billingTypeRepository.deleteById(id);
+		} else {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id);
 		}
+	}
 
 	@Override
-		public List<BillingTypeVO> getPagination(int pagenumber, int pagesize, String sortBy) {
-			List<BillingTypeVO> billingTypesVOs = new ArrayList<>();
-			Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
-			Page<BillingType> pageResult = billingTypeRepository.findAll(paging);
-			if (pageResult.hasContent()) {
-				pageResult.getContent().stream().forEach(e -> {
-					billingTypesVOs.add(BillingTypeConverter.convertBillingTypeToBillingTypeVO(e));
-				});
-				return billingTypesVOs;
-			}
-			return Collections.emptyList();
+	public List<BillingTypeVO> getPagination(int pagenumber, int pagesize, String sortBy) {
+		List<BillingTypeVO> billingTypesVOs = new ArrayList<>();
+		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
+		Page<BillingType> pageResult = billingTypeRepository.findAll(paging);
+		if (pageResult.hasContent()) {
+			pageResult.getContent().stream()
+					.forEach(e -> billingTypesVOs.add(BillingTypeConverter.convertBillingTypeToBillingTypeVO(e)));
+			return billingTypesVOs;
+		}
+		return Collections.emptyList();
 	}
 
-		@Override
-		@Transactional
-		public void activateOrDeactivateById(Long id) {
-			BillingType billingType = billingTypeRepository.findById(id)
-					.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
-			billingType.setActive(!billingType.isActive());
-			billingTypeRepository.save(billingType);
-	
-	}
-	}
+	@Override
+	@Transactional
+	public void activateOrDeactivateById(Long id) {
+		BillingType billingType = billingTypeRepository.findById(id)
+				.orElseThrow(() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + id));
+		billingType.setActive(!billingType.isActive());
+		billingTypeRepository.save(billingType);
 
+	}
+}

@@ -95,9 +95,8 @@ public class BDMMeetingServiceImpl implements BDMMeetingService {
 		Optional<FinancialYear> findByFinancialYearName = financialYearRepository
 				.findByFinancialYearName(financialYear);
 		if (findByFinancialYearName.isPresent()) {
-			findByFinancialYearName.get().getBdmMeetings().stream().forEach(bdmMeeting -> {
-				bdmMeetingVOs.add(BDMMeetingConverter.convertBDMMeetingToBDMMeetingVO(bdmMeeting));
-			});
+			findByFinancialYearName.get().getBdmMeetings().stream().forEach(
+					bdmMeeting -> bdmMeetingVOs.add(BDMMeetingConverter.convertBDMMeetingToBDMMeetingVO(bdmMeeting)));
 		}
 		return bdmMeetingVOs;
 	}

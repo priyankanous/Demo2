@@ -77,9 +77,8 @@ public class WorkOrderStatusServiceImpl implements WorkOrderStatusService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<WorkOrderStatus> pageResult = woStatusRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				workOrderStatusVOs.add(WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(e));
-			});
+			pageResult.getContent().stream().forEach(
+					e -> workOrderStatusVOs.add(WorkOrderStatusConverter.convertWorkOrderStatusToWorkOrderStatusVO(e)));
 			return workOrderStatusVOs;
 		}
 		return Collections.emptyList();

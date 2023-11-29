@@ -77,9 +77,7 @@ public class StatusServiceImpl implements StatusService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<Status> pageResult = statusRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				statusVOs.add(StatusConverter.convertStatusToStatusVO(e));
-			});
+			pageResult.getContent().stream().forEach(e -> statusVOs.add(StatusConverter.convertStatusToStatusVO(e)));
 			return statusVOs;
 		}
 		return Collections.emptyList();

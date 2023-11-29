@@ -120,9 +120,8 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<BusinessDevelopmentManager> pageResult = businessDevelopmentManagerRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				bdmVOs.add(BusinessDevelopmentManagerConverter.convertBdmToBdmVO(e));
-			});
+			pageResult.getContent().stream()
+					.forEach(e -> bdmVOs.add(BusinessDevelopmentManagerConverter.convertBdmToBdmVO(e)));
 			return bdmVOs;
 		}
 		return Collections.emptyList();

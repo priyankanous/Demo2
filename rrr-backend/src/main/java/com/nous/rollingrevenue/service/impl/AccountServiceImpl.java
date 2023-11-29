@@ -124,9 +124,8 @@ public class AccountServiceImpl implements AccountService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<Account> pageResult = accountRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				accountVOs.add(AccountConverter.convertAccountToAccountVO(e));
-			});
+			pageResult.getContent().stream()
+					.forEach(e -> accountVOs.add(AccountConverter.convertAccountToAccountVO(e)));
 			return accountVOs;
 		}
 		return Collections.emptyList();

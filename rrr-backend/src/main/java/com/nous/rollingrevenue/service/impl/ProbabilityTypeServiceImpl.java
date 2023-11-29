@@ -87,9 +87,8 @@ public class ProbabilityTypeServiceImpl implements ProbabilityTypeService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<ProbabilityType> pageResult = probabilityTypeRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				probabilityTypeVOs.add(ProbabilityTypeConverter.convertProbabilityTypeToProbabilityTypeVO(e));
-			});
+			pageResult.getContent().stream().forEach(
+					e -> probabilityTypeVOs.add(ProbabilityTypeConverter.convertProbabilityTypeToProbabilityTypeVO(e)));
 			return probabilityTypeVOs;
 		}
 		return Collections.emptyList();

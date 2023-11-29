@@ -77,9 +77,8 @@ public class PricingTypeServiceImpl implements PricingTypeService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<PricingType> pageResult = pricingTypeRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				pricingTypeVOs.add(PricingTypeConverter.convertPricingTypeToPricingTypeVO(e));
-			});
+			pageResult.getContent().stream()
+					.forEach(e -> pricingTypeVOs.add(PricingTypeConverter.convertPricingTypeToPricingTypeVO(e)));
 			return pricingTypeVOs;
 		}
 		return Collections.emptyList();

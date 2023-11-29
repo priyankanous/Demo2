@@ -96,9 +96,8 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 	@Override
 	public List<HolidayCalendarVO> getCalendars() {
 		List<HolidayCalendarVO> holidayCalendarVOs = new ArrayList<>();
-		holidayCalendarRepository.findAll().stream().forEach(holidayClaendar -> {
-			holidayCalendarVOs.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(holidayClaendar));
-		});
+		holidayCalendarRepository.findAll().stream().forEach(holidayClaendar -> holidayCalendarVOs
+				.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(holidayClaendar)));
 		return holidayCalendarVOs;
 	}
 
@@ -108,9 +107,8 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<HolidayCalendar> pageResult = holidayCalendarRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				holidayCalendarVOs.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(e));
-			});
+			pageResult.getContent().stream().forEach(
+					e -> holidayCalendarVOs.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(e)));
 			return holidayCalendarVOs;
 		}
 		return Collections.emptyList();
@@ -146,10 +144,8 @@ public class HolidayCalendarServiceImpl implements HolidayCalendarService {
 		List<HolidayCalendarVO> holidayCalendarVOs = new ArrayList<>();
 		Optional<FinancialYear> findFinancialYearById = financialYearRepository.findByFinancialYearName(financialYear);
 		if (findFinancialYearById.isPresent()) {
-			findFinancialYearById.get().getHolidayCalendar().stream().forEach(holidayClaendar -> {
-				holidayCalendarVOs
-						.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(holidayClaendar));
-			});
+			findFinancialYearById.get().getHolidayCalendar().stream().forEach(holidayClaendar -> holidayCalendarVOs
+					.add(HolidayCalendarConverter.convertHolidayCalendarToHolidayCalendarVO(holidayClaendar)));
 		}
 		return holidayCalendarVOs;
 	}

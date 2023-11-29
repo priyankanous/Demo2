@@ -191,9 +191,8 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<AnnualTargetEntry> pageResult = annualTargetEntryRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				annualTargetEntryVOs.add(AnnualTargetEntryConverter.convertAnnualTargetEntryToAnnualTargetEntryVO(e));
-			});
+			pageResult.getContent().stream().forEach(e -> annualTargetEntryVOs
+					.add(AnnualTargetEntryConverter.convertAnnualTargetEntryToAnnualTargetEntryVO(e)));
 			return annualTargetEntryVOs;
 		}
 		return Collections.emptyList();

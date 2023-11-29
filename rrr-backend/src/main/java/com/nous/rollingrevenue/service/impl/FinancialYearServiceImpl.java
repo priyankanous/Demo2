@@ -146,9 +146,8 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<FinancialYear> pageResult = financialYearRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				financialYearVOs.add(FinancialYearConverter.convertFinancialYearToFinancialYearVO(e));
-			});
+			pageResult.getContent().stream().forEach(
+					e -> financialYearVOs.add(FinancialYearConverter.convertFinancialYearToFinancialYearVO(e)));
 			return financialYearVOs;
 		}
 		return Collections.emptyList();

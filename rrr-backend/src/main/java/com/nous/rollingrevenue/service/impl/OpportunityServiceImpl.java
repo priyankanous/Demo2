@@ -100,9 +100,8 @@ public class OpportunityServiceImpl implements OpportunityService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<Opportunity> pageResult = opportunityRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				opportunityVOs.add(OpportunityConverter.convertOpportunityToOpportunityVO(e));
-			});
+			pageResult.getContent().stream()
+					.forEach(e -> opportunityVOs.add(OpportunityConverter.convertOpportunityToOpportunityVO(e)));
 			return opportunityVOs;
 		}
 		return Collections.emptyList();

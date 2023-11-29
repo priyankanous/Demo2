@@ -98,9 +98,8 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<BusinessType> pageResult = businessTypeRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				businessTypeVOs.add(BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(e));
-			});
+			pageResult.getContent().stream()
+					.forEach(e -> businessTypeVOs.add(BusinessTypeConverter.convertBusinessTypeToBusinessTypeVO(e)));
 			return businessTypeVOs;
 		}
 		return Collections.emptyList();

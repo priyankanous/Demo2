@@ -88,9 +88,8 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 	@Override
 	public List<CocPracticeVO> getAllCocPractice() {
 		List<CocPracticeVO> cocPracticeVOs = new ArrayList<>();
-		cocpracticeRepository.findAll().stream().forEach(cocPractice -> {
-			cocPracticeVOs.add(CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocPractice));
-		});
+		cocpracticeRepository.findAll().stream().forEach(
+				cocPractice -> cocPracticeVOs.add(CocPracticeConverter.convertCocPracticeToCocPracticeVO(cocPractice)));
 		return cocPracticeVOs;
 	}
 
@@ -113,9 +112,8 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<CocPractice> pageResult = cocpracticeRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				cocPracticeVOs.add(CocPracticeConverter.convertCocPracticeToCocPracticeVO(e));
-			});
+			pageResult.getContent().stream()
+					.forEach(e -> cocPracticeVOs.add(CocPracticeConverter.convertCocPracticeToCocPracticeVO(e)));
 			return cocPracticeVOs;
 		}
 		return Collections.emptyList();

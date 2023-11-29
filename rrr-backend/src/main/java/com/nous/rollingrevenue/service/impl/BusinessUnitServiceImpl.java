@@ -105,9 +105,8 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 	@Override
 	public List<BusinessUnitVO> getBusinessUnits() {
 		List<BusinessUnitVO> businessUnitsVOs = new ArrayList<>();
-		businessUnitRepository.findAll().stream().forEach(e -> {
-			businessUnitsVOs.add(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(e));
-		});
+		businessUnitRepository.findAll().stream()
+				.forEach(e -> businessUnitsVOs.add(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(e)));
 		return businessUnitsVOs;
 	}
 
@@ -127,9 +126,8 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 		Pageable paging = PageRequest.of(pagenumber, pagesize, Sort.by(Direction.DESC, sortBy));
 		Page<BusinessUnit> pageResult = businessUnitRepository.findAll(paging);
 		if (pageResult.hasContent()) {
-			pageResult.getContent().stream().forEach(e -> {
-				businessUnitsVOs.add(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(e));
-			});
+			pageResult.getContent().stream()
+					.forEach(e -> businessUnitsVOs.add(BusinessUnitConverter.convertBusinessUnitToBusinessUnitVO(e)));
 			return businessUnitsVOs;
 		}
 		return Collections.emptyList();

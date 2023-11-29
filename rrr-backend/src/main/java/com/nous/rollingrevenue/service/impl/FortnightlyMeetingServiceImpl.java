@@ -141,8 +141,7 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 		Optional<FinancialYear> findByFinancialYearName = financialYearRepository
 				.findByFinancialYearName(financialYear);
 		if (findByFinancialYearName.isPresent()) {
-			findByFinancialYearName.get().getFortnightlyMeetings().stream()
-					.filter(fortnightlyMeeting -> fortnightlyMeeting.isActive() == true)
+			findByFinancialYearName.get().getFortnightlyMeetings().stream().filter(FortnightlyMeeting::isActive)
 					.forEach(fortnightlyMeeting -> fortnightlyMeetingVOs.add(FortnightlyMeetingConverter
 							.convertFortnightlyMeetingToFortnightlyMeetingVO(fortnightlyMeeting)));
 		}
