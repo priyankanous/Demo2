@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.model.Account;
 import com.nous.rollingrevenue.model.BusinessDevelopmentManager;
 import com.nous.rollingrevenue.model.BusinessType;
@@ -51,36 +52,37 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 		CriteriaQuery<RevenueResourceEntry> criteriaQuery = criteriaBuilder.createQuery(RevenueResourceEntry.class);
 		// Define FROM clause
 		Root<RevenueResourceEntry> root = criteriaQuery.from(RevenueResourceEntry.class);
-		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join("revenueEntry", JoinType.INNER);
-		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join("financialYear", JoinType.INNER);
-		Join<RevenueEntry, Region> region = qualityJoin.join("region", JoinType.INNER);
-		Join<RevenueResourceEntry, BusinessUnit> business = root.join("businessUnit", JoinType.INNER);
-		Join<RevenueResourceEntry, StrategicBusinessUnit> sbu = root.join("strategicBusinessUnit", JoinType.INNER);
-		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root.join("strategicBusinessUnitHead",
+		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join(Constants.REVENUE_ENTRY, JoinType.INNER);
+		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join(Constants.FINANCIAL_YEAR, JoinType.INNER);
+		Join<RevenueEntry, Region> region = qualityJoin.join(Constants.REGION, JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessUnit> business = root.join(Constants.BUSINESS_UNIT, JoinType.INNER);
+		Join<RevenueResourceEntry, StrategicBusinessUnit> sbu = root.join(Constants.STRATEGIC_BUSINESS_UNIT,
 				JoinType.INNER);
-		Join<RevenueResourceEntry, Location> location = root.join("location", JoinType.INNER);
-		Join<RevenueEntry, Account> account = qualityJoin.join("account", JoinType.INNER);
-		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join("businessDevelopmentManager",
+		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root
+				.join(Constants.STRATEGIC_BUSINESS_UNIT_HEAD, JoinType.INNER);
+		Join<RevenueResourceEntry, Location> location = root.join(Constants.LOCATION, JoinType.INNER);
+		Join<RevenueEntry, Account> account = qualityJoin.join(Constants.ACCOUNT, JoinType.INNER);
+		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join(Constants.BUSINESS_DEVELOPMENT_MANAGER,
 				JoinType.INNER);
 
 		List<Predicate> predicates = new ArrayList<>();
 		BusinessTypeReportInDTO inDTO = businessTypeReportRequest.getData();
 		if (inDTO.getFinancialYearName() != null)
-			predicates.add(criteriaBuilder.equal(fin.get("financialYearName"), inDTO.getFinancialYearName()));
+			predicates.add(criteriaBuilder.equal(fin.get(Constants.FINANCIAL_YEAR_NAME), inDTO.getFinancialYearName()));
 		if (inDTO.getRegionId() != null)
-			predicates.add(criteriaBuilder.equal(region.get("regionId"), inDTO.getRegionId()));
+			predicates.add(criteriaBuilder.equal(region.get(Constants.REGION_ID), inDTO.getRegionId()));
 		if (inDTO.getBusinessUnitId() != null)
-			predicates.add(criteriaBuilder.equal(business.get("businessUnitId"), inDTO.getBusinessUnitId()));
+			predicates.add(criteriaBuilder.equal(business.get(Constants.BUSINESS_UNIT_ID), inDTO.getBusinessUnitId()));
 		if (inDTO.getSbuHeadId() != null)
-			predicates.add(criteriaBuilder.equal(sbuHead.get("sbuHeadId"), inDTO.getSbuHeadId()));
+			predicates.add(criteriaBuilder.equal(sbuHead.get(Constants.SBU_HEAD_ID), inDTO.getSbuHeadId()));
 		if (inDTO.getSbuId() != null)
-			predicates.add(criteriaBuilder.equal(sbu.get("sbuId"), inDTO.getSbuId()));
+			predicates.add(criteriaBuilder.equal(sbu.get(Constants.SBU_ID), inDTO.getSbuId()));
 		if (inDTO.getLocationId() != null)
-			predicates.add(criteriaBuilder.equal(location.get("locationId"), inDTO.getLocationId()));
+			predicates.add(criteriaBuilder.equal(location.get(Constants.LOCATION_ID), inDTO.getLocationId()));
 		if (inDTO.getAccountId() != null)
-			predicates.add(criteriaBuilder.equal(account.get("accountId"), inDTO.getAccountId()));
+			predicates.add(criteriaBuilder.equal(account.get(Constants.ACCOUNT_ID), inDTO.getAccountId()));
 		if (inDTO.getBdmId() != null)
-			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
+			predicates.add(criteriaBuilder.equal(bdm.get(Constants.BDM_ID), inDTO.getBdmId()));
 
 		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
 		return entityManager.createQuery(criteriaQuery).getResultList();
@@ -94,40 +96,43 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 		CriteriaQuery<RevenueResourceEntry> criteriaQuery = criteriaBuilder.createQuery(RevenueResourceEntry.class);
 		// Define FROM clause
 		Root<RevenueResourceEntry> root = criteriaQuery.from(RevenueResourceEntry.class);
-		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join("revenueEntry", JoinType.INNER);
-		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join("financialYear", JoinType.INNER);
-		Join<RevenueResourceEntry, BusinessUnit> business = root.join("businessUnit", JoinType.INNER);
-		Join<RevenueResourceEntry, StrategicBusinessUnit> sbu = root.join("strategicBusinessUnit", JoinType.INNER);
-		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root.join("strategicBusinessUnitHead",
+		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join(Constants.REVENUE_ENTRY, JoinType.INNER);
+		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join(Constants.FINANCIAL_YEAR, JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessUnit> business = root.join(Constants.BUSINESS_UNIT, JoinType.INNER);
+		Join<RevenueResourceEntry, StrategicBusinessUnit> sbu = root.join(Constants.STRATEGIC_BUSINESS_UNIT,
 				JoinType.INNER);
-		Join<RevenueResourceEntry, BusinessType> businessType = root.join("businessType", JoinType.INNER);
-		Join<RevenueEntry, ProbabilityType> probabilityType = qualityJoin.join("probabilityType", JoinType.INNER);
-		Join<RevenueResourceEntry, Location> location = root.join("location", JoinType.INNER);
-		Join<RevenueEntry, Account> account = qualityJoin.join("account", JoinType.INNER);
-		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join("businessDevelopmentManager",
+		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root
+				.join(Constants.STRATEGIC_BUSINESS_UNIT_HEAD, JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessType> businessType = root.join(Constants.BUSINESS_TYPE, JoinType.INNER);
+		Join<RevenueEntry, ProbabilityType> probabilityType = qualityJoin.join(Constants.PROBABILITY_TYPE,
+				JoinType.INNER);
+		Join<RevenueResourceEntry, Location> location = root.join(Constants.LOCATION, JoinType.INNER);
+		Join<RevenueEntry, Account> account = qualityJoin.join(Constants.ACCOUNT, JoinType.INNER);
+		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join(Constants.BUSINESS_DEVELOPMENT_MANAGER,
 				JoinType.INNER);
 
 		List<Predicate> predicates = new ArrayList<>();
 		RegionReportInDTO inDTO = regionReportRequest.getData();
 		if (inDTO.getFinancialYearName() != null)
-			predicates.add(criteriaBuilder.equal(fin.get("financialYearName"), inDTO.getFinancialYearName()));
+			predicates.add(criteriaBuilder.equal(fin.get(Constants.FINANCIAL_YEAR_NAME), inDTO.getFinancialYearName()));
 		if (inDTO.getBusinessUnitId() != null)
-			predicates.add(criteriaBuilder.equal(business.get("businessUnitId"), inDTO.getBusinessUnitId()));
+			predicates.add(criteriaBuilder.equal(business.get(Constants.BUSINESS_UNIT_ID), inDTO.getBusinessUnitId()));
 		if (inDTO.getSbuHeadId() != null)
-			predicates.add(criteriaBuilder.equal(sbuHead.get("sbuHeadId"), inDTO.getSbuHeadId()));
+			predicates.add(criteriaBuilder.equal(sbuHead.get(Constants.SBU_HEAD_ID), inDTO.getSbuHeadId()));
 		if (inDTO.getSbuId() != null)
-			predicates.add(criteriaBuilder.equal(sbu.get("sbuId"), inDTO.getSbuId()));
+			predicates.add(criteriaBuilder.equal(sbu.get(Constants.SBU_ID), inDTO.getSbuId()));
 		if (inDTO.getBusinessTypeId() != null)
-			predicates.add(criteriaBuilder.equal(businessType.get("businessTypeId"), inDTO.getBusinessTypeId()));
+			predicates.add(
+					criteriaBuilder.equal(businessType.get(Constants.BUSINESS_TYPE_ID), inDTO.getBusinessTypeId()));
 		if (inDTO.getProbabilityTypeId() != null)
-			predicates
-					.add(criteriaBuilder.equal(probabilityType.get("probabilityTypeId"), inDTO.getProbabilityTypeId()));
+			predicates.add(criteriaBuilder.equal(probabilityType.get(Constants.PROBABILITY_TYPE_ID),
+					inDTO.getProbabilityTypeId()));
 		if (inDTO.getLocationId() != null)
-			predicates.add(criteriaBuilder.equal(location.get("locationId"), inDTO.getLocationId()));
+			predicates.add(criteriaBuilder.equal(location.get(Constants.LOCATION_ID), inDTO.getLocationId()));
 		if (inDTO.getAccountId() != null)
-			predicates.add(criteriaBuilder.equal(account.get("accountId"), inDTO.getAccountId()));
+			predicates.add(criteriaBuilder.equal(account.get(Constants.ACCOUNT_ID), inDTO.getAccountId()));
 		if (inDTO.getBdmId() != null)
-			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
+			predicates.add(criteriaBuilder.equal(bdm.get(Constants.BDM_ID), inDTO.getBdmId()));
 
 		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
 		return entityManager.createQuery(criteriaQuery).getResultList();
@@ -142,43 +147,46 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 		CriteriaQuery<RevenueResourceEntry> criteriaQuery = criteriaBuilder.createQuery(RevenueResourceEntry.class);
 		// Define FROM clause
 		Root<RevenueResourceEntry> root = criteriaQuery.from(RevenueResourceEntry.class);
-		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join("revenueEntry", JoinType.INNER);
-		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join("financialYear", JoinType.INNER);
-		Join<RevenueEntry, Region> region = qualityJoin.join("region", JoinType.INNER);
-		Join<RevenueResourceEntry, BusinessUnit> business = root.join("businessUnit", JoinType.INNER);
-		Join<RevenueResourceEntry, StrategicBusinessUnit> sbu = root.join("strategicBusinessUnit", JoinType.INNER);
-		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root.join("strategicBusinessUnitHead",
+		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join(Constants.REVENUE_ENTRY, JoinType.INNER);
+		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join(Constants.FINANCIAL_YEAR, JoinType.INNER);
+		Join<RevenueEntry, Region> region = qualityJoin.join(Constants.REGION, JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessUnit> business = root.join(Constants.BUSINESS_UNIT, JoinType.INNER);
+		Join<RevenueResourceEntry, StrategicBusinessUnit> sbu = root.join(Constants.STRATEGIC_BUSINESS_UNIT,
 				JoinType.INNER);
-		Join<RevenueResourceEntry, BusinessType> businessType = root.join("businessType", JoinType.INNER);
-		Join<RevenueEntry, ProbabilityType> probabilityType = qualityJoin.join("probabilityType", JoinType.INNER);
-		Join<RevenueResourceEntry, Location> location = root.join("location", JoinType.INNER);
-		Join<RevenueEntry, Account> account = qualityJoin.join("account", JoinType.INNER);
-		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join("businessDevelopmentManager",
+		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root
+				.join(Constants.STRATEGIC_BUSINESS_UNIT_HEAD, JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessType> businessType = root.join(Constants.BUSINESS_TYPE, JoinType.INNER);
+		Join<RevenueEntry, ProbabilityType> probabilityType = qualityJoin.join(Constants.PROBABILITY_TYPE,
+				JoinType.INNER);
+		Join<RevenueResourceEntry, Location> location = root.join(Constants.LOCATION, JoinType.INNER);
+		Join<RevenueEntry, Account> account = qualityJoin.join(Constants.ACCOUNT, JoinType.INNER);
+		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join(Constants.BUSINESS_DEVELOPMENT_MANAGER,
 				JoinType.INNER);
 
 		List<Predicate> predicates = new ArrayList<>();
 		ClientTypeReportInDTO inDTO = clientTypeReportRequest.getData();
 		if (inDTO.getFinancialYearName() != null)
-			predicates.add(criteriaBuilder.equal(fin.get("financialYearName"), inDTO.getFinancialYearName()));
+			predicates.add(criteriaBuilder.equal(fin.get(Constants.FINANCIAL_YEAR_NAME), inDTO.getFinancialYearName()));
 		if (inDTO.getRegionId() != null)
-			predicates.add(criteriaBuilder.equal(region.get("regionId"), inDTO.getRegionId()));
+			predicates.add(criteriaBuilder.equal(region.get(Constants.REGION_ID), inDTO.getRegionId()));
 		if (inDTO.getBusinessUnitId() != null)
-			predicates.add(criteriaBuilder.equal(business.get("businessUnitId"), inDTO.getBusinessUnitId()));
+			predicates.add(criteriaBuilder.equal(business.get(Constants.BUSINESS_UNIT_ID), inDTO.getBusinessUnitId()));
 		if (inDTO.getSbuHeadId() != null)
-			predicates.add(criteriaBuilder.equal(sbuHead.get("sbuHeadId"), inDTO.getSbuHeadId()));
+			predicates.add(criteriaBuilder.equal(sbuHead.get(Constants.SBU_HEAD_ID), inDTO.getSbuHeadId()));
 		if (inDTO.getSbuId() != null)
-			predicates.add(criteriaBuilder.equal(sbu.get("sbuId"), inDTO.getSbuId()));
+			predicates.add(criteriaBuilder.equal(sbu.get(Constants.SBU_ID), inDTO.getSbuId()));
 		if (inDTO.getBusinessTypeId() != null)
-			predicates.add(criteriaBuilder.equal(businessType.get("businessTypeId"), inDTO.getBusinessTypeId()));
+			predicates.add(
+					criteriaBuilder.equal(businessType.get(Constants.BUSINESS_TYPE_ID), inDTO.getBusinessTypeId()));
 		if (inDTO.getProbabilityTypeId() != null)
-			predicates
-					.add(criteriaBuilder.equal(probabilityType.get("probabilityTypeId"), inDTO.getProbabilityTypeId()));
+			predicates.add(criteriaBuilder.equal(probabilityType.get(Constants.PROBABILITY_TYPE_ID),
+					inDTO.getProbabilityTypeId()));
 		if (inDTO.getLocationId() != null)
-			predicates.add(criteriaBuilder.equal(location.get("locationId"), inDTO.getLocationId()));
+			predicates.add(criteriaBuilder.equal(location.get(Constants.LOCATION_ID), inDTO.getLocationId()));
 		if (inDTO.getAccountId() != null)
-			predicates.add(criteriaBuilder.equal(account.get("accountId"), inDTO.getAccountId()));
+			predicates.add(criteriaBuilder.equal(account.get(Constants.ACCOUNT_ID), inDTO.getAccountId()));
 		if (inDTO.getBdmId() != null)
-			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
+			predicates.add(criteriaBuilder.equal(bdm.get(Constants.BDM_ID), inDTO.getBdmId()));
 
 		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
 		return entityManager.createQuery(criteriaQuery).getResultList();
@@ -193,36 +201,36 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 		CriteriaQuery<RevenueResourceEntry> criteriaQuery = criteriaBuilder.createQuery(RevenueResourceEntry.class);
 		// Define FROM clause
 		Root<RevenueResourceEntry> root = criteriaQuery.from(RevenueResourceEntry.class);
-		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join("revenueEntry", JoinType.INNER);
-		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join("financialYear", JoinType.INNER);
-		Join<RevenueEntry, Region> region = qualityJoin.join("region", JoinType.INNER);
-		Join<RevenueResourceEntry, BusinessUnit> business = root.join("businessUnit", JoinType.INNER);
-		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root.join("strategicBusinessUnitHead",
-				JoinType.INNER);
-		Join<RevenueResourceEntry, BusinessType> bt = root.join("businessType", JoinType.INNER);
-		Join<RevenueEntry, ProbabilityType> pt = qualityJoin.join("probabilityType", JoinType.INNER);
-		Join<RevenueResourceEntry, Location> location = root.join("location", JoinType.INNER);
-		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join("businessDevelopmentManager",
+		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join(Constants.REVENUE_ENTRY, JoinType.INNER);
+		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join(Constants.FINANCIAL_YEAR, JoinType.INNER);
+		Join<RevenueEntry, Region> region = qualityJoin.join(Constants.REGION, JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessUnit> business = root.join(Constants.BUSINESS_UNIT, JoinType.INNER);
+		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root
+				.join(Constants.STRATEGIC_BUSINESS_UNIT_HEAD, JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessType> bt = root.join(Constants.BUSINESS_TYPE, JoinType.INNER);
+		Join<RevenueEntry, ProbabilityType> pt = qualityJoin.join(Constants.PROBABILITY_TYPE, JoinType.INNER);
+		Join<RevenueResourceEntry, Location> location = root.join(Constants.LOCATION, JoinType.INNER);
+		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join(Constants.BUSINESS_DEVELOPMENT_MANAGER,
 				JoinType.INNER);
 
 		List<Predicate> predicates = new ArrayList<>();
 		BusinessUnitReportInDTO inDTO = businessUnitReportRequest.getData();
 		if (inDTO.getFinancialYearName() != null)
-			predicates.add(criteriaBuilder.equal(fin.get("financialYearName"), inDTO.getFinancialYearName()));
+			predicates.add(criteriaBuilder.equal(fin.get(Constants.FINANCIAL_YEAR_NAME), inDTO.getFinancialYearName()));
 		if (inDTO.getRegionId() != null)
-			predicates.add(criteriaBuilder.equal(region.get("regionId"), inDTO.getRegionId()));
+			predicates.add(criteriaBuilder.equal(region.get(Constants.REGION_ID), inDTO.getRegionId()));
 		if (inDTO.getBusinessUnitId() != null)
-			predicates.add(criteriaBuilder.equal(business.get("businessUnitId"), inDTO.getBusinessUnitId()));
+			predicates.add(criteriaBuilder.equal(business.get(Constants.BUSINESS_UNIT_ID), inDTO.getBusinessUnitId()));
 		if (inDTO.getSbuHeadId() != null)
-			predicates.add(criteriaBuilder.equal(sbuHead.get("sbuHeadId"), inDTO.getSbuHeadId()));
+			predicates.add(criteriaBuilder.equal(sbuHead.get(Constants.SBU_HEAD_ID), inDTO.getSbuHeadId()));
 		if (inDTO.getBusinessTypeId() != null)
-			predicates.add(criteriaBuilder.equal(bt.get("businessTypeId"), inDTO.getBusinessTypeId()));
+			predicates.add(criteriaBuilder.equal(bt.get(Constants.BUSINESS_TYPE_ID), inDTO.getBusinessTypeId()));
 		if (inDTO.getProbabilityTypeId() != null)
-			predicates.add(criteriaBuilder.equal(pt.get("probabilityTypeId"), inDTO.getProbabilityTypeId()));
+			predicates.add(criteriaBuilder.equal(pt.get(Constants.PROBABILITY_TYPE_ID), inDTO.getProbabilityTypeId()));
 		if (inDTO.getLocationId() != null)
-			predicates.add(criteriaBuilder.equal(location.get("locationId"), inDTO.getLocationId()));
+			predicates.add(criteriaBuilder.equal(location.get(Constants.LOCATION_ID), inDTO.getLocationId()));
 		if (inDTO.getBdmId() != null)
-			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
+			predicates.add(criteriaBuilder.equal(bdm.get(Constants.BDM_ID), inDTO.getBdmId()));
 
 		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
 		return entityManager.createQuery(criteriaQuery).getResultList();
@@ -237,37 +245,37 @@ public class RevenueResourceEntryCustomRepositoryImpl implements RevenueResource
 		CriteriaQuery<RevenueResourceEntry> criteriaQuery = criteriaBuilder.createQuery(RevenueResourceEntry.class);
 		// Define FROM clause
 		Root<RevenueResourceEntry> root = criteriaQuery.from(RevenueResourceEntry.class);
-		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join("revenueEntry", JoinType.INNER);
-		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join("financialYear", JoinType.INNER);
-		Join<RevenueEntry, Region> region = qualityJoin.join("region", JoinType.INNER);
-		Join<RevenueResourceEntry, BusinessUnit> business = root.join("businessUnit", JoinType.INNER);
-		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root.join("strategicBusinessUnitHead",
-				JoinType.INNER);
-		Join<RevenueResourceEntry, BusinessType> bt = root.join("businessType", JoinType.INNER);
-		Join<RevenueEntry, ProbabilityType> pt = qualityJoin.join("probabilityType", JoinType.INNER);
-		Join<RevenueResourceEntry, Location> location = root.join("location", JoinType.INNER);
-		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join("businessDevelopmentManager",
+		Join<RevenueResourceEntry, RevenueEntry> qualityJoin = root.join(Constants.REVENUE_ENTRY, JoinType.INNER);
+		Join<RevenueEntry, FinancialYear> fin = qualityJoin.join(Constants.FINANCIAL_YEAR, JoinType.INNER);
+		Join<RevenueEntry, Region> region = qualityJoin.join(Constants.REGION, JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessUnit> business = root.join(Constants.BUSINESS_UNIT, JoinType.INNER);
+		Join<RevenueResourceEntry, StrategicBusinessUnitHead> sbuHead = root
+				.join(Constants.STRATEGIC_BUSINESS_UNIT_HEAD, JoinType.INNER);
+		Join<RevenueResourceEntry, BusinessType> bt = root.join(Constants.BUSINESS_TYPE, JoinType.INNER);
+		Join<RevenueEntry, ProbabilityType> pt = qualityJoin.join(Constants.PROBABILITY_TYPE, JoinType.INNER);
+		Join<RevenueResourceEntry, Location> location = root.join(Constants.LOCATION, JoinType.INNER);
+		Join<RevenueEntry, BusinessDevelopmentManager> bdm = qualityJoin.join(Constants.BUSINESS_DEVELOPMENT_MANAGER,
 				JoinType.INNER);
 
 		List<Predicate> predicates = new ArrayList<>();
 		SBUClientTypeReportInDTO inDTO = sbuClientTypeReportRequest.getData();
 
 		if (inDTO.getFinancialYearName() != null)
-			predicates.add(criteriaBuilder.equal(fin.get("financialYearName"), inDTO.getFinancialYearName()));
+			predicates.add(criteriaBuilder.equal(fin.get(Constants.FINANCIAL_YEAR_NAME), inDTO.getFinancialYearName()));
 		if (inDTO.getRegionId() != null)
-			predicates.add(criteriaBuilder.equal(region.get("regionId"), inDTO.getRegionId()));
+			predicates.add(criteriaBuilder.equal(region.get(Constants.REGION_ID), inDTO.getRegionId()));
 		if (inDTO.getBusinessUnitId() != null)
-			predicates.add(criteriaBuilder.equal(business.get("businessUnitId"), inDTO.getBusinessUnitId()));
+			predicates.add(criteriaBuilder.equal(business.get(Constants.BUSINESS_UNIT_ID), inDTO.getBusinessUnitId()));
 		if (inDTO.getSbuHeadId() != null)
-			predicates.add(criteriaBuilder.equal(sbuHead.get("sbuHeadId"), inDTO.getSbuHeadId()));
+			predicates.add(criteriaBuilder.equal(sbuHead.get(Constants.SBU_HEAD_ID), inDTO.getSbuHeadId()));
 		if (inDTO.getBussinessTypeId() != null)
 			predicates.add(criteriaBuilder.equal(bt.get("bussinessTypeId"), inDTO.getBussinessTypeId()));
 		if (inDTO.getProbabilityTypeId() != null)
 			predicates.add(criteriaBuilder.equal(pt.get("probabilityTypeId"), inDTO.getProbabilityTypeId()));
 		if (inDTO.getLocationId() != null)
-			predicates.add(criteriaBuilder.equal(location.get("locationId"), inDTO.getLocationId()));
+			predicates.add(criteriaBuilder.equal(location.get(Constants.LOCATION_ID), inDTO.getLocationId()));
 		if (inDTO.getBdmId() != null)
-			predicates.add(criteriaBuilder.equal(bdm.get("bdmId"), inDTO.getBdmId()));
+			predicates.add(criteriaBuilder.equal(bdm.get(Constants.BDM_ID), inDTO.getBdmId()));
 
 		criteriaQuery.where(criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()])));
 		return entityManager.createQuery(criteriaQuery).getResultList();

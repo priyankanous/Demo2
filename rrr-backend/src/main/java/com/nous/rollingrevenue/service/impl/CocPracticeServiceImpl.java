@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.CocPracticeConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
@@ -71,13 +72,11 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 		Optional<CocPractice> cocOptional = cocpracticeRepository.findById(id);
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByCocPracticeId(id);
 		if (!annualTargetEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"CocPractice is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.COC_IS_ALREADY_LINKED);
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByCocPracticeId(id);
 		if (!revenueResourceList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"CocPractice is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.COC_IS_ALREADY_LINKED);
 		}
 		if (cocOptional.isPresent()) {
 			cocpracticeRepository.deleteById(id);
@@ -137,15 +136,13 @@ public class CocPracticeServiceImpl implements CocPracticeService {
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByCocPracticeId(id);
 		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
 			if (cocpractice.isActive() && targetEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"CocPractice is already linked to AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.COC_IS_ALREADY_LINKED);
 			}
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByCocPracticeId(id);
 		for (RevenueResourceEntry revenueResource : revenueResourceList) {
 			if (cocpractice.isActive() && revenueResource.isActive()) {
-				throw new RecordNotFoundException(
-						"CocPractice is already linked to AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.COC_IS_ALREADY_LINKED);
 			}
 		}
 		cocpractice.setActive(!cocpractice.isActive());

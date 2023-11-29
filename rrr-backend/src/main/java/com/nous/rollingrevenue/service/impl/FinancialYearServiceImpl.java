@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.FinancialYearConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
@@ -83,41 +84,34 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 	public void deleteFinancialYearById(Long financialYearId) {
 		List<CurrencyEntity> currencyList = currencyRepository.findByFinancialYearId(financialYearId);
 		if (!currencyList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 		}
 		List<GlobalMonthlyLeaveLossFactor> leaveLossFactorByLocation = leaveLossFactorRepository
 				.getLeaveLossFactorByLocation(financialYearId);
 		if (!leaveLossFactorByLocation.isEmpty()) {
-			throw new RecordNotFoundException(
-					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 		}
 		List<HolidayCalendar> holidayList = holidayCalendarRepository.findByFinancialYearId(financialYearId);
 		if (!holidayList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 		}
 		List<BDMMeeting> bdmMeetingList = bdmMeetingRepository.findByFinancialYearId(financialYearId);
 		if (!bdmMeetingList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 		}
 		List<FortnightlyMeeting> fortnightlyMeetingList = fortnightlyMeetingRepository
 				.findByFinancialYearId(financialYearId);
 		if (!fortnightlyMeetingList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository
 				.findByFinancialYearId(financialYearId);
 		if (!annualTargetEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 		}
 		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByFinancialYearId(financialYearId);
 		if (!revenueEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 		}
 		Optional<FinancialYear> findById = financialYearRepository.findById(financialYearId);
 		if (findById.isEmpty()) {
@@ -168,57 +162,54 @@ public class FinancialYearServiceImpl implements FinancialYearService {
 		List<CurrencyEntity> currencyList = currencyRepository.findByFinancialYearId(financialYearId);
 		for (CurrencyEntity currency : currencyList) {
 			if (financialYear.isActive() && currency.isActive()) {
-				throw new RecordNotFoundException(
-						"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 			}
 		}
 		List<GlobalMonthlyLeaveLossFactor> leaveLossFactorByLocation = leaveLossFactorRepository
 				.getLeaveLossFactorByLocation(financialYearId);
 		for (GlobalMonthlyLeaveLossFactor leaveLossFactor : leaveLossFactorByLocation) {
 			if (financialYear.isActive() && leaveLossFactor.isActive()) {
-				throw new RecordNotFoundException(
-						"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 			}
 		}
 		List<HolidayCalendar> holidayList = holidayCalendarRepository.findByFinancialYearId(financialYearId);
 		for (HolidayCalendar holiday : holidayList) {
 			if (financialYear.isActive() && holiday.isActive()) {
-				throw new RecordNotFoundException(
-						"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 			}
 		}
 		List<BDMMeeting> bdmMeetingList = bdmMeetingRepository.findByFinancialYearId(financialYearId);
 		for (BDMMeeting bdmMeeting : bdmMeetingList) {
 			if (financialYear.isActive() && bdmMeeting.isActive()) {
-				throw new RecordNotFoundException(
-						"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 			}
 		}
+		isActiveValidationForFinancialYear(financialYear, financialYearId);
+		financialYear.setActive(!financialYear.isActive());
+		financialYearRepository.save(financialYear);
+	}
+
+	private void isActiveValidationForFinancialYear(FinancialYear financialYear, Long financialYearId) {
 		List<FortnightlyMeeting> fortnightlyMeetingList = fortnightlyMeetingRepository
 				.findByFinancialYearId(financialYearId);
 		for (FortnightlyMeeting fortnightlyMeeting : fortnightlyMeetingList) {
 			if (financialYear.isActive() && fortnightlyMeeting.isActive()) {
-				throw new RecordNotFoundException(
-						"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 			}
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository
 				.findByFinancialYearId(financialYearId);
 		for (AnnualTargetEntry annualTargetEntry : annualTargetEntryList) {
 			if (financialYear.isActive() && annualTargetEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 			}
 		}
 		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByFinancialYearId(financialYearId);
 		for (RevenueEntry revenueEntry : revenueEntryList) {
 			if (financialYear.isActive() && revenueEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.FINANCIALYEAR_IS_ALREADY_LINKED);
 			}
 		}
-		financialYear.setActive(!financialYear.isActive());
-		financialYearRepository.save(financialYear);
 	}
 
 	@Override

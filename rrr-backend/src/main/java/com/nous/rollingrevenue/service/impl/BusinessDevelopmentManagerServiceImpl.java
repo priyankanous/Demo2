@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.BusinessDevelopmentManagerConverter;
 import com.nous.rollingrevenue.convertor.BusinessUnitConverter;
@@ -88,18 +89,15 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 		Optional<BusinessDevelopmentManager> bdmOptional = businessDevelopmentManagerRepository.findById(bdmId);
 		List<BDMMeeting> meetingList = bdmMeetingRepository.findByBDMId(bdmId);
 		if (!meetingList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.BDM_IS_ALREADY_LINKED);
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByBDMId(bdmId);
 		if (!annualTargetEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.BDM_IS_ALREADY_LINKED);
 		}
 		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByBDMId(bdmId);
 		if (!revenueEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.BDM_IS_ALREADY_LINKED);
 		}
 		if (bdmOptional.isPresent()) {
 			businessDevelopmentManagerRepository.deleteById(bdmId);
@@ -147,29 +145,30 @@ public class BusinessDevelopmentManagerServiceImpl implements BusinessDevelopmen
 				throw new RecordNotFoundException("Region is not active and its already linked to BDM");
 			}
 		}
+		isActiveValidationForBDM(bdm, bdmId);
+		bdm.setActive(!bdm.isActive());
+		businessDevelopmentManagerRepository.save(bdm);
+	}
+
+	private void isActiveValidationForBDM(BusinessDevelopmentManager bdm, Long bdmId) {
 		List<BDMMeeting> meetingList = bdmMeetingRepository.findByBDMId(bdmId);
 		for (BDMMeeting bdmMeeting : meetingList) {
 			if (bdm.isActive() && bdmMeeting.isActive()) {
-				throw new RecordNotFoundException(
-						"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.BDM_IS_ALREADY_LINKED);
 			}
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByBDMId(bdmId);
 		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
 			if (bdm.isActive() && targetEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.BDM_IS_ALREADY_LINKED);
 			}
 		}
 		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByBDMId(bdmId);
 		for (RevenueEntry revenueEntry : revenueEntryList) {
 			if (bdm.isActive() && revenueEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.BDM_IS_ALREADY_LINKED);
 			}
 		}
-		bdm.setActive(!bdm.isActive());
-		businessDevelopmentManagerRepository.save(bdm);
 	}
 
 }

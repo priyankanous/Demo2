@@ -116,8 +116,4 @@ public class AnnualTargetEntry extends Auditable<String> {
 	@Column(name = "fy")
 	private BigInteger fY;
 
-	public AnnualTargetEntry() {
-
-	}
-
 }

@@ -25,7 +25,7 @@ public class WSResponse<T> implements Serializable {
 
 	private List<Exception> errors;
 
-	private T data;
+	private transient T data;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
 	private LocalDateTime timestamp;

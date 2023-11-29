@@ -19,16 +19,6 @@ import com.nous.rollingrevenue.exception.ExcelParserException;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
 import com.nous.rollingrevenue.model.Account;
 import com.nous.rollingrevenue.repository.AccountRepository;
-import com.nous.rollingrevenue.repository.BusinessDevelopmentManagerRepository;
-import com.nous.rollingrevenue.repository.BusinessTypeRepository;
-import com.nous.rollingrevenue.repository.BusinessUnitRepository;
-import com.nous.rollingrevenue.repository.CocPracticeRepository;
-import com.nous.rollingrevenue.repository.FinancialYearRepository;
-import com.nous.rollingrevenue.repository.LocationRepository;
-import com.nous.rollingrevenue.repository.RegionRepository;
-import com.nous.rollingrevenue.repository.StrategicBusinessUnitHeadRepository;
-import com.nous.rollingrevenue.repository.StrategicBusinessUnitRepository;
-import com.nous.rollingrevenue.repository.WorkOrderRepository;
 import com.nous.rollingrevenue.service.FinancialYearService;
 import com.nous.rollingrevenue.vo.AccountVO;
 import com.nous.rollingrevenue.vo.AnnualTargetEntryVO;
@@ -50,37 +40,7 @@ public class ExcelHelper {
 	private FinancialYearService financialYearService;
 
 	@Autowired
-	private FinancialYearRepository financialYearRepository;
-
-	@Autowired
-	private BusinessUnitRepository businessUnitRepository;
-
-	@Autowired
-	private StrategicBusinessUnitRepository sbuRepository;
-
-	@Autowired
-	private StrategicBusinessUnitHeadRepository sbuHeadRepository;
-
-	@Autowired
-	private LocationRepository locationRepository;
-
-	@Autowired
-	private RegionRepository regionRepository;
-
-	@Autowired
 	private AccountRepository accountRepository;
-
-	@Autowired
-	private BusinessTypeRepository businessTypeRepository;
-
-	@Autowired
-	private CocPracticeRepository cocPracticeRepository;
-
-	@Autowired
-	private BusinessDevelopmentManagerRepository bdmRepository;
-
-	@Autowired
-	private WorkOrderRepository workOrderRepository;
 
 	public static final String EXCEL_CONTENT_TYPE = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 
@@ -121,47 +81,56 @@ public class ExcelHelper {
 						BusinessUnitVO businessUnit = new BusinessUnitVO();
 						String businessUnitName = cell.getStringCellValue().isBlank() ? null
 								: cell.getStringCellValue();
+						businessUnit.setBusinessUnitName(businessUnitName);
 						annualTargetEntryVO.setBusinessUnit(businessUnit);
 						break;
 					case 1:
 						StrategicBusinessUnitVO sbu = new StrategicBusinessUnitVO();
 						String sbuName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
+						sbu.setSbuName(sbuName);
 						annualTargetEntryVO.setStartegicBusinessUnit(sbu);
 						break;
 					case 2:
 						StrategicBusinessUnitHeadVO sbuHead = new StrategicBusinessUnitHeadVO();
 						String sbuHeadName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
+						sbuHead.setSbuHeadName(sbuHeadName);
 						annualTargetEntryVO.setStrategicBusinessUnitHead(sbuHead);
 						break;
 					case 3:
 						LocationVO location = new LocationVO();
 						String locationName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
+						location.setLocationName(locationName);
 						annualTargetEntryVO.setLocation(location);
 						break;
 					case 4:
 						RegionVO region = new RegionVO();
 						String regionName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
+						region.setRegionName(regionName);
 						annualTargetEntryVO.setRegion(region);
 						break;
 					case 5:
 						AccountVO account = new AccountVO();
 						String accountname = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
+						account.setAccountName(accountname);
 						annualTargetEntryVO.setAccount(account);
 						break;
 					case 6:
 						BusinessTypeVO businessType = new BusinessTypeVO();
 						String businessTypeName = cell.getStringCellValue().isBlank() ? null
 								: cell.getStringCellValue();
+						businessType.setBusinessTypeName(businessTypeName);
 						annualTargetEntryVO.setBusinessType(businessType);
 						break;
 					case 7:
 						CocPracticeVO cocPractice = new CocPracticeVO();
 						String cocPracticeName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
+						cocPractice.setCocPracticeName(cocPracticeName);
 						annualTargetEntryVO.setCocPractice(cocPractice);
 						break;
 					case 8:
 						BDMVO bdm = new BDMVO();
 						String bdmName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
+						bdm.setBdmName(bdmName);
 						annualTargetEntryVO.setBusinessDevelopmentManager(bdm);
 						break;
 					case 9:
@@ -258,8 +227,8 @@ public class ExcelHelper {
 						String accountName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
 						if (!accounts.isEmpty()) {
 							Optional<Account> accountNameMatch = accounts.stream()
-									.filter(account -> account.getAccountName().replaceAll(" ", "")
-											.equalsIgnoreCase(accountName.replaceAll(" ", "")))
+									.filter(account -> account.getAccountName().replace(" ", "")
+											.equalsIgnoreCase(accountName.replace(" ", "")))
 									.findFirst();
 							if (accountNameMatch.isPresent()) {
 								workOrderVO

@@ -85,52 +85,16 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
 			if (Constants.BUSINESS_TYPE_ECEB
 					.equalsIgnoreCase(revenueResourceEntry.getBusinessType().getBusinessTypeDisplayName())) {
-				ecebrevenueResourceEntryList.add(revenueResourceEntry);
-				if (Constants.PROBABILITY_TYPE_CONFIRMED.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ecebConfirmedList.add(revenueResourceEntry);
-				} else if (Constants.PROBABILITY_TYPE_EXCEPTED.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ecebExpectedList.add(revenueResourceEntry);
-				} else if (Constants.PROBABILITY_TYPE_UPSIDE.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ecebUpsideList.add(revenueResourceEntry);
-				} else if (Constants.PROBABILITY_TYPE_HIGH_UPSIDE.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ecebHighUpsideList.add(revenueResourceEntry);
-				}
+				checkECEBBusinessTypeReport(revenueResourceEntry, ecebrevenueResourceEntryList, ecebConfirmedList,
+						ecebExpectedList, ecebUpsideList, ecebHighUpsideList);
 			} else if (Constants.BUSINESS_TYPE_ECNB
 					.equalsIgnoreCase(revenueResourceEntry.getBusinessType().getBusinessTypeDisplayName())) {
-				ecnbrevenueResourceEntryList.add(revenueResourceEntry);
-				if (Constants.PROBABILITY_TYPE_CONFIRMED.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ecnbConfirmedList.add(revenueResourceEntry);
-				} else if (Constants.PROBABILITY_TYPE_EXCEPTED.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ecnbExpectedList.add(revenueResourceEntry);
-				} else if (Constants.PROBABILITY_TYPE_UPSIDE.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ecnbUpsideList.add(revenueResourceEntry);
-				} else if (Constants.PROBABILITY_TYPE_HIGH_UPSIDE.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ecnbHighUpsideList.add(revenueResourceEntry);
-				}
+				checkECNBBusinessTypeReport(revenueResourceEntry, ecnbrevenueResourceEntryList, ecnbConfirmedList,
+						ecnbExpectedList, ecnbUpsideList, ecnbHighUpsideList);
 			} else if (Constants.BUSINESS_TYPE_NCNB
 					.equalsIgnoreCase(revenueResourceEntry.getBusinessType().getBusinessTypeDisplayName())) {
-				ncnbrevenueResourceEntryList.add(revenueResourceEntry);
-				if (Constants.PROBABILITY_TYPE_CONFIRMED.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ncnbConfirmedList.add(revenueResourceEntry);
-				} else if (Constants.PROBABILITY_TYPE_EXCEPTED.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ncnbExpectedList.add(revenueResourceEntry);
-				} else if (Constants.PROBABILITY_TYPE_UPSIDE.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ncnbUpsideList.add(revenueResourceEntry);
-				} else if (Constants.PROBABILITY_TYPE_HIGH_UPSIDE.equalsIgnoreCase(
-						revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
-					ncnbHighUpsideList.add(revenueResourceEntry);
-				}
+				checkNCNBBusinessTypeReport(revenueResourceEntry, ncnbrevenueResourceEntryList, ncnbConfirmedList,
+						ncnbExpectedList, ncnbUpsideList, ncnbHighUpsideList);
 			}
 		}
 
@@ -192,6 +156,67 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		}
 		businessTypeResponse.setFinancialYearName(financialYear.getFinancialYearName());
 		return businessTypeResponse;
+	}
+
+	private void checkNCNBBusinessTypeReport(RevenueResourceEntry revenueResourceEntry,
+			List<RevenueResourceEntry> ncnbrevenueResourceEntryList, List<RevenueResourceEntry> ncnbConfirmedList,
+			List<RevenueResourceEntry> ncnbExpectedList, List<RevenueResourceEntry> ncnbUpsideList,
+			List<RevenueResourceEntry> ncnbHighUpsideList) {
+		ncnbrevenueResourceEntryList.add(revenueResourceEntry);
+		if (Constants.PROBABILITY_TYPE_CONFIRMED.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ncnbConfirmedList.add(revenueResourceEntry);
+		} else if (Constants.PROBABILITY_TYPE_EXCEPTED.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ncnbExpectedList.add(revenueResourceEntry);
+		} else if (Constants.PROBABILITY_TYPE_UPSIDE.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ncnbUpsideList.add(revenueResourceEntry);
+		} else if (Constants.PROBABILITY_TYPE_HIGH_UPSIDE.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ncnbHighUpsideList.add(revenueResourceEntry);
+		}
+	}
+
+	private void checkECNBBusinessTypeReport(RevenueResourceEntry revenueResourceEntry,
+			List<RevenueResourceEntry> ecnbrevenueResourceEntryList, List<RevenueResourceEntry> ecnbConfirmedList,
+			List<RevenueResourceEntry> ecnbExpectedList, List<RevenueResourceEntry> ecnbUpsideList,
+			List<RevenueResourceEntry> ecnbHighUpsideList) {
+		ecnbrevenueResourceEntryList.add(revenueResourceEntry);
+		if (Constants.PROBABILITY_TYPE_CONFIRMED.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ecnbConfirmedList.add(revenueResourceEntry);
+		} else if (Constants.PROBABILITY_TYPE_EXCEPTED.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ecnbExpectedList.add(revenueResourceEntry);
+		} else if (Constants.PROBABILITY_TYPE_UPSIDE.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ecnbUpsideList.add(revenueResourceEntry);
+		} else if (Constants.PROBABILITY_TYPE_HIGH_UPSIDE.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ecnbHighUpsideList.add(revenueResourceEntry);
+		}
+	}
+
+	private void checkECEBBusinessTypeReport(RevenueResourceEntry revenueResourceEntry,
+			List<RevenueResourceEntry> ecebrevenueResourceEntryList, List<RevenueResourceEntry> ecebConfirmedList,
+			List<RevenueResourceEntry> ecebExpectedList, List<RevenueResourceEntry> ecebUpsideList,
+			List<RevenueResourceEntry> ecebHighUpsideList) {
+		ecebrevenueResourceEntryList.add(revenueResourceEntry);
+		if (Constants.PROBABILITY_TYPE_CONFIRMED.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ecebConfirmedList.add(revenueResourceEntry);
+		} else if (Constants.PROBABILITY_TYPE_EXCEPTED.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ecebExpectedList.add(revenueResourceEntry);
+		} else if (Constants.PROBABILITY_TYPE_UPSIDE.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ecebUpsideList.add(revenueResourceEntry);
+		} else if (Constants.PROBABILITY_TYPE_HIGH_UPSIDE.equalsIgnoreCase(
+				revenueResourceEntry.getRevenueEntry().getProbabilityType().getProbabilityTypeName())) {
+			ecebHighUpsideList.add(revenueResourceEntry);
+		}
+
 	}
 
 	private void setProbabilityTypes(List<String> list, FinancialYearRevenue confirmedRevenue,

@@ -78,15 +78,8 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 								.anyMatch(holidayCalendar -> holidayCalendar.getHolidayDate().isEqual(tempDate))) {
 							tempDate = tempDate.minusDays(1);
 						}
-						FortnightlyMeeting fortnightlyMeeting = new FortnightlyMeeting();
-						fortnightlyMeeting.setMeetingDate(tempDate);
-						fortnightlyMeeting.setMeetingDay(tempDate.getDayOfWeek().name());
-						fortnightlyMeeting.setFinancialYear(findByfinancialYear);
-						fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
-						fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
-						fortnightlyMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
-						fortnightlyMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
-						fortnightlyMeetings.add(fortnightlyMeeting);
+						fortnightlyMeetings
+								.add(setFortnightlyMeetingDetails(tempDate, findByfinancialYear, fortnightlyMeetingVO));
 					}
 					logger.info("saving fortnightlymeetings");
 					fortnightlyMeetingRepository.saveAll(fortnightlyMeetings);
@@ -96,6 +89,19 @@ public class FortnightlyMeetingServiceImpl implements FortnightlyMeetingService 
 			throw new RecordNotFoundException(
 					ErrorConstants.RECORD_NOT_EXIST + fortnightlyMeetingVO.getFinancialYear().getFinancialYearId());
 		}
+	}
+
+	private FortnightlyMeeting setFortnightlyMeetingDetails(LocalDate tempDate, FinancialYear findByfinancialYear,
+			FortnightlyMeetingVO fortnightlyMeetingVO) {
+		FortnightlyMeeting fortnightlyMeeting = new FortnightlyMeeting();
+		fortnightlyMeeting.setMeetingDate(tempDate);
+		fortnightlyMeeting.setMeetingDay(tempDate.getDayOfWeek().name());
+		fortnightlyMeeting.setFinancialYear(findByfinancialYear);
+		fortnightlyMeeting.setMeetingName1(fortnightlyMeetingVO.getMeetingName1());
+		fortnightlyMeeting.setMeetingName2(fortnightlyMeetingVO.getMeetingName2());
+		fortnightlyMeeting.setMeetingName3(fortnightlyMeetingVO.getMeetingName3());
+		fortnightlyMeeting.setMeetingName4(fortnightlyMeetingVO.getMeetingName4());
+		return fortnightlyMeeting;
 	}
 
 	@Override

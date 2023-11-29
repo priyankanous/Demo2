@@ -85,4 +85,58 @@ public class Constants {
 
 	public static final String SBU_CLIENT_TYPE_VSERVE = "VSERVE";
 
+	public static final String REVENUE_ENTRY = "revenueEntry";
+
+	public static final String FINANCIAL_YEAR = "financialYear";
+
+	public static final String REGION = "region";
+
+	public static final String BUSINESS_UNIT = "businessUnit";
+
+	public static final String STRATEGIC_BUSINESS_UNIT = "strategicBusinessUnit";
+
+	public static final String STRATEGIC_BUSINESS_UNIT_HEAD = "strategicBusinessUnitHead";
+
+	public static final String LOCATION = "location";
+
+	public static final String ACCOUNT = "account";
+
+	public static final String BUSINESS_DEVELOPMENT_MANAGER = "businessDevelopmentManager";
+
+	public static final String FINANCIAL_YEAR_NAME = "financialYearName";
+
+	public static final String REGION_ID = "regionId";
+
+	public static final String BUSINESS_UNIT_ID = "businessUnitId";
+
+	public static final String SBU_HEAD_ID = "sbuHeadId";
+
+	public static final String SBU_ID = "sbuId";
+
+	public static final String LOCATION_ID = "locationId";
+
+	public static final String ACCOUNT_ID = "accountId";
+
+	public static final String BDM_ID = "bdmId";
+
+	public static final String BUSINESS_TYPE = "businessType";
+
+	public static final String PROBABILITY_TYPE = "probabilityType";
+
+	public static final String BUSINESS_TYPE_ID = "businessTypeId";
+
+	public static final String PROBABILITY_TYPE_ID = "probabilityTypeId";
+
+	public static final String ACCOUNT_IS_ALREADY_LINKED = "Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry";
+
+	public static final String BDM_IS_ALREADY_LINKED = "BDM is already linked to BDM Meeting or AnnualTargetEntry or RevenueEntry";
+
+	public static final String BUSINESSTYPE_IS_ALREADY_LINKED = "BusinessType is already linked to AnnualTargetEntry or RevenueResourceEntry";
+
+	public static final String BU_IS_ALREADY_LINKED = "BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry";
+
+	public static final String COC_IS_ALREADY_LINKED = "CocPractice is already linked to AnnualTargetEntry or RevenueResourceEntry";
+	
+	public static final String FINANCIALYEAR_IS_ALREADY_LINKED = "FinancialYear is already linked to Currency or GlobalMonthlyLeaveLossFactor or HolidayCalendar or BDM Meeting or FortnightlyMeeting or AnnualTargetEntry or RevenueEntry";
+
 }

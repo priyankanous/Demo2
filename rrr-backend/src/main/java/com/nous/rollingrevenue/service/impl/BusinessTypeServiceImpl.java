@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.BusinessTypeConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
@@ -59,14 +60,12 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository
 				.findByBusinessTypeId(businessTypeId);
 		if (!annualTargetEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"BusinessType is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.BUSINESSTYPE_IS_ALREADY_LINKED);
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository
 				.findByBusinessTypeId(businessTypeId);
 		if (!revenueResourceList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"BusinessType is already linked to AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.BUSINESSTYPE_IS_ALREADY_LINKED);
 		}
 		Optional<BusinessType> findById = businessTypeRepository.findById(businessTypeId);
 		if (findById.isEmpty()) {
@@ -116,16 +115,14 @@ public class BusinessTypeServiceImpl implements BusinessTypeService {
 				.findByBusinessTypeId(businessTypeId);
 		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
 			if (businessType.isActive() && targetEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"BusinessType is already linked to AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.BUSINESSTYPE_IS_ALREADY_LINKED);
 			}
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository
 				.findByBusinessTypeId(businessTypeId);
 		for (RevenueResourceEntry revenueResource : revenueResourceList) {
 			if (businessType.isActive() && revenueResource.isActive()) {
-				throw new RecordNotFoundException(
-						"BusinessType is already linked to AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.BUSINESSTYPE_IS_ALREADY_LINKED);
 			}
 		}
 		businessType.setActive(!businessType.isActive());

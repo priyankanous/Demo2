@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.AccountConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
@@ -77,23 +78,19 @@ public class AccountServiceImpl implements AccountService {
 	public void deleteAccountById(Long accountId) {
 		List<WorkOrder> workOrderList = workOrderRepository.findByAccountId(accountId);
 		if (!workOrderList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.ACCOUNT_IS_ALREADY_LINKED);
 		}
 		List<Opportunity> opportunityList = opportunityRepository.findByAccountId(accountId);
 		if (!opportunityList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.ACCOUNT_IS_ALREADY_LINKED);
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByBusinessUnitId(accountId);
 		if (!annualTargetEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.ACCOUNT_IS_ALREADY_LINKED);
 		}
 		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByAccountId(accountId);
 		if (!revenueEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+			throw new RecordNotFoundException(Constants.ACCOUNT_IS_ALREADY_LINKED);
 		}
 		Optional<Account> findById = accountRepository.findById(accountId);
 		if (findById.isPresent()) {
@@ -147,36 +144,36 @@ public class AccountServiceImpl implements AccountService {
 				throw new RecordNotFoundException("Region is not active and its already linked to Account");
 			}
 		}
+		isActiveValidationForAccout(account, accountId);
+		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByAccountId(accountId);
+		for (RevenueEntry revenueEntry : revenueEntryList) {
+			if (account.isActive() && revenueEntry.isActive()) {
+				throw new RecordNotFoundException(Constants.ACCOUNT_IS_ALREADY_LINKED);
+			}
+		}
+		account.setActive(!account.isActive());
+		accountRepository.save(account);
+	}
+
+	private void isActiveValidationForAccout(Account account, Long accountId) {
 		List<Opportunity> opportunityList = opportunityRepository.findByAccountId(accountId);
 		for (Opportunity opportunity : opportunityList) {
 			if (account.isActive() && opportunity.isActive()) {
-				throw new RecordNotFoundException(
-						"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.ACCOUNT_IS_ALREADY_LINKED);
 			}
 		}
 		List<WorkOrder> workOrderList = workOrderRepository.findByAccountId(accountId);
 		for (WorkOrder workOrder : workOrderList) {
 			if (account.isActive() && workOrder.isActive()) {
-				throw new RecordNotFoundException(
-						"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.ACCOUNT_IS_ALREADY_LINKED);
 			}
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByAccountId(accountId);
 		for (AnnualTargetEntry annualTargetEntry : annualTargetEntryList) {
 			if (account.isActive() && annualTargetEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
+				throw new RecordNotFoundException(Constants.ACCOUNT_IS_ALREADY_LINKED);
 			}
 		}
-		List<RevenueEntry> revenueEntryList = revenueEntryRespository.findByAccountId(accountId);
-		for (RevenueEntry revenueEntry : revenueEntryList) {
-			if (account.isActive() && revenueEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"Account is already linked to Opportunity or WorkOrder or AnnualTargetEntry or RevenueEntry");
-			}
-		}
-		account.setActive(!account.isActive());
-		accountRepository.save(account);
 	}
 
 }

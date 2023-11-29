@@ -227,6 +227,13 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 				throw new RecordNotFoundException("SBU is not active and its already linked to AnnualTargetEntry");
 			}
 		}
+		isActiveValidationForAnnualTargetEntryFirstStep(annualTargetEntry);
+		isActiveValidationForAnnualTargetEntrySecondStep(annualTargetEntry);
+		annualTargetEntry.setActive(!annualTargetEntry.isActive());
+		annualTargetEntryRepository.save(annualTargetEntry);
+	}
+
+	private void isActiveValidationForAnnualTargetEntryFirstStep(AnnualTargetEntry annualTargetEntry) {
 		Optional<StrategicBusinessUnitHead> head = sbuHeadRepository
 				.findById(annualTargetEntry.getStrategicBusinessUnitHead().getSbuHeadId());
 		if (head.isPresent()) {
@@ -261,6 +268,9 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 			}
 
 		}
+	}
+
+	private void isActiveValidationForAnnualTargetEntrySecondStep(AnnualTargetEntry annualTargetEntry) {
 		Optional<CocPractice> coc = cocPracticeRepository
 				.findById(annualTargetEntry.getCocPractice().getCocPracticeId());
 		if (coc.isPresent()) {
@@ -286,7 +296,5 @@ public class AnnualTargetEntryServiceImpl implements AnnualTargetEntryService {
 				throw new RecordNotFoundException("Account is not active and its already linked to AnnualTargetEntry");
 			}
 		}
-		annualTargetEntry.setActive(!annualTargetEntry.isActive());
-		annualTargetEntryRepository.save(annualTargetEntry);
 	}
 }

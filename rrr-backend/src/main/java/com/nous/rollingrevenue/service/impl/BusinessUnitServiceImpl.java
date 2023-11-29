@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.nous.rollingrevenue.common.constant.Constants;
 import com.nous.rollingrevenue.common.constant.ErrorConstants;
 import com.nous.rollingrevenue.convertor.BusinessUnitConverter;
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
@@ -76,28 +77,23 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 		Optional<BusinessUnit> businessUnitOptional = businessUnitRepository.findById(id);
 		List<StrategicBusinessUnit> sbuList = sbuRepository.findByBusinessUnitId(id);
 		if (!sbuList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.BU_IS_ALREADY_LINKED);
 		}
 		List<BusinessDevelopmentManager> bdmList = bdmRepository.findByBusinessUnitId(id);
 		if (!bdmList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.BU_IS_ALREADY_LINKED);
 		}
 		List<CocPractice> cocList = cocRepository.findByBusinessUnitId(id);
 		if (!cocList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.BU_IS_ALREADY_LINKED);
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByBusinessUnitId(id);
 		if (!annualTargetEntryList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.BU_IS_ALREADY_LINKED);
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByBusinessUnitId(id);
 		if (!revenueResourceList.isEmpty()) {
-			throw new RecordNotFoundException(
-					"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+			throw new RecordNotFoundException(Constants.BU_IS_ALREADY_LINKED);
 		}
 		if (businessUnitOptional.isPresent()) {
 			businessUnitRepository.deleteById(id);
@@ -147,40 +143,39 @@ public class BusinessUnitServiceImpl implements BusinessUnitService {
 		List<StrategicBusinessUnit> sbuList = sbuRepository.findByBusinessUnitId(id);
 		for (StrategicBusinessUnit sbu : sbuList) {
 			if (businessUnit.isActive() && sbu.isActive()) {
-				throw new RecordNotFoundException(
-						"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.BU_IS_ALREADY_LINKED);
 			}
 		}
 		List<BusinessDevelopmentManager> bdmList = bdmRepository.findByBusinessUnitId(id);
 		for (BusinessDevelopmentManager bdm : bdmList) {
 			if (businessUnit.isActive() && bdm.isActive()) {
-				throw new RecordNotFoundException(
-						"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.BU_IS_ALREADY_LINKED);
 			}
 		}
+		isActiveValidationForBusinessUnit(businessUnit, id);
+		businessUnit.setActive(!businessUnit.isActive());
+		businessUnitRepository.save(businessUnit);
+	}
+
+	private void isActiveValidationForBusinessUnit(BusinessUnit businessUnit, Long id) {
 		List<CocPractice> cocList = cocRepository.findByBusinessUnitId(id);
 		for (CocPractice coc : cocList) {
 			if (businessUnit.isActive() && coc.isActive()) {
-				throw new RecordNotFoundException(
-						"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.BU_IS_ALREADY_LINKED);
 			}
 		}
 		List<AnnualTargetEntry> annualTargetEntryList = annualTargetEntryRepository.findByBusinessUnitId(id);
 		for (AnnualTargetEntry targetEntry : annualTargetEntryList) {
 			if (businessUnit.isActive() && targetEntry.isActive()) {
-				throw new RecordNotFoundException(
-						"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.BU_IS_ALREADY_LINKED);
 			}
 		}
 		List<RevenueResourceEntry> revenueResourceList = revenueResourceEntryRepository.findByBusinessUnitId(id);
 		for (RevenueResourceEntry revenueResource : revenueResourceList) {
 			if (businessUnit.isActive() && revenueResource.isActive()) {
-				throw new RecordNotFoundException(
-						"BU is already linked to SBU or BDM or CoC Practice or AnnualTargetEntry or RevenueResourceEntry");
+				throw new RecordNotFoundException(Constants.BU_IS_ALREADY_LINKED);
 			}
 		}
-		businessUnit.setActive(!businessUnit.isActive());
-		businessUnitRepository.save(businessUnit);
 	}
 
 }
