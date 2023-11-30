@@ -186,7 +186,7 @@ public class RegionReportServiceImpl implements RegionReportService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
-				.toList();
+				.collect(Collectors.toList());
 	}
 
 	private FinancialYearRevenue calculatingBasedOnRegion(List<RevenueResourceEntry> revenueResourceEntries,

@@ -414,7 +414,7 @@ public class RevenueServiceImpl implements RevenueService {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.MONTH_YEAR_FORMAT, Locale.ENGLISH);
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
-				.toList();
+				.collect(Collectors.toList());
 	}
 
 	private List<RevenueResourceEntry> filterRevenueEntriesByStartDateAndEndDate(
@@ -425,7 +425,7 @@ public class RevenueServiceImpl implements RevenueService {
 						.isBefore(financialYearStartingFrom.minusDays(1))
 						&& fpEntry.getMilestoneEntry().getMilestoneBillingDate()
 								.isBefore(financialYearEndingOn.plusDays(1)))
-				.toList();
+				.collect(Collectors.toList());
 	}
 
 	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyEndDate,
@@ -603,7 +603,16 @@ public class RevenueServiceImpl implements RevenueService {
 
 		List<RevenueResourceEntry> opportunityResources = revenueResourceEntryRepository
 				.getResourcesByOpportunity(resourceEntryRequest);
-		return opportunityResources.get(0).getRevenueEntry().getResourceCount();
+		if (Constants.PRICING_TYPE_FP.equals(resourceEntryRequest.getPricingType())) {
+			List<MilestoneEntry> list = opportunityResources.get(0).getRevenueEntry().getMilestoneEntry();
+			int count = 0;
+			for (MilestoneEntry mileEntry : list) {
+				count = count + mileEntry.getMilestoneResourceCount();
+			}
+			return count;
+		} else {
+			return opportunityResources.get(0).getRevenueEntry().getResourceCount();
+		}
 	}
 
 	@Override
@@ -627,12 +636,12 @@ public class RevenueServiceImpl implements RevenueService {
 				revenueResourceEntries = revenueResourceEntries.stream()
 						.filter(revenueResourceEntry -> Constants.NON_COC_BASED
 								.equals(revenueResourceEntry.getCocPractice().getCocPracticeName()))
-						.toList();
+						.collect(Collectors.toList());
 			} else {
 				revenueResourceEntries = revenueResourceEntries.stream()
 						.filter(revenueResourceEntry -> (!Constants.NON_COC_BASED
 								.equals(revenueResourceEntry.getCocPractice().getCocPracticeName())))
-						.toList();
+						.collect(Collectors.toList());
 			}
 		}
 
