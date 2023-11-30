@@ -313,8 +313,9 @@ public class RevenueServiceImpl implements RevenueService {
 	@Override
 	public RevenueEntryResponse getRevenueEntries(String financialYearName, boolean isDisplayAdditionalQuarter) {
 
-		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(financialYearName).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
+		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(financialYearName)
+				.orElseThrow(() -> new RecordNotFoundException(
+						ErrorConstants.RECORD_NOT_EXIST + Constants.FINANCIALYEA_NAME_NOT_EXIST));
 
 		Set<RevenueEntryVO> revenueEntriesVO = new HashSet<>();
 		RevenueEntryResponse revenueEntryResponse = new RevenueEntryResponse();
@@ -394,7 +395,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 			MilestoneEntry milestoneEntry = revenueFPResourceEntry.getMilestoneEntry();
 
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.MONTH_YEAR_FORMAT, Locale.ENGLISH);
 
 			String milestoneBillingDate = formatter.format(milestoneEntry.getMilestoneBillingDate());
 
@@ -410,7 +411,7 @@ public class RevenueServiceImpl implements RevenueService {
 	}
 
 	private List<String> getListOfMonthsBetweenDates(LocalDate startDate, LocalDate endDate) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.MONTH_YEAR_FORMAT, Locale.ENGLISH);
 		return Stream.iterate(startDate.withDayOfMonth(1), date -> date.plusMonths(1))
 				.limit(ChronoUnit.MONTHS.between(startDate, endDate.plusMonths(1))).map(date -> date.format(formatter))
 				.toList();
@@ -510,7 +511,7 @@ public class RevenueServiceImpl implements RevenueService {
 		FinancialYear financialYear = financialYearRepository
 				.findByFinancialYearName(opportunityRevenueRequest.getFinancialYearName())
 				.orElseThrow(() -> new RecordNotFoundException(
-						ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
+						ErrorConstants.RECORD_NOT_EXIST + Constants.FINANCIALYEA_NAME_NOT_EXIST));
 
 		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository
 				.getOpportunities(opportunityRevenueRequest);
@@ -616,7 +617,7 @@ public class RevenueServiceImpl implements RevenueService {
 		FinancialYear financialYear = financialYearRepository
 				.findByFinancialYearName(resourceEntryRequest.getFinancialYearName())
 				.orElseThrow(() -> new RecordNotFoundException(
-						ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
+						ErrorConstants.RECORD_NOT_EXIST + Constants.FINANCIALYEA_NAME_NOT_EXIST));
 
 		List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository
 				.getResourcesByOpportunity(resourceEntryRequest);
@@ -709,7 +710,7 @@ public class RevenueServiceImpl implements RevenueService {
 		FinancialYear financialYear = financialYearRepository
 				.findByFinancialYearName(resourceRevenueRequest.getFinancialYearName())
 				.orElseThrow(() -> new RecordNotFoundException(
-						ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
+						ErrorConstants.RECORD_NOT_EXIST + Constants.FINANCIALYEA_NAME_NOT_EXIST));
 
 		RevenueResourceEntry revenueResourceEntry = revenueResourceEntryRepository
 				.getResourcesRevenue(resourceRevenueRequest);
@@ -736,7 +737,7 @@ public class RevenueServiceImpl implements RevenueService {
 
 				MilestoneEntry milestoneEntry = revenueResourceEntry.getMilestoneEntry();
 
-				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM-yyyy", Locale.ENGLISH);
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.MONTH_YEAR_FORMAT, Locale.ENGLISH);
 
 				String milestoneBillingDate = formatter.format(milestoneEntry.getMilestoneBillingDate());
 
@@ -1249,8 +1250,9 @@ public class RevenueServiceImpl implements RevenueService {
 	public RevenueEntryResponse getRevenueEntriesDetailsByPagination(String financialYearName, int pagenumber,
 			int pagesize, String sortBy, boolean isDisplayAdditionalQuarter) {
 
-		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(financialYearName).orElseThrow(
-				() -> new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + "financialYearName not exist"));
+		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(financialYearName)
+				.orElseThrow(() -> new RecordNotFoundException(
+						ErrorConstants.RECORD_NOT_EXIST + Constants.FINANCIALYEA_NAME_NOT_EXIST));
 
 		Set<RevenueEntryVO> revenueEntriesVO = new HashSet<>();
 		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();

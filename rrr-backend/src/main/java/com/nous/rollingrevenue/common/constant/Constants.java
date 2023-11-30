@@ -146,5 +146,9 @@ public class Constants {
 	public static final String SBU_HEAD_IS_ALREADY_LINKED = "SBU Head is already linked to AnnualTargetEntry or RevenueResourceEntry";
 
 	public static final String SBU_IS_ALREADY_LINKED = "SBU is already linked to SBU Head or AnnualTargetEntry or RevenueResourceEntry";
+	
+	public static final String FINANCIALYEA_NAME_NOT_EXIST = "financialYearName not exist";
+	
+	public static final String MONTH_YEAR_FORMAT = "MMMM-yyyy";
 
 }

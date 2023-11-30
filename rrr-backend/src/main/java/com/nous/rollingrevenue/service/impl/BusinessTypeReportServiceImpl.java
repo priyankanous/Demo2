@@ -320,9 +320,9 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 	private List<BigInteger> getRevenueDetails(List<String> list, Map<String, BigInteger> dataMap) {
 		List<BigInteger> data = new ArrayList<>();
 		for (String string : list) {
-			for (String key : dataMap.keySet()) {
-				if (string.equalsIgnoreCase(key)) {
-					data.add(dataMap.get(key));
+			for (Map.Entry<String, BigInteger> entry : dataMap.entrySet()) {
+				if (string.equalsIgnoreCase(entry.getKey())) {
+					data.add(dataMap.get(entry.getKey()));
 				}
 			}
 		}
@@ -359,9 +359,9 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 
 		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
 		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
-		for (String key : dataMap.keySet()) {
-			if (map.containsKey(key)) {
-				map.put(key, map.get(key).add(dataMap.get(key)));
+		for (Map.Entry<String, BigInteger> entry : dataMap.entrySet()) {
+			if (map.containsKey(entry.getKey())) {
+				map.put(entry.getKey(), map.get(entry.getKey()).add(dataMap.get(entry.getKey())));
 			}
 		}
 		financialYearRevenue.setDataMap(map);
