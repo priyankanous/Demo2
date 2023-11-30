@@ -244,11 +244,11 @@ public class RevenueServiceTMCalculation {
 		int daysInMonth = weekDaysInMonth(YearMonth.of(Integer.parseInt(year), monthNumber));
 		Long monthlyHolidaysCount = getMonthlyHolidaysCount(financialYearName, monthName);
 
-		long totalHours = (daysInMonth - monthlyHolidaysCount) * 8 * (1 - (leaveLossFact / 100));
-		long billRate = billingRate.longValue();
+		double totalHours = (daysInMonth - monthlyHolidaysCount) * 8 * (1 - (leaveLossFact / 100));
+		double billRate = billingRate.doubleValue();
 
 		if (Constants.HOURLY.equalsIgnoreCase(billingType)) {
-			cal = (double) billRate * totalHours;
+			cal = billRate * totalHours;
 		} else if (Constants.DAILY.equalsIgnoreCase(billingType)) {
 			cal = billRate * (totalHours / 8);
 		} else if (Constants.WEEKLY.equalsIgnoreCase(billingType)) {
