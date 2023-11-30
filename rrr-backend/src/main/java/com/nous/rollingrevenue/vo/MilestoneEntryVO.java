@@ -36,7 +36,7 @@ public class MilestoneEntryVO implements Serializable {
 	@Range(min = 1, message = "MilestoneResourceCount can't be zero")
 	private Integer milestoneResourceCount;
 
-	List<RevenueResourceEntryVO> revenueResourceEntries = new ArrayList<>();
+	private List<RevenueResourceEntryVO> revenueResourceEntries = new ArrayList<>();
 
 	public MilestoneEntryVO() {
 

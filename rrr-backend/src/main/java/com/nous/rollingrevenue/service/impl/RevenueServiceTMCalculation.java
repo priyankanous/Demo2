@@ -108,7 +108,8 @@ public class RevenueServiceTMCalculation {
 		int quarterThree = 0;
 		int quarterFour = 0;
 		int quarterFive = 0;
-		for (String key : fyRevenue.keySet()) {
+		for (Map.Entry<String, BigInteger> entry : fyRevenue.entrySet()) {
+			String key = entry.getKey();
 			if (key.contains("April") || key.contains("May") || key.contains("June") || key.contains("q1FYP")) {
 				bigInteger = bigInteger + fyRevenue.get(key).intValue();
 				quarterOne = bigInteger;

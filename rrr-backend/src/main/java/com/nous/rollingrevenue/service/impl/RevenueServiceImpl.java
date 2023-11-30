@@ -535,9 +535,9 @@ public class RevenueServiceImpl implements RevenueService {
 
 		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
 		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
-		for (String key : dataMap.keySet()) {
-			if (map.containsKey(key)) {
-				map.put(key, map.get(key).add(dataMap.get(key)));
+		for (Map.Entry<String, BigInteger> entry : dataMap.entrySet()) {
+			if (map.containsKey(entry.getKey())) {
+				map.put(entry.getKey(), map.get(entry.getKey()).add(dataMap.get(entry.getKey())));
 			}
 		}
 		financialYearRevenue.setDataMap(map);
@@ -1284,9 +1284,9 @@ public class RevenueServiceImpl implements RevenueService {
 
 		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
 		Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
-		for (String key : dataMap.keySet()) {
-			if (map.containsKey(key)) {
-				map.put(key, map.get(key).add(dataMap.get(key)));
+		for (Map.Entry<String, BigInteger> entry : dataMap.entrySet()) {
+			if (map.containsKey(entry.getKey())) {
+				map.put(entry.getKey(), map.get(entry.getKey()).add(dataMap.get(entry.getKey())));
 			}
 		}
 		financialYearRevenue.setDataMap(map);
