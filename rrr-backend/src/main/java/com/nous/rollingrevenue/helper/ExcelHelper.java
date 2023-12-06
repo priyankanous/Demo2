@@ -227,8 +227,8 @@ public class ExcelHelper {
 						String accountName = cell.getStringCellValue().isBlank() ? null : cell.getStringCellValue();
 						if (!accounts.isEmpty()) {
 							Optional<Account> accountNameMatch = accounts.stream()
-									.filter(account -> account.getAccountName().replace(" ", "")
-											.equalsIgnoreCase(accountName.replace(" ", "")))
+									.filter(account -> account.getAccountName().replaceAll(" ", "")
+											.equalsIgnoreCase(accountName.replaceAll(" ", "")))
 									.findFirst();
 							if (accountNameMatch.isPresent()) {
 								workOrderVO
@@ -249,7 +249,7 @@ public class ExcelHelper {
 		} catch (Exception e) {
 			throw new ExcelParserException(e.getLocalizedMessage());
 		}
-		if (unMatchedAccountNames.isEmpty()) {
+		if (unMatchedAccountNames.size() > 0) {
 			throw new RecordNotFoundException(unMatchedAccountNames.toString());
 		}
 		return excelWorkOrderVOs;
