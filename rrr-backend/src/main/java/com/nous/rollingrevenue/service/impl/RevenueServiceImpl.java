@@ -263,9 +263,9 @@ public class RevenueServiceImpl implements RevenueService {
 		List<MilestoneEntryVO> milestoneEntriesVO = fpRevenueEntry.getMilestones();
 
 		for (MilestoneEntryVO milestoneEntryVO : milestoneEntriesVO) {
+			int milestoneRevenue = milestoneEntryVO.getMilestoneRevenue().intValue();
 
 			MilestoneEntry milestoneEntry = new MilestoneEntry();
-
 			milestoneEntry.setMilestoneNumber(milestoneEntryVO.getMilestoneNumber());
 			milestoneEntry.setMilestoneBillingDate(milestoneEntryVO.getMilestoneBillingDate());
 			milestoneEntry.setMilestoneRevenue(milestoneEntryVO.getMilestoneRevenue());
@@ -276,6 +276,7 @@ public class RevenueServiceImpl implements RevenueService {
 			List<RevenueResourceEntryVO> revenueResourceEntriesVO = milestoneEntryVO.getRevenueResourceEntries();
 
 			if (!revenueResourceEntriesVO.isEmpty()) {
+				int resourceRevenue = 0;
 				for (RevenueResourceEntryVO revenueResourceEntryVO : revenueResourceEntriesVO) {
 
 					RevenueResourceEntry revenueResourceEntry = new RevenueResourceEntry();
@@ -296,6 +297,8 @@ public class RevenueServiceImpl implements RevenueService {
 						revenueResourceEntry.setCocPractice(CocPracticeConverter
 								.convertCocPracticeVOToCocPractice(revenueResourceEntryVO.getCocPractice()));
 					}
+					BigInteger milestoneResourceRevenue = revenueResourceEntryVO.getMilestoneResourceRevenue();
+					resourceRevenue = resourceRevenue + milestoneResourceRevenue.intValue();
 					revenueResourceEntry.setRevenue(revenueResourceEntryVO.getMilestoneResourceRevenue());
 					revenueResourceEntry.setBusinessType(BusinessTypeConverter
 							.convertBusinessTypeVOToBusinessType(revenueResourceEntryVO.getBusinessType()));
@@ -303,6 +306,9 @@ public class RevenueServiceImpl implements RevenueService {
 					revenueResourceEntry.setMilestoneEntry(savedMilestoneEntry);
 					revenueResourceEntry.setRevenueEntry(savedRevenueEntry);
 					revenueResourceEntryRepository.save(revenueResourceEntry);
+				}
+				if (resourceRevenue != milestoneRevenue) {
+					throw new RecordNotFoundException("Mile stone revenue and resource revnue has to match");
 				}
 			}
 
