@@ -1130,7 +1130,6 @@ public class RevenueServiceImpl implements RevenueService {
 				fpRevenueEntryVO.setStatus(revenueEntry.getStatus());
 
 				List<MilestoneEntryVO> milestones = new ArrayList<>();
-				List<RevenueResourceEntryVO> revenueResourceEntries = new ArrayList<>();
 				List<MilestoneEntry> milestoneEntryList = revenueEntry.getMilestoneEntry();
 				if (!milestoneEntryList.isEmpty()) {
 					for (MilestoneEntry milestoneEntry : milestoneEntryList) {
@@ -1141,6 +1140,7 @@ public class RevenueServiceImpl implements RevenueService {
 						milestoneEntryVO.setMilestoneRevenue(milestoneEntry.getMilestoneRevenue());
 						milestoneEntryVO.setMilestoneResourceCount(milestoneEntry.getMilestoneResourceCount());
 
+						List<RevenueResourceEntryVO> revenueResourceEntries = new ArrayList<>();
 						List<RevenueResourceEntry> revenueResourceEntryList = milestoneEntry.getRevenueResourceEntry();
 						for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
 							RevenueResourceEntryVO revenueResourceEntryVO = new RevenueResourceEntryVO();
