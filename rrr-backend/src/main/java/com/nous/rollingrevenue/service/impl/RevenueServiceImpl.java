@@ -1156,11 +1156,13 @@ public class RevenueServiceImpl implements RevenueService {
 									.convertBusinessTypeToBusinessTypeVO(revenueResourceEntry.getBusinessType()));
 							revenueResourceEntryVO.setLocation(
 									LocationConverter.convertLocationToLocationVO(revenueResourceEntry.getLocation()));
+							revenueResourceEntryVO.setCocPractice(CocPracticeConverter
+									.convertCocPracticeToCocPracticeVO(revenueResourceEntry.getCocPractice()));
 							revenueResourceEntryVO.setResourceName(revenueResourceEntry.getResourceName());
 							revenueResourceEntryVO.setEmployeeId(revenueResourceEntry.getEmployeeId());
 							revenueResourceEntryVO.setResourceStartDate(revenueResourceEntry.getResourceStartDate());
 							revenueResourceEntryVO.setResourceEndDate(revenueResourceEntry.getResourceEndDate());
-							revenueResourceEntryVO.setMilestoneResourceRevenue(revenueResourceEntry.getBillingRate());
+							revenueResourceEntryVO.setMilestoneResourceRevenue(revenueResourceEntry.getRevenue());
 							revenueResourceEntryVO.setAllocation(revenueResourceEntry.getAllocation());
 							revenueResourceEntries.add(revenueResourceEntryVO);
 						}
