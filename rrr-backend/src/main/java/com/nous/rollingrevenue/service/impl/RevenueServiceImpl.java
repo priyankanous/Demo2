@@ -1384,7 +1384,7 @@ public class RevenueServiceImpl implements RevenueService {
 						Long revenueResourceEntryId = revenueEntry.getRevenueResourceEntry().get(0)
 								.getRevenueResourceEntryId();
 						revenueResourceEntryRepository.updateRevenueResourceEntryDetails(null, null, null, null, null,
-								null, null, null, revenueResourceEntryId);
+								null, null, null, null, revenueResourceEntryId);
 						revenueEntryRespository.updateRevenueEntryDetails(revenueEntry.getResourceCount() - 1,
 								revenueEntry.getRevenueEntryId());
 					}
@@ -1418,9 +1418,9 @@ public class RevenueServiceImpl implements RevenueService {
 							Long revenueResourceEntryId = revenueEntry.getRevenueResourceEntry().get(0)
 									.getRevenueResourceEntryId();
 							revenueResourceEntryRepository.updateRevenueResourceEntryDetails(null, null, null, null,
-									null, null, null, null, revenueResourceEntryId);
+									null, null, null, null, null, revenueResourceEntryId);
 							milestoneEntryRepository.updateMilestoneEntryDetailsTONull(milestoneResourceCount - 1, null,
-									null, null, milestoneEntry.getMilestoneEntryId());
+									null, milestoneEntry.getMilestoneEntryId());
 						}
 					}
 				}
