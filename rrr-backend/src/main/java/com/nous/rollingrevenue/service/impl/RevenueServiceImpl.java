@@ -1414,8 +1414,8 @@ public class RevenueServiceImpl implements RevenueService {
 									.getRevenueResourceEntryId();
 							revenueResourceEntryRepository.updateRevenueResourceEntryDetails(null, null, null, null,
 									null, null, null, null, revenueResourceEntryId);
-							milestoneEntryRepository.updateMilestoneEntryDetails(milestoneResourceCount - 1,
-									milestoneEntry.getMilestoneEntryId());
+							milestoneEntryRepository.updateMilestoneEntryDetailsTONull(milestoneResourceCount - 1, null,
+									null, null, milestoneEntry.getMilestoneEntryId());
 						}
 					}
 				}

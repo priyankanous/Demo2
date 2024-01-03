@@ -1,5 +1,8 @@
 package com.nous.rollingrevenue.repository;
 
+import java.math.BigInteger;
+import java.time.LocalDate;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -13,5 +16,11 @@ public interface MilestoneEntryRepository extends JpaRepository<MilestoneEntry, 
 	@Modifying
 	@Query("Update MilestoneEntry r set r.milestoneResourceCount = ?1 where r.milestoneEntryId = ?2")
 	void updateMilestoneEntryDetails(Integer mileStoneResourceCount, Long milestoneEntryId);
+
+	@Modifying
+	@Query("Update MilestoneEntry r set r.milestoneResourceCount = ?1, r.milestoneNumber = ?2, "
+			+ "r.milestoneRevenue = ?3, r.milestoneBillingDate = ?4 where r.milestoneEntryId = ?5")
+	void updateMilestoneEntryDetailsTONull(Integer mileStoneResourceCount, String milestoneNumber,
+			BigInteger milestoneRevenue, LocalDate milestoneBillingDate, Long milestoneEntryId);
 
 }
