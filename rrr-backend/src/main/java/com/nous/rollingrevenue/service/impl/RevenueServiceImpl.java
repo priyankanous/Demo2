@@ -1354,31 +1354,70 @@ public class RevenueServiceImpl implements RevenueService {
 		List<RevenueEntry> revenueEntryList = opportunity.getRevenueEntry();
 		if (!revenueEntryList.isEmpty()) {
 			for (RevenueEntry revenueEntry : revenueEntryList) {
-				Integer count = revenueEntry.getResourceCount();
-				if (count > 1) {
-					List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
-					for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
-						if (resourceDeleteRequest.getEmployeeId().equalsIgnoreCase(revenueResourceEntry.getEmployeeId())
-								&& resourceDeleteRequest.getResourceStartDate()
-										.isEqual(revenueResourceEntry.getResourceStartDate())) {
-							revenueResourceEntryRepository.deleteById(revenueResourceEntry.getRevenueResourceEntryId());
-							revenueResourceEntry.getRevenueEntry().getRevenueEntryId();
-							if (revenueResourceEntry.getRevenueEntry().getResourceCount() != null
-									|| revenueResourceEntry.getRevenueEntry().getResourceCount() != 0) {
-								Integer resourceCount = revenueResourceEntry.getRevenueEntry().getResourceCount() - 1;
-								revenueEntryRespository.updateRevenueEntryDetails(resourceCount,
-										revenueResourceEntry.getRevenueEntry().getRevenueEntryId());
+				if (Constants.PRICING_TYPE_TM.equals(revenueEntry.getPricingType())) {
+					Integer count = revenueEntry.getResourceCount();
+					if (count > 1) {
+						List<RevenueResourceEntry> revenueResourceEntryList = revenueEntry.getRevenueResourceEntry();
+						for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+							if (resourceDeleteRequest.getEmployeeId()
+									.equalsIgnoreCase(revenueResourceEntry.getEmployeeId())
+									&& resourceDeleteRequest.getResourceStartDate()
+											.isEqual(revenueResourceEntry.getResourceStartDate())) {
+								revenueResourceEntryRepository
+										.deleteById(revenueResourceEntry.getRevenueResourceEntryId());
+								if (revenueResourceEntry.getRevenueEntry().getResourceCount() != null
+										|| revenueResourceEntry.getRevenueEntry().getResourceCount() != 0) {
+									Integer resourceCount = revenueResourceEntry.getRevenueEntry().getResourceCount()
+											- 1;
+									revenueEntryRespository.updateRevenueEntryDetails(resourceCount,
+											revenueResourceEntry.getRevenueEntry().getRevenueEntryId());
+								}
 							}
 						}
+					} else {
+						revenueEntryRespository.updateRevenueEntryDetailsToNull(null, revenueEntry.getRevenueEntryId());
+						Long revenueResourceEntryId = revenueEntry.getRevenueResourceEntry().get(0)
+								.getRevenueResourceEntryId();
+						revenueResourceEntryRepository.updateRevenueResourceEntryDetails(null, null, null, null, null,
+								null, null, null, revenueResourceEntryId);
+						revenueEntryRespository.updateRevenueEntryDetails(revenueEntry.getResourceCount() - 1,
+								revenueEntry.getRevenueEntryId());
 					}
 				} else {
-					revenueEntryRespository.updateRevenueEntryDetailsToNull(null, revenueEntry.getRevenueEntryId());
-					Long revenueResourceEntryId = revenueEntry.getRevenueResourceEntry().get(0)
-							.getRevenueResourceEntryId();
-					revenueResourceEntryRepository.updateRevenueResourceEntryDetails(null, null, null, null, null, null,
-							null, null, revenueResourceEntryId);
-					revenueEntryRespository.updateRevenueEntryDetails(revenueEntry.getResourceCount() - 1,
-							revenueEntry.getRevenueEntryId());
+					List<MilestoneEntry> milestoneEntryList = revenueEntry.getMilestoneEntry();
+					for (MilestoneEntry milestoneEntry : milestoneEntryList) {
+						Integer milestoneResourceCount = milestoneEntry.getMilestoneResourceCount();
+						if (milestoneResourceCount > 1) {
+							List<RevenueResourceEntry> revenueResourceEntryList = milestoneEntry
+									.getRevenueResourceEntry();
+							for (RevenueResourceEntry revenueResourceEntry : revenueResourceEntryList) {
+								if (resourceDeleteRequest.getEmployeeId()
+										.equalsIgnoreCase(revenueResourceEntry.getEmployeeId())
+										&& resourceDeleteRequest.getResourceStartDate()
+												.isEqual(revenueResourceEntry.getResourceStartDate())) {
+									revenueResourceEntryRepository
+											.deleteById(revenueResourceEntry.getRevenueResourceEntryId());
+									if (revenueResourceEntry.getMilestoneEntry().getMilestoneResourceCount() != null
+											|| revenueResourceEntry.getMilestoneEntry()
+													.getMilestoneResourceCount() != 0) {
+										Integer mileStoneResourceCount = revenueResourceEntry.getMilestoneEntry()
+												.getMilestoneResourceCount() - 1;
+										milestoneEntryRepository.updateMilestoneEntryDetails(mileStoneResourceCount,
+												revenueResourceEntry.getMilestoneEntry().getMilestoneEntryId());
+									}
+								}
+							}
+						} else {
+							revenueEntryRespository.updateRevenueEntryDetailsToNull(null,
+									revenueEntry.getRevenueEntryId());
+							Long revenueResourceEntryId = revenueEntry.getRevenueResourceEntry().get(0)
+									.getRevenueResourceEntryId();
+							revenueResourceEntryRepository.updateRevenueResourceEntryDetails(null, null, null, null,
+									null, null, null, null, revenueResourceEntryId);
+							milestoneEntryRepository.updateMilestoneEntryDetails(milestoneResourceCount - 1,
+									milestoneEntry.getMilestoneEntryId());
+						}
+					}
 				}
 			}
 			return "Deleted Revenue Entry Details Successfully";
