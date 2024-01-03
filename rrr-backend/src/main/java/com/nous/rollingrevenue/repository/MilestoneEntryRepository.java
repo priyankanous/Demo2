@@ -19,8 +19,8 @@ public interface MilestoneEntryRepository extends JpaRepository<MilestoneEntry, 
 
 	@Modifying
 	@Query("Update MilestoneEntry r set r.milestoneResourceCount = ?1, r.milestoneNumber = ?2, "
-			+ "r.milestoneRevenue = ?3 where r.milestoneEntryId = ?4")
+			+ "r.milestoneRevenue = ?3, r.milestoneBillingDate = ?4 where r.milestoneEntryId = ?5")
 	void updateMilestoneEntryDetailsTONull(Integer mileStoneResourceCount, String milestoneNumber,
-			BigInteger milestoneRevenue, Long milestoneEntryId);
+			BigInteger milestoneRevenue, LocalDate milestoneBillingDate, Long milestoneEntryId);
 
 }

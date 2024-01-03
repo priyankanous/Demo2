@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -394,21 +395,22 @@ public class RevenueServiceImpl implements RevenueService {
 
 		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
 
-		for (RevenueResourceEntry revenueFPResourceEntry : fyRevenueEntries) {
+		if (fyRevenueEntries != null) {
+			for (RevenueResourceEntry revenueFPResourceEntry : fyRevenueEntries) {
 
-			BigInteger resourceFPRevenue = this.getResourceFPRevenueInFYBaseCurrency(revenueFPResourceEntry,
-					financialYear);
+				BigInteger resourceFPRevenue = this.getResourceFPRevenueInFYBaseCurrency(revenueFPResourceEntry,
+						financialYear);
 
-			MilestoneEntry milestoneEntry = revenueFPResourceEntry.getMilestoneEntry();
+				MilestoneEntry milestoneEntry = revenueFPResourceEntry.getMilestoneEntry();
 
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.MONTH_YEAR_FORMAT, Locale.ENGLISH);
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern(Constants.MONTH_YEAR_FORMAT, Locale.ENGLISH);
 
-			String milestoneBillingDate = formatter.format(milestoneEntry.getMilestoneBillingDate());
+				String milestoneBillingDate = formatter.format(milestoneEntry.getMilestoneBillingDate());
 
-			if (resourceFPRevenue != null && fyRevenue.containsKey(milestoneBillingDate)) {
-				fyRevenue.put(milestoneBillingDate, fyRevenue.get(milestoneBillingDate).add(resourceFPRevenue));
+				if (resourceFPRevenue != null && fyRevenue.containsKey(milestoneBillingDate)) {
+					fyRevenue.put(milestoneBillingDate, fyRevenue.get(milestoneBillingDate).add(resourceFPRevenue));
+				}
 			}
-
 		}
 		revenueServiceTMCalculation.setQuarterlyDetails(fyRevenue, isDisplayAdditionalQuarter);
 		financialYearRevenue.setDataMap(fyRevenue);
@@ -426,12 +428,15 @@ public class RevenueServiceImpl implements RevenueService {
 	private List<RevenueResourceEntry> filterRevenueEntriesByStartDateAndEndDate(
 			List<RevenueResourceEntry> revenueFPResourceEntries, LocalDate financialYearStartingFrom,
 			LocalDate financialYearEndingOn) {
-		return revenueFPResourceEntries.stream()
-				.filter(fpEntry -> !fpEntry.getMilestoneEntry().getMilestoneBillingDate()
-						.isBefore(financialYearStartingFrom.minusDays(1))
-						&& fpEntry.getMilestoneEntry().getMilestoneBillingDate()
-								.isBefore(financialYearEndingOn.plusDays(1)))
-				.collect(Collectors.toList());
+		if (revenueFPResourceEntries.get(0).getMilestoneEntry().getMilestoneBillingDate() != null) {
+			return revenueFPResourceEntries.stream()
+					.filter(fpEntry -> !fpEntry.getMilestoneEntry().getMilestoneBillingDate()
+							.isBefore(financialYearStartingFrom.minusDays(1))
+							&& fpEntry.getMilestoneEntry().getMilestoneBillingDate()
+									.isBefore(financialYearEndingOn.plusDays(1)))
+					.collect(Collectors.toList());
+		}
+		return Collections.emptyList();
 	}
 
 	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyEndDate,
@@ -1415,7 +1420,7 @@ public class RevenueServiceImpl implements RevenueService {
 							revenueResourceEntryRepository.updateRevenueResourceEntryDetails(null, null, null, null,
 									null, null, null, null, revenueResourceEntryId);
 							milestoneEntryRepository.updateMilestoneEntryDetailsTONull(milestoneResourceCount - 1, null,
-									null, milestoneEntry.getMilestoneEntryId());
+									null, null, milestoneEntry.getMilestoneEntryId());
 						}
 					}
 				}
