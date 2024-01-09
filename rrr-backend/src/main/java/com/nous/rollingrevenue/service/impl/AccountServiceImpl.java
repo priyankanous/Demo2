@@ -95,8 +95,10 @@ public class AccountServiceImpl implements AccountService {
 		Optional<Account> findById = accountRepository.findById(accountId);
 		if (findById.isPresent()) {
 			accountRepository.deleteById(accountId);
+		} else {
+			throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId);
 		}
-		throw new RecordNotFoundException(ErrorConstants.RECORD_NOT_EXIST + accountId);
+
 	}
 
 	@Override
