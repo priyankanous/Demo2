@@ -428,7 +428,8 @@ public class RevenueServiceImpl implements RevenueService {
 	private List<RevenueResourceEntry> filterRevenueEntriesByStartDateAndEndDate(
 			List<RevenueResourceEntry> revenueFPResourceEntries, LocalDate financialYearStartingFrom,
 			LocalDate financialYearEndingOn) {
-		if (revenueFPResourceEntries.get(0).getMilestoneEntry().getMilestoneBillingDate() != null) {
+		if (!revenueFPResourceEntries.isEmpty()
+				&& revenueFPResourceEntries.get(0).getMilestoneEntry().getMilestoneBillingDate() != null) {
 			return revenueFPResourceEntries.stream()
 					.filter(fpEntry -> !fpEntry.getMilestoneEntry().getMilestoneBillingDate()
 							.isBefore(financialYearStartingFrom.minusDays(1))
