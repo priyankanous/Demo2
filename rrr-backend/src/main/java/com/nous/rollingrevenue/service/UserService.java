@@ -3,7 +3,10 @@ package com.nous.rollingrevenue.service;
 import java.util.List;
 
 import com.nous.rollingrevenue.exception.RecordNotFoundException;
+import com.nous.rollingrevenue.vo.UserUpdateVO;
 import com.nous.rollingrevenue.vo.UserVO;
+
+import jakarta.validation.Valid;
 
 public interface UserService {
 
@@ -12,7 +15,7 @@ public interface UserService {
 	 * 
 	 * @return List of all Users in the database
 	 */
-	public List<UserVO> getAllUsers();
+	public List<UserUpdateVO> getAllUsersEntity();
 
 	/**
 	 * Add an User to the database
@@ -20,7 +23,7 @@ public interface UserService {
 	 * @param UserVO
 	 * 
 	 */
-	public void saveUser(UserVO userVO);
+	public void saveUserEntity(UserVO userVO);
 
 	/**
 	 * Delete an User record by given Employee Id
@@ -28,7 +31,7 @@ public interface UserService {
 	 * @param employeeId The employeeId of the User to be deleted. Throws
 	 *                   {@link RecordNotFoundException} if no match is found
 	 */
-	public void deleteUserByEmployeeId(Long employeeId);
+	public void deleteUserEntityByEmployeeId(String employeeId);
 
 	/**
 	 * Get the User details by given Id
@@ -37,7 +40,7 @@ public interface UserService {
 	 * @return The User details matching the User id. Throws
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
-	public UserVO getUserByUserId(Long userId);
+	public UserUpdateVO getUserEntityByUserId(Long userId);
 
 	/**
 	 * Get the User details by given EmployeeId
@@ -46,6 +49,22 @@ public interface UserService {
 	 * @return The User details matching the employee id. Throws
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
-	public UserVO getUserByEmployeeId(Long employeeId);
+	public UserUpdateVO getUserEntityByEmployeeId(String employeeId);
+
+	/**
+	 * Update an User details to the database by given user Id
+	 * 
+	 * @param UserId, UserVO
+	 * 
+	 */
+	public void updateUserEntityByUserId(Long userId, @Valid UserUpdateVO userUpdateVO);
+
+	/**
+	 * Delete an User record by given User Id
+	 * 
+	 * @param userId The userId of the User to be deleted. Throws
+	 *               {@link RecordNotFoundException} if no match is found
+	 */
+	public void deleteUserEntityByUserId(Long userId);
 
 }

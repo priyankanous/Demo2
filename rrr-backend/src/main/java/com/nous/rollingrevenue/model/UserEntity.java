@@ -16,7 +16,7 @@ import lombok.Data;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 public class UserEntity extends Auditable<String> {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id")
@@ -29,7 +29,7 @@ public class UserEntity extends Auditable<String> {
 	private String emailId;
 
 	@Column(name = "employee_id")
-	private Long employeeId;
+	private String employeeId;
 
 	@Column(name = "password")
 	private String password;

@@ -12,7 +12,6 @@ public interface RegionService {
 	 * 
 	 * @return List of all Regions in the database
 	 */
-
 	public List<RegionVO> getAllRegions();
 
 	/**
@@ -21,7 +20,6 @@ public interface RegionService {
 	 * @param RegionVO
 	 * 
 	 */
-
 	public void saveRegion(RegionVO regionVO);
 
 	/**
@@ -30,7 +28,6 @@ public interface RegionService {
 	 * @param regionId The regionId of the Region to be deleted. Throws
 	 *                 {@link RecordNotFoundException} if no match is found
 	 */
-
 	public void deleteRegionById(Long regionId);
 
 	/**
@@ -40,7 +37,6 @@ public interface RegionService {
 	 * @return The Region details matching the Region id. Throws
 	 *         {@link RecordNotFoundException} if no match is found
 	 */
-
 	public RegionVO getRegionById(Long regionId);
 
 	/**
@@ -49,7 +45,6 @@ public interface RegionService {
 	 * @param RegionId, RegionVO
 	 * 
 	 */
-
 	public void updateRegion(Long regionId, RegionVO regionVO);
 
 	public List<RegionVO> getPagination(int pagenumber, int pagesize, String sortBy);
