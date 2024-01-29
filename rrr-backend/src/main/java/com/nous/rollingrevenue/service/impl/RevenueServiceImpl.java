@@ -857,6 +857,7 @@ public class RevenueServiceImpl implements RevenueService {
 			for (MilestoneEntryVO milestoneEntryVO : milestoneEntriesVO) {
 				if (milestoneEntryVO.getMilestoneEntryId() == null) {
 					MilestoneEntry milestone = new MilestoneEntry();
+					int milestoneRevenue = milestoneEntryVO.getMilestoneRevenue().intValue();
 					milestone.setMilestoneNumber(milestoneEntryVO.getMilestoneNumber());
 					milestone.setMilestoneBillingDate(milestoneEntryVO.getMilestoneBillingDate());
 					milestone.setMilestoneRevenue(milestoneEntryVO.getMilestoneRevenue());
@@ -866,6 +867,7 @@ public class RevenueServiceImpl implements RevenueService {
 					List<RevenueResourceEntryVO> revenueResourceEntriesVO = milestoneEntryVO
 							.getRevenueResourceEntries();
 					if (!revenueResourceEntriesVO.isEmpty()) {
+						int resourceRevenue = 0;
 						for (RevenueResourceEntryVO revenueResourceEntryVO : revenueResourceEntriesVO) {
 
 							RevenueResourceEntry revenueResourceEntry = new RevenueResourceEntry();
@@ -884,6 +886,8 @@ public class RevenueServiceImpl implements RevenueService {
 							revenueResourceEntry.setResourceEndDate(revenueResourceEntryVO.getResourceEndDate());
 							revenueResourceEntry.setCocPractice(CocPracticeConverter
 									.convertCocPracticeVOToCocPractice(revenueResourceEntryVO.getCocPractice()));
+							BigInteger milestoneResourceRevenue = revenueResourceEntryVO.getMilestoneResourceRevenue();
+							resourceRevenue = resourceRevenue + milestoneResourceRevenue.intValue();
 							revenueResourceEntry.setRevenue(revenueResourceEntryVO.getMilestoneResourceRevenue());
 							revenueResourceEntry.setBusinessType(BusinessTypeConverter
 									.convertBusinessTypeVOToBusinessType(revenueResourceEntryVO.getBusinessType()));
@@ -891,6 +895,9 @@ public class RevenueServiceImpl implements RevenueService {
 							revenueResourceEntry.setMilestoneEntry(savedMilestoneEntry);
 							revenueResourceEntry.setRevenueEntry(savedRevenueEntry);
 							revenueResourceEntryRepository.save(revenueResourceEntry);
+						}
+						if (resourceRevenue != milestoneRevenue) {
+							throw new RecordNotFoundException("Milestone revenue and Resource revenue has to match");
 						}
 					}
 				}
@@ -970,7 +977,6 @@ public class RevenueServiceImpl implements RevenueService {
 											revenueResourceEntry.setRevenueEntry(savedRevenueEntry);
 											revenueResourceEntryRepository.save(revenueResourceEntry);
 										}
-
 									}
 								}
 							}
@@ -1438,6 +1444,14 @@ public class RevenueServiceImpl implements RevenueService {
 		Optional<RevenueResourceEntry> optional = revenueResourceEntryRepository.findById(revenueResourceEntryId);
 		if (optional.isPresent()) {
 			RevenueResourceEntry revenueResourceEntry = optional.get();
+			if (Constants.PRICING_TYPE_FP.equals(revenueResourceEntry.getRevenueEntry().getPricingType())) {
+				BigInteger milestoneRevenue = revenueResourceEntry.getMilestoneEntry().getMilestoneRevenue();
+				BigInteger revenue = revenueResourceEntry.getRevenue();
+				BigInteger subtract = milestoneRevenue.subtract(revenue);
+				revenueResourceEntryRepository.deleteById(revenueResourceEntryId);
+				milestoneEntryRepository.updateMilestoneEntryDetailsForMileStoneRevenue(subtract,
+						revenueResourceEntry.getMilestoneEntry().getMilestoneEntryId());
+			}
 			revenueResourceEntryRepository.deleteById(revenueResourceEntryId);
 			if (revenueResourceEntry.getRevenueEntry().getResourceCount() != null
 					|| revenueResourceEntry.getRevenueEntry().getResourceCount() != 0) {
