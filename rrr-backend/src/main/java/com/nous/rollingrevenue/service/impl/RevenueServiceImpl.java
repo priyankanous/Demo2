@@ -1445,20 +1445,30 @@ public class RevenueServiceImpl implements RevenueService {
 		if (optional.isPresent()) {
 			RevenueResourceEntry revenueResourceEntry = optional.get();
 			if (Constants.PRICING_TYPE_FP.equals(revenueResourceEntry.getRevenueEntry().getPricingType())) {
-				BigInteger milestoneRevenue = revenueResourceEntry.getMilestoneEntry().getMilestoneRevenue();
+				MilestoneEntry milestoneEntry = revenueResourceEntry.getMilestoneEntry();
+				BigInteger milestoneRevenue = milestoneEntry.getMilestoneRevenue();
 				BigInteger revenue = revenueResourceEntry.getRevenue();
 				BigInteger subtract = milestoneRevenue.subtract(revenue);
 				revenueResourceEntryRepository.deleteById(revenueResourceEntryId);
 				milestoneEntryRepository.updateMilestoneEntryDetailsForMileStoneRevenue(subtract,
-						revenueResourceEntry.getMilestoneEntry().getMilestoneEntryId());
-			}
-			revenueResourceEntryRepository.deleteById(revenueResourceEntryId);
-			if (revenueResourceEntry.getRevenueEntry().getResourceCount() != null
-					|| revenueResourceEntry.getRevenueEntry().getResourceCount() != 0) {
-				Integer resourceCount = revenueResourceEntry.getRevenueEntry().getResourceCount() - 1;
-				revenueEntryRespository.updateRevenueEntryDetails(resourceCount,
-						revenueResourceEntry.getRevenueEntry().getRevenueEntryId());
-				response.setResourceCount(resourceCount);
+						milestoneEntry.getMilestoneEntryId());
+				if (revenueResourceEntry.getMilestoneEntry().getMilestoneResourceCount() != null
+						|| revenueResourceEntry.getMilestoneEntry().getMilestoneResourceCount() != 0) {
+					Integer resourceCount = milestoneEntry.getMilestoneResourceCount() - 1;
+					milestoneEntryRepository.updateMilestoneEntryDetailsTONull(resourceCount,
+							milestoneEntry.getMilestoneNumber(), milestoneEntry.getMilestoneBillingDate(),
+							milestoneEntry.getMilestoneEntryId());
+					response.setResourceCount(resourceCount);
+				}
+			} else {
+				revenueResourceEntryRepository.deleteById(revenueResourceEntryId);
+				if (revenueResourceEntry.getRevenueEntry().getResourceCount() != null
+						|| revenueResourceEntry.getRevenueEntry().getResourceCount() != 0) {
+					Integer resourceCount = revenueResourceEntry.getRevenueEntry().getResourceCount() - 1;
+					revenueEntryRespository.updateRevenueEntryDetails(resourceCount,
+							revenueResourceEntry.getRevenueEntry().getRevenueEntryId());
+					response.setResourceCount(resourceCount);
+				}
 			}
 			response.setMessage("Deleted Revenue Resource Entry Details Successfully");
 			return response;
