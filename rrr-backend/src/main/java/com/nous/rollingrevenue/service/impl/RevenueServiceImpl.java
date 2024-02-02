@@ -1409,6 +1409,11 @@ public class RevenueServiceImpl implements RevenueService {
 												.isEqual(revenueResourceEntry.getResourceStartDate())) {
 									revenueResourceEntryRepository
 											.deleteById(revenueResourceEntry.getRevenueResourceEntryId());
+									BigInteger milestoneRevenue = milestoneEntry.getMilestoneRevenue();
+									BigInteger revenue = revenueResourceEntry.getRevenue();
+									BigInteger subtract = milestoneRevenue.subtract(revenue);
+									milestoneEntryRepository.updateMilestoneEntryDetailsForMileStoneRevenue(subtract,
+											milestoneEntry.getMilestoneEntryId());
 									if (revenueResourceEntry.getMilestoneEntry().getMilestoneResourceCount() != null
 											|| revenueResourceEntry.getMilestoneEntry()
 													.getMilestoneResourceCount() != 0) {
@@ -1422,10 +1427,15 @@ public class RevenueServiceImpl implements RevenueService {
 						} else {
 							revenueEntryRespository.updateRevenueEntryDetailsToNull(null,
 									revenueEntry.getRevenueEntryId());
-							Long revenueResourceEntryId = revenueEntry.getRevenueResourceEntry().get(0)
-									.getRevenueResourceEntryId();
+							RevenueResourceEntry revenueResourceEntry = revenueEntry.getRevenueResourceEntry().get(0);
+							Long revenueResourceEntryId = revenueResourceEntry.getRevenueResourceEntryId();
 							revenueResourceEntryRepository.updateRevenueResourceEntryDetails(null, null, null, null,
 									null, null, null, null, null, revenueResourceEntryId);
+							BigInteger milestoneRevenue = milestoneEntry.getMilestoneRevenue();
+							BigInteger revenue = revenueResourceEntry.getRevenue();
+							BigInteger subtract = milestoneRevenue.subtract(revenue);
+							milestoneEntryRepository.updateMilestoneEntryDetailsForMileStoneRevenue(subtract,
+									milestoneEntry.getMilestoneEntryId());
 							milestoneEntryRepository.updateMilestoneEntryDetailsTONull(milestoneResourceCount - 1, null,
 									null, milestoneEntry.getMilestoneEntryId());
 						}
