@@ -89,7 +89,7 @@ public class RegionReportServiceImpl implements RegionReportService {
 				financialYear, isDisplayAdditionalQuarter);
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-		List<String> quarterlyDetails = setQuarterlyDetails(fyStartDate);
+		List<String> quarterlyDetails = setQuarterlyDetailsForRegion(fyStartDate);
 
 		if ("Monthly".equalsIgnoreCase(regionReportRequest.getViewType())) {
 			regionResponse.setLabels(listOfMonthsBetweenFinancialYear);
@@ -167,6 +167,18 @@ public class RegionReportServiceImpl implements RegionReportService {
 		string.add("FYT " + additionalQuarterYear);
 		string.add("DiFF-FY " + additionalQuarterYear);
 
+		return string;
+	}
+
+	private List<String> setQuarterlyDetailsForRegion(LocalDate fyEndDate) {
+		List<String> string = new ArrayList<>();
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+		string.add("q1FYP " + year);
+		string.add("q2FYP " + year);
+		string.add("q3FYP " + year);
+		string.add("q4FYP " + additionalQuarterYear);
 		return string;
 	}
 
