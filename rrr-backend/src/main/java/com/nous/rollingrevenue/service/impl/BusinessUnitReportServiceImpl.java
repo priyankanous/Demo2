@@ -90,7 +90,7 @@ public class BusinessUnitReportServiceImpl implements BusinessUnitReportService 
 				financialYear, isDisplayAdditionalQuarter);
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-		List<String> quarterlyDetails = setQuarterlyDetails(fyStartDate);
+		List<String> quarterlyDetails = setQuarterlyDetailsForBusinessUnit(fyStartDate);
 
 		if ("Monthly".equalsIgnoreCase(businessUnitReportRequest.getViewType())) {
 			businessUnitResponse.setLabels(listOfMonthsBetweenFinancialYear);
@@ -170,6 +170,18 @@ public class BusinessUnitReportServiceImpl implements BusinessUnitReportService 
 		string.add("FYT " + additionalQuarterYear);
 		string.add("DiFF-FY " + additionalQuarterYear);
 
+		return string;
+	}
+
+	private List<String> setQuarterlyDetailsForBusinessUnit(LocalDate fyEndDate) {
+		List<String> string = new ArrayList<>();
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+		string.add("q1FYP " + year);
+		string.add("q2FYP " + year);
+		string.add("q3FYP " + year);
+		string.add("q4FYP " + additionalQuarterYear);
 		return string;
 	}
 

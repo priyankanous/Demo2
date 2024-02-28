@@ -142,7 +142,7 @@ public class SBUClientTypeReportServiceImpl implements SBUClientTypeReportServic
 				financialYear, isDisplayAdditionalQuarter);
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-		List<String> quarterlyDetails = setQuarterlyDetails(fyStartDate);
+		List<String> quarterlyDetails = setQuarterlyDetailsForSBUClient(fyStartDate);
 
 		if ("Monthly".equalsIgnoreCase(sbuClientTypeReportRequest.getViewType())) {
 			businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
@@ -274,6 +274,18 @@ public class SBUClientTypeReportServiceImpl implements SBUClientTypeReportServic
 		string.add("FYT " + additionalQuarterYear);
 		string.add("DiFF-FY " + additionalQuarterYear);
 
+		return string;
+	}
+
+	private List<String> setQuarterlyDetailsForSBUClient(LocalDate fyEndDate) {
+		List<String> string = new ArrayList<>();
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+		string.add("q1FYP " + year);
+		string.add("q2FYP " + year);
+		string.add("q3FYP " + year);
+		string.add("q4FYP " + additionalQuarterYear);
 		return string;
 	}
 

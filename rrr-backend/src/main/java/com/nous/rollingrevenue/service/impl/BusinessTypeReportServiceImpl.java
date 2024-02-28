@@ -132,7 +132,7 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 				isDisplayAdditionalQuarter);
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-		List<String> quarterlyDetails = setQuarterlyDetails(fyStartDate);
+		List<String> quarterlyDetails = setOnlyFewQuarterlyDetails(fyStartDate);
 		List<BusinessTypeOutDTO> outDTOList = null;
 		if ("Monthly".equalsIgnoreCase(businessTypeReportRequest.getViewType())) {
 			businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
@@ -317,6 +317,18 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		return string;
 	}
 
+	private List<String> setOnlyFewQuarterlyDetails(LocalDate fyEndDate) {
+		List<String> string = new ArrayList<>();
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+		string.add("q1FYP " + year);
+		string.add("q2FYP " + year);
+		string.add("q3FYP " + year);
+		string.add("q4FYP " + additionalQuarterYear);
+		return string;
+	}
+
 	private List<BigInteger> getRevenueDetails(List<String> list, Map<String, BigInteger> dataMap) {
 		List<BigInteger> data = new ArrayList<>();
 		for (String string : list) {
@@ -430,7 +442,7 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 				isDisplayAdditionalQuarter);
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-		List<String> quarterlyDetails = setQuarterlyDetails(fyStartDate);
+		List<String> quarterlyDetails = setOnlyFewQuarterlyDetails(fyStartDate);
 
 		if ("Monthly".equalsIgnoreCase(businessTypeReportRequest.getViewType())) {
 			businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
