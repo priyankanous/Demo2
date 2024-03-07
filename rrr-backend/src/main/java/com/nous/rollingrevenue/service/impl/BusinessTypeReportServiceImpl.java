@@ -138,20 +138,20 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 			businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
 			outDTOList = setBusinessTypeDetails(listOfMonthsBetweenFinancialYear, financialYearRevenueECEB,
 					financialYearRevenueECNB, financialYearRevenueNCNB);
-			setProbabilityTypes(listOfMonthsBetweenFinancialYear, ecebConfirmed, ecebExpected, ecebUpside,
+			setProbabilityTypesForECEB(listOfMonthsBetweenFinancialYear, ecebConfirmed, ecebExpected, ecebUpside,
 					ecebHighUpside, outDTOList);
-			setProbabilityTypes(listOfMonthsBetweenFinancialYear, ecnbConfirmed, ecnbExpected, ecnbUpside,
+			setProbabilityTypesForECNB(listOfMonthsBetweenFinancialYear, ecnbConfirmed, ecnbExpected, ecnbUpside,
 					ecnbHighUpside, outDTOList);
-			setProbabilityTypes(listOfMonthsBetweenFinancialYear, ncnbConfirmed, ncnbExpected, ncnbUpside,
+			setProbabilityTypesForNCNB(listOfMonthsBetweenFinancialYear, ncnbConfirmed, ncnbExpected, ncnbUpside,
 					ncnbHighUpside, outDTOList);
 			businessTypeResponse.setOutDTOList(outDTOList);
 		} else {
 			businessTypeResponse.setLabels(quarterlyDetails);
 			outDTOList = setBusinessTypeDetails(quarterlyDetails, financialYearRevenueECEB, financialYearRevenueECNB,
 					financialYearRevenueNCNB);
-			setProbabilityTypes(quarterlyDetails, ecebConfirmed, ecebExpected, ecebUpside, ecebHighUpside, outDTOList);
-			setProbabilityTypes(quarterlyDetails, ecnbConfirmed, ecnbExpected, ecnbUpside, ecnbHighUpside, outDTOList);
-			setProbabilityTypes(quarterlyDetails, ncnbConfirmed, ncnbExpected, ncnbUpside, ncnbHighUpside, outDTOList);
+			setProbabilityTypesForECEB(quarterlyDetails, ecebConfirmed, ecebExpected, ecebUpside, ecebHighUpside, outDTOList);
+			setProbabilityTypesForECNB(quarterlyDetails, ecnbConfirmed, ecnbExpected, ecnbUpside, ecnbHighUpside, outDTOList);
+			setProbabilityTypesForNCNB(quarterlyDetails, ncnbConfirmed, ncnbExpected, ncnbUpside, ncnbHighUpside, outDTOList);
 			businessTypeResponse.setOutDTOList(outDTOList);
 		}
 		businessTypeResponse.setFinancialYearName(financialYear.getFinancialYearName());
@@ -219,6 +219,102 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 
 	}
 
+	private void setProbabilityTypesForECEB(List<String> list, FinancialYearRevenue confirmedRevenue,
+			FinancialYearRevenue expectedRevenue, FinancialYearRevenue upsideRevenue,
+			FinancialYearRevenue highUpsideRevenue, List<BusinessTypeOutDTO> outDTOList) {
+		List<BigInteger> confirmed = getRevenueDetails(list, confirmedRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOConfirmed = new BusinessTypeOutDTO();
+		outDTOConfirmed.setLabel("Confirmed-ECEB");
+		outDTOConfirmed.setStack("bar2");
+		outDTOConfirmed.setData(confirmed);
+		outDTOList.add(outDTOConfirmed);
+
+		List<BigInteger> expected = getRevenueDetails(list, expectedRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOExpected = new BusinessTypeOutDTO();
+		outDTOExpected.setLabel("Excepted-ECEB");
+		outDTOExpected.setStack("bar2");
+		outDTOExpected.setData(expected);
+		outDTOList.add(outDTOExpected);
+
+		List<BigInteger> upside = getRevenueDetails(list, upsideRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOUpside = new BusinessTypeOutDTO();
+		outDTOUpside.setLabel("Upside-ECEB");
+		outDTOUpside.setStack("bar2");
+		outDTOUpside.setData(upside);
+		outDTOList.add(outDTOUpside);
+
+		List<BigInteger> high = getRevenueDetails(list, highUpsideRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOHigh = new BusinessTypeOutDTO();
+		outDTOHigh.setLabel("High-Upside-ECEB");
+		outDTOHigh.setStack("bar2");
+		outDTOHigh.setData(high);
+		outDTOList.add(outDTOHigh);
+	}
+	
+	private void setProbabilityTypesForECNB(List<String> list, FinancialYearRevenue confirmedRevenue,
+			FinancialYearRevenue expectedRevenue, FinancialYearRevenue upsideRevenue,
+			FinancialYearRevenue highUpsideRevenue, List<BusinessTypeOutDTO> outDTOList) {
+		List<BigInteger> confirmed = getRevenueDetails(list, confirmedRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOConfirmed = new BusinessTypeOutDTO();
+		outDTOConfirmed.setLabel("Confirmed-ECNB");
+		outDTOConfirmed.setStack("bar2");
+		outDTOConfirmed.setData(confirmed);
+		outDTOList.add(outDTOConfirmed);
+
+		List<BigInteger> expected = getRevenueDetails(list, expectedRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOExpected = new BusinessTypeOutDTO();
+		outDTOExpected.setLabel("Excepted-ECNB");
+		outDTOExpected.setStack("bar2");
+		outDTOExpected.setData(expected);
+		outDTOList.add(outDTOExpected);
+
+		List<BigInteger> upside = getRevenueDetails(list, upsideRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOUpside = new BusinessTypeOutDTO();
+		outDTOUpside.setLabel("Upside-ECNB");
+		outDTOUpside.setStack("bar2");
+		outDTOUpside.setData(upside);
+		outDTOList.add(outDTOUpside);
+
+		List<BigInteger> high = getRevenueDetails(list, highUpsideRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOHigh = new BusinessTypeOutDTO();
+		outDTOHigh.setLabel("High-Upside-ECNB");
+		outDTOHigh.setStack("bar2");
+		outDTOHigh.setData(high);
+		outDTOList.add(outDTOHigh);
+	}
+	
+	private void setProbabilityTypesForNCNB(List<String> list, FinancialYearRevenue confirmedRevenue,
+			FinancialYearRevenue expectedRevenue, FinancialYearRevenue upsideRevenue,
+			FinancialYearRevenue highUpsideRevenue, List<BusinessTypeOutDTO> outDTOList) {
+		List<BigInteger> confirmed = getRevenueDetails(list, confirmedRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOConfirmed = new BusinessTypeOutDTO();
+		outDTOConfirmed.setLabel("Confirmed-NCNB");
+		outDTOConfirmed.setStack("bar2");
+		outDTOConfirmed.setData(confirmed);
+		outDTOList.add(outDTOConfirmed);
+
+		List<BigInteger> expected = getRevenueDetails(list, expectedRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOExpected = new BusinessTypeOutDTO();
+		outDTOExpected.setLabel("Excepted-NCNB");
+		outDTOExpected.setStack("bar2");
+		outDTOExpected.setData(expected);
+		outDTOList.add(outDTOExpected);
+
+		List<BigInteger> upside = getRevenueDetails(list, upsideRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOUpside = new BusinessTypeOutDTO();
+		outDTOUpside.setLabel("Upside-NCNB");
+		outDTOUpside.setStack("bar2");
+		outDTOUpside.setData(upside);
+		outDTOList.add(outDTOUpside);
+
+		List<BigInteger> high = getRevenueDetails(list, highUpsideRevenue.getDataMap());
+		BusinessTypeOutDTO outDTOHigh = new BusinessTypeOutDTO();
+		outDTOHigh.setLabel("High-Upside-NCNB");
+		outDTOHigh.setStack("bar2");
+		outDTOHigh.setData(high);
+		outDTOList.add(outDTOHigh);
+	}
+	
 	private void setProbabilityTypes(List<String> list, FinancialYearRevenue confirmedRevenue,
 			FinancialYearRevenue expectedRevenue, FinancialYearRevenue upsideRevenue,
 			FinancialYearRevenue highUpsideRevenue, List<BusinessTypeOutDTO> outDTOList) {
