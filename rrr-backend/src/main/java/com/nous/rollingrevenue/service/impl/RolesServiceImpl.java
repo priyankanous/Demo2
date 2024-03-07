@@ -1765,15 +1765,8 @@ public class RolesServiceImpl implements RolesService {
 				businessTypeViewPermissionVO
 						.setBusinessTypeViewPermissionAll(businessTypeView.isBusinessTypeViewPermissionAll());
 				if (businessTypeView.getReportsCommonPermission() != null) {
-					ReportsCommonPermissionVO reportsCommonPermissionVO = new ReportsCommonPermissionVO();
-					ReportsCommonPermission reportsCommonPermission = businessTypeView.getReportsCommonPermission();
-					reportsCommonPermissionVO
-							.setReportsCommonPermissionId(reportsCommonPermission.getReportsCommonPermissionId());
-					reportsCommonPermissionVO.setViewAll(reportsCommonPermission.isViewAllDataRequired());
-					reportsCommonPermissionVO.setSetFilter(reportsCommonPermission.isSetFilterRequired());
-					reportsCommonPermissionVO.setExport(reportsCommonPermission.isExportRequired());
-					reportsCommonPermissionVO.setActive(reportsCommonPermission.isActive());
-					businessTypeViewPermissionVO.setReportsCommonPermissionVO(reportsCommonPermissionVO);
+					businessTypeViewPermissionVO.setReportsCommonPermissionVO(
+							setReportsCommonPermission(businessTypeView.getReportsCommonPermission()));
 				}
 				reportsVO.setBusinessTypeViewPermissionVO(businessTypeViewPermissionVO);
 			}
@@ -1784,15 +1777,8 @@ public class RolesServiceImpl implements RolesService {
 				sbuClientViewPermissionVO.setSbuClientViewPermissionId(sbuClientView.getSbuClientViewPermissionId());
 				sbuClientViewPermissionVO.setSbuClientViewPermissionAll(sbuClientView.isSbuClientViewPermissionAll());
 				if (sbuClientView.getReportsCommonPermission() != null) {
-					ReportsCommonPermissionVO reportsCommonPermissionVO = new ReportsCommonPermissionVO();
-					ReportsCommonPermission reportsCommonPermission = sbuClientView.getReportsCommonPermission();
-					reportsCommonPermissionVO
-							.setReportsCommonPermissionId(reportsCommonPermission.getReportsCommonPermissionId());
-					reportsCommonPermissionVO.setViewAll(reportsCommonPermission.isViewAllDataRequired());
-					reportsCommonPermissionVO.setSetFilter(reportsCommonPermission.isSetFilterRequired());
-					reportsCommonPermissionVO.setExport(reportsCommonPermission.isExportRequired());
-					reportsCommonPermissionVO.setActive(reportsCommonPermission.isActive());
-					sbuClientViewPermissionVO.setReportsCommonPermissionVO(reportsCommonPermissionVO);
+					sbuClientViewPermissionVO.setReportsCommonPermissionVO(
+							setReportsCommonPermission(sbuClientView.getReportsCommonPermission()));
 				}
 				reportsVO.setSbuClientViewPermissionVO(sbuClientViewPermissionVO);
 			}
@@ -1803,15 +1789,8 @@ public class RolesServiceImpl implements RolesService {
 				probabilityTypeVO.setProbabilityTypePermissionId(probabilityType.getProbabilityTypeViewPermissionId());
 				probabilityTypeVO.setProbabilityTypePermissionAll(probabilityType.isProbabilityTypeViewPermissionAll());
 				if (probabilityType.getReportsCommonPermission() != null) {
-					ReportsCommonPermissionVO reportsCommonPermissionVO = new ReportsCommonPermissionVO();
-					ReportsCommonPermission reportsCommonPermission = probabilityType.getReportsCommonPermission();
-					reportsCommonPermissionVO
-							.setReportsCommonPermissionId(reportsCommonPermission.getReportsCommonPermissionId());
-					reportsCommonPermissionVO.setViewAll(reportsCommonPermission.isViewAllDataRequired());
-					reportsCommonPermissionVO.setSetFilter(reportsCommonPermission.isSetFilterRequired());
-					reportsCommonPermissionVO.setExport(reportsCommonPermission.isExportRequired());
-					reportsCommonPermissionVO.setActive(reportsCommonPermission.isActive());
-					probabilityTypeVO.setReportsCommonPermissionVO(reportsCommonPermissionVO);
+					probabilityTypeVO.setReportsCommonPermissionVO(
+							setReportsCommonPermission(probabilityType.getReportsCommonPermission()));
 				}
 				reportsVO.setProbabilityTypePermissionVO(probabilityTypeVO);
 			}
@@ -1822,15 +1801,8 @@ public class RolesServiceImpl implements RolesService {
 				regionViewPermissionVO.setRegionViewPermissionId(regionWiseView.getRegionWiseViewPermissionId());
 				regionViewPermissionVO.setRegionViewPermissionAll(regionWiseView.isRegionWiseViewPermissionAll());
 				if (regionWiseView.getReportsCommonPermission() != null) {
-					ReportsCommonPermissionVO reportsCommonPermissionVO = new ReportsCommonPermissionVO();
-					ReportsCommonPermission reportsCommonPermission = regionWiseView.getReportsCommonPermission();
-					reportsCommonPermissionVO
-							.setReportsCommonPermissionId(reportsCommonPermission.getReportsCommonPermissionId());
-					reportsCommonPermissionVO.setViewAll(reportsCommonPermission.isViewAllDataRequired());
-					reportsCommonPermissionVO.setSetFilter(reportsCommonPermission.isSetFilterRequired());
-					reportsCommonPermissionVO.setExport(reportsCommonPermission.isExportRequired());
-					reportsCommonPermissionVO.setActive(reportsCommonPermission.isActive());
-					regionViewPermissionVO.setReportsCommonPermissionVO(reportsCommonPermissionVO);
+					regionViewPermissionVO.setReportsCommonPermissionVO(
+							setReportsCommonPermission(regionWiseView.getReportsCommonPermission()));
 				}
 				reportsVO.setRegionViewPermissionVO(regionViewPermissionVO);
 			}
@@ -1843,15 +1815,8 @@ public class RolesServiceImpl implements RolesService {
 				businessUnitViewVO
 						.setBusinessUnitViewPermissionAll(businessUnitView.isBusinessUnitWiseViewPermissionAll());
 				if (businessUnitView.getReportsCommonPermission() != null) {
-					ReportsCommonPermissionVO reportsCommonPermissionVO = new ReportsCommonPermissionVO();
-					ReportsCommonPermission reportsCommonPermission = businessUnitView.getReportsCommonPermission();
-					reportsCommonPermissionVO
-							.setReportsCommonPermissionId(reportsCommonPermission.getReportsCommonPermissionId());
-					reportsCommonPermissionVO.setViewAll(reportsCommonPermission.isViewAllDataRequired());
-					reportsCommonPermissionVO.setSetFilter(reportsCommonPermission.isSetFilterRequired());
-					reportsCommonPermissionVO.setExport(reportsCommonPermission.isExportRequired());
-					reportsCommonPermissionVO.setActive(reportsCommonPermission.isActive());
-					businessUnitViewVO.setReportsCommonPermissionVO(reportsCommonPermissionVO);
+					businessUnitViewVO.setReportsCommonPermissionVO(
+							setReportsCommonPermission(businessUnitView.getReportsCommonPermission()));
 				}
 				reportsVO.setBuViewPermissionVO(businessUnitViewVO);
 			}
@@ -1862,15 +1827,8 @@ public class RolesServiceImpl implements RolesService {
 				clientWiseVO.setClientWisePermissionId(clientView.getClientWiseViewPermissionId());
 				clientWiseVO.setClientWisePermissionAll(clientView.isClientWiseViewPermissionAll());
 				if (clientView.getReportsCommonPermission() != null) {
-					ReportsCommonPermissionVO reportsCommonPermissionVO = new ReportsCommonPermissionVO();
-					ReportsCommonPermission reportsCommonPermission = clientView.getReportsCommonPermission();
-					reportsCommonPermissionVO
-							.setReportsCommonPermissionId(reportsCommonPermission.getReportsCommonPermissionId());
-					reportsCommonPermissionVO.setViewAll(reportsCommonPermission.isViewAllDataRequired());
-					reportsCommonPermissionVO.setSetFilter(reportsCommonPermission.isSetFilterRequired());
-					reportsCommonPermissionVO.setExport(reportsCommonPermission.isExportRequired());
-					reportsCommonPermissionVO.setActive(reportsCommonPermission.isActive());
-					clientWiseVO.setReportsCommonPermissionVO(reportsCommonPermissionVO);
+					clientWiseVO.setReportsCommonPermissionVO(
+							setReportsCommonPermission(clientView.getReportsCommonPermission()));
 				}
 				reportsVO.setClientWisePermissionVO(clientWiseVO);
 			}
@@ -1881,15 +1839,8 @@ public class RolesServiceImpl implements RolesService {
 				archiveWiseVO.setArchiveWisePermissionId(archiveWise.getArchiveWisePermissionId());
 				archiveWiseVO.setArchiveWisePermissionAll(archiveWise.isArchiveWisePermissionAll());
 				if (archiveWise.getReportsCommonPermission() != null) {
-					ReportsCommonPermissionVO reportsCommonPermissionVO = new ReportsCommonPermissionVO();
-					ReportsCommonPermission reportsCommonPermission = archiveWise.getReportsCommonPermission();
-					reportsCommonPermissionVO
-							.setReportsCommonPermissionId(reportsCommonPermission.getReportsCommonPermissionId());
-					reportsCommonPermissionVO.setViewAll(reportsCommonPermission.isViewAllDataRequired());
-					reportsCommonPermissionVO.setSetFilter(reportsCommonPermission.isSetFilterRequired());
-					reportsCommonPermissionVO.setExport(reportsCommonPermission.isExportRequired());
-					reportsCommonPermissionVO.setActive(reportsCommonPermission.isActive());
-					archiveWiseVO.setReportsCommonPermissionVO(reportsCommonPermissionVO);
+					archiveWiseVO.setReportsCommonPermissionVO(
+							setReportsCommonPermission(archiveWise.getReportsCommonPermission()));
 				}
 				reportsVO.setArchiveWisePermissionVO(archiveWiseVO);
 			}
@@ -1980,16 +1931,8 @@ public class RolesServiceImpl implements RolesService {
 				holidayCalendarPermissionVO
 						.setHolidayCalendarPermissionAll(holidayCalendarPermission.isHolidayCalendarPermissionAll());
 				if (holidayCalendarPermission.getCalendarCommonPermission() != null) {
-					CommonCalendarPermissionVO calendarCommonPermissionVO = new CommonCalendarPermissionVO();
-					CalendarCommonPermission calendarCommonPermission = holidayCalendarPermission
-							.getCalendarCommonPermission();
-					calendarCommonPermissionVO
-							.setCommonCalendarPermissionId(calendarCommonPermission.getCalendarCommonPermissionId());
-					calendarCommonPermissionVO.setViewRequired(calendarCommonPermission.isViewRequired());
-					calendarCommonPermissionVO.setAddRequired(calendarCommonPermission.isAddRequired());
-					calendarCommonPermissionVO.setEditRequired(calendarCommonPermission.isEditRequired());
-					calendarCommonPermissionVO.setDeleteRequired(calendarCommonPermission.isDeleteRequired());
-					holidayCalendarPermissionVO.setCommonCalendarPermissionVO(calendarCommonPermissionVO);
+					holidayCalendarPermissionVO.setCommonCalendarPermissionVO(
+							setCalendarCommonPermission(holidayCalendarPermission.getCalendarCommonPermission()));
 				}
 				calendarPermissionVO.setHolidayCalendarPermissionVO(holidayCalendarPermissionVO);
 			}
@@ -2003,16 +1946,8 @@ public class RolesServiceImpl implements RolesService {
 				fortnightlyMeetingPermissionVO.setFortnightlyMeetingPermissionAll(
 						fortnightlyMeetingsPermission.isFortnightlyMeetingsPermissionAll());
 				if (fortnightlyMeetingsPermission.getCalendarCommonPermission() != null) {
-					CommonCalendarPermissionVO calendarCommonPermissionVO = new CommonCalendarPermissionVO();
-					CalendarCommonPermission calendarCommonPermission = fortnightlyMeetingsPermission
-							.getCalendarCommonPermission();
-					calendarCommonPermissionVO
-							.setCommonCalendarPermissionId(calendarCommonPermission.getCalendarCommonPermissionId());
-					calendarCommonPermissionVO.setViewRequired(calendarCommonPermission.isViewRequired());
-					calendarCommonPermissionVO.setAddRequired(calendarCommonPermission.isAddRequired());
-					calendarCommonPermissionVO.setEditRequired(calendarCommonPermission.isEditRequired());
-					calendarCommonPermissionVO.setDeleteRequired(calendarCommonPermission.isDeleteRequired());
-					fortnightlyMeetingPermissionVO.setCommonCalendarPermissionVO(calendarCommonPermissionVO);
+					fortnightlyMeetingPermissionVO.setCommonCalendarPermissionVO(
+							setCalendarCommonPermission(fortnightlyMeetingsPermission.getCalendarCommonPermission()));
 				}
 				calendarPermissionVO.setFortnightlyMeetingPermissionVO(fortnightlyMeetingPermissionVO);
 			}
@@ -2023,16 +1958,8 @@ public class RolesServiceImpl implements RolesService {
 				bdmMeetingPermissionVO.setBdmMeetingPermissionId(bdmMeetingsPermission.getBdmMeetingsPermissionId());
 				bdmMeetingPermissionVO.setBdmMeetingPermissionAll(bdmMeetingsPermission.isBdmMeetingsPermissionAll());
 				if (bdmMeetingsPermission.getCalendarCommonPermission() != null) {
-					CommonCalendarPermissionVO calendarCommonPermissionVO = new CommonCalendarPermissionVO();
-					CalendarCommonPermission calendarCommonPermission = bdmMeetingsPermission
-							.getCalendarCommonPermission();
-					calendarCommonPermissionVO
-							.setCommonCalendarPermissionId(calendarCommonPermission.getCalendarCommonPermissionId());
-					calendarCommonPermissionVO.setViewRequired(calendarCommonPermission.isViewRequired());
-					calendarCommonPermissionVO.setAddRequired(calendarCommonPermission.isAddRequired());
-					calendarCommonPermissionVO.setEditRequired(calendarCommonPermission.isEditRequired());
-					calendarCommonPermissionVO.setDeleteRequired(calendarCommonPermission.isDeleteRequired());
-					bdmMeetingPermissionVO.setCommonCalendarPermissionVO(calendarCommonPermissionVO);
+					bdmMeetingPermissionVO.setCommonCalendarPermissionVO(
+							setCalendarCommonPermission(bdmMeetingsPermission.getCalendarCommonPermission()));
 				}
 				calendarPermissionVO.setBdmMeetingPermissionVO(bdmMeetingPermissionVO);
 			}
@@ -2055,18 +1982,8 @@ public class RolesServiceImpl implements RolesService {
 				accountPermissionVO.setAccountPermissionId(accountPermission.getAccountPermissionId());
 				accountPermissionVO.setAccountPermissionAll(accountPermission.isAccountPermissionAll());
 				if (accountPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = accountPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					accountPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					accountPermissionVO.setCommonAdministrationPermissionVO(
+							setCommonAdministrationPermission(accountPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setAccountPermissionVO(accountPermissionVO);
 			}
@@ -2077,18 +1994,8 @@ public class RolesServiceImpl implements RolesService {
 				opportunityPermissionVO.setOpportunityPermissionId(opportunityPermission.getOpportunityPermissionId());
 				opportunityPermissionVO.setOpportunityPermissionAll(opportunityPermission.isOpportunityPermissionAll());
 				if (opportunityPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = opportunityPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					opportunityPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					opportunityPermissionVO.setCommonAdministrationPermissionVO(setCommonAdministrationPermission(
+							opportunityPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setOpportunityPermissionVO(opportunityPermissionVO);
 			}
@@ -2101,18 +2008,8 @@ public class RolesServiceImpl implements RolesService {
 				businessUnitPermissionVO
 						.setBusinessUnitPermissionAll(businessUnitPermission.isBusinessUnitPermissionAll());
 				if (businessUnitPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = businessUnitPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					businessUnitPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					businessUnitPermissionVO.setCommonAdministrationPermissionVO(setCommonAdministrationPermission(
+							businessUnitPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setBusinessUnitPermissionVO(businessUnitPermissionVO);
 			}
@@ -2123,18 +2020,8 @@ public class RolesServiceImpl implements RolesService {
 				regionPermissionVO.setRegionPermissionId(regionPermission.getRegionPermissionId());
 				regionPermissionVO.setRegionPermissionAll(regionPermission.isRegionPermissionAll());
 				if (regionPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = regionPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					regionPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					regionPermissionVO.setCommonAdministrationPermissionVO(
+							setCommonAdministrationPermission(regionPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setRegionPermissionVO(regionPermissionVO);
 			}
@@ -2145,18 +2032,8 @@ public class RolesServiceImpl implements RolesService {
 				sbuPermissionVO.setSbuPermissionId(sbuPermission.getSbuPermissionId());
 				sbuPermissionVO.setSbuPermissionAll(sbuPermission.isSbuPermissionAll());
 				if (sbuPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = sbuPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					sbuPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					sbuPermissionVO.setCommonAdministrationPermissionVO(
+							setCommonAdministrationPermission(sbuPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setSbuPermissionVO(sbuPermissionVO);
 			}
@@ -2167,18 +2044,8 @@ public class RolesServiceImpl implements RolesService {
 				sbuHeadPermissionVO.setSbuHeadPermissionId(sbuHeadPermission.getSbuHeadPermissionId());
 				sbuHeadPermissionVO.setSbuHeadPermissionAll(sbuHeadPermission.isSbuHeadPermissionAll());
 				if (sbuHeadPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = sbuHeadPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					sbuHeadPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					sbuHeadPermissionVO.setCommonAdministrationPermissionVO(
+							setCommonAdministrationPermission(sbuHeadPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setSbuHeadPermissionVO(sbuHeadPermissionVO);
 			}
@@ -2189,18 +2056,8 @@ public class RolesServiceImpl implements RolesService {
 				locationPermissionVO.setLocationPermissionId(locationPermission.getLocationPermissionId());
 				locationPermissionVO.setLocationPermissionAll(locationPermission.isLocationPermissionAll());
 				if (locationPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = locationPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					locationPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					locationPermissionVO.setCommonAdministrationPermissionVO(
+							setCommonAdministrationPermission(locationPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setLocationPermissionVO(locationPermissionVO);
 			}
@@ -2211,18 +2068,8 @@ public class RolesServiceImpl implements RolesService {
 				bdmPermissionVO.setBdmPermissionId(bdmPermission.getBdmPermissionId());
 				bdmPermissionVO.setBdmPermissionAll(bdmPermission.isBdmPermissionAll());
 				if (bdmPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = bdmPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					bdmPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					bdmPermissionVO.setCommonAdministrationPermissionVO(
+							setCommonAdministrationPermission(bdmPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setBdmPermissionVO(bdmPermissionVO);
 			}
@@ -2236,18 +2083,8 @@ public class RolesServiceImpl implements RolesService {
 				probabilityPermissionVO
 						.setProbabilityPermissionAll(probabilityTypePermission.isProbabilityTypePermissionAll());
 				if (probabilityTypePermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = probabilityTypePermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					probabilityPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					probabilityPermissionVO.setCommonAdministrationPermissionVO(setCommonAdministrationPermission(
+							probabilityTypePermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setProbabilityPermissionVO(probabilityPermissionVO);
 			}
@@ -2260,18 +2097,8 @@ public class RolesServiceImpl implements RolesService {
 				businessTypePermissionVO
 						.setBusinessTypePermissionAll(businessTypePermission.isBusinessTypePermissionAll());
 				if (businessTypePermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = businessTypePermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					businessTypePermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					businessTypePermissionVO.setCommonAdministrationPermissionVO(setCommonAdministrationPermission(
+							businessTypePermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setBusinessTypePermissionVO(businessTypePermissionVO);
 			}
@@ -2282,18 +2109,8 @@ public class RolesServiceImpl implements RolesService {
 				cocPracticePermissionVO.setCocPracticePermissionId(cocPracticePermission.getCocPracticePermissionId());
 				cocPracticePermissionVO.setCocPracticePermissionAll(cocPracticePermission.isCocPracticePermissionAll());
 				if (cocPracticePermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = cocPracticePermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					cocPracticePermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					cocPracticePermissionVO.setCommonAdministrationPermissionVO(setCommonAdministrationPermission(
+							cocPracticePermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setCocPracticePermissionVO(cocPracticePermissionVO);
 			}
@@ -2304,18 +2121,8 @@ public class RolesServiceImpl implements RolesService {
 				pricingTypePermissionVO.setPricingTypePermissionId(pricingTypePermission.getPricingTypePermissionId());
 				pricingTypePermissionVO.setPricingTypePermissionAll(pricingTypePermission.isPricingTypePermissionAll());
 				if (pricingTypePermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = pricingTypePermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					pricingTypePermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					pricingTypePermissionVO.setCommonAdministrationPermissionVO(setCommonAdministrationPermission(
+							pricingTypePermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setPricingTypePermissionVO(pricingTypePermissionVO);
 			}
@@ -2326,18 +2133,8 @@ public class RolesServiceImpl implements RolesService {
 				workOrderPermissionVO.setWorkOrderPermissionId(workOrderPermission.getWorkOrderPermissionId());
 				workOrderPermissionVO.setWorkOrderPermissionAll(workOrderPermission.isWorkOrderPermissionAll());
 				if (workOrderPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = workOrderPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					workOrderPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					workOrderPermissionVO.setCommonAdministrationPermissionVO(
+							setCommonAdministrationPermission(workOrderPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setWorkOrderPermissionVO(workOrderPermissionVO);
 			}
@@ -2351,17 +2148,8 @@ public class RolesServiceImpl implements RolesService {
 						.setFinancialYearPermissionAll(financialYearPermission.isFinancialYearPermissionAll());
 				financialYearPermissionVO.setActive(financialYearPermission.isActive());
 				if (financialYearPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = financialYearPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					financialYearPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					financialYearPermissionVO.setCommonAdministrationPermissionVO(setCommonAdministrationPermission(
+							financialYearPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setFinancialYearPermissionVO(financialYearPermissionVO);
 			}
@@ -2373,18 +2161,8 @@ public class RolesServiceImpl implements RolesService {
 				currencyPermissionVO.setCurrencyPermissionAll(currencyPermission.isCurrencyPermissionAll());
 				currencyPermissionVO.setActive(currencyPermission.isActive());
 				if (currencyPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = currencyPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
-					currencyPermissionVO.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+					currencyPermissionVO.setCommonAdministrationPermissionVO(
+							setCommonAdministrationPermission(currencyPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setCurrencyPermissionVO(currencyPermissionVO);
 			}
@@ -2398,19 +2176,9 @@ public class RolesServiceImpl implements RolesService {
 				notificationConfigPermissionVO.setNotificationConfigPermissionAll(
 						notificationConfigurationPermission.isNotificationConfigurationPermissionAll());
 				if (notificationConfigurationPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = notificationConfigurationPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
-					commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
 					notificationConfigPermissionVO
-							.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+							.setCommonAdministrationPermissionVO(setCommonAdministrationPermission(
+									notificationConfigurationPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setNotificationConfigPermissionVO(notificationConfigPermissionVO);
 			}
@@ -2424,24 +2192,52 @@ public class RolesServiceImpl implements RolesService {
 				globalLeaveLossFactorPermissionVO.setGlobalLeaveLassFactorPermissionAll(
 						globalLeaveLossFactorPermission.isGlobalLeaveLossFactorPermissionAll());
 				if (globalLeaveLossFactorPermission.getAdministrationCommonPermission() != null) {
-					CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
-					AdministrationCommonPermission administrationCommonPermission = globalLeaveLossFactorPermission
-							.getAdministrationCommonPermission();
-					commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
-							administrationCommonPermission.getAdministrationCommonPermissionId());
-					commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
-					commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
-					commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
-					commonAdministrationPermissionVO
-							.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
 					globalLeaveLossFactorPermissionVO
-							.setCommonAdministrationPermissionVO(commonAdministrationPermissionVO);
+							.setCommonAdministrationPermissionVO(setCommonAdministrationPermission(
+									globalLeaveLossFactorPermission.getAdministrationCommonPermission()));
 				}
 				administrationPermissionVO.setGlobalLeaveLassFactorPermissionVO(globalLeaveLossFactorPermissionVO);
 			}
 			rolesVO.setAdministrationPermissionVO(administrationPermissionVO);
 		}
 		return rolesVO;
+	}
+
+	private static ReportsCommonPermissionVO setReportsCommonPermission(
+			ReportsCommonPermission reportsCommonPermission) {
+		ReportsCommonPermissionVO reportsCommonPermissionVO = new ReportsCommonPermissionVO();
+		reportsCommonPermissionVO.setReportsCommonPermissionId(reportsCommonPermission.getReportsCommonPermissionId());
+		reportsCommonPermissionVO.setViewAll(reportsCommonPermission.isViewAllDataRequired());
+		reportsCommonPermissionVO.setSetFilter(reportsCommonPermission.isSetFilterRequired());
+		reportsCommonPermissionVO.setExport(reportsCommonPermission.isExportRequired());
+		reportsCommonPermissionVO.setActive(reportsCommonPermission.isActive());
+		return reportsCommonPermissionVO;
+	}
+
+	private static CommonCalendarPermissionVO setCalendarCommonPermission(
+			CalendarCommonPermission calendarCommonPermission) {
+		CommonCalendarPermissionVO calendarCommonPermissionVO = new CommonCalendarPermissionVO();
+		calendarCommonPermissionVO
+				.setCommonCalendarPermissionId(calendarCommonPermission.getCalendarCommonPermissionId());
+		calendarCommonPermissionVO.setViewRequired(calendarCommonPermission.isViewRequired());
+		calendarCommonPermissionVO.setAddRequired(calendarCommonPermission.isAddRequired());
+		calendarCommonPermissionVO.setEditRequired(calendarCommonPermission.isEditRequired());
+		calendarCommonPermissionVO.setDeleteRequired(calendarCommonPermission.isDeleteRequired());
+		return calendarCommonPermissionVO;
+	}
+
+	private static CommonAdministrationPermissionVO setCommonAdministrationPermission(
+			AdministrationCommonPermission administrationCommonPermission) {
+		CommonAdministrationPermissionVO commonAdministrationPermissionVO = new CommonAdministrationPermissionVO();
+		commonAdministrationPermissionVO.setCommonAdministrationPermissionId(
+				administrationCommonPermission.getAdministrationCommonPermissionId());
+		commonAdministrationPermissionVO.setView(administrationCommonPermission.isViewRequired());
+		commonAdministrationPermissionVO.setAdd(administrationCommonPermission.isAddRequired());
+		commonAdministrationPermissionVO.setEdit(administrationCommonPermission.isEditRequired());
+		commonAdministrationPermissionVO
+				.setActiveOrDeactive(administrationCommonPermission.isActivateOrDeactivateRequired());
+		commonAdministrationPermissionVO.setDelete(administrationCommonPermission.isDeleteRequired());
+		return commonAdministrationPermissionVO;
 	}
 
 	@Override
