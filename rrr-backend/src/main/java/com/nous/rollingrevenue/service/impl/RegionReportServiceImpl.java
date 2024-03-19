@@ -91,19 +91,56 @@ public class RegionReportServiceImpl implements RegionReportService {
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
 		List<String> quarterlyDetails = setQuarterlyDetailsForRegion(fyStartDate);
 
-		if ("Monthly".equalsIgnoreCase(regionReportRequest.getViewType())) {
-			regionResponse.setLabels(listOfMonthsBetweenFinancialYear);
-			outDTOList = setRegionDetails(listOfMonthsBetweenFinancialYear, financialYearRevenueNA,
-					financialYearRevenueEU, financialYearRevenueAPAC);
-			regionResponse.setOutDTOList(outDTOList);
+		if ("Chart".equalsIgnoreCase(regionReportRequest.getOutPutType())) {
+			if ("Monthly".equalsIgnoreCase(regionReportRequest.getViewType())) {
+				regionResponse.setLabels(listOfMonthsBetweenFinancialYear);
+				outDTOList = setRegionDetails(listOfMonthsBetweenFinancialYear, financialYearRevenueNA,
+						financialYearRevenueEU, financialYearRevenueAPAC);
+				regionResponse.setOutDTOList(outDTOList);
+			} else {
+				regionResponse.setLabels(quarterlyDetails);
+				outDTOList = setRegionDetails(quarterlyDetails, financialYearRevenueNA, financialYearRevenueEU,
+						financialYearRevenueAPAC);
+				regionResponse.setOutDTOList(outDTOList);
+			}
 		} else {
-			regionResponse.setLabels(quarterlyDetails);
-			outDTOList = setRegionDetails(quarterlyDetails, financialYearRevenueNA, financialYearRevenueEU,
-					financialYearRevenueAPAC);
-			regionResponse.setOutDTOList(outDTOList);
+			if ("Monthly".equalsIgnoreCase(regionReportRequest.getViewType())) {
+				regionResponse.setLabels(this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate));
+				outDTOList = setRegionDetails(listOfMonthsBetweenFinancialYear, financialYearRevenueNA,
+						financialYearRevenueEU, financialYearRevenueAPAC);
+				regionResponse.setOutDTOList(outDTOList);
+			} else {
+				regionResponse.setLabels(quarterlyDetails);
+				outDTOList = setRegionDetails(quarterlyDetails, financialYearRevenueNA, financialYearRevenueEU,
+						financialYearRevenueAPAC);
+				regionResponse.setOutDTOList(outDTOList);
+			}
 		}
+
 		regionResponse.setFinancialYearName(financialYear.getFinancialYearName());
 		return regionResponse;
+	}
+
+	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyEndDate) {
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+
+		listOfMonthsBetweenFinancialYear.add(3, "q1FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(4, "q1FYA " + year);
+
+		listOfMonthsBetweenFinancialYear.add(8, "q2FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(9, "q2FYA " + year);
+
+		listOfMonthsBetweenFinancialYear.add(13, "q3FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(14, "q3FYA " + year);
+
+		listOfMonthsBetweenFinancialYear.add(18, "q4FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(19, "q4FYA " + additionalQuarterYear);
+
+		listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+		return listOfMonthsBetweenFinancialYear;
 	}
 
 	private List<RegionOutDTO> setRegionDetails(List<String> list, FinancialYearRevenue financialYearRevenueNA,
