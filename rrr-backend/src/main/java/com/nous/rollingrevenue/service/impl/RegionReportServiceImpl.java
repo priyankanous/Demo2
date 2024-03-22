@@ -87,32 +87,35 @@ public class RegionReportServiceImpl implements RegionReportService {
 				financialYear, isDisplayAdditionalQuarter);
 		FinancialYearRevenue financialYearRevenueAPAC = calculatingBasedOnRegion(apacrevenueResourceEntryList,
 				financialYear, isDisplayAdditionalQuarter);
+		FinancialYearRevenue financialYearRevenueTotal = calculatingBasedOnRegion(financialYearRevenueNA,
+				financialYearRevenueEU, financialYearRevenueAPAC);
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-		List<String> quarterlyDetails = setQuarterlyDetailsForRegion(fyStartDate);
+		List<String> quarterlyDetailsForChart = setQuarterlyDetailsForRegionForChart(fyStartDate);
+		List<String> quarterlyDetailsForTabular = setQuarterlyDetailsForRegionForTabular(fyStartDate);
 
 		if ("Chart".equalsIgnoreCase(regionReportRequest.getOutPutType())) {
 			if ("Monthly".equalsIgnoreCase(regionReportRequest.getViewType())) {
 				regionResponse.setLabels(listOfMonthsBetweenFinancialYear);
 				outDTOList = setRegionDetails(listOfMonthsBetweenFinancialYear, financialYearRevenueNA,
-						financialYearRevenueEU, financialYearRevenueAPAC);
+						financialYearRevenueEU, financialYearRevenueAPAC, null, false);
 				regionResponse.setOutDTOList(outDTOList);
 			} else {
-				regionResponse.setLabels(quarterlyDetails);
-				outDTOList = setRegionDetails(quarterlyDetails, financialYearRevenueNA, financialYearRevenueEU,
-						financialYearRevenueAPAC);
+				regionResponse.setLabels(quarterlyDetailsForChart);
+				outDTOList = setRegionDetails(quarterlyDetailsForChart, financialYearRevenueNA, financialYearRevenueEU,
+						financialYearRevenueAPAC, null, false);
 				regionResponse.setOutDTOList(outDTOList);
 			}
 		} else {
 			if ("Monthly".equalsIgnoreCase(regionReportRequest.getViewType())) {
 				regionResponse.setLabels(this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate));
 				outDTOList = setRegionDetails(listOfMonthsBetweenFinancialYear, financialYearRevenueNA,
-						financialYearRevenueEU, financialYearRevenueAPAC);
+						financialYearRevenueEU, financialYearRevenueAPAC, financialYearRevenueTotal, true);
 				regionResponse.setOutDTOList(outDTOList);
 			} else {
-				regionResponse.setLabels(quarterlyDetails);
-				outDTOList = setRegionDetails(quarterlyDetails, financialYearRevenueNA, financialYearRevenueEU,
-						financialYearRevenueAPAC);
+				regionResponse.setLabels(quarterlyDetailsForTabular);
+				outDTOList = setRegionDetails(quarterlyDetailsForTabular, financialYearRevenueNA,
+						financialYearRevenueEU, financialYearRevenueAPAC, financialYearRevenueTotal, true);
 				regionResponse.setOutDTOList(outDTOList);
 			}
 		}
@@ -121,9 +124,31 @@ public class RegionReportServiceImpl implements RegionReportService {
 		return regionResponse;
 	}
 
-	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyEndDate) {
+	private FinancialYearRevenue calculatingBasedOnRegion(FinancialYearRevenue financialYearRevenueNA,
+			FinancialYearRevenue financialYearRevenueEU, FinancialYearRevenue financialYearRevenueAPAC) {
+		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
+
+		Map<String, BigInteger> mapNA = financialYearRevenueNA.getDataMap();
+		Map<String, BigInteger> mapEU = financialYearRevenueEU.getDataMap();
+		for (Map.Entry<String, BigInteger> entry : mapEU.entrySet()) {
+			if (mapNA.containsKey(entry.getKey())) {
+				mapNA.put(entry.getKey(), mapNA.get(entry.getKey()).add(mapEU.get(entry.getKey())));
+			}
+		}
+
+		Map<String, BigInteger> mapAPAC = financialYearRevenueAPAC.getDataMap();
+		for (Map.Entry<String, BigInteger> entry : mapAPAC.entrySet()) {
+			if (mapNA.containsKey(entry.getKey())) {
+				mapNA.put(entry.getKey(), mapNA.get(entry.getKey()).add(mapAPAC.get(entry.getKey())));
+			}
+		}
+		financialYearRevenue.setDataMap(mapNA);
+		return financialYearRevenue;
+	}
+
+	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyStartDate) {
 		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
-		String year = yearFormatter.format(fyEndDate);
+		String year = yearFormatter.format(fyStartDate);
 		int additionalQuarterYear = Integer.parseInt(year) + 1;
 
 		listOfMonthsBetweenFinancialYear.add(3, "q1FYP " + year);
@@ -144,7 +169,8 @@ public class RegionReportServiceImpl implements RegionReportService {
 	}
 
 	private List<RegionOutDTO> setRegionDetails(List<String> list, FinancialYearRevenue financialYearRevenueNA,
-			FinancialYearRevenue financialYearRevenueEU, FinancialYearRevenue financialYearRevenueAPAC) {
+			FinancialYearRevenue financialYearRevenueEU, FinancialYearRevenue financialYearRevenueAPAC,
+			FinancialYearRevenue financialYearRevenueTotal, boolean isTabular) {
 		List<RegionOutDTO> outDTOList = new ArrayList<>();
 		List<BigInteger> na = getRevenueDetails(list, financialYearRevenueNA.getDataMap());
 		RegionOutDTO outDTONA = new RegionOutDTO();
@@ -166,6 +192,15 @@ public class RegionReportServiceImpl implements RegionReportService {
 		outDTOAPAC.setStack("bar1");
 		outDTOAPAC.setData(apac);
 		outDTOList.add(outDTOAPAC);
+
+		if (isTabular) {
+			List<BigInteger> grandTotal = getRevenueDetails(list, financialYearRevenueTotal.getDataMap());
+			RegionOutDTO outDTOTotal = new RegionOutDTO();
+			outDTOTotal.setLabel("Grand Total");
+			outDTOTotal.setStack("bar1");
+			outDTOTotal.setData(grandTotal);
+			outDTOList.add(outDTOTotal);
+		}
 		return outDTOList;
 	}
 
@@ -207,7 +242,23 @@ public class RegionReportServiceImpl implements RegionReportService {
 		return string;
 	}
 
-	private List<String> setQuarterlyDetailsForRegion(LocalDate fyEndDate) {
+	private List<String> setQuarterlyDetailsForRegionForTabular(LocalDate fyEndDate) {
+		List<String> string = new ArrayList<>();
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+		string.add("q1FYP " + year);
+		string.add("q1FYA " + year);
+		string.add("q2FYP " + year);
+		string.add("q2FYA " + year);
+		string.add("q3FYP " + year);
+		string.add("q3FYA " + year);
+		string.add("q4FYP " + additionalQuarterYear);
+		string.add("q4FYA " + additionalQuarterYear);
+		return string;
+	}
+
+	private List<String> setQuarterlyDetailsForRegionForChart(LocalDate fyEndDate) {
 		List<String> string = new ArrayList<>();
 		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
 		String year = yearFormatter.format(fyEndDate);
