@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -87,8 +88,8 @@ public class RegionReportServiceImpl implements RegionReportService {
 				financialYear, isDisplayAdditionalQuarter);
 		FinancialYearRevenue financialYearRevenueAPAC = calculatingBasedOnRegion(apacrevenueResourceEntryList,
 				financialYear, isDisplayAdditionalQuarter);
-		FinancialYearRevenue financialYearRevenueTotal = calculatingBasedOnRegion(financialYearRevenueNA,
-				financialYearRevenueEU, financialYearRevenueAPAC);
+		FinancialYearRevenue financialYearRevenueTotal = calculatingBasedOnRegionForGrandTotal(financialYearRevenueNA,
+				financialYearRevenueEU, financialYearRevenueAPAC, fyStartDate, fyEndDate);
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
 		List<String> quarterlyDetailsForChart = setQuarterlyDetailsForRegionForChart(fyStartDate);
@@ -124,26 +125,39 @@ public class RegionReportServiceImpl implements RegionReportService {
 		return regionResponse;
 	}
 
-	private FinancialYearRevenue calculatingBasedOnRegion(FinancialYearRevenue financialYearRevenueNA,
-			FinancialYearRevenue financialYearRevenueEU, FinancialYearRevenue financialYearRevenueAPAC) {
+	private FinancialYearRevenue calculatingBasedOnRegionForGrandTotal(FinancialYearRevenue financialYearRevenueNA,
+			FinancialYearRevenue financialYearRevenueEU, FinancialYearRevenue financialYearRevenueAPAC,
+			LocalDate fyStartDate, LocalDate fyEndDate) {
 		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
 
+		Map<String, BigInteger> fyRevenue = new LinkedHashMap<>();
+		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
+		this.addQuarterFieldsForGrandTotal(listOfMonthsBetweenFinancialYear, fyStartDate, false);
+		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
+		financialYearRevenue.setDataMap(fyRevenue);
+
 		Map<String, BigInteger> mapNA = financialYearRevenueNA.getDataMap();
+		Map<String, BigInteger> grandTotal = financialYearRevenue.getDataMap();
+		for (Map.Entry<String, BigInteger> entry : mapNA.entrySet()) {
+			if (grandTotal.containsKey(entry.getKey())) {
+				grandTotal.put(entry.getKey(), grandTotal.get(entry.getKey()).add(mapNA.get(entry.getKey())));
+			}
+		}
+
 		Map<String, BigInteger> mapEU = financialYearRevenueEU.getDataMap();
 		for (Map.Entry<String, BigInteger> entry : mapEU.entrySet()) {
-			if (mapNA.containsKey(entry.getKey())) {
-				mapNA.put(entry.getKey(), mapNA.get(entry.getKey()).add(mapEU.get(entry.getKey())));
+			if (grandTotal.containsKey(entry.getKey())) {
+				grandTotal.put(entry.getKey(), grandTotal.get(entry.getKey()).add(mapEU.get(entry.getKey())));
 			}
 		}
-		financialYearRevenue.setDataMap(mapNA);
-		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
+
 		Map<String, BigInteger> mapAPAC = financialYearRevenueAPAC.getDataMap();
 		for (Map.Entry<String, BigInteger> entry : mapAPAC.entrySet()) {
-			if (map.containsKey(entry.getKey())) {
-				map.put(entry.getKey(), map.get(entry.getKey()).add(mapAPAC.get(entry.getKey())));
+			if (grandTotal.containsKey(entry.getKey())) {
+				grandTotal.put(entry.getKey(), grandTotal.get(entry.getKey()).add(mapAPAC.get(entry.getKey())));
 			}
 		}
-		financialYearRevenue.setDataMap(map);
+		financialYearRevenue.setDataMap(grandTotal);
 		return financialYearRevenue;
 	}
 
@@ -327,5 +341,56 @@ public class RegionReportServiceImpl implements RegionReportService {
 		return revenueResourceEntries.stream()
 				.collect(Collectors.partitioningBy(revenueResourceEntry -> Constants.PRICING_TYPE_FP
 						.equals(revenueResourceEntry.getRevenueEntry().getPricingType())));
+	}
+
+	private List<String> addQuarterFieldsForGrandTotal(List<String> listOfMonthsBetweenFinancialYear,
+			LocalDate fyEndDate, boolean isDisplayAdditionalQuarter) {
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+
+		listOfMonthsBetweenFinancialYear.add(3, "q1FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(4, "q1FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(5, "q1FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(6, "q1FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(7, "q1FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(11, "q2FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(12, "q2FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(13, "q2FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(14, "q2FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(15, "q2FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(19, "q3FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(20, "q3FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(21, "q3FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(22, "q3FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(23, "q3FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(27, "q4FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(28, "q4FYA " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(29, "q4FYB " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(30, "q4FYS " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(31, "q4FYT " + additionalQuarterYear);
+
+		if (isDisplayAdditionalQuarter) {
+			listOfMonthsBetweenFinancialYear.add(35, "q5FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(36, "q5FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(37, "q5FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(38, "q5FYT " + additionalQuarterYear);
+
+			listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
+		} else {
+			listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
+		}
+		return listOfMonthsBetweenFinancialYear;
 	}
 }
