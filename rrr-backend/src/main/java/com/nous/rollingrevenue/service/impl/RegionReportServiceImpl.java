@@ -135,8 +135,8 @@ public class RegionReportServiceImpl implements RegionReportService {
 				mapNA.put(entry.getKey(), mapNA.get(entry.getKey()).add(mapEU.get(entry.getKey())));
 			}
 		}
-
-		Map<String, BigInteger> map = mapNA;
+		financialYearRevenue.setDataMap(mapNA);
+		Map<String, BigInteger> map = financialYearRevenue.getDataMap();
 		Map<String, BigInteger> mapAPAC = financialYearRevenueAPAC.getDataMap();
 		for (Map.Entry<String, BigInteger> entry : mapAPAC.entrySet()) {
 			if (map.containsKey(entry.getKey())) {
