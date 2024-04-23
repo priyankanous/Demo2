@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -149,9 +150,12 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 			businessTypeResponse.setLabels(quarterlyDetails);
 			outDTOList = setBusinessTypeDetails(quarterlyDetails, financialYearRevenueECEB, financialYearRevenueECNB,
 					financialYearRevenueNCNB);
-			setProbabilityTypesForECEB(quarterlyDetails, ecebConfirmed, ecebExpected, ecebUpside, ecebHighUpside, outDTOList);
-			setProbabilityTypesForECNB(quarterlyDetails, ecnbConfirmed, ecnbExpected, ecnbUpside, ecnbHighUpside, outDTOList);
-			setProbabilityTypesForNCNB(quarterlyDetails, ncnbConfirmed, ncnbExpected, ncnbUpside, ncnbHighUpside, outDTOList);
+			setProbabilityTypesForECEB(quarterlyDetails, ecebConfirmed, ecebExpected, ecebUpside, ecebHighUpside,
+					outDTOList);
+			setProbabilityTypesForECNB(quarterlyDetails, ecnbConfirmed, ecnbExpected, ecnbUpside, ecnbHighUpside,
+					outDTOList);
+			setProbabilityTypesForNCNB(quarterlyDetails, ncnbConfirmed, ncnbExpected, ncnbUpside, ncnbHighUpside,
+					outDTOList);
 			businessTypeResponse.setOutDTOList(outDTOList);
 		}
 		businessTypeResponse.setFinancialYearName(financialYear.getFinancialYearName());
@@ -250,7 +254,7 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		outDTOHigh.setData(high);
 		outDTOList.add(outDTOHigh);
 	}
-	
+
 	private void setProbabilityTypesForECNB(List<String> list, FinancialYearRevenue confirmedRevenue,
 			FinancialYearRevenue expectedRevenue, FinancialYearRevenue upsideRevenue,
 			FinancialYearRevenue highUpsideRevenue, List<BusinessTypeOutDTO> outDTOList) {
@@ -282,7 +286,7 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		outDTOHigh.setData(high);
 		outDTOList.add(outDTOHigh);
 	}
-	
+
 	private void setProbabilityTypesForNCNB(List<String> list, FinancialYearRevenue confirmedRevenue,
 			FinancialYearRevenue expectedRevenue, FinancialYearRevenue upsideRevenue,
 			FinancialYearRevenue highUpsideRevenue, List<BusinessTypeOutDTO> outDTOList) {
@@ -314,10 +318,11 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		outDTOHigh.setData(high);
 		outDTOList.add(outDTOHigh);
 	}
-	
-	private void setProbabilityTypes(List<String> list, FinancialYearRevenue confirmedRevenue,
+
+	private List<BusinessTypeOutDTO> setProbabilityTypes(List<String> list, FinancialYearRevenue confirmedRevenue,
 			FinancialYearRevenue expectedRevenue, FinancialYearRevenue upsideRevenue,
-			FinancialYearRevenue highUpsideRevenue, List<BusinessTypeOutDTO> outDTOList) {
+			FinancialYearRevenue highUpsideRevenue, FinancialYearRevenue financialYearRevenueTotal, boolean isTabular) {
+		List<BusinessTypeOutDTO> outDTOList = new ArrayList<>();
 		List<BigInteger> confirmed = getRevenueDetails(list, confirmedRevenue.getDataMap());
 		BusinessTypeOutDTO outDTOConfirmed = new BusinessTypeOutDTO();
 		outDTOConfirmed.setLabel("Confirmed");
@@ -345,6 +350,16 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 		outDTOHigh.setStack("bar2");
 		outDTOHigh.setData(high);
 		outDTOList.add(outDTOHigh);
+
+		if (isTabular) {
+			List<BigInteger> grandTotal = getRevenueDetails(list, financialYearRevenueTotal.getDataMap());
+			BusinessTypeOutDTO outDTOTotal = new BusinessTypeOutDTO();
+			outDTOTotal.setLabel("Grand Total");
+			outDTOTotal.setStack("bar1");
+			outDTOTotal.setData(grandTotal);
+			outDTOList.add(outDTOTotal);
+		}
+		return outDTOList;
 	}
 
 	private List<BusinessTypeOutDTO> setBusinessTypeDetails(List<String> list,
@@ -528,30 +543,192 @@ public class BusinessTypeReportServiceImpl implements BusinessTypeReportService 
 			}
 		}
 
-		FinancialYearRevenue ecebConfirmed = calculatingBasedOnBusinessType(confirmedList, financialYear,
+		FinancialYearRevenue confirmed = calculatingBasedOnBusinessType(confirmedList, financialYear,
 				isDisplayAdditionalQuarter);
-		FinancialYearRevenue ecebExpected = calculatingBasedOnBusinessType(expectedList, financialYear,
+		FinancialYearRevenue expected = calculatingBasedOnBusinessType(expectedList, financialYear,
 				isDisplayAdditionalQuarter);
-		FinancialYearRevenue ecebUpside = calculatingBasedOnBusinessType(upsideList, financialYear,
+		FinancialYearRevenue upside = calculatingBasedOnBusinessType(upsideList, financialYear,
 				isDisplayAdditionalQuarter);
-		FinancialYearRevenue ecebHighUpside = calculatingBasedOnBusinessType(highUpsideList, financialYear,
+		FinancialYearRevenue highUpside = calculatingBasedOnBusinessType(highUpsideList, financialYear,
 				isDisplayAdditionalQuarter);
+		FinancialYearRevenue financialYearRevenueTotal = calculatingBasedOnProbabilityForGrandTotal(confirmed, expected,
+				upside, highUpside, fyStartDate, fyEndDate);
 
 		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-		List<String> quarterlyDetails = setOnlyFewQuarterlyDetails(fyStartDate);
+		List<String> quarterlyDetailsForChart = setQuarterlyDetailsForProbabilityForChart(fyStartDate);
+		List<String> quarterlyDetailsForTabular = setQuarterlyDetailsForProbabilityForTabular(fyStartDate);
 
-		if ("Monthly".equalsIgnoreCase(businessTypeReportRequest.getViewType())) {
-			businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
-			setProbabilityTypes(listOfMonthsBetweenFinancialYear, ecebConfirmed, ecebExpected, ecebUpside,
-					ecebHighUpside, outDTOList);
-			businessTypeResponse.setOutDTOList(outDTOList);
+		if ("Chart".equalsIgnoreCase(businessTypeReportRequest.getOutPutType())) {
+			if ("Monthly".equalsIgnoreCase(businessTypeReportRequest.getViewType())) {
+				businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
+				outDTOList = setProbabilityTypes(listOfMonthsBetweenFinancialYear, confirmed, expected, upside,
+						highUpside, null, false);
+				businessTypeResponse.setOutDTOList(outDTOList);
+			} else {
+				businessTypeResponse.setLabels(quarterlyDetailsForChart);
+				outDTOList = setProbabilityTypes(quarterlyDetailsForChart, confirmed, expected, upside, highUpside, null, false);
+				businessTypeResponse.setOutDTOList(outDTOList);
+			}
 		} else {
-			businessTypeResponse.setLabels(quarterlyDetails);
-			setProbabilityTypes(quarterlyDetails, ecebConfirmed, ecebExpected, ecebUpside, ecebHighUpside, outDTOList);
-			businessTypeResponse.setOutDTOList(outDTOList);
+			if ("Monthly".equalsIgnoreCase(businessTypeReportRequest.getViewType())) {
+				businessTypeResponse.setLabels(this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate));
+				outDTOList = setProbabilityTypes(listOfMonthsBetweenFinancialYear, confirmed, expected, upside,
+						highUpside, financialYearRevenueTotal, true);
+				businessTypeResponse.setOutDTOList(outDTOList);
+			} else {
+				businessTypeResponse.setLabels(quarterlyDetailsForTabular);
+				outDTOList = setProbabilityTypes(quarterlyDetailsForTabular, confirmed, expected, upside, highUpside,
+						financialYearRevenueTotal, true);
+				businessTypeResponse.setOutDTOList(outDTOList);
+			}
 		}
 		businessTypeResponse.setFinancialYearName(financialYear.getFinancialYearName());
 		return businessTypeResponse;
+	}
+
+	private FinancialYearRevenue calculatingBasedOnProbabilityForGrandTotal(
+			FinancialYearRevenue financialYearRevenueConfirmed, FinancialYearRevenue financialYearRevenueExpected,
+			FinancialYearRevenue financialYearRevenueUpside, FinancialYearRevenue financialYearRevenueHighUpside,
+			LocalDate fyStartDate, LocalDate fyEndDate) {
+		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
+
+		Map<String, BigInteger> fyRevenue = new LinkedHashMap<>();
+		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
+		this.addQuarterFieldsForGrandTotal(listOfMonthsBetweenFinancialYear, fyStartDate, false);
+		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
+		financialYearRevenue.setDataMap(fyRevenue);
+
+		Map<String, BigInteger> mapConfirmed = financialYearRevenueConfirmed.getDataMap();
+		Map<String, BigInteger> grandTotal = financialYearRevenue.getDataMap();
+		for (Map.Entry<String, BigInteger> entry : mapConfirmed.entrySet()) {
+			if (grandTotal.containsKey(entry.getKey())) {
+				grandTotal.put(entry.getKey(), grandTotal.get(entry.getKey()).add(mapConfirmed.get(entry.getKey())));
+			}
+		}
+
+		Map<String, BigInteger> mapExpected = financialYearRevenueExpected.getDataMap();
+		for (Map.Entry<String, BigInteger> entry : mapExpected.entrySet()) {
+			if (grandTotal.containsKey(entry.getKey())) {
+				grandTotal.put(entry.getKey(), grandTotal.get(entry.getKey()).add(mapExpected.get(entry.getKey())));
+			}
+		}
+
+		Map<String, BigInteger> mapUpside = financialYearRevenueUpside.getDataMap();
+		for (Map.Entry<String, BigInteger> entry : mapUpside.entrySet()) {
+			if (grandTotal.containsKey(entry.getKey())) {
+				grandTotal.put(entry.getKey(), grandTotal.get(entry.getKey()).add(mapUpside.get(entry.getKey())));
+			}
+		}
+
+		Map<String, BigInteger> mapHighUpside = financialYearRevenueHighUpside.getDataMap();
+		for (Map.Entry<String, BigInteger> entry : mapHighUpside.entrySet()) {
+			if (grandTotal.containsKey(entry.getKey())) {
+				grandTotal.put(entry.getKey(), grandTotal.get(entry.getKey()).add(mapHighUpside.get(entry.getKey())));
+			}
+		}
+		financialYearRevenue.setDataMap(grandTotal);
+		return financialYearRevenue;
+	}
+
+	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyStartDate) {
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyStartDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+
+		listOfMonthsBetweenFinancialYear.add(3, "q1FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(4, "q1FYA " + year);
+
+		listOfMonthsBetweenFinancialYear.add(8, "q2FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(9, "q2FYA " + year);
+
+		listOfMonthsBetweenFinancialYear.add(13, "q3FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(14, "q3FYA " + year);
+
+		listOfMonthsBetweenFinancialYear.add(18, "q4FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(19, "q4FYA " + additionalQuarterYear);
+
+		listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+		return listOfMonthsBetweenFinancialYear;
+	}
+
+	private List<String> setQuarterlyDetailsForProbabilityForTabular(LocalDate fyEndDate) {
+		List<String> string = new ArrayList<>();
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+		string.add("q1FYP " + year);
+		string.add("q1FYA " + year);
+		string.add("q2FYP " + year);
+		string.add("q2FYA " + year);
+		string.add("q3FYP " + year);
+		string.add("q3FYA " + year);
+		string.add("q4FYP " + additionalQuarterYear);
+		string.add("q4FYA " + additionalQuarterYear);
+		return string;
+	}
+
+	private List<String> setQuarterlyDetailsForProbabilityForChart(LocalDate fyEndDate) {
+		List<String> string = new ArrayList<>();
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+		string.add("q1FYP " + year);
+		string.add("q2FYP " + year);
+		string.add("q3FYP " + year);
+		string.add("q4FYP " + additionalQuarterYear);
+		return string;
+	}
+
+	private List<String> addQuarterFieldsForGrandTotal(List<String> listOfMonthsBetweenFinancialYear,
+			LocalDate fyEndDate, boolean isDisplayAdditionalQuarter) {
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+
+		listOfMonthsBetweenFinancialYear.add(3, "q1FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(4, "q1FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(5, "q1FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(6, "q1FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(7, "q1FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(11, "q2FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(12, "q2FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(13, "q2FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(14, "q2FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(15, "q2FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(19, "q3FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(20, "q3FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(21, "q3FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(22, "q3FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(23, "q3FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(27, "q4FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(28, "q4FYA " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(29, "q4FYB " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(30, "q4FYS " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(31, "q4FYT " + additionalQuarterYear);
+
+		if (isDisplayAdditionalQuarter) {
+			listOfMonthsBetweenFinancialYear.add(35, "q5FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(36, "q5FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(37, "q5FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(38, "q5FYT " + additionalQuarterYear);
+
+			listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
+		} else {
+			listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
+		}
+		return listOfMonthsBetweenFinancialYear;
 	}
 
 }
