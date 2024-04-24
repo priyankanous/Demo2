@@ -1,10 +1,10 @@
 package com.nous.rollingrevenue.service;
 
-import com.nous.rollingrevenue.vo.BusinessTypeResponse;
 import com.nous.rollingrevenue.vo.SBUClientTypeReportRequest;
+import com.nous.rollingrevenue.vo.SBUClientTypeReportResponse;
 
 public interface SBUClientTypeReportService {
-	BusinessTypeResponse getSBUClientTypeReportDetails(SBUClientTypeReportRequest sbuClientTypeReportRequest,
+	SBUClientTypeReportResponse getSBUClientTypeReportDetails(SBUClientTypeReportRequest sbuClientTypeReportRequest,
 			boolean isDisplayAdditionalQuarter);
 
 }

@@ -12,7 +12,7 @@ public class SBUClientTypeReportResponse implements Serializable {
 
 	private List<String> labels;
 
-	private List<BusinessTypeOutDTO> outDTOList;
+	private List<SBUClientTypeReportOutDTO> outDTOList;
 
 	private String financialYearName;
 
@@ -32,11 +32,11 @@ public class SBUClientTypeReportResponse implements Serializable {
 		this.labels = labels;
 	}
 
-	public List<BusinessTypeOutDTO> getOutDTOList() {
+	public List<SBUClientTypeReportOutDTO> getOutDTOList() {
 		return outDTOList;
 	}
 
-	public void setOutDTOList(List<BusinessTypeOutDTO> outDTOList) {
+	public void setOutDTOList(List<SBUClientTypeReportOutDTO> outDTOList) {
 		this.outDTOList = outDTOList;
 	}
  

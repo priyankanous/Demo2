@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nous.rollingrevenue.common.rest.RestMessage;
 import com.nous.rollingrevenue.common.rest.WSResponse;
 import com.nous.rollingrevenue.service.SBUClientTypeReportService;
-import com.nous.rollingrevenue.vo.BusinessTypeResponse;
 import com.nous.rollingrevenue.vo.SBUClientTypeReportRequest;
+import com.nous.rollingrevenue.vo.SBUClientTypeReportResponse;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -28,7 +28,7 @@ public class SBUClientTypeReportController {
 
 	@Operation(summary = "Get SBUClientType Report Details")
 	@PostMapping(path = "/sbuclientType")
-	public WSResponse<BusinessTypeResponse> getSBUClientTypeReportDetails(
+	public WSResponse<SBUClientTypeReportResponse> getSBUClientTypeReportDetails(
 			@RequestBody @Valid SBUClientTypeReportRequest sbuClientTypeReportRequest,
 			@RequestParam(required = false) boolean isDisplayAdditionalQuarter) {
 		return WSResponse.buildWSResponse(HttpStatus.OK, RestMessage.SUCCESS, sbuClientTypeReportService
