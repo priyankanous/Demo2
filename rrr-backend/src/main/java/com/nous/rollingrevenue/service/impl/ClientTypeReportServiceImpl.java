@@ -26,10 +26,10 @@ import com.nous.rollingrevenue.model.RevenueResourceEntry;
 import com.nous.rollingrevenue.repository.FinancialYearRepository;
 import com.nous.rollingrevenue.repository.RevenueResourceEntryCustomRepository;
 import com.nous.rollingrevenue.service.ClientTypeReportService;
-import com.nous.rollingrevenue.vo.BusinessTypeOutDTO;
-import com.nous.rollingrevenue.vo.BusinessTypeResponse;
 import com.nous.rollingrevenue.vo.ClientTypeReportInDTO;
+import com.nous.rollingrevenue.vo.ClientTypeReportOutDTO;
 import com.nous.rollingrevenue.vo.ClientTypeReportRequest;
+import com.nous.rollingrevenue.vo.ClientTypeReportResponse;
 import com.nous.rollingrevenue.vo.FinancialYearRevenue;
 import com.nous.rollingrevenue.vo.FinancialYearTMRevenue;
 
@@ -49,7 +49,7 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 	private RevenueResourceEntryCustomRepository revenueResourceEntryCustomRepository;
 
 	@Override
-	public BusinessTypeResponse getClientTypeReporDetails(ClientTypeReportRequest clientTypeReportRequest,
+	public ClientTypeReportResponse getClientTypeReporDetails(ClientTypeReportRequest clientTypeReportRequest,
 			boolean isDisplayAdditionalQuarter) {
 		ClientTypeReportInDTO inDTO = clientTypeReportRequest.getData();
 		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(inDTO.getFinancialYearName())
@@ -61,8 +61,8 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 		LocalDate fyStartDate = LocalDate.of(financialYearStartingFrom.getYear(), 4, 1);
 		LocalDate fyEndDate = LocalDate.of(financialYearEndingOn.getYear(), 3, 31);
 
-		BusinessTypeResponse businessTypeResponse = new BusinessTypeResponse();
-		List<BusinessTypeOutDTO> outDTOList = null;
+		ClientTypeReportResponse clientTypeReportResponse = new ClientTypeReportResponse();
+		List<ClientTypeReportOutDTO> outDTOList = null;
 		List<RevenueResourceEntry> revenueResourceList = new ArrayList<>();
 		FinancialYearRevenue financialYearRevenue = null;
 		Map<String, FinancialYearRevenue> clientMap = new HashMap<>();
@@ -106,35 +106,63 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 			}
 		}
 		FinancialYearRevenue fyRevenue = new FinancialYearRevenue();
+		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
+//		this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate, isDisplayAdditionalQuarter);
+//		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> resultMap.put(monthYear, BigInteger.ZERO));
 		fyRevenue.setDataMap(resultMap);
 		collect.put("Others", fyRevenue);
+		FinancialYearRevenue financialYearRevenueTotal = calculatingBasedOnClientForGrandTotal(collect, fyStartDate,
+				fyEndDate);
 
-		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-		List<String> quarterlyDetails = setQuarterlyDetailsForClientType(fyStartDate);
+		List<String> quarterlyDetailsForChart = setQuarterlyDetailsForClientTypeForChart(fyStartDate);
+		List<String> quarterlyDetailsForTabular = setQuarterlyDetailsForClientTypeForTabular(fyStartDate);
 
-		if ("Monthly".equalsIgnoreCase(clientTypeReportRequest.getViewType())) {
-			businessTypeResponse.setLabels(listOfMonthsBetweenFinancialYear);
-			outDTOList = setClientTypeDetails(listOfMonthsBetweenFinancialYear, collect);
-			businessTypeResponse.setOutDTOList(outDTOList);
+		if ("Chart".equalsIgnoreCase(clientTypeReportRequest.getOutPutType())) {
+			if ("Monthly".equalsIgnoreCase(clientTypeReportRequest.getViewType())) {
+				clientTypeReportResponse.setLabels(listOfMonthsBetweenFinancialYear);
+				outDTOList = setClientTypeDetails(listOfMonthsBetweenFinancialYear, collect, null, false);
+				clientTypeReportResponse.setOutDTOList(outDTOList);
+			} else {
+				clientTypeReportResponse.setLabels(quarterlyDetailsForChart);
+				outDTOList = setClientTypeDetails(quarterlyDetailsForChart, collect, null, false);
+				clientTypeReportResponse.setOutDTOList(outDTOList);
+			}
 		} else {
-			businessTypeResponse.setLabels(quarterlyDetails);
-			outDTOList = setClientTypeDetails(quarterlyDetails, collect);
-			businessTypeResponse.setOutDTOList(outDTOList);
+			if ("Monthly".equalsIgnoreCase(clientTypeReportRequest.getViewType())) {
+				clientTypeReportResponse
+						.setLabels(this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate));
+				outDTOList = setClientTypeDetails(listOfMonthsBetweenFinancialYear, collect, financialYearRevenueTotal,
+						true);
+				clientTypeReportResponse.setOutDTOList(outDTOList);
+			} else {
+				clientTypeReportResponse.setLabels(quarterlyDetailsForTabular);
+				outDTOList = setClientTypeDetails(quarterlyDetailsForTabular, collect, financialYearRevenueTotal, true);
+				clientTypeReportResponse.setOutDTOList(outDTOList);
+			}
 		}
-		businessTypeResponse.setFinancialYearName(financialYear.getFinancialYearName());
-		return businessTypeResponse;
+		clientTypeReportResponse.setFinancialYearName(financialYear.getFinancialYearName());
+		return clientTypeReportResponse;
 	}
 
-	private List<BusinessTypeOutDTO> setClientTypeDetails(List<String> list,
-			Map<String, FinancialYearRevenue> collect) {
-		List<BusinessTypeOutDTO> outDTOList = new ArrayList<>();
+	private List<ClientTypeReportOutDTO> setClientTypeDetails(List<String> list,
+			Map<String, FinancialYearRevenue> collect, FinancialYearRevenue financialYearRevenueTotal,
+			boolean isTabular) {
+		List<ClientTypeReportOutDTO> outDTOList = new ArrayList<>();
 		for (Entry<String, FinancialYearRevenue> entrySet : collect.entrySet()) {
 			List<BigInteger> revenue = getRevenueDetails(list, entrySet.getValue().getDataMap());
-			BusinessTypeOutDTO outDTOECEB = new BusinessTypeOutDTO();
+			ClientTypeReportOutDTO outDTOECEB = new ClientTypeReportOutDTO();
 			outDTOECEB.setLabel(entrySet.getKey());
 			outDTOECEB.setStack("bar1");
 			outDTOECEB.setData(revenue);
 			outDTOList.add(outDTOECEB);
+		}
+		if (isTabular) {
+			List<BigInteger> grandTotal = getRevenueDetails(list, financialYearRevenueTotal.getDataMap());
+			ClientTypeReportOutDTO outDTOTotal = new ClientTypeReportOutDTO();
+			outDTOTotal.setLabel("Grand Total");
+			outDTOTotal.setStack("bar1");
+			outDTOTotal.setData(grandTotal);
+			outDTOList.add(outDTOTotal);
 		}
 		return outDTOList;
 	}
@@ -245,6 +273,186 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 		return revenueResourceEntries.stream()
 				.collect(Collectors.partitioningBy(revenueResourceEntry -> Constants.PRICING_TYPE_FP
 						.equals(revenueResourceEntry.getRevenueEntry().getPricingType())));
+	}
+
+	private FinancialYearRevenue calculatingBasedOnClientForGrandTotal(Map<String, FinancialYearRevenue> collect,
+			LocalDate fyStartDate, LocalDate fyEndDate) {
+		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
+
+		Map<String, BigInteger> fyRevenue = new LinkedHashMap<>();
+		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
+		this.addQuarterFieldsForGrandTotal(listOfMonthsBetweenFinancialYear, fyStartDate, false);
+		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> fyRevenue.put(monthYear, BigInteger.ZERO));
+		financialYearRevenue.setDataMap(fyRevenue);
+
+		Map<String, BigInteger> resultMap = new HashMap<>();
+		for (Map.Entry<String, FinancialYearRevenue> entry : collect.entrySet()) {
+			FinancialYearRevenue yearRevenue = entry.getValue();
+			Map<String, BigInteger> dataMap = yearRevenue.getDataMap();
+			for (Map.Entry<String, BigInteger> entryMap : dataMap.entrySet()) {
+				if (resultMap.containsKey(entryMap.getKey())) {
+					BigInteger currentSum = resultMap.get(entryMap.getKey());
+					resultMap.put(entryMap.getKey(), currentSum.add(entryMap.getValue()));
+				} else {
+					resultMap.put(entryMap.getKey(), entryMap.getValue());
+				}
+			}
+		}
+		financialYearRevenue.setDataMap(resultMap);
+		return financialYearRevenue;
+	}
+
+	private List<String> addQuarterFieldsForGrandTotal(List<String> listOfMonthsBetweenFinancialYear,
+			LocalDate fyEndDate, boolean isDisplayAdditionalQuarter) {
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+
+		listOfMonthsBetweenFinancialYear.add(3, "q1FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(4, "q1FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(5, "q1FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(6, "q1FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(7, "q1FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(11, "q2FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(12, "q2FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(13, "q2FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(14, "q2FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(15, "q2FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(19, "q3FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(20, "q3FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(21, "q3FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(22, "q3FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(23, "q3FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(27, "q4FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(28, "q4FYA " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(29, "q4FYB " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(30, "q4FYS " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(31, "q4FYT " + additionalQuarterYear);
+
+		if (isDisplayAdditionalQuarter) {
+			listOfMonthsBetweenFinancialYear.add(35, "q5FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(36, "q5FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(37, "q5FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(38, "q5FYT " + additionalQuarterYear);
+
+			listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
+		} else {
+			listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
+		}
+		return listOfMonthsBetweenFinancialYear;
+	}
+
+	private List<String> setQuarterlyDetailsForClientTypeForChart(LocalDate fyEndDate) {
+		List<String> string = new ArrayList<>();
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+		string.add("q1FYP " + year);
+		string.add("q2FYP " + year);
+		string.add("q3FYP " + year);
+		string.add("q4FYP " + additionalQuarterYear);
+		return string;
+	}
+
+	private List<String> setQuarterlyDetailsForClientTypeForTabular(LocalDate fyEndDate) {
+		List<String> string = new ArrayList<>();
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+		string.add("q1FYP " + year);
+		string.add("q1FYA " + year);
+		string.add("q2FYP " + year);
+		string.add("q2FYA " + year);
+		string.add("q3FYP " + year);
+		string.add("q3FYA " + year);
+		string.add("q4FYP " + additionalQuarterYear);
+		string.add("q4FYA " + additionalQuarterYear);
+		return string;
+	}
+
+	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyStartDate) {
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyStartDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+
+		listOfMonthsBetweenFinancialYear.add(3, "q1FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(4, "q1FYA " + year);
+
+		listOfMonthsBetweenFinancialYear.add(8, "q2FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(9, "q2FYA " + year);
+
+		listOfMonthsBetweenFinancialYear.add(13, "q3FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(14, "q3FYA " + year);
+
+		listOfMonthsBetweenFinancialYear.add(18, "q4FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(19, "q4FYA " + additionalQuarterYear);
+
+		listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+		return listOfMonthsBetweenFinancialYear;
+	}
+
+	private List<String> addQuarterFields(List<String> listOfMonthsBetweenFinancialYear, LocalDate fyEndDate,
+			boolean isDisplayAdditionalQuarter) {
+		DateTimeFormatter yearFormatter = DateTimeFormatter.ofPattern("yy", Locale.ENGLISH);
+		String year = yearFormatter.format(fyEndDate);
+		int additionalQuarterYear = Integer.parseInt(year) + 1;
+
+		listOfMonthsBetweenFinancialYear.add(3, "q1FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(4, "q1FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(5, "q1FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(6, "q1FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(7, "q1FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(11, "q2FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(12, "q2FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(13, "q2FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(14, "q2FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(15, "q2FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(19, "q3FYP " + year);
+		listOfMonthsBetweenFinancialYear.add(20, "q3FYA " + year);
+		listOfMonthsBetweenFinancialYear.add(21, "q3FYB " + year);
+		listOfMonthsBetweenFinancialYear.add(22, "q3FYS " + year);
+		listOfMonthsBetweenFinancialYear.add(23, "q3FYT " + year);
+
+		listOfMonthsBetweenFinancialYear.add(27, "q4FYP " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(28, "q4FYA " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(29, "q4FYB " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(30, "q4FYS " + additionalQuarterYear);
+		listOfMonthsBetweenFinancialYear.add(31, "q4FYT " + additionalQuarterYear);
+
+		if (isDisplayAdditionalQuarter) {
+			listOfMonthsBetweenFinancialYear.add(35, "q5FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(36, "q5FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(37, "q5FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add(38, "q5FYT " + additionalQuarterYear);
+
+			listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
+		} else {
+			listOfMonthsBetweenFinancialYear.add("FYP " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYB " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYS " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("FYT " + additionalQuarterYear);
+			listOfMonthsBetweenFinancialYear.add("DiFF-FY " + additionalQuarterYear);
+		}
+		return listOfMonthsBetweenFinancialYear;
+
 	}
 
 }

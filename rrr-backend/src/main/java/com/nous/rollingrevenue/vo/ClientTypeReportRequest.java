@@ -16,6 +16,10 @@ public class ClientTypeReportRequest implements Serializable {
 	@Pattern(regexp = "^(Monthly|Quarterly)$", message = "allowed input view : Monthly or Quarterly")
 	private String viewType;
 
+	@NotBlank(message = "OutputType cannot be null or empty")
+	@Pattern(regexp = "^(Chart|Tabular)$", message = "allowed input Output : Chart or Tabular")
+	private String outPutType;
+
 	private ClientTypeReportInDTO data;
 
 	public String getViewType() {
@@ -32,6 +36,14 @@ public class ClientTypeReportRequest implements Serializable {
 
 	public void setData(ClientTypeReportInDTO data) {
 		this.data = data;
+	}
+
+	public String getOutPutType() {
+		return outPutType;
+	}
+
+	public void setOutPutType(String outPutType) {
+		this.outPutType = outPutType;
 	}
 
 }

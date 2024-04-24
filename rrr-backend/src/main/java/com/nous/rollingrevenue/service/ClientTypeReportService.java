@@ -1,11 +1,11 @@
 package com.nous.rollingrevenue.service;
 
-import com.nous.rollingrevenue.vo.BusinessTypeResponse;
 import com.nous.rollingrevenue.vo.ClientTypeReportRequest;
+import com.nous.rollingrevenue.vo.ClientTypeReportResponse;
 
 public interface ClientTypeReportService {
 
-	BusinessTypeResponse getClientTypeReporDetails(ClientTypeReportRequest clientTypeReportRequest,
+	ClientTypeReportResponse getClientTypeReporDetails(ClientTypeReportRequest clientTypeReportRequest,
 			boolean isDisplayAdditionalQuarter);
 
 }
