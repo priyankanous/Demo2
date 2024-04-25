@@ -357,9 +357,86 @@ public class RevenueServiceImpl implements RevenueService {
 			revenueEntryVO.setStatus(revenueEntry.getStatus());
 			revenueEntriesVO.add(revenueEntryVO);
 		}
+		FinancialYearRevenue calculationsWithFinancialYearName = getFinancialYearCalculationsWithFinancialYearName(
+				revenueEntriesVO, financialYearName, isDisplayAdditionalQuarter);
 		revenueEntryResponse.setRevenueEntries(revenueEntriesVO);
 		revenueEntryResponse.setFinancialYearName(financialYear.getFinancialYearName());
+		revenueEntryResponse.setFinancialYearRevenue(calculationsWithFinancialYearName);
 		return revenueEntryResponse;
+	}
+
+	private FinancialYearRevenue getFinancialYearCalculationsWithFinancialYearName(Set<RevenueEntryVO> revenueEntriesVO,
+			String financialYearName, boolean isDisplayAdditionalQuarter) {
+		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
+		Map<String, BigInteger> sumRevenueMap = new LinkedHashMap<>();
+		FinancialYearTMRevenue financialYearTMRevenue = new FinancialYearTMRevenue();
+		FinancialYear financialYear = financialYearRepository.findByFinancialYearName(financialYearName)
+				.orElseThrow(() -> new RecordNotFoundException(
+						ErrorConstants.RECORD_NOT_EXIST + Constants.FINANCIALYEA_NAME_NOT_EXIST));
+		for (RevenueEntryVO revenueEntryVO : revenueEntriesVO) {
+			FinancialYearRevenue fyRevenue = new FinancialYearRevenue();
+			OpportunityRevenueRequest opportunityRevenueRequest = setRevenueVOToOppRevRequest(revenueEntryVO,
+					financialYearName);
+
+			List<RevenueResourceEntry> revenueResourceEntries = revenueResourceEntryRepository
+					.getOpportunities(opportunityRevenueRequest);
+
+			Map<Boolean, List<RevenueResourceEntry>> partitionResourceEntriesByPricingType = this
+					.getPartitionResourceEntriesByPricingType(revenueResourceEntries);
+			Set<Entry<Boolean, List<RevenueResourceEntry>>> entrySet = partitionResourceEntriesByPricingType.entrySet();
+
+			for (Entry<Boolean, List<RevenueResourceEntry>> entry : entrySet) {
+				if (Boolean.TRUE.equals(entry.getKey())) {
+
+					List<RevenueResourceEntry> revenueFPResourceEntries = entry.getValue();
+					financialYearRevenue = this.calculateFPRevenue(revenueFPResourceEntries, financialYear,
+							isDisplayAdditionalQuarter);
+				} else {
+					List<RevenueResourceEntry> revenueEntryList = entry.getValue();
+					financialYearTMRevenue = tmCalculation.calculateTMRevenue(revenueEntryList, financialYear,
+							isDisplayAdditionalQuarter);
+				}
+			}
+
+			Map<String, BigInteger> map = financialYearRevenue.getDataMap();
+			Map<String, BigInteger> dataMap = financialYearTMRevenue.getDataMap();
+			for (Map.Entry<String, BigInteger> entry : dataMap.entrySet()) {
+				if (map.containsKey(entry.getKey())) {
+					map.put(entry.getKey(), map.get(entry.getKey()).add(dataMap.get(entry.getKey())));
+				}
+			}
+			fyRevenue.setDataMap(map);
+
+			Map<String, BigInteger> tempMap = fyRevenue.getDataMap();
+			for (Map.Entry<String, BigInteger> tempEntryMap : tempMap.entrySet()) {
+				if (sumRevenueMap.containsKey(tempEntryMap.getKey())) {
+					BigInteger currentSum = sumRevenueMap.get(tempEntryMap.getKey());
+					sumRevenueMap.put(tempEntryMap.getKey(), currentSum.add(tempEntryMap.getValue()));
+				} else {
+					sumRevenueMap.put(tempEntryMap.getKey(), tempEntryMap.getValue());
+				}
+			}
+			financialYearRevenue.setDataMap(sumRevenueMap);
+		}
+		return financialYearRevenue;
+	}
+
+	private OpportunityRevenueRequest setRevenueVOToOppRevRequest(RevenueEntryVO revenueEntryVO,
+			String financialYearName) {
+		OpportunityRevenueRequest opportunityRevenueRequest = new OpportunityRevenueRequest();
+		opportunityRevenueRequest.setBusinessUnit(revenueEntryVO.getBusinessUnit());
+		opportunityRevenueRequest.setStrategicBusinessUnit(revenueEntryVO.getStrategicBusinessUnit());
+		opportunityRevenueRequest.setStrategicBusinessUnitHead(revenueEntryVO.getStrategicBusinessUnitHead());
+		opportunityRevenueRequest.setBusinessDevelopmentManager(revenueEntryVO.getBusinessDevelopmentManager());
+		opportunityRevenueRequest.setBusinessType(revenueEntryVO.getBusinessType());
+		opportunityRevenueRequest.setAccount(revenueEntryVO.getAccount());
+		opportunityRevenueRequest.setRegion(revenueEntryVO.getRegion());
+		opportunityRevenueRequest.setLocation(revenueEntryVO.getLocation());
+		opportunityRevenueRequest.setProbabilityType(revenueEntryVO.getProbabilityType());
+		opportunityRevenueRequest.setCocPractice(revenueEntryVO.getCocPractice());
+		opportunityRevenueRequest.setStatus(revenueEntryVO.getStatus());
+		opportunityRevenueRequest.setFinancialYearName(financialYearName);
+		return opportunityRevenueRequest;
 	}
 
 	private Map<Boolean, List<RevenueResourceEntry>> getPartitionResourceEntriesByPricingType(
