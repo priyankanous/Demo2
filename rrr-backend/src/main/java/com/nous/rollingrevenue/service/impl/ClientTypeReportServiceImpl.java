@@ -64,7 +64,7 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 		ClientTypeReportResponse clientTypeReportResponse = new ClientTypeReportResponse();
 		List<ClientTypeReportOutDTO> outDTOList = null;
 		List<RevenueResourceEntry> revenueResourceList = new ArrayList<>();
-		FinancialYearRevenue financialYearRevenue = null;
+		FinancialYearRevenue financialYearRevenue = new FinancialYearRevenue();
 		Map<String, FinancialYearRevenue> clientMap = new HashMap<>();
 		List<RevenueResourceEntry> revenueResourceEntryList = revenueResourceEntryCustomRepository
 				.findRevenueResourceDetailsByClient(clientTypeReportRequest);
@@ -93,9 +93,14 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 				.collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
 
 		Map<String, BigInteger> resultMap = new HashMap<>();
-		for (Map.Entry<String, FinancialYearRevenue> entry : excludeTopRecords.entrySet()) {
-			FinancialYearRevenue yearRevenue = entry.getValue();
-			Map<String, BigInteger> dataMap = yearRevenue.getDataMap();
+		Map<String, BigInteger> fyRevenueMap = new LinkedHashMap<>();
+		if (excludeTopRecords.entrySet().isEmpty()) {
+			List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
+			this.addQuarterFieldsForGrandTotal(listOfMonthsBetweenFinancialYear, fyStartDate, false);
+			listOfMonthsBetweenFinancialYear.stream()
+					.forEach(monthYear -> fyRevenueMap.put(monthYear, BigInteger.ZERO));
+			financialYearRevenue.setDataMap(fyRevenueMap);
+			Map<String, BigInteger> dataMap = financialYearRevenue.getDataMap();
 			for (Map.Entry<String, BigInteger> entryMap : dataMap.entrySet()) {
 				if (resultMap.containsKey(entryMap.getKey())) {
 					BigInteger currentSum = resultMap.get(entryMap.getKey());
@@ -104,11 +109,22 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 					resultMap.put(entryMap.getKey(), entryMap.getValue());
 				}
 			}
+		} else {
+			for (Map.Entry<String, FinancialYearRevenue> entry : excludeTopRecords.entrySet()) {
+				FinancialYearRevenue yearRevenue = entry.getValue();
+				Map<String, BigInteger> dataMap = yearRevenue.getDataMap();
+				for (Map.Entry<String, BigInteger> entryMap : dataMap.entrySet()) {
+					if (resultMap.containsKey(entryMap.getKey())) {
+						BigInteger currentSum = resultMap.get(entryMap.getKey());
+						resultMap.put(entryMap.getKey(), currentSum.add(entryMap.getValue()));
+					} else {
+						resultMap.put(entryMap.getKey(), entryMap.getValue());
+					}
+				}
+			}
 		}
 		FinancialYearRevenue fyRevenue = new FinancialYearRevenue();
-		List<String> listOfMonthsBetweenFinancialYear = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
-//		this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate, isDisplayAdditionalQuarter);
-//		listOfMonthsBetweenFinancialYear.stream().forEach(monthYear -> resultMap.put(monthYear, BigInteger.ZERO));
+		List<String> listOfMonths = this.getListOfMonthsBetweenDates(fyStartDate, fyEndDate);
 		fyRevenue.setDataMap(resultMap);
 		collect.put("Others", fyRevenue);
 		FinancialYearRevenue financialYearRevenueTotal = calculatingBasedOnClientForGrandTotal(collect, fyStartDate,
@@ -119,8 +135,8 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 
 		if ("Chart".equalsIgnoreCase(clientTypeReportRequest.getOutPutType())) {
 			if ("Monthly".equalsIgnoreCase(clientTypeReportRequest.getViewType())) {
-				clientTypeReportResponse.setLabels(listOfMonthsBetweenFinancialYear);
-				outDTOList = setClientTypeDetails(listOfMonthsBetweenFinancialYear, collect, null, false);
+				clientTypeReportResponse.setLabels(listOfMonths);
+				outDTOList = setClientTypeDetails(listOfMonths, collect, null, false);
 				clientTypeReportResponse.setOutDTOList(outDTOList);
 			} else {
 				clientTypeReportResponse.setLabels(quarterlyDetailsForChart);
@@ -129,10 +145,8 @@ public class ClientTypeReportServiceImpl implements ClientTypeReportService {
 			}
 		} else {
 			if ("Monthly".equalsIgnoreCase(clientTypeReportRequest.getViewType())) {
-				clientTypeReportResponse
-						.setLabels(this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate));
-				outDTOList = setClientTypeDetails(listOfMonthsBetweenFinancialYear, collect, financialYearRevenueTotal,
-						true);
+				clientTypeReportResponse.setLabels(this.addQuarterFields(listOfMonths, fyStartDate));
+				outDTOList = setClientTypeDetails(listOfMonths, collect, financialYearRevenueTotal, true);
 				clientTypeReportResponse.setOutDTOList(outDTOList);
 			} else {
 				clientTypeReportResponse.setLabels(quarterlyDetailsForTabular);

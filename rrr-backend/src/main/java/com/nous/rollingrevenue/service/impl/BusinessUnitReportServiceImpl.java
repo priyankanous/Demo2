@@ -111,7 +111,7 @@ public class BusinessUnitReportServiceImpl implements BusinessUnitReportService 
 			}
 		} else {
 			if ("Monthly".equalsIgnoreCase(businessUnitReportRequest.getViewType())) {
-				businessUnitResponse.setLabels(this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyEndDate));
+				businessUnitResponse.setLabels(this.addQuarterFields(listOfMonthsBetweenFinancialYear, fyStartDate));
 				outDTOList = setBusinessUnitDetails(listOfMonthsBetweenFinancialYear, financialYearRevenueGSS,
 						financialYearRevenueTESTREE, financialYearRevenueVSERVE, financialYearRevenueTotal, true);
 				businessUnitResponse.setOutDTOList(outDTOList);
